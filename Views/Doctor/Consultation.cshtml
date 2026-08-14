@@ -1,0 +1,220 @@
+﻿@{
+    ViewData["Title"] = "Patient Consultation";
+}
+
+<section class="page-section">
+
+    <div class="container">
+
+        <!-- Page Header -->
+
+        <div class="smart-card mb-4">
+
+            <div class="row align-items-center">
+
+                <div class="col-md-8">
+
+                    <span class="smart-badge">
+                        Doctor Dashboard
+                    </span>
+
+                    <h1 class="dashboard-title mt-3">
+                        Patient Consultation
+                    </h1>
+
+                    <p class="text-muted mb-0">
+                        Complete consultation notes and generate prescriptions.
+                    </p>
+
+                </div>
+
+                <div class="col-md-4 text-md-end">
+
+                    <span class="status-badge confirmed">
+                        Checked In
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="row g-4">
+
+            <!-- Patient Overview -->
+
+            <div class="col-lg-4">
+
+                <div class="smart-card">
+
+                    <h4 class="mb-4">
+                        Patient Overview
+                    </h4>
+
+                    <div class="mb-3">
+                        <small class="text-muted">Patient Name</small>
+                        <h5>Sarah Jacobs</h5>
+                    </div>
+
+                    <div class="mb-3">
+                        <small class="text-muted">Appointment Type</small>
+                        <h5>General Consultation</h5>
+                    </div>
+
+                    <div class="mb-3">
+                        <small class="text-muted">Consultation Time</small>
+                        <h5>09:00 AM</h5>
+                    </div>
+
+                    <hr />
+
+                    <div>
+                        <small class="text-muted">
+                            Medical Alert
+                        </small>
+
+                        <p class="mb-0 text-danger fw-semibold">
+                            Penicillin Allergy
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Consultation Form -->
+
+            <div class="col-lg-8">
+
+                <div class="smart-card">
+
+                    <h4 class="mb-4">
+                        Consultation Notes
+                    </h4>
+
+                    <div class="mb-3">
+
+                        <label class="smart-label">
+                            Symptoms
+                        </label>
+
+                        <textarea class="form-control smart-input"
+                                  rows="3"></textarea>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="smart-label">
+                            Diagnosis
+                        </label>
+
+                        <input class="form-control smart-input" />
+
+                    </div>
+
+                    <div class="mb-4">
+
+                        <label class="smart-label">
+                            Treatment Notes
+                        </label>
+
+                        <textarea class="form-control smart-input"
+                                  rows="4"></textarea>
+
+                    </div>
+
+                </div>
+
+                <!-- Prescription -->
+
+                <div class="smart-card mt-4">
+
+                    <h4 class="mb-4">
+                        Prescription
+                    </h4>
+
+                    <div class="row g-3">
+
+                        <div class="col-md-6">
+
+                            <label class="smart-label">
+                                Medication
+                            </label>
+
+                            <input class="form-control smart-input" />
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="smart-label">
+                                Dosage
+                            </label>
+
+                            <input class="form-control smart-input" />
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="smart-label">
+                                Duration
+                            </label>
+
+                            <input class="form-control smart-input" />
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="smart-label">
+                                Instructions
+                            </label>
+
+                            <input class="form-control smart-input" />
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Actions -->
+
+                <div class="mt-4 d-flex gap-3 flex-wrap">
+
+                    <button class="smart-btn-primary">
+
+                        <i class="bi bi-save me-2"></i>
+
+                        Save Consultation
+
+                    </button>
+
+                    <button class="smart-btn-accent">
+
+                        <i class="bi bi-capsule me-2"></i>
+
+                        Generate Prescription
+
+                    </button>
+
+                    <a asp-controller="Doctor"
+                           asp-action="Dashboard"
+                           class="btn btn-outline-secondary rounded-3">
+
+                        Back
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>

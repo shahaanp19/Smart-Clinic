@@ -1,0 +1,523 @@
+﻿@{
+    ViewData["Title"] = "Patient Records";
+}
+
+<section class="page-section">
+
+    <div class="container">
+
+        <!-- PAGE HEADER -->
+
+        <div class="smart-card mb-4">
+
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+
+                <div>
+
+                    <span class="smart-badge">
+                        Doctor Portal
+                    </span>
+
+                    <h1 class="dashboard-title mt-3 mb-2">
+                        Patient Records
+                    </h1>
+
+                    <p class="text-muted mb-0">
+                        Search, review and manage patient medical information.
+                    </p>
+
+                </div>
+
+                <div class="mt-3 mt-md-0">
+
+                    <a asp-controller="Doctor"
+                       asp-action="Dashboard"
+                       class="btn btn-outline-primary rounded-3 px-4">
+
+                        <i class="bi bi-arrow-left me-2"></i>
+                        Back to Dashboard
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- STATISTICS -->
+
+        <div class="row g-4 mb-4">
+
+            <div class="col-md-4">
+
+                <div class="smart-card stat-panel">
+
+                    <i class="bi bi-people"></i>
+
+                    <h3>156</h3>
+
+                    <p>Total Patients</p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="smart-card stat-panel">
+
+                    <i class="bi bi-file-medical"></i>
+
+                    <h3>14</h3>
+
+                    <p>Records Updated Today</p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="smart-card stat-panel">
+
+                    <i class="bi bi-calendar-check"></i>
+
+                    <h3>8</h3>
+
+                    <p>Today's Consultations</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- SEARCH -->
+
+        <div class="smart-card mb-4">
+
+            <div class="section-header">
+
+                <h4>
+                    Find a Patient
+                </h4>
+
+            </div>
+
+            <div class="row g-3 align-items-center">
+
+                <div class="col-md-9">
+
+                    <div class="input-group">
+
+                        <span class="input-group-text">
+                            <i class="bi bi-search"></i>
+                        </span>
+
+                        <input type="text"
+                               class="form-control"
+                               placeholder="Search by patient name, ID or medical record number..." />
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <button class="smart-btn-primary w-100 border-0">
+
+                        <i class="bi bi-search me-2"></i>
+                        Search
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- PATIENT RECORDS TABLE -->
+
+        <div class="smart-card">
+
+            <div class="section-header">
+
+                <h4>
+                    Patient Records
+                </h4>
+
+                <span class="text-muted">
+                    Recently Updated
+                </span>
+
+            </div>
+
+
+            <div class="table-responsive">
+
+                <table class="table align-middle smart-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Patient</th>
+
+                            <th>Patient ID</th>
+
+                            <th>Last Visit</th>
+
+                            <th>Primary Concern</th>
+
+                            <th>Status</th>
+
+                            <th class="text-end">
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>
+
+                                <div class="d-flex align-items-center">
+
+                                    <i class="bi bi-person-circle me-3"
+                                       style="font-size:32px;color:var(--primary);"></i>
+
+                                    <div>
+
+                                        <strong>
+                                            Sarah Jacobs
+                                        </strong>
+
+                                        <div class="text-muted small">
+                                            Patient
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+                                P001245
+                            </td>
+
+                            <td>
+                                12 May 2026
+                            </td>
+
+                            <td>
+                                General Consultation
+                            </td>
+
+                            <td>
+
+                                <span class="status-badge confirmed">
+                                    Active
+                                </span>
+
+                            </td>
+
+                            <td class="text-end">
+
+                                <a href="#"
+                                   class="btn btn-outline-primary btn-sm">
+
+                                    <i class="bi bi-eye me-1"></i>
+                                    View Record
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+
+                                <div class="d-flex align-items-center">
+
+                                    <i class="bi bi-person-circle me-3"
+                                       style="font-size:32px;color:var(--primary);"></i>
+
+                                    <div>
+
+                                        <strong>
+                                            Michael Brown
+                                        </strong>
+
+                                        <div class="text-muted small">
+                                            Patient
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+                                P001246
+                            </td>
+
+                            <td>
+                                10 May 2026
+                            </td>
+
+                            <td>
+                                Follow-Up Consultation
+                            </td>
+
+                            <td>
+
+                                <span class="status-badge confirmed">
+                                    Active
+                                </span>
+
+                            </td>
+
+                            <td class="text-end">
+
+                                <a href="#"
+                                   class="btn btn-outline-primary btn-sm">
+
+                                    <i class="bi bi-eye me-1"></i>
+                                    View Record
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+
+                                <div class="d-flex align-items-center">
+
+                                    <i class="bi bi-person-circle me-3"
+                                       style="font-size:32px;color:var(--primary);"></i>
+
+                                    <div>
+
+                                        <strong>
+                                            Lisa Adams
+                                        </strong>
+
+                                        <div class="text-muted small">
+                                            Patient
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+                                P001247
+                            </td>
+
+                            <td>
+                                08 May 2026
+                            </td>
+
+                            <td>
+                                Medical Review
+                            </td>
+
+                            <td>
+
+                                <span class="status-badge pending">
+                                    Follow-Up
+                                </span>
+
+                            </td>
+
+                            <td class="text-end">
+
+                                <a href="#"
+                                   class="btn btn-outline-primary btn-sm">
+
+                                    <i class="bi bi-eye me-1"></i>
+                                    View Record
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+
+                                <div class="d-flex align-items-center">
+
+                                    <i class="bi bi-person-circle me-3"
+                                       style="font-size:32px;color:var(--primary);"></i>
+
+                                    <div>
+
+                                        <strong>
+                                            James Wilson
+                                        </strong>
+
+                                        <div class="text-muted small">
+                                            Patient
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+                                P001248
+                            </td>
+
+                            <td>
+                                06 May 2026
+                            </td>
+
+                            <td>
+                                Blood Pressure Review
+                            </td>
+
+                            <td>
+
+                                <span class="status-badge confirmed">
+                                    Active
+                                </span>
+
+                            </td>
+
+                            <td class="text-end">
+
+                                <a href="#"
+                                   class="btn btn-outline-primary btn-sm">
+
+                                    <i class="bi bi-eye me-1"></i>
+                                    View Record
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        <!-- QUICK ACTIONS -->
+
+        <div class="smart-card mt-4">
+
+            <div class="section-header">
+
+                <h4>
+                    Quick Actions
+                </h4>
+
+            </div>
+
+
+            <div class="row g-4">
+
+                <div class="col-md-4">
+
+                    <a asp-controller="Doctor"
+                       asp-action="Consultation"
+                       class="portal-card text-center text-decoration-none h-100">
+
+                        <i class="bi bi-clipboard2-pulse"></i>
+
+                        <h5 class="mt-3">
+                            Start Consultation
+                        </h5>
+
+                        <p class="mb-0">
+                            Begin a new patient consultation.
+                        </p>
+
+                    </a>
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <a asp-controller="Doctor"
+                       asp-action="GeneratePrescription"
+                       class="portal-card text-center text-decoration-none h-100">
+
+                        <i class="bi bi-capsule-pill"></i>
+
+                        <h5 class="mt-3">
+                            Generate Prescription
+                        </h5>
+
+                        <p class="mb-0">
+                            Create a new patient prescription.
+                        </p>
+
+                    </a>
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <a asp-controller="Doctor"
+                       asp-action="Schedule"
+                       class="portal-card text-center text-decoration-none h-100">
+
+                        <i class="bi bi-calendar-week"></i>
+
+                        <h5 class="mt-3">
+                            View Schedule
+                        </h5>
+
+                        <p class="mb-0">
+                            Review upcoming consultations.
+                        </p>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>

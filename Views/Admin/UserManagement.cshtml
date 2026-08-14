@@ -1,0 +1,165 @@
+﻿*@{
+    ViewData["Title"] = "User Management";
+}
+
+<section class="page-section">
+    <div class="container">
+
+        <!-- Header -->
+        <div class="mb-5">
+
+            <span class="smart-badge">
+                Clinic Administrator
+            </span>
+
+            <h1 class="dashboard-title mt-3">
+                User Management
+            </h1>
+
+            <p class="text-muted">
+                Manage patients, doctors and reception staff within the clinic system.
+            </p>
+
+        </div>
+
+        <!-- Statistics -->
+        <div class="row g-4 mb-5">
+
+            <div class="col-md-4">
+                <div class="smart-card stat-panel">
+                    <i class="bi bi-people"></i>
+                    <h3>2,450</h3>
+                    <p>Registered Patients</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="smart-card stat-panel">
+                    <i class="bi bi-heart-pulse"></i>
+                    <h3>5</h3>
+                    <p>Active Doctors</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="smart-card stat-panel">
+                    <i class="bi bi-headset"></i>
+                    <h3>4</h3>
+                    <p>Reception Staff</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Search -->
+        <div class="smart-card mb-4">
+
+            <div class="row g-3">
+
+                <div class="col-md-8">
+                    <input type="text"
+                           class="form-control smart-input"
+                           placeholder="Search users..." />
+                </div>
+
+                <div class="col-md-4">
+                    <button class="smart-btn-primary w-100">
+                        <i class="bi bi-search me-2"></i>
+                        Search
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Users Table -->
+        <div class="smart-card">
+
+            <div class="section-header">
+
+                <h4>System Users</h4>
+
+                <button class="smart-btn-primary">
+                    <i class="bi bi-person-plus me-2"></i>
+                    Add User
+                </button>
+
+            </div>
+
+            <div class="table-responsive">
+
+                <table class="table smart-table align-middle">
+
+                    <thead>
+
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>Sarah Jacobs</td>
+                            <td>Patient</td>
+                            <td>sarah@email.com</td>
+                            <td>
+                                <span class="status-badge confirmed">
+                                    Active
+                                </span>
+                            </td>
+                            <td>
+                                <button class="btn btn-outline-primary btn-sm">
+                                    Edit
+                                </button>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Dr Esme Cilliers</td>
+                            <td>Doctor</td>
+                            <td>doctor@email.com</td>
+                            <td>
+                                <span class="status-badge confirmed">
+                                    Active
+                                </span>
+                            </td>
+                            <td>
+                                <button class="btn btn-outline-primary btn-sm">
+                                    Edit
+                                </button>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Lisa Adams</td>
+                            <td>Reception</td>
+                            <td>reception@email.com</td>
+                            <td>
+                                <span class="status-badge pending">
+                                    Pending
+                                </span>
+                            </td>
+                            <td>
+                                <button class="btn btn-outline-primary btn-sm">
+                                    Edit
+                                </button>
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>

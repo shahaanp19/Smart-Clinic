@@ -1,0 +1,823 @@
+﻿@{
+    ViewData["Title"] = "Patient Dashboard";
+}
+
+<section class="page-section">
+
+    <div class="container">
+
+        <!-- =========================
+             WELCOME HEADER
+        ========================== -->
+
+        <div class="smart-card mb-5">
+
+            <div class="row align-items-center">
+
+                <div class="col-lg-8">
+
+                    <span class="smart-badge">
+                        Patient Portal
+                    </span>
+
+                    <h1 class="dashboard-title mt-3">
+                        Welcome Back, Sarah Jacobs
+                    </h1>
+
+                    <p class="text-muted mb-4">
+                        Manage your healthcare appointments, prescriptions,
+                        medical records and notifications from one secure location.
+                    </p>
+
+                    <a asp-controller="Patient"
+                           asp-action="BookAppointment"
+                           class="smart-btn-primary text-decoration-none">
+
+                        <i class="bi bi-calendar-plus me-2"></i>
+
+                        Book Appointment
+
+                    </a>
+
+                </div>
+
+
+                <div class="col-lg-4 text-center mt-4 mt-lg-0">
+
+                    <i class="bi bi-person-circle"
+                           style="font-size:90px;color:var(--primary);">
+                    </i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             DASHBOARD STATISTICS
+        ========================== -->
+
+        <div class="row g-4 mb-5">
+
+            <div class="col-md-4">
+
+                <div class="smart-card stat-panel">
+
+                    <i class="bi bi-calendar-check"></i>
+
+                    <h3>2</h3>
+
+                    <p>Upcoming Appointments</p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="smart-card stat-panel">
+
+                    <i class="bi bi-bell"></i>
+
+                    <h3>4</h3>
+
+                    <p>Notifications</p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="smart-card stat-panel">
+
+                    <i class="bi bi-capsule"></i>
+
+                    <h3>3</h3>
+
+                    <p>Active Prescriptions</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             UPCOMING APPOINTMENT
+        ========================== -->
+
+        <div class="smart-card mb-5">
+
+            <div class="section-header">
+
+                <h4>
+                    Upcoming Appointment
+                </h4>
+
+            </div>
+
+
+            <div class="row align-items-center">
+
+                <div class="col-md-8">
+
+                    <h3 class="mb-2 text-primary">
+                        12 May 2026 • 09:30
+                    </h3>
+
+                    <p class="mb-1">
+
+                        <strong>Doctor:</strong>
+
+                        Dr Esmé Cilliers
+
+                    </p>
+
+                    <p class="mb-0">
+
+                        <strong>Service:</strong>
+
+                        General Consultation
+
+                    </p>
+
+                </div>
+
+
+                <div class="col-md-4 text-md-end mt-3 mt-md-0">
+
+                    <span class="status-badge confirmed">
+                        Confirmed
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             QUICK ACTIONS
+        ========================== -->
+
+        <div class="smart-card mb-5">
+
+            <div class="section-header">
+
+                <h4>
+                    Quick Actions
+                </h4>
+
+            </div>
+
+
+            <div class="row g-4">
+
+                <!-- BOOK APPOINTMENT -->
+
+                <div class="col-6 col-md-4 col-lg-2">
+
+                    <a asp-controller="Patient"
+                           asp-action="BookAppointment"
+                           class="quick-action text-decoration-none">
+
+                        <div class="quick-action-icon">
+
+                            <i class="bi bi-calendar-plus"></i>
+
+                        </div>
+
+                        <span>
+                            Book Appointment
+                        </span>
+
+                    </a>
+
+                </div>
+
+
+                <!-- MEDICAL HISTORY -->
+
+                <div class="col-6 col-md-4 col-lg-2">
+
+                    <a asp-controller="Patient"
+                           asp-action="MedicalHistory"
+                           class="quick-action text-decoration-none">
+
+                        <div class="quick-action-icon">
+
+                            <i class="bi bi-file-medical"></i>
+
+                        </div>
+
+                        <span>
+                            Medical History
+                        </span>
+
+                    </a>
+
+                </div>
+
+
+                <!-- NOTIFICATIONS -->
+
+                <div class="col-6 col-md-4 col-lg-2">
+
+                    <a asp-controller="Patient"
+                           asp-action="Notifications"
+                           class="quick-action text-decoration-none">
+
+                        <div class="quick-action-icon">
+
+                            <i class="bi bi-bell"></i>
+
+                        </div>
+
+                        <span>
+                            Notifications
+                        </span>
+
+                    </a>
+
+                </div>
+
+
+                <!-- MY PROFILE -->
+
+                <div class="col-6 col-md-4 col-lg-2">
+
+                    <a asp-controller="Patient"
+                           asp-action="PatientIntakeForm"
+                           class="quick-action text-decoration-none">
+
+                        <div class="quick-action-icon">
+
+                            <i class="bi bi-person-vcard"></i>
+
+                        </div>
+
+                        <span>
+                            My Profile
+                        </span>
+
+                    </a>
+
+                </div>
+
+
+                <!-- SETTINGS -->
+
+                <div class="col-6 col-md-4 col-lg-2">
+
+                    <a asp-controller="Patient"
+                           asp-action="Settings"
+                           class="quick-action text-decoration-none">
+
+                        <div class="quick-action-icon">
+
+                            <i class="bi bi-gear"></i>
+
+                        </div>
+
+                        <span>
+                            Settings
+                        </span>
+
+                    </a>
+
+                </div>
+
+
+                <!-- RECORDS -->
+
+                <div class="col-6 col-md-4 col-lg-2">
+
+                    <a asp-controller="Patient"
+                           asp-action="MedicalHistory"
+                           class="quick-action text-decoration-none">
+
+                        <div class="quick-action-icon">
+
+                            <i class="bi bi-folder2-open"></i>
+
+                        </div>
+
+                        <span>
+                            Records
+                        </span>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             RECENT NOTIFICATIONS
+        ========================== -->
+
+        <div class="smart-card">
+
+            <div class="section-header">
+
+                <h4>
+                    Recent Notifications
+                </h4>
+
+                <a asp-controller="Patient"
+                       asp-action="Notifications">
+
+                    View All
+
+                </a>
+
+            </div>
+
+
+            <!-- Notification 1 -->
+
+            <div class="notification-item">
+
+                <i class="bi bi-bell-fill"></i>
+
+
+                <div>
+
+                    <strong>
+                        Appointment Reminder
+                    </strong>
+
+                    <p>
+
+                        Your consultation with Dr Esmé Cilliers
+                        is scheduled for 12 May 2026 at 09:30.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Notification 2 -->
+
+            <div class="notification-item">
+
+                <i class="bi bi-capsule"></i>
+
+
+                <div>
+
+                    <strong>
+                        Prescription Available
+                    </strong>
+
+                    <p>
+
+                        Your latest prescription is ready to view.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =========================
+         HEALTH BOT
+    ========================== -->
+
+    <div id="doctorBot">
+
+        <div class="speech-bubble">
+            Need Help?
+        </div>
+
+        <img src="~/images/Health Bot.png"
+             alt="Health Assistant"
+             class="doctor-avatar" />
+
+    </div>
+
+
+    <!-- =========================
+         CHAT WINDOW
+    ========================== -->
+
+    <div id="chatWindow">
+
+        <div class="chat-header">
+
+            <strong>
+                Health Assistant
+            </strong>
+
+            <button id="closeChat"
+                    type="button">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <div id="chatMessages">
+
+            <div class="chat-message bot-message">
+
+                <strong>
+                    Dr HealthBot
+                </strong>
+
+                <p class="mb-0 mt-2">
+
+                    Hello Sarah. How may I assist you today?
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="chat-input-area">
+
+            <input type="text"
+                   id="userQuestion"
+                   placeholder="Type your question..." />
+
+            <button type="button"
+                    onclick="sendMessage()">
+
+                Send
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+            const doctorBot =
+                document.getElementById("doctorBot");
+
+            const chatWindow =
+                document.getElementById("chatWindow");
+
+            const closeChat =
+                document.getElementById("closeChat");
+
+
+            doctorBot.addEventListener("click", function () {
+
+                chatWindow.style.display = "flex";
+
+            });
+
+
+            closeChat.addEventListener("click", function () {
+
+                chatWindow.style.display = "none";
+
+            });
+
+
+            function sendMessage() {
+
+                const input =
+                    document.getElementById("userQuestion");
+
+                const question =
+                    input.value.trim();
+
+                if (question === "")
+                    return;
+
+
+                const chatMessages =
+                    document.getElementById("chatMessages");
+
+
+                chatMessages.innerHTML += `
+
+                    <div class="chat-message user-message">
+
+                        <strong>You</strong>
+
+                        <p class="mb-0 mt-2">
+                            ${question}
+                        </p>
+
+                    </div>
+
+                `;
+
+
+                const q =
+                    question.toLowerCase();
+
+
+                let response = "";
+
+
+                /* Emergency */
+
+                if (
+
+                    q.includes("chest pain") ||
+                    q.includes("difficulty breathing") ||
+                    q.includes("cant breathe") ||
+                    q.includes("stroke") ||
+                    q.includes("bleeding heavily") ||
+                    q.includes("broken leg")
+
+                ) {
+
+                    response =
+                        "This may require urgent medical attention. Please visit the nearest emergency department or contact emergency services immediately.";
+
+                }
+
+
+                /* Symptoms */
+
+                else if (
+
+                    q.includes("headache") &&
+                    q.includes("fever")
+
+                ) {
+
+                    response =
+                        "Based on the symptoms provided, it is recommended that you schedule an appointment with a healthcare professional for further evaluation. Would you like to book an appointment?";
+
+                }
+
+
+                else if (
+
+                    q.includes("cough") &&
+                    q.includes("sore throat")
+
+                ) {
+
+                    response =
+                        "Your symptoms may be associated with a common viral illness. If symptoms persist or worsen, please consider booking an appointment.";
+
+                }
+
+
+                else if (q.includes("headache")) {
+
+                    response =
+                        "Headaches may result from stress, dehydration, fatigue or illness. Persistent symptoms should be medically assessed.";
+
+                }
+
+
+                else if (q.includes("flu")) {
+
+                    response =
+                        "Common flu symptoms include fever, cough, sore throat, body aches and fatigue. Consider booking an appointment if symptoms worsen.";
+
+                }
+
+
+                else if (q.includes("fever")) {
+
+                    response =
+                        "A fever may indicate infection. Monitor your symptoms and seek medical advice if symptoms worsen.";
+
+                }
+
+
+                else if (q.includes("cough")) {
+
+                    response =
+                        "Persistent coughing should be assessed by a healthcare professional.";
+
+                }
+
+
+                else if (q.includes("sore throat")) {
+
+                    response =
+                        "A sore throat may be caused by a viral or bacterial infection. Persistent symptoms should be evaluated.";
+
+                }
+
+
+                else if (q.includes("back pain")) {
+
+                    response =
+                        "Back pain is commonly associated with strain, posture or injury. Persistent pain should be assessed.";
+
+                }
+
+
+                else if (q.includes("toothache")) {
+
+                    response =
+                        "A toothache may indicate dental decay or infection. Consider booking a dental appointment.";
+
+                }
+
+
+                else if (q.includes("dizzy")) {
+
+                    response =
+                        "Dizziness can have many causes. It is recommended that you schedule an appointment for further evaluation.";
+
+                }
+
+
+                /* Appointments */
+
+                else if (
+
+                    q.includes("book appointment") ||
+                    q.includes("book an appointment")
+
+                ) {
+
+                    response =
+                        "You can book an appointment by selecting Book Appointment from the dashboard and choosing a doctor, date and available time.";
+
+                }
+
+
+                else if (q.includes("cancel appointment")) {
+
+                    response =
+                        "Appointments may be cancelled from the My Appointments section of the patient portal.";
+
+                }
+
+
+                else if (q.includes("reschedule")) {
+
+                    response =
+                        "Appointments can be rescheduled by selecting a new available date and time.";
+
+                }
+
+
+                else if (q.includes("next appointment")) {
+
+                    response =
+                        "Your next appointment is currently scheduled for 12 May 2026 at 09:30.";
+
+                }
+
+
+                else if (q.includes("arrive early")) {
+
+                    response =
+                        "Patients are encouraged to arrive at least 15 minutes before their scheduled appointment.";
+
+                }
+
+
+                /* Records */
+
+                else if (q.includes("medical history")) {
+
+                    response =
+                        "Your medical history can be viewed from the Medical History section within the patient portal.";
+
+                }
+
+
+                else if (q.includes("medical records")) {
+
+                    response =
+                        "Medical records can be accessed through the Medical History page.";
+
+                }
+
+
+                else if (q.includes("consultation notes")) {
+
+                    response =
+                        "Consultation notes are stored securely within your medical records.";
+
+                }
+
+
+                /* Prescriptions */
+
+                else if (q.includes("repeat prescription")) {
+
+                    response =
+                        "Repeat prescriptions require approval from your healthcare professional.";
+
+                }
+
+
+                else if (q.includes("prescription")) {
+
+                    response =
+                        "Prescriptions issued by your doctor can be viewed in the Prescriptions section.";
+
+                }
+
+
+                /* Profile */
+
+                else if (q.includes("change password")) {
+
+                    response =
+                        "Passwords can be updated from the Settings page.";
+
+                }
+
+
+                else if (q.includes("update profile")) {
+
+                    response =
+                        "Profile information can be updated from your Patient Information Form.";
+
+                }
+
+
+                else if (q.includes("notifications")) {
+
+                    response =
+                        "Notifications can be viewed from the Notifications page.";
+
+                }
+
+
+                /* Default Response */
+
+                else {
+
+                    response =
+                        "I am unable to answer that question at the moment. Please contact Doringkloof Medical Centre for further assistance.";
+
+                }
+
+
+                setTimeout(function () {
+
+                    chatMessages.innerHTML += `
+
+                        <div class="chat-message bot-message">
+
+                            <strong>
+                                Dr HealthBot
+                            </strong>
+
+                            <p class="mb-0 mt-2">
+                                ${response}
+                            </p>
+
+                        </div>
+
+                    `;
+
+
+                    chatMessages.scrollTop =
+                        chatMessages.scrollHeight;
+
+                }, 500);
+
+
+                input.value = "";
+
+            }
+
+
+            document
+                .getElementById("userQuestion")
+                .addEventListener("keypress", function (event) {
+
+                    if (event.key === "Enter") {
+
+                        sendMessage();
+
+                    }
+
+                });
+
+    </script>
+
+</section>

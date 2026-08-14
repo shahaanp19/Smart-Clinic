@@ -1,0 +1,347 @@
+﻿@{
+    ViewData["Title"] = "Notifications";
+}
+
+<section class="page-section">
+
+    <div class="container">
+
+        <!-- ========================= -->
+        <!-- PAGE HEADER -->
+        <!-- ========================= -->
+
+        <div class="smart-card mb-4">
+
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+                <div>
+
+                    <span class="smart-badge">
+                        Patient Portal
+                    </span>
+
+                    <h1 class="dashboard-title mt-3 mb-2">
+                        Notifications
+                    </h1>
+
+                    <p class="text-muted mb-0">
+                        Stay updated with appointments, prescriptions and clinic communications.
+                    </p>
+
+                </div>
+
+                <a asp-controller="Patient"
+                       asp-action="Dashboard"
+                       class="btn btn-outline-primary rounded-3 px-4">
+
+                    <i class="bi bi-arrow-left me-2"></i>
+                    Back to Dashboard
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- NOTIFICATION STATISTICS -->
+        <!-- ========================= -->
+
+        <div class="row g-4 mb-4">
+
+            <div class="col-md-4">
+
+                <div class="smart-card stat-panel text-center h-100">
+
+                    <i class="bi bi-bell-fill"></i>
+
+                    <h3>4</h3>
+
+                    <p class="mb-0">
+                        Total Notifications
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="smart-card stat-panel text-center h-100">
+
+                    <i class="bi bi-envelope-fill"></i>
+
+                    <h3>1</h3>
+
+                    <p class="mb-0">
+                        Unread Messages
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="smart-card stat-panel text-center h-100">
+
+                    <i class="bi bi-calendar-check"></i>
+
+                    <h3>2</h3>
+
+                    <p class="mb-0">
+                        Appointment Alerts
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- RECENT NOTIFICATIONS -->
+        <!-- ========================= -->
+
+        <div class="smart-card">
+
+            <div class="section-header d-flex justify-content-between align-items-center mb-4">
+
+                <h4 class="mb-0">
+                    Recent Notifications
+                </h4>
+
+                <span class="text-muted">
+                    Updated Today
+                </span>
+
+            </div>
+
+
+            <div class="notification-list">
+
+                <!-- APPOINTMENT CONFIRMED -->
+
+                <div class="large-notification unread">
+
+                    <div class="notification-icon">
+
+                        <i class="bi bi-calendar-check"></i>
+
+                    </div>
+
+
+                    <div class="notification-content flex-grow-1">
+
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+
+                            <h5 class="mb-0">
+                                Appointment Confirmed
+                            </h5>
+
+                            <span class="status-badge confirmed">
+                                New
+                            </span>
+
+                        </div>
+
+
+                        <p>
+                            Your appointment with Dr Esmé Cilliers has been confirmed
+                            for 12 May 2026 at 09:30.
+                        </p>
+
+
+                        <span class="text-muted">
+                            Today • 08:15
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- APPOINTMENT REMINDER -->
+
+                <div class="large-notification">
+
+                    <div class="notification-icon">
+
+                        <i class="bi bi-bell"></i>
+
+                    </div>
+
+
+                    <div class="notification-content flex-grow-1">
+
+                        <h5>
+                            Appointment Reminder
+                        </h5>
+
+
+                        <p>
+                            Please arrive 15 minutes before your scheduled consultation.
+                        </p>
+
+
+                        <span class="text-muted">
+                            Yesterday • 16:30
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PRESCRIPTION -->
+
+                <div class="large-notification">
+
+                    <div class="notification-icon">
+
+                        <i class="bi bi-capsule"></i>
+
+                    </div>
+
+
+                    <div class="notification-content flex-grow-1">
+
+                        <h5>
+                            Prescription Available
+                        </h5>
+
+
+                        <p>
+                            Your latest prescription has been uploaded to your patient profile.
+                        </p>
+
+
+                        <span class="text-muted">
+                            02 May 2026 • 11:45
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FOLLOW-UP -->
+
+                <div class="large-notification">
+
+                    <div class="notification-icon">
+
+                        <i class="bi bi-heart-pulse"></i>
+
+                    </div>
+
+
+                    <div class="notification-content flex-grow-1">
+
+                        <h5>
+                            Follow-Up Consultation Recommended
+                        </h5>
+
+
+                        <p>
+                            Your doctor recommends scheduling a follow-up appointment within 7 days.
+                        </p>
+
+
+                        <span class="text-muted">
+                            02 May 2026 • 12:10
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- QUICK ACTIONS -->
+        <!-- ========================= -->
+
+        <div class="smart-card mt-4">
+
+            <div class="section-header mb-4">
+
+                <h4 class="mb-0">
+                    Quick Actions
+                </h4>
+
+            </div>
+
+
+            <div class="row g-4">
+
+                <!-- BOOK APPOINTMENT -->
+
+                <div class="col-md-4">
+
+                    <a asp-controller="Patient"
+                           asp-action="BookAppointment"
+                           class="quick-action-card text-decoration-none">
+
+                        <i class="bi bi-calendar-plus"></i>
+
+                        <span>
+                            Book Appointment
+                        </span>
+
+                    </a>
+
+                </div>
+
+
+                <!-- MEDICAL HISTORY -->
+
+                <div class="col-md-4">
+
+                    <a asp-controller="Patient"
+                           asp-action="MedicalHistory"
+                           class="quick-action-card text-decoration-none">
+
+                        <i class="bi bi-file-medical"></i>
+
+                        <span>
+                            Medical History
+                        </span>
+
+                    </a>
+
+                </div>
+
+
+                <!-- DASHBOARD -->
+
+                <div class="col-md-4">
+
+                    <a asp-controller="Patient"
+                           asp-action="Dashboard"
+                           class="quick-action-card text-decoration-none">
+
+                        <i class="bi bi-house-door"></i>
+
+                        <span>
+                            Dashboard
+                        </span>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>

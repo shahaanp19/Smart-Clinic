@@ -1,0 +1,228 @@
+﻿@{
+    ViewData["Title"] = "Medical History";
+}
+
+<section class="page-section">
+    <div class="container">
+        <!-- Page Header -->
+
+        <div class="mb-5">
+
+            <span class="smart-badge">
+                Patient Portal
+            </span>
+
+            <h1 class="dashboard-title mt-3">
+                Medical History
+            </h1>
+
+            <p class="text-muted">
+                Review consultation records, diagnoses and prescription history.
+            </p>
+
+        </div>
+
+        <div class="row g-4">
+
+            <!-- Left Column -->
+
+            <div class="col-lg-4">
+
+                <div class="smart-card">
+
+                    <h4 class="mb-4">
+                        Patient Information
+                    </h4>
+
+                    <div class="summary-item">
+                        <span>Name</span>
+                        <strong>Sarah Jacobs</strong>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Date of Birth</span>
+                        <strong>12 Mar 1992</strong>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Gender</span>
+                        <strong>Female</strong>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Blood Type</span>
+                        <strong>O+</strong>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Allergies</span>
+                        <strong>Penicillin</strong>
+                    </div>
+
+                </div>
+
+                <div class="smart-card mt-4">
+
+                    <h4 class="mb-4">
+                        Active Prescriptions
+                    </h4>
+
+                    <div class="notification-item">
+
+                        <i class="bi bi-capsule"></i>
+
+                        <div>
+                            <strong>Paracetamol 500mg</strong>
+                            <p>
+                                Twice daily for 5 days.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="notification-item">
+
+                        <i class="bi bi-capsule"></i>
+
+                        <div>
+                            <strong>Blood Pressure Medication</strong>
+                            <p>
+                                Continue daily as prescribed.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Right Column -->
+
+            <div class="col-lg-8">
+
+                <div class="smart-card">
+
+                    <div class="section-header">
+
+                        <h4>
+                            Consultation History
+                        </h4>
+
+                    </div>
+
+                    <div class="medical-timeline">
+
+                        <div class="timeline-entry">
+
+                            <div class="timeline-date">
+                                02 May 2026
+                            </div>
+
+                            <div class="timeline-card">
+
+                                <h5>
+                                    Flu Symptoms Consultation
+                                </h5>
+
+                                <p>
+                                    <strong>Doctor:</strong>
+                                    Dr Esmé Cilliers
+                                </p>
+
+                                <p>
+                                    <strong>Diagnosis:</strong>
+                                    Upper Respiratory Infection
+                                </p>
+
+                                <p class="mb-0">
+                                    Medication prescribed and follow-up scheduled.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <div class="timeline-entry">
+
+                            <div class="timeline-date">
+                                18 Apr 2026
+                            </div>
+
+                            <div class="timeline-card">
+
+                                <h5>
+                                    Blood Pressure Review
+                                </h5>
+
+                                <p>
+                                    <strong>Doctor:</strong>
+                                    Dr Naidoo
+                                </p>
+
+                                <p>
+                                    <strong>Diagnosis:</strong>
+                                    Hypertension Monitoring
+                                </p>
+
+                                <p class="mb-0">
+                                    Condition stable. Continue treatment plan.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <div class="timeline-entry">
+
+                            <div class="timeline-date">
+                                04 Mar 2026
+                            </div>
+
+                            <div class="timeline-card">
+
+                                <h5>
+                                    Annual Health Examination
+                                </h5>
+
+                                <p>
+                                    <strong>Doctor:</strong>
+                                    Dr Petersen
+                                </p>
+
+                                <p>
+                                    <strong>Outcome:</strong>
+                                    General health screening completed.
+                                </p>
+
+                                <p class="mb-0">
+                                    No significant concerns identified.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="mt-4">
+
+            <a asp-controller="Patient"
+                   asp-action="Dashboard"
+                   class="btn btn-outline-primary rounded-3 px-4">
+
+                <i class="bi bi-arrow-left me-2"></i>
+                Back to Dashboard
+
+            </a>
+
+        </div>
+
+    </div>
+</section>

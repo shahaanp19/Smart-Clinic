@@ -1,0 +1,526 @@
+/* ==================================================
+   SMART CLINIC PROFESSIONAL DESIGN SYSTEM
+================================================== */
+
+:root {
+    /* Primary Medical Blue */
+
+    --primary: #0F4C81;
+    --primary-dark: #0B3C66;
+    --primary-light: #EAF4FF;
+    /* Secondary Medical Red */
+
+    --secondary: #C62828;
+    --secondary-dark: #A61E1E;
+    --secondary-light: #FFF1F1;
+    /* Status */
+
+    --success: #10B981;
+    --warning: #F59E0B;
+    --danger: #DC2626;
+    /* Neutral */
+
+    --background: #F8FAFC;
+    --surface: #FFFFFF;
+    --text-dark: #1F2937;
+    --text-muted: #6B7280;
+    --border: #E5E7EB;
+    /* Radius */
+
+    --radius-sm: 12px;
+    --radius-md: 18px;
+    --radius-lg: 24px;
+    /* Shadow */
+
+    --shadow-sm: 0 4px 12px rgba(15,76,129,.06);
+    --shadow-md: 0 10px 25px rgba(15,76,129,.08);
+    --shadow-lg: 0 20px 40px rgba(15,76,129,.12);
+}
+
+/* ==================================================
+   GLOBAL
+================================================== */
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: var(--background);
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+/* ==================================================
+   TYPOGRAPHY
+================================================== */
+
+h1 {
+    font-size: 3rem;
+    font-weight: 800;
+}
+
+h2 {
+    font-size: 2.3rem;
+    font-weight: 800;
+}
+
+h3 {
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+h4 {
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+h5 {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+p {
+    color: var(--text-muted);
+}
+
+/* ==================================================
+   NAVBAR
+================================================== */
+
+<a class="navbar-brand d-flex align-items-center"
+asp-controller="Home"
+asp-action="Index" >
+
+<img src="~/images/logo.png"
+alt="Doringkloof Medical Centre"
+class="clinic-logo me-3" / >
+
+<div >
+<div class="fw-bold clinic-brand-title" >
+Doringkloof Medical Centre
+</div >
+
+<small class="clinic-brand-subtitle" >
+Smart Clinic Management System
+</small >
+</div >
+
+</a >
+/* ==================================================
+   PAGE HEADERS
+================================================== */
+.page-header {
+    margin-bottom: 50px;
+}
+
+.page-title {
+    color: var(--primary);
+    font-size: 2.75rem;
+    font-weight: 800;
+    position: relative;
+    padding-bottom: 14px;
+}
+
+    .page-title::after {
+        content: "";
+        width: 80px;
+        height: 4px;
+        background: var(--secondary);
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        border-radius: 999px;
+    }
+
+.page-subtitle {
+    color: var(--text-muted);
+    max-width: 700px;
+}
+
+/* ==================================================
+   SECTIONS
+================================================== */
+
+.page-section {
+    padding: 80px 0;
+}
+
+.section-sm {
+    padding: 50px 0;
+}
+
+.section-lg {
+    padding: 120px 0;
+}
+
+/* ==================================================
+   CARDS
+================================================== */
+
+.smart-card {
+    background: white;
+    border-top: 5px solid var(--primary);
+    border-radius: var(--radius-md);
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow-md);
+    padding: 24px;
+    transition: all .25s ease;
+}
+
+    .smart-card:hover {
+        transform: translateY(-4px);
+        border-top-color: var(--secondary);
+        box-shadow: var(--shadow-lg);
+    }
+
+/* ==================================================
+   DASHBOARD CARDS
+================================================== */
+
+.dashboard-card {
+    background: white;
+    border-radius: 20px;
+    border-left: 5px solid var(--primary);
+    padding: 28px;
+    box-shadow: var(--shadow-md);
+    height: 100%;
+}
+
+    .dashboard-card h3 {
+        font-size: 2.3rem;
+        font-weight: 800;
+        color: var(--primary);
+    }
+
+/* ==================================================
+   BUTTONS
+================================================== */
+
+.smart-btn-primary {
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 24px;
+    font-weight: 600;
+    transition: .25s;
+}
+
+    .smart-btn-primary:hover {
+        background: var(--secondary);
+        color: white;
+        transform: translateY(-2px);
+    }
+
+.smart-btn-secondary {
+    background: var(--secondary);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 24px;
+    font-weight: 600;
+    transition: .25s;
+}
+
+    .smart-btn-secondary:hover {
+        background: var(--secondary-dark);
+        color: white;
+    }
+
+/* ==================================================
+   FORMS
+================================================== */
+
+.form-control,
+.form-select,
+.smart-input {
+    min-height: 50px;
+    border-radius: 12px;
+    border: 1px solid #D1D5DB;
+}
+
+    .form-control:focus,
+    .form-select:focus,
+    .smart-input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(15,76,129,.15);
+    }
+
+/* ==================================================
+   TABLES
+================================================== */
+
+.table {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+    .table thead {
+        background: var(--primary);
+        color: white;
+    }
+
+    .table tbody tr:hover {
+        background: #F8FAFC;
+    }
+
+/* ==================================================
+   BADGES
+================================================== */
+
+.smart-badge {
+    background: var(--secondary-light);
+    color: var(--secondary);
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* ==================================================
+   FOOTER
+================================================== */
+
+.smart-footer {
+    background: linear-gradient( 90deg, var(--primary), #165A94 );
+    padding: 24px 0;
+    color: white;
+    margin-top: 80px;
+}
+
+    .smart-footer p {
+        color: white;
+    }
+
+/* =========================================
+   LOGO BRANDING
+========================================= */
+
+.clinic-logo {
+    height: 55px;
+    width: auto;
+    object-fit: contain;
+}
+
+.clinic-brand-title {
+    color: white;
+    font-size: 18px;
+    line-height: 1.1;
+    font-weight: 800;
+}
+
+.clinic-brand-subtitle {
+    color: rgba(255,255,255,.85);
+    font-size: 12px;
+    letter-spacing: .5px;
+}
+
+.clinic-logo {
+    height: 70px;
+}
+/* ==========================
+   CHATBOT
+========================== */
+
+.chatbot-launcher {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 999;
+}
+
+.chatbot-btn {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: linear-gradient(135deg,#0d6efd,#c1121f);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 28px;
+    text-decoration: none;
+    box-shadow: 0 10px 25px rgba(0,0,0,.25);
+    transition: all .3s ease;
+}
+
+    .chatbot-btn:hover {
+        transform: translateY(-5px);
+        color: white;
+    }
+
+.chatbot-window {
+    max-width: 900px;
+    margin: auto;
+}
+
+.chat-message {
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+}
+
+.bot-message {
+    background: #f8f9fa;
+    border-left: 4px solid #0d6efd;
+}
+
+.user-message {
+    background: #eef5ff;
+    border-left: 4px solid #c1121f;
+}
+
+.quick-question {
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    padding: 10px 15px;
+    background: white;
+    cursor: pointer;
+    transition: .3s;
+}
+
+    .quick-question:hover {
+        background: #f8f9fa;
+    }
+
+
+/* ==========================
+   HEALTH BOT
+========================== */
+
+#doctorBot {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    z-index: 999;
+    cursor: pointer;
+}
+
+    #doctorBot i {
+        font-size: 75px;
+        color: #0d6efd;
+        animation: floatBot 3s ease-in-out infinite;
+    }
+
+@keyframes floatBot {
+
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.speech-bubble {
+    background: white;
+    padding: 10px 15px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0,0,0,.15);
+    margin-bottom: 10px;
+    font-size: 14px;
+    text-align: center;
+}
+#chatWindow {
+    position: fixed;
+    bottom: 120px;
+    right: 25px;
+    width: 350px;
+    height: 450px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,.15);
+    display: none;
+    flex-direction: column;
+    z-index: 1000;
+}
+
+.chat-header {
+    background: #0d6efd;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 15px 15px 0 0;
+}
+
+#closeChat {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+#chatMessages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px;
+}
+
+.chat-input-area {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #eee;
+}
+
+    .chat-input-area input {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+    }
+
+    .chat-input-area button {
+        margin-left: 10px;
+        border: none;
+        background: #0d6efd;
+        color: white;
+        border-radius: 10px;
+        padding: 10px 15px;
+    }
+
+.doctor-avatar {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    animation: floatBot 3s ease-in-out infinite;
+}
+.chat-window {
+    height: 350px;
+    overflow-y: auto;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 20px;
+    background: #fafafa;
+}
+
+.chat-message {
+    margin-bottom: 15px;
+    padding: 15px;
+    border-radius: 14px;
+}
+
+.bot-message {
+    background: #eef6ff;
+}
+
+.user-message {
+    background: #f4f4f4;
+    text-align: right;
+}
+
+.doctor-avatar {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid var(--primary);
+}

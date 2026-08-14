@@ -1,0 +1,381 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<section class="page-section">
+    <div class="container">
+
+        <!-- Welcome Header -->
+        <div class="smart-card mb-5">
+
+            <div class="row align-items-center">
+
+                <div class="col-lg-8">
+
+                    <span class="smart-badge">
+                        Clinic Administrator
+                    </span>
+
+                    <h1 class="dashboard-title mt-3">
+                        Administration Dashboard
+                    </h1>
+
+                    <p class="text-muted mb-4">
+                        Monitor clinic performance, manage staff operations,
+                        review reports and oversee system activity.
+                    </p>
+
+                    <a asp-controller="Admin"
+                           asp-action="Reports"
+                           class="smart-btn-primary text-decoration-none">
+                        <i class="bi bi-bar-chart-line me-2"></i>
+                        View Reports
+                    </a>
+
+                </div>
+
+                <div class="col-lg-4 text-center">
+
+                    <i class="bi bi-shield-lock"
+                       style="font-size:90px;color:var(--primary);"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Statistics -->
+        <div class="row g-4 mb-5">
+
+            <div class="col-md-3">
+                <div class="smart-card stat-panel">
+                    <i class="bi bi-people"></i>
+                    <h3>2,450</h3>
+                    <p>Patients</p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="smart-card stat-panel">
+                    <i class="bi bi-person-badge"></i>
+                    <h3>5</h3>
+                    <p>Doctors</p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="smart-card stat-panel">
+                    <i class="bi bi-calendar-check"></i>
+                    <h3>520</h3>
+                    <p>Appointments</p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="smart-card stat-panel">
+                    <i class="bi bi-graph-up-arrow"></i>
+                    <h3>91%</h3>
+                    <p>Attendance</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="smart-card mb-5">
+
+            <div class="section-header">
+                <h4>Quick Actions</h4>
+            </div>
+
+            <div class="row g-4">
+
+                <div class="col-md-3">
+
+                    <a href="#"
+                           class="portal-card text-center">
+
+                        <i class="bi bi-people-fill"></i>
+
+                        <h5>Manage Users</h5>
+
+                    </a>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <a href="#"
+                           class="portal-card text-center">
+
+                        <i class="bi bi-calendar-week"></i>
+
+                        <h5>Schedules</h5>
+
+                    </a>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <a href="#"
+                           class="portal-card text-center">
+
+                        <i class="bi bi-hospital"></i>
+
+                        <h5>Services</h5>
+
+                    </a>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <a asp-controller="Admin"
+                           asp-action="Reports"
+                           class="portal-card text-center">
+
+                        <i class="bi bi-bar-chart-line"></i>
+
+                        <h5>Reports</h5>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Main Content -->
+        <div class="row g-4">
+
+            <!-- Left -->
+            <div class="col-lg-8">
+
+                <div class="smart-card">
+
+                    <div class="section-header">
+
+                        <h4>Doctor Utilisation Overview</h4>
+
+                        <span class="text-muted">
+                            Current Month
+                        </span>
+
+                    </div>
+
+                    <div class="table-responsive">
+
+                        <table class="table align-middle smart-table">
+
+                            <thead>
+                                <tr>
+                                    <th>Doctor</th>
+                                    <th>Appointments</th>
+                                    <th>Utilisation</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                <tr>
+                                    <td>Dr Esmé Cilliers</td>
+                                    <td>142</td>
+                                    <td>92%</td>
+                                    <td>
+                                        <span class="status-badge confirmed">
+                                            Active
+                                        </span>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>Dr Naidoo</td>
+                                    <td>118</td>
+                                    <td>84%</td>
+                                    <td>
+                                        <span class="status-badge confirmed">
+                                            Active
+                                        </span>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>Dr Petersen</td>
+                                    <td>96</td>
+                                    <td>76%</td>
+                                    <td>
+                                        <span class="status-badge pending">
+                                            Limited
+                                        </span>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+                <div class="smart-card mt-4">
+
+                    <div class="section-header">
+
+                        <h4>Clinic Services</h4>
+
+                    </div>
+
+                    <div class="row g-3">
+
+                        <div class="col-md-4">
+
+                            <div class="mini-service-card">
+
+                                <strong>General Consultation</strong>
+
+                                <p>30 Minutes · R450</p>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <div class="mini-service-card">
+
+                                <strong>Follow-Up Review</strong>
+
+                                <p>20 Minutes · R300</p>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <div class="mini-service-card">
+
+                                <strong>Medical Examination</strong>
+
+                                <p>45 Minutes · R650</p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Right -->
+            <div class="col-lg-4">
+
+                <div class="smart-card">
+
+                    <h4 class="mb-4">
+                        System Status
+                    </h4>
+
+                    <div class="notification-item">
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                        <div>
+
+                            <strong>System Online</strong>
+
+                            <p>
+                                All clinic services are operating normally.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="notification-item">
+
+                        <i class="bi bi-cloud-check"></i>
+
+                        <div>
+
+                            <strong>Backup Completed</strong>
+
+                            <p>
+                                Daily database backup completed successfully.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="notification-item">
+
+                        <i class="bi bi-shield-check"></i>
+
+                        <div>
+
+                            <strong>Security Status</strong>
+
+                            <p>
+                                No security alerts detected.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="smart-card mt-4">
+
+                    <h4 class="mb-4">
+                        Recent Activity
+                    </h4>
+
+                    <div class="notification-item">
+
+                        <i class="bi bi-person-plus"></i>
+
+                        <div>
+
+                            <strong>New Patient Registered</strong>
+
+                            <p>
+                                Registration completed successfully.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="notification-item">
+
+                        <i class="bi bi-calendar-event"></i>
+
+                        <div>
+
+                            <strong>Schedule Updated</strong>
+
+                            <p>
+                                Doctor availability modified for May.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>

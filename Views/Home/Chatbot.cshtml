@@ -1,0 +1,327 @@
+﻿@{
+    ViewData["Title"] = "Virtual Health Assistant";
+}
+
+<section class="page-section">
+
+    <div class="container">
+
+        <div class="mb-4">
+
+            <span class="smart-badge">
+                Virtual Assistant
+            </span>
+
+            <h1 class="dashboard-title mt-3">
+                Healthcare Support Chatbot
+            </h1>
+
+            <p class="text-muted">
+                Ask questions about appointments, clinic services,
+                account access, and general healthcare guidance.
+            </p>
+
+        </div>
+
+        <div class="smart-card chatbot-window">
+
+            <div class="chat-message bot-message">
+
+                <strong>Virtual Assistant</strong>
+
+                <p class="mb-0 mt-2">
+
+                    Hello and welcome to Doringkloof Medical Centre.
+
+                    How may I assist you today?
+
+                </p>
+
+            </div>
+
+            <div class="row g-3 mt-3">
+
+                <div class="col-md-4">
+                    <button class="quick-question w-100">
+                        How do I book an appointment?
+                    </button>
+                </div>
+
+                <div class="col-md-4">
+                    <button class="quick-question w-100">
+                        How do I create an account?
+                    </button>
+                </div>
+
+                <div class="col-md-4">
+                    <button class="quick-question w-100">
+                        What services do you offer?
+                    </button>
+                </div>
+
+                <div class="col-md-4">
+                    <button class="quick-question w-100">
+                        I have flu symptoms
+                    </button>
+                </div>
+
+                <div class="col-md-4">
+                    <button class="quick-question w-100">
+                        I have a headache
+                    </button>
+                </div>
+
+                <div class="col-md-4">
+                    <button class="quick-question w-100">
+                        I have chest pain
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="mt-4">
+
+                <label class="smart-label">
+                    Ask a Question
+                </label>
+
+                <input type="text"
+                       id="userQuestion"
+                       class="form-control smart-input"
+                       placeholder="Type your question here..." />
+
+            </div>
+
+            <div class="mt-3">
+
+                <button class="smart-btn-primary"
+                        onclick="getResponse()">
+
+                    <i class="bi bi-send me-2"></i>
+
+                    Ask Assistant
+
+                </button>
+
+            </div>
+
+            <div id="chatResponse" class="mt-4"></div>
+
+        </div>
+
+    </div>
+    @{
+        ViewData["Title"] = "Virtual Health Assistant";
+    }
+
+    <section class="page-section">
+
+        <div class="container">
+
+            <!-- All your chatbot HTML here -->
+
+            <div id="chatResponse"></div>
+
+        </div>
+
+    </section>
+
+    <script>
+
+            const responses = {
+
+                // APPOINTMENTS
+
+                "book appointment":
+                    "You can book an appointment by selecting the Book Appointment option, choosing your preferred doctor, selecting an available date and time, and confirming your booking.",
+
+                "cancel appointment":
+                    "Navigate to My Appointments, select the appointment you wish to cancel, and choose Cancel Appointment.",
+
+                "reschedule":
+                    "Open My Appointments, select your booking, and choose a new available date and time.",
+
+                "upcoming appointments":
+                    "Upcoming appointments can be viewed from the My Appointments section of the Patient Portal.",
+
+                "arrive early":
+                    "Patients are encouraged to arrive at least 15 minutes before their scheduled appointment.",
+
+
+                // ACCOUNT QUESTIONS
+
+                "create account":
+                    "Select Register on the login page and complete the required patient information.",
+
+                "register":
+                    "Select Register on the login page and complete the required patient information.",
+
+                "forgot password":
+                    "Select Forgot Password on the login page and follow the password recovery instructions.",
+
+                "change password":
+                    "Navigate to Settings and select Change Password.",
+
+                "update profile":
+                    "You can update your personal information through the Profile or Settings section of the Patient Portal.",
+
+                "secure":
+                    "Yes. Patient information is stored securely and handled according to healthcare privacy standards.",
+
+
+                // CLINIC QUESTIONS
+
+                "services":
+                    "The clinic offers general healthcare, dentistry, physiotherapy, dietetics, podiatry and other healthcare services.",
+
+                "location":
+                    "Doringkloof Medical Centre is located at Doringkloof Mall, 6 Aster Avenue, Centurion.",
+
+                "where is the clinic":
+                    "Doringkloof Medical Centre is located at Doringkloof Mall, 6 Aster Avenue, Centurion.",
+
+                "operating hours":
+                    "Clinic operating hours vary depending on the healthcare professional. Please contact reception for current operating hours.",
+
+                "walk in":
+                    "Walk-in patients may be accommodated depending on availability. Booking an appointment is recommended.",
+
+                "choose doctor":
+                    "Yes. During appointment booking, you may select your preferred healthcare professional.",
+
+
+                // SYMPTOMS
+
+                "headache":
+                    "Headaches may be caused by stress, dehydration, lack of sleep, or illness. If symptoms are severe or persistent, please consult a healthcare professional.",
+
+                "flu":
+                    "Common flu symptoms include fever, cough, sore throat, fatigue and body aches. Consider booking an appointment if symptoms worsen.",
+
+                "sore throat":
+                    "A sore throat may be caused by a viral or bacterial infection. Persistent symptoms should be assessed by a healthcare professional.",
+
+                "cough":
+                    "A cough may result from a cold, flu, allergies or other conditions. If symptoms persist or worsen, please seek medical advice.",
+
+                "fever":
+                    "A fever can indicate that your body is fighting an infection. Monitor your symptoms and seek medical advice if your fever remains high or persistent.",
+
+                "stomach ache":
+                    "Stomach discomfort may have several causes. Severe or persistent pain should be evaluated by a healthcare professional.",
+
+                "stomach pain":
+                    "Stomach discomfort may have several causes. Severe or persistent pain should be evaluated by a healthcare professional.",
+
+                "back pain":
+                    "Back pain is common and may result from muscle strain, poor posture, or injury. Persistent or severe pain should be medically assessed.",
+
+                "toothache":
+                    "A toothache may indicate dental decay, infection or gum disease. Please schedule an appointment with a dental professional.",
+
+                "dizzy":
+                    "Dizziness can have many causes. It is recommended that you schedule an appointment with a healthcare professional for further assessment.",
+
+                "fatigue":
+                    "Fatigue may result from illness, stress, poor sleep, or other medical conditions. Consider scheduling an appointment if symptoms persist.",
+
+
+                // EMERGENCIES
+
+                "chest pain":
+                    "⚠️ Chest pain may indicate a serious medical emergency. Please seek immediate medical attention or contact emergency services.",
+
+                "difficulty breathing":
+                    "⚠️ Difficulty breathing may be a medical emergency. Please seek immediate medical attention immediately.",
+
+                "cant breathe":
+                    "⚠️ Difficulty breathing may be a medical emergency. Please seek immediate medical attention immediately.",
+
+                "stroke":
+                    "⚠️ Possible stroke symptoms require urgent emergency care. Contact emergency services immediately.",
+
+                "bleeding heavily":
+                    "⚠️ Heavy bleeding requires immediate medical attention. Please contact emergency services or visit the nearest emergency department.",
+
+                "broken leg":
+                    "⚠️ A suspected fracture requires urgent medical assessment. Please seek emergency medical care.",
+
+                "heart attack":
+                    "⚠️ A possible heart attack requires immediate emergency medical attention. Contact emergency services immediately.",
+
+
+                // MEDICATION
+
+                "prescribe medication":
+                    "No. The Virtual Healthcare Assistant cannot prescribe medication. Please consult a licensed healthcare professional.",
+
+                "prescription":
+                    "Prescriptions can only be issued by a qualified healthcare professional following consultation.",
+
+                "repeat prescription":
+                    "Repeat prescriptions must be reviewed and approved by a healthcare professional according to clinic policy."
+            };
+
+
+            function getResponse() {
+
+                let question =
+                    document.getElementById("userQuestion")
+                    .value.toLowerCase();
+
+                let response =
+                    "I am unable to answer that question at the moment. Please contact reception for further assistance.";
+
+                for (let key in responses) {
+
+                    if (question.includes(key)) {
+
+                        response = responses[key];
+                        break;
+                    }
+                }
+
+                let disclaimer = "";
+
+                if (
+                    question.includes("headache") ||
+                    question.includes("flu") ||
+                    question.includes("cough") ||
+                    question.includes("fever") ||
+                    question.includes("sore throat") ||
+                    question.includes("stomach") ||
+                    question.includes("back pain") ||
+                    question.includes("toothache") ||
+                    question.includes("dizzy") ||
+                    question.includes("fatigue")
+                ) {
+
+                    disclaimer =
+                        `<div class="alert alert-light border mt-3">
+                            <small>
+                                <strong>Medical Disclaimer:</strong>
+                                This information is provided for general guidance only
+                                and does not replace professional medical advice,
+                                diagnosis or treatment.
+                            </small>
+                         </div>`;
+                }
+
+                document.getElementById("chatResponse").innerHTML =
+
+                    `<div class="chat-message bot-message">
+
+                        <strong>Virtual Healthcare Assistant</strong>
+
+                        <p class="mb-0 mt-2">
+                            ${response}
+                        </p>
+
+                        ${disclaimer}
+
+                    </div>`;
+            }
+
+    </script>
+
+</section>

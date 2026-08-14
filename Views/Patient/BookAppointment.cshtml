@@ -1,0 +1,222 @@
+﻿@{
+    ViewData["Title"] = "Book Appointment";
+}
+
+<section class="page-section">
+    <div class="container">
+
+        <div class="mb-4">
+            <span class="smart-badge">Patient Portal</span>
+            <h1 class="dashboard-title mt-3">Book Appointment</h1>
+            <p class="text-muted">
+                Select a doctor, service, date, and preferred consultation time.
+            </p>
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-lg-8">
+
+                <div class="smart-card">
+
+                    <form>
+
+                        <div class="row g-4">
+
+                            <div class="col-md-6">
+                                <label class="form-label smart-label">
+                                    Select Doctor
+                                </label>
+
+                                <select class="form-select smart-input">
+                                    <option>Dr Esme Cilliers</option>
+                                    <option>Dr Naidoo</option>
+                                    <option>Dr Petersen</option>
+                                </select>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <label class="form-label smart-label">
+                                    Consultation Type
+                                </label>
+
+                                <select class="form-select smart-input">
+                                    <option>General Consultation</option>
+                                    <option>Follow-up Consultation</option>
+                                    <option>Medical Examination</option>
+                                </select>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <label class="form-label smart-label">
+                                    Appointment Date
+                                </label>
+
+                                <input type="date" class="form-control smart-input" />
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <label class="form-label smart-label">
+                                    Appointment Time
+                                </label>
+
+                                <select class="form-select smart-input">
+                                    <option>09:00</option>
+                                    <option>09:30</option>
+                                    <option>10:00</option>
+                                    <option>10:30</option>
+                                    <option>11:00</option>
+                                </select>
+                            </div>
+
+
+                            <div class="col-12">
+                                <label class="form-label smart-label">
+                                    Reason For Visit
+                                </label>
+
+                                <textarea rows="4" class="form-control smart-input">
+Routine consultation and follow-up assessment
+                                </textarea>
+                            </div>
+
+                        </div>
+
+
+                        <div class="mt-4 d-flex gap-3 flex-wrap">
+
+                            <button type="button" class="smart-btn-primary">
+                                <i class="bi bi-calendar-check me-2"></i>
+                                Confirm Booking
+                            </button>
+
+                            <a asp-controller="Patient"
+                                   asp-action="Dashboard"
+                                   class="btn btn-outline-secondary rounded-3 px-4">
+                                Cancel
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+
+                <div class="smart-card mt-4">
+
+                    <h4 class="mb-4">
+                        Available Time Slots
+                    </h4>
+
+                    <div class="slot-grid">
+
+                        <button class="slot-button selected">
+                            09:00
+                        </button>
+
+                        <button class="slot-button">
+                            09:30
+                        </button>
+
+                        <button class="slot-button">
+                            10:00
+                        </button>
+
+                        <button class="slot-button">
+                            10:30
+                        </button>
+
+                        <button class="slot-button">
+                            11:00
+                        </button>
+
+                        <button class="slot-button">
+                            11:30
+                        </button>
+
+                        <button class="slot-button">
+                            14:00
+                        </button>
+
+                        <button class="slot-button">
+                            14:30
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-lg-4">
+
+                <div class="smart-card">
+
+                    <h4 class="mb-4">
+                        Appointment Summary
+                    </h4>
+
+                    <div class="summary-item">
+                        <span>Doctor</span>
+                        <strong>Dr Esme Cilliers</strong>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Service</span>
+                        <strong>General Consultation</strong>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Date</span>
+                        <strong>12 May 2026</strong>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Time</span>
+                        <strong>09:00</strong>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Duration</span>
+                        <strong>30 Minutes</strong>
+                    </div>
+
+                    <div class="summary-item border-0">
+                        <span>Consultation Fee</span>
+                        <strong>R450.00</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="smart-card mt-4">
+
+                    <h4 class="mb-3">
+                        Important Information
+                    </h4>
+
+                    <p class="text-muted small">
+                        Please arrive 15 minutes before your appointment.
+                    </p>
+
+                    <p class="text-muted small">
+                        Bring your identification document and medical aid details.
+                    </p>
+
+                    <p class="text-muted small mb-0">
+                        Appointment reminders will be sent automatically.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>

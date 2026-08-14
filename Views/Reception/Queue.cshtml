@@ -1,0 +1,151 @@
+﻿@{
+    ViewData["Title"] = "Queue Management";
+}
+
+<section class="page-section">
+    <div class="container">
+        <div class="dashboard-header mb-4">
+            <div>
+                <span class="smart-badge">Reception Dashboard</span>
+                <h1 class="dashboard-title mt-3">Queue Management</h1>
+                <p class="text-muted">Monitor patient waiting status and consultation progression.</p>
+            </div>
+
+            <a asp-controller="Reception" asp-action="CheckIn" class="smart-btn-primary text-decoration-none">
+                <i class="bi bi-person-check me-2"></i>
+                Check In Patient
+            </a>
+        </div>
+
+        <div class="row g-4 mb-4">
+            <div class="col-md-3">
+                <div class="smart-card stat-panel">
+                    <i class="bi bi-hourglass-split"></i>
+                    <h3>7</h3>
+                    <p>Waiting</p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="smart-card stat-panel">
+                    <i class="bi bi-clipboard2-pulse"></i>
+                    <h3>3</h3>
+                    <p>In Consultation</p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="smart-card stat-panel">
+                    <i class="bi bi-check-circle"></i>
+                    <h3>11</h3>
+                    <p>Completed</p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="smart-card stat-panel">
+                    <i class="bi bi-clock-history"></i>
+                    <h3>18m</h3>
+                    <p>Average Wait</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="smart-card">
+            <div class="section-header">
+                <h4>Active Clinic Queue</h4>
+                <span class="text-muted">Dummy operational queue data</span>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table align-middle smart-table">
+                    <thead>
+                        <tr>
+                            <th>Queue No.</th>
+                            <th>Patient</th>
+                            <th>Doctor</th>
+                            <th>Service</th>
+                            <th>Check-In Time</th>
+                            <th>Status</th>
+                            <th>Priority</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td><strong>Q001</strong></td>
+                            <td>Sarah Jacobs</td>
+                            <td>Dr Esme Cilliers</td>
+                            <td>General Consultation</td>
+                            <td>08:45</td>
+                            <td><span class="status-badge confirmed">In Consultation</span></td>
+                            <td>Normal</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Q002</strong></td>
+                            <td>Michael Brown</td>
+                            <td>Dr Esme Cilliers</td>
+                            <td>Follow-Up</td>
+                            <td>09:05</td>
+                            <td><span class="status-badge pending">Waiting</span></td>
+                            <td>Normal</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Q003</strong></td>
+                            <td>Lisa Adams</td>
+                            <td>Dr Naidoo</td>
+                            <td>Medical Review</td>
+                            <td>09:12</td>
+                            <td><span class="status-badge pending">Waiting</span></td>
+                            <td>High</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Q004</strong></td>
+                            <td>James Wilson</td>
+                            <td>Dr Petersen</td>
+                            <td>General Consultation</td>
+                            <td>09:20</td>
+                            <td><span class="status-badge confirmed">Checked In</span></td>
+                            <td>Normal</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row g-4 mt-1">
+            <div class="col-md-6">
+                <div class="smart-card">
+                    <h4 class="mb-3">Queue Actions</h4>
+
+                    <div class="d-grid gap-3">
+                        <button type="button" class="btn btn-outline-primary rounded-3">
+                            Call Next Patient
+                        </button>
+
+                        <button type="button" class="btn btn-outline-primary rounded-3">
+                            Update Queue Status
+                        </button>
+
+                        <button type="button" class="btn btn-outline-primary rounded-3">
+                            Notify Doctor
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="smart-card">
+                    <h4 class="mb-3">Information Flow</h4>
+                    <p class="text-muted mb-0">
+                        Once a patient is checked in, the queue entry becomes visible to reception staff and doctors.
+                        Status updates help staff monitor patient movement from waiting to consultation completion.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,200 @@
+﻿@{
+    ViewData["Title"] = "Generate Prescription";
+}
+
+<section class="page-section">
+    <div class="container">
+
+        <!-- Header -->
+
+        <div class="smart-card mb-5">
+
+            <span class="smart-badge">
+                Doctor Portal
+            </span>
+
+            <h1 class="dashboard-title mt-3">
+                Generate Prescription
+            </h1>
+
+            <p class="text-muted mb-0">
+                Create and issue prescriptions for patients.
+            </p>
+
+        </div>
+
+        <div class="row g-4">
+
+            <!-- Left Side -->
+
+            <div class="col-lg-8">
+
+                <!-- Patient Information -->
+
+                <div class="smart-card mb-4">
+
+                    <div class="section-header">
+                        <h4>Patient Information</h4>
+                    </div>
+
+                    <div class="row g-3">
+
+                        <div class="col-md-6">
+                            <label class="smart-label">Patient Name</label>
+                            <input class="form-control smart-input"
+                                   value="Sarah Jacobs" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="smart-label">Patient ID</label>
+                            <input class="form-control smart-input"
+                                   value="PT-10024" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="smart-label">Date of Birth</label>
+                            <input class="form-control smart-input"
+                                   value="14 March 1992" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="smart-label">Doctor</label>
+                            <input class="form-control smart-input"
+                                   value="Dr Esmé Cilliers" />
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Prescription Details -->
+
+                <div class="smart-card">
+
+                    <div class="section-header">
+                        <h4>Prescription Details</h4>
+                    </div>
+
+                    <div class="row g-3">
+
+                        <div class="col-md-6">
+                            <label class="smart-label">Medication Name</label>
+                            <input class="form-control smart-input"
+                                   placeholder="Enter medication" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="smart-label">Dosage</label>
+                            <input class="form-control smart-input"
+                                   placeholder="500mg" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="smart-label">Frequency</label>
+                            <input class="form-control smart-input"
+                                   placeholder="Twice Daily" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="smart-label">Duration</label>
+                            <input class="form-control smart-input"
+                                   placeholder="7 Days" />
+                        </div>
+
+                        <div class="col-12">
+                            <label class="smart-label">
+                                Additional Instructions
+                            </label>
+
+                            <textarea class="form-control smart-input"
+                                      rows="4">
+Take after meals.
+Complete full course.
+                            </textarea>
+                        </div>
+
+                    </div>
+
+                    <div class="mt-4 d-flex gap-3 flex-wrap">
+
+                        <button class="smart-btn-primary">
+                            <i class="bi bi-file-earmark-medical me-2"></i>
+                            Generate Prescription
+                        </button>
+
+                        <button class="smart-btn-accent">
+                            <i class="bi bi-save me-2"></i>
+                            Save Draft
+                        </button>
+
+                        <a asp-controller="Doctor"
+                               asp-action="Dashboard"
+                               class="btn btn-outline-secondary rounded-3">
+
+                            Back
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Right Side -->
+
+            <div class="col-lg-4">
+
+                <!-- Safety Check -->
+
+                <div class="smart-card mb-4">
+
+                    <div class="section-header">
+                        <h4>Medication Safety</h4>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Allergy Status</span>
+                        <strong>No Known Allergies</strong>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Interaction Check</span>
+                        <strong>No Conflicts</strong>
+                    </div>
+
+                    <div class="summary-item border-0">
+                        <span>Age Group</span>
+                        <strong>Adult</strong>
+                    </div>
+
+                </div>
+
+                <!-- Preview -->
+
+                <div class="smart-card">
+
+                    <div class="section-header">
+                        <h4>Prescription Preview</h4>
+                    </div>
+
+                    <p><strong>Prescription ID:</strong> RX-2026-001</p>
+
+                    <p><strong>Patient:</strong> Sarah Jacobs</p>
+
+                    <p><strong>Medication:</strong> Amoxicillin</p>
+
+                    <p><strong>Doctor:</strong> Dr Esmé Cilliers</p>
+
+                    <p class="mb-0">
+                        <strong>Date Issued:</strong> 12 May 2026
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,365 @@
+﻿@{
+    ViewData["Title"] = "Doctor Dashboard";
+}
+
+<section class="page-section">
+    <div class="container">
+
+        <div class="dashboard-header mb-4">
+
+            <div>
+                <span class="smart-badge">
+                    Doctor Dashboard
+                </span>
+
+                <h1 class="dashboard-title mt-3">
+                    Welcome, Dr Esme Cilliers
+                </h1>
+
+                <p class="text-muted">
+                    Manage consultations, patient records, schedules, and prescriptions.
+                </p>
+            </div>
+
+            <a asp-controller="Doctor"
+                   asp-action="Consultation"
+                   class="smart-btn-primary text-decoration-none">
+
+                <i class="bi bi-clipboard2-pulse me-2"></i>
+                Start Consultation
+
+            </a>
+
+        </div>
+
+
+        <div class="row g-4 mb-4">
+
+            <div class="col-md-3">
+
+                <div class="smart-card stat-panel">
+
+                    <i class="bi bi-calendar-check"></i>
+
+                    <h3>
+                        8
+                    </h3>
+
+                    <p>
+                        Today’s Appointments
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-3">
+
+                <div class="smart-card stat-panel">
+
+                    <i class="bi bi-people"></i>
+
+                    <h3>
+                        3
+                    </h3>
+
+                    <p>
+                        Patients Waiting
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-3">
+
+                <div class="smart-card stat-panel">
+
+                    <i class="bi bi-file-medical"></i>
+
+                    <h3>
+                        14
+                    </h3>
+
+                    <p>
+                        Records Updated
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-3">
+
+                <div class="smart-card stat-panel">
+
+                    <i class="bi bi-capsule"></i>
+
+                    <h3>
+                        5
+                    </h3>
+
+                    <p>
+                        Prescriptions Issued
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="row g-4">
+
+
+            <div class="col-lg-8">
+
+                <div class="smart-card">
+
+                    <div class="section-header">
+
+                        <h4>
+                            Today's Schedule
+                        </h4>
+
+                        <a asp-controller="Doctor"
+                               asp-action="Schedule">
+
+                            View Full Schedule
+
+                        </a>
+
+                    </div>
+
+
+                    <div class="table-responsive">
+
+                        <table class="table align-middle smart-table">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Patient</th>
+                                    <th>Service</th>
+                                    <th>Status</th>
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                <tr>
+                                    <td>09:00</td>
+                                    <td>Sarah Jacobs</td>
+                                    <td>General Consultation</td>
+                                    <td>
+                                        <span class="status-badge confirmed">
+                                            Checked In
+                                        </span>
+                                    </td>
+                                </tr>
+
+
+                                <tr>
+                                    <td>09:30</td>
+                                    <td>Michael Brown</td>
+                                    <td>Follow-Up</td>
+                                    <td>
+                                        <span class="status-badge pending">
+                                            Waiting
+                                        </span>
+                                    </td>
+                                </tr>
+
+
+                                <tr>
+                                    <td>10:00</td>
+                                    <td>Lisa Adams</td>
+                                    <td>Medical Review</td>
+                                    <td>
+                                        <span class="status-badge confirmed">
+                                            Confirmed
+                                        </span>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="smart-card mt-4">
+
+                    <div class="section-header">
+
+                        <h4>
+                            Recent Consultations
+                        </h4>
+
+                    </div>
+
+
+                    <div class="history-item">
+
+                        <div>
+
+                            <strong>
+                                Sarah Jacobs
+                            </strong>
+
+                            <p>
+                                Flu diagnosis recorded with medication prescribed.
+                            </p>
+
+                        </div>
+
+                        <span>
+                            08:45
+                        </span>
+
+                    </div>
+
+
+                    <div class="history-item">
+
+                        <div>
+
+                            <strong>
+                                James Wilson
+                            </strong>
+
+                            <p>
+                                Blood pressure review completed successfully.
+                            </p>
+
+                        </div>
+
+                        <span>
+                            Yesterday
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="col-lg-4">
+
+
+                <div class="smart-card">
+
+                    <h4 class="mb-4">
+                        Queue Status
+                    </h4>
+
+
+                    <div class="queue-item">
+
+                        <span>
+                            Q001
+                        </span>
+
+                        <strong>
+                            Sarah Jacobs
+                        </strong>
+
+                    </div>
+
+
+                    <div class="queue-item">
+
+                        <span>
+                            Q002
+                        </span>
+
+                        <strong>
+                            Michael Brown
+                        </strong>
+
+                    </div>
+
+
+                    <div class="queue-item">
+
+                        <span>
+                            Q003
+                        </span>
+
+                        <strong>
+                            Lisa Adams
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Quick Actions -->
+
+                <div class="smart-card mt-4 mb-4">
+
+                    <div class="section-header">
+                        <h4>Quick Actions</h4>
+                    </div>
+
+                    <div class="row g-4">
+
+                        <div class="col-md-4">
+
+                            <a asp-controller="Doctor"
+                                   asp-action="Consultation"
+                                   class="portal-card text-center">
+
+                                <i class="bi bi-clipboard2-pulse"></i>
+
+                                <h5>Consultation</h5>
+
+                            </a>
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <a asp-controller="Doctor"
+                                   asp-action="MedicalRecords"
+                                   class="portal-card text-center">
+
+                                <i class="bi bi-file-medical"></i>
+
+                                <h5>Patient Records</h5>
+
+                            </a>
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <a asp-controller="Doctor"
+                                   asp-action="GeneratePrescription"
+                                   class="portal-card text-center">
+
+                                <i class="bi bi-capsule-pill"></i>
+
+                                <h5>Generate Prescription</h5>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>

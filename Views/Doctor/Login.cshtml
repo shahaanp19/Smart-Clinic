@@ -1,0 +1,41 @@
+﻿@{
+    ViewData["Title"] = "Doctor Login";
+}
+
+<section class="login-section">
+    <div class="container">
+        <div class="row justify-content-center align-items-center min-vh-75">
+            <div class="col-lg-5">
+                <div class="smart-card login-card">
+                    <div class="text-center mb-4">
+                        <i class="bi bi-clipboard2-pulse login-icon"></i>
+                        <h1 class="dashboard-title mt-3">Doctor Login</h1>
+                        <p class="text-muted">Access your clinical dashboard.</p>
+                    </div>
+
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label smart-label">Email Address</label>
+                            <input type="email" class="form-control smart-input" value="doctor@smartclinic.co.za" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label smart-label">Password</label>
+                            <input type="password" class="form-control smart-input" value="password123" />
+                        </div>
+
+                        <div class="d-grid mt-4">
+                            <a asp-controller="Doctor" asp-action="Dashboard" class="smart-btn-primary text-decoration-none text-center">
+                                Login as Doctor
+                            </a>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-4">
+                        <p class="text-muted mb-0">Prototype only — dummy login interface</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

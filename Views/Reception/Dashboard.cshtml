@@ -1,0 +1,368 @@
+﻿@{
+    ViewData["Title"] = "Reception Dashboard";
+}
+
+<section class="page-section">
+    <div class="container">
+
+        ```
+        <!-- Welcome Header -->
+
+        <div class="smart-card mb-5">
+
+            <div class="row align-items-center">
+
+                <div class="col-lg-8">
+
+                    <span class="smart-badge">
+                        Reception Dashboard
+                    </span>
+
+                    <h1 class="dashboard-title mt-3">
+                        Front Desk Operations
+                    </h1>
+
+                    <p class="text-muted mb-4">
+                        Manage patient arrivals, appointments, queue status and daily clinic operations.
+                    </p>
+
+                    <a asp-controller="Reception"
+                           asp-action="CheckIn"
+                           class="smart-btn-primary text-decoration-none">
+
+                        <i class="bi bi-person-check me-2"></i>
+                        Check In Patient
+
+                    </a>
+
+                </div>
+
+                <div class="col-lg-4 text-center">
+
+                    <i class="bi bi-headset"
+                       style="font-size:90px;color:var(--primary);"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Statistics -->
+
+        <div class="row g-4 mb-5">
+
+            <div class="col-md-3">
+
+                <div class="smart-card stat-panel">
+
+                    <i class="bi bi-calendar-event"></i>
+
+                    <h3>24</h3>
+
+                    <p>Appointments Today</p>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <div class="smart-card stat-panel">
+
+                    <i class="bi bi-person-check"></i>
+
+                    <h3>11</h3>
+
+                    <p>Patients Checked In</p>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <div class="smart-card stat-panel">
+
+                    <i class="bi bi-hourglass-split"></i>
+
+                    <h3>7</h3>
+
+                    <p>Waiting in Queue</p>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <div class="smart-card stat-panel">
+
+                    <i class="bi bi-calendar-x"></i>
+
+                    <h3>3</h3>
+
+                    <p>Cancellations</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Quick Actions -->
+
+        <div class="smart-card mb-5">
+
+            <div class="section-header">
+                <h4>Quick Actions</h4>
+            </div>
+
+            <div class="row g-4">
+
+                <div class="col-md-3">
+
+                    <a asp-controller="Reception"
+                           asp-action="CheckIn"
+                           class="portal-card text-center">
+
+                        <i class="bi bi-person-check"></i>
+
+                        <h5>Check In</h5>
+
+                    </a>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <a asp-controller="Reception"
+                           asp-action="Queue"
+                           class="portal-card text-center">
+
+                        <i class="bi bi-people"></i>
+
+                        <h5>Manage Queue</h5>
+
+                    </a>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <a asp-controller="Patient"
+                           asp-action="BookAppointment"
+                           class="portal-card text-center">
+
+                        <i class="bi bi-calendar-plus"></i>
+
+                        <h5>Appointment</h5>
+
+                    </a>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <a href="#"
+                           class="portal-card text-center">
+
+                        <i class="bi bi-person-vcard"></i>
+
+                        <h5>Patient Records</h5>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Main Content -->
+
+        <div class="row g-4">
+
+            <!-- Appointments -->
+
+            <div class="col-lg-8">
+
+                <div class="smart-card">
+
+                    <div class="section-header">
+
+                        <h4>Today's Appointments</h4>
+
+                        <a asp-controller="Reception"
+                               asp-action="CheckIn">
+
+                            Process Check-In
+
+                        </a>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <input class="form-control smart-input"
+                               placeholder="Search patient or appointment..." />
+
+                    </div>
+
+                    <div class="table-responsive">
+
+                        <table class="table align-middle smart-table">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Patient</th>
+                                    <th>Doctor</th>
+                                    <th>Service</th>
+                                    <th>Status</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                <tr>
+                                    <td>09:00</td>
+                                    <td>Sarah Jacobs</td>
+                                    <td>Dr Esmé Cilliers</td>
+                                    <td>General Consultation</td>
+                                    <td>
+                                        <span class="status-badge confirmed">
+                                            Checked In
+                                        </span>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>09:30</td>
+                                    <td>Michael Brown</td>
+                                    <td>Dr Esmé Cilliers</td>
+                                    <td>Follow-Up</td>
+                                    <td>
+                                        <span class="status-badge pending">
+                                            Waiting
+                                        </span>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>10:00</td>
+                                    <td>Lisa Adams</td>
+                                    <td>Dr Naidoo</td>
+                                    <td>Medical Review</td>
+                                    <td>
+                                        <span class="status-badge confirmed">
+                                            Confirmed
+                                        </span>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>10:30</td>
+                                    <td>James Wilson</td>
+                                    <td>Dr Petersen</td>
+                                    <td>General Consultation</td>
+                                    <td>
+                                        <span class="status-badge pending">
+                                            Not Arrived
+                                        </span>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Sidebar -->
+
+            <div class="col-lg-4">
+
+                <div class="smart-card">
+
+                    <h4 class="mb-3">
+                        Current Queue
+                    </h4>
+
+                    <div class="queue-preview">
+
+                        <span>Now Serving</span>
+
+                        <h2>Q001</h2>
+
+                        <p>Sarah Jacobs</p>
+
+                    </div>
+
+                    <div class="queue-item">
+                        <span>Q002</span>
+                        <strong>Michael Brown</strong>
+                    </div>
+
+                    <div class="queue-item">
+                        <span>Q003</span>
+                        <strong>Lisa Adams</strong>
+                    </div>
+
+                    <div class="queue-item">
+                        <span>Q004</span>
+                        <strong>James Wilson</strong>
+                    </div>
+
+                    <a asp-controller="Reception"
+                           asp-action="Queue"
+                           class="btn btn-outline-primary w-100 mt-3 rounded-3">
+
+                        View Full Queue
+
+                    </a>
+
+                </div>
+
+                <div class="smart-card mt-4">
+
+                    <h4 class="mb-3">
+                        Today's Operations
+                    </h4>
+
+                    <div class="summary-item">
+                        <span>Total Appointments</span>
+                        <strong>24</strong>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Checked In</span>
+                        <strong>11</strong>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Waiting</span>
+                        <strong>7</strong>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Cancelled</span>
+                        <strong>3</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    ```
+
+</section>

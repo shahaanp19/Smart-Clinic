@@ -1,0 +1,344 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<!-- HERO SECTION -->
+<section class="hero-section">
+    <div class="container">
+
+        <div class="text-center mb-5">
+
+            <img src="~/images/Logo.png"
+                 alt="Doringkloof Medical Centre"
+                 class="img-fluid"
+                 style="max-width:500px;" />
+
+        </div>
+
+        <div class="row align-items-center">
+
+            <!-- LEFT SIDE -->
+            <div class="col-lg-6">
+
+                <span class="smart-badge">
+                    Your Health • Our Priority
+                </span>
+
+                <h1 class="hero-title mt-4">
+                    Modern Healthcare Management
+                </h1>
+
+                <p class="hero-text mt-3">
+                    Smart Clinic Management System provides patients,
+                    doctors, reception staff and administrators with
+                    one integrated healthcare platform for appointments,
+                    medical records, communication and clinic operations.
+                </p>
+
+                <div class="mt-4">
+
+                    <a asp-controller="Patient"
+                           asp-action="Dashboard"
+                           class="smart-btn-primary text-decoration-none me-3">
+                        Patient Portal
+                    </a>
+
+                    <a asp-controller="Home"
+                           asp-action="Contact"
+                           class="btn btn-outline-primary rounded-3 px-4">
+                        Contact Us
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- RIGHT SIDE - CONSULTATION IMAGE -->
+            <div class="col-lg-6">
+
+                <img src="~/images/Consult 3.jpg"
+                     alt="Doctor Consultation"
+                     class="img-fluid rounded-4 shadow-sm hero-consult-image" />
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+
+<!-- FEATURES -->
+<section class="page-section bg-white">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+
+            <span class="smart-badge">
+                Core Features
+            </span>
+
+            <h2 class="section-title mt-3">
+                Smart Healthcare Management
+            </h2>
+
+            <p class="section-subtitle">
+                Supporting patients, doctors, reception staff and
+                administrators through one integrated platform.
+            </p>
+
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-md-4">
+                <div class="smart-card h-100 text-center">
+
+                    <i class="bi bi-calendar-check feature-icon"></i>
+
+                    <h5>Appointment Management</h5>
+
+                    <p>
+                        Book, update and track appointments online.
+                    </p>
+
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="smart-card h-100 text-center">
+
+                    <i class="bi bi-file-medical feature-icon"></i>
+
+                    <h5>Medical Records</h5>
+
+                    <p>
+                        Secure patient records and consultation history.
+                    </p>
+
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="smart-card h-100 text-center">
+
+                    <i class="bi bi-people feature-icon"></i>
+
+                    <h5>Queue Management</h5>
+
+                    <p>
+                        Streamlined patient check-in and waiting queues.
+                    </p>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- CLINIC STATISTICS -->
+<section class="page-section">
+
+    <div class="container">
+
+        <div class="row g-4 text-center">
+
+            <div class="col-md-3">
+                <div class="smart-card">
+
+                    <h2 class="text-primary fw-bold">15+</h2>
+
+                    <p class="mb-0">
+                        Medical Practitioners
+                    </p>
+
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="smart-card">
+
+                    <h2 class="text-primary fw-bold">5000+</h2>
+
+                    <p class="mb-0">
+                        Patients Served
+                    </p>
+
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="smart-card">
+
+                    <h2 class="text-primary fw-bold">12</h2>
+
+                    <p class="mb-0">
+                        Healthcare Services
+                    </p>
+
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="smart-card">
+
+                    <h2 class="text-primary fw-bold">98%</h2>
+
+                    <p class="mb-0">
+                        Patient Satisfaction
+                    </p>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- PORTALS -->
+<section class="page-section bg-white">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+
+            <span class="smart-badge">
+                System Portals
+            </span>
+
+            <h2 class="section-title mt-3">
+                Access Your Workspace
+            </h2>
+
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-md-3">
+
+                <a asp-controller="Patient"
+                       asp-action="Dashboard"
+                       class="portal-card text-decoration-none">
+
+                    <i class="bi bi-person-heart"></i>
+
+                    <h4>Patient Portal</h4>
+
+                    <p>
+                        Appointments, records and notifications.
+                    </p>
+
+                </a>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <a asp-controller="Doctor"
+                       asp-action="Dashboard"
+                       class="portal-card text-decoration-none">
+
+                    <i class="bi bi-heart-pulse"></i>
+
+                    <h4>Doctor Portal</h4>
+
+                    <p>
+                        Consultations, prescriptions and schedules.
+                    </p>
+
+                </a>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <a asp-controller="Reception"
+                       asp-action="Dashboard"
+                       class="portal-card text-decoration-none">
+
+                    <i class="bi bi-headset"></i>
+
+                    <h4>Reception Portal</h4>
+
+                    <p>
+                        Registration and queue management.
+                    </p>
+
+                </a>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <a asp-controller="Admin"
+                       asp-action="Dashboard"
+                       class="portal-card text-decoration-none">
+
+                    <i class="bi bi-graph-up-arrow"></i>
+
+                    <h4>Admin Portal</h4>
+
+                    <p>
+                        Reports, analytics and system management.
+                    </p>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- CONTACT CTA -->
+<section class="page-section">
+
+    <div class="container">
+
+        <div class="smart-card text-center">
+
+            <h2 class="section-title">
+                Need Assistance?
+            </h2>
+
+            <p class="text-muted mt-3">
+                Contact our team for appointments, enquiries,
+                support or clinic information.
+            </p>
+
+            <a asp-controller="Home"
+                   asp-action="Contact"
+                   class="smart-btn-primary text-decoration-none mt-2">
+                Contact Us
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- Floating Chatbot Button -->
+
+    <div class="chatbot-launcher">
+
+        <a asp-controller="Home"
+               asp-action="Chatbot"
+               class="chatbot-btn">
+
+            <i class="bi bi-chat-dots-fill"></i>
+
+        </a>
+
+    </div>
+
+</section>
