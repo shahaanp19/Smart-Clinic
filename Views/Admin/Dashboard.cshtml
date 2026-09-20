@@ -3,9 +3,9 @@
 }
 
 <section class="page-section">
+
     <div class="container">
 
-        <!-- Welcome Header -->
         <div class="smart-card mb-5">
 
             <div class="row align-items-center">
@@ -28,8 +28,10 @@
                     <a asp-controller="Admin"
                            asp-action="Reports"
                            class="smart-btn-primary text-decoration-none">
+
                         <i class="bi bi-bar-chart-line me-2"></i>
                         View Reports
+
                     </a>
 
                 </div>
@@ -37,7 +39,8 @@
                 <div class="col-lg-4 text-center">
 
                     <i class="bi bi-shield-lock"
-                       style="font-size:90px;color:var(--primary);"></i>
+                           style="font-size:90px;color:var(--primary);">
+                    </i>
 
                 </div>
 
@@ -45,7 +48,6 @@
 
         </div>
 
-        <!-- Statistics -->
         <div class="row g-4 mb-5">
 
             <div class="col-md-3">
@@ -82,7 +84,6 @@
 
         </div>
 
-        <!-- Quick Actions -->
         <div class="smart-card mb-5">
 
             <div class="section-header">
@@ -93,11 +94,11 @@
 
                 <div class="col-md-3">
 
-                    <a href="#"
+                    <a asp-controller="Admin"
+                           asp-action="UserManagement"
                            class="portal-card text-center">
 
                         <i class="bi bi-people-fill"></i>
-
                         <h5>Manage Users</h5>
 
                     </a>
@@ -106,11 +107,10 @@
 
                 <div class="col-md-3">
 
-                    <a href="#"
+                    <a href="#doctorUtilisation"
                            class="portal-card text-center">
 
                         <i class="bi bi-calendar-week"></i>
-
                         <h5>Schedules</h5>
 
                     </a>
@@ -119,11 +119,10 @@
 
                 <div class="col-md-3">
 
-                    <a href="#"
+                    <a href="#clinicServices"
                            class="portal-card text-center">
 
                         <i class="bi bi-hospital"></i>
-
                         <h5>Services</h5>
 
                     </a>
@@ -137,7 +136,6 @@
                            class="portal-card text-center">
 
                         <i class="bi bi-bar-chart-line"></i>
-
                         <h5>Reports</h5>
 
                     </a>
@@ -148,17 +146,18 @@
 
         </div>
 
-        <!-- Main Content -->
         <div class="row g-4">
 
-            <!-- Left -->
             <div class="col-lg-8">
 
-                <div class="smart-card">
+                <div class="smart-card"
+                     id="doctorUtilisation">
 
                     <div class="section-header">
 
-                        <h4>Doctor Utilisation Overview</h4>
+                        <h4>
+                            Doctor Utilisation Overview
+                        </h4>
 
                         <span class="text-muted">
                             Current Month
@@ -171,12 +170,14 @@
                         <table class="table align-middle smart-table">
 
                             <thead>
+
                                 <tr>
                                     <th>Doctor</th>
                                     <th>Appointments</th>
                                     <th>Utilisation</th>
                                     <th>Status</th>
                                 </tr>
+
                             </thead>
 
                             <tbody>
@@ -222,50 +223,34 @@
 
                 </div>
 
-                <div class="smart-card mt-4">
+                <div class="smart-card mt-4"
+                     id="clinicServices">
 
                     <div class="section-header">
-
                         <h4>Clinic Services</h4>
-
                     </div>
 
                     <div class="row g-3">
 
                         <div class="col-md-4">
-
                             <div class="mini-service-card">
-
                                 <strong>General Consultation</strong>
-
                                 <p>30 Minutes · R450</p>
-
                             </div>
-
                         </div>
 
                         <div class="col-md-4">
-
                             <div class="mini-service-card">
-
                                 <strong>Follow-Up Review</strong>
-
                                 <p>20 Minutes · R300</p>
-
                             </div>
-
                         </div>
 
                         <div class="col-md-4">
-
                             <div class="mini-service-card">
-
                                 <strong>Medical Examination</strong>
-
                                 <p>45 Minutes · R650</p>
-
                             </div>
-
                         </div>
 
                     </div>
@@ -274,7 +259,6 @@
 
             </div>
 
-            <!-- Right -->
             <div class="col-lg-4">
 
                 <div class="smart-card">
@@ -378,4 +362,5 @@
         </div>
 
     </div>
+
 </section>

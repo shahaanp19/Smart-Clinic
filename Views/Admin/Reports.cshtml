@@ -5,13 +5,8 @@
 <section class="page-section">
     <div class="container">
 
-        <!-- Header -->
-
         <div class="mb-5">
-
-            <span class="smart-badge">
-                Clinic Analytics
-            </span>
+            <span class="smart-badge">Clinic Analytics</span>
 
             <h1 class="dashboard-title mt-3">
                 Reports & Analytics
@@ -21,72 +16,90 @@
                 Monitor clinic performance, appointments, attendance,
                 utilisation and operational trends.
             </p>
-
         </div>
-
-        <!-- KPI Cards -->
 
         <div class="row g-4 mb-5">
 
             <div class="col-md-3">
-
                 <div class="smart-card stat-panel">
-
                     <i class="bi bi-calendar-check"></i>
-
                     <h3>520</h3>
-
                     <p>Appointments This Month</p>
-
                 </div>
-
             </div>
 
             <div class="col-md-3">
-
                 <div class="smart-card stat-panel">
-
                     <i class="bi bi-people"></i>
-
                     <h3>2,450</h3>
-
                     <p>Registered Patients</p>
-
                 </div>
-
             </div>
 
             <div class="col-md-3">
-
                 <div class="smart-card stat-panel">
-
                     <i class="bi bi-graph-up-arrow"></i>
-
                     <h3>91%</h3>
-
                     <p>Attendance Rate</p>
-
                 </div>
-
             </div>
 
             <div class="col-md-3">
-
                 <div class="smart-card stat-panel">
-
                     <i class="bi bi-cash-stack"></i>
-
                     <h3>R185k</h3>
-
                     <p>Monthly Revenue</p>
-
                 </div>
-
             </div>
 
         </div>
 
-        <!-- Analytics -->
+        <div class="smart-card mb-5">
+
+            <div class="section-header">
+                <h4>Report Period</h4>
+
+                <select id="reportPeriod"
+                        class="form-select"
+                        style="max-width:220px;">
+                    <option value="monthly">Monthly</option>
+                    <option value="quarterly">Quarterly</option>
+                    <option value="yearly">Yearly</option>
+                </select>
+            </div>
+
+            <div class="row g-3">
+
+                <div class="col-md-5">
+                    <label class="form-label">From</label>
+                    <input id="dateFrom"
+                           type="date"
+                           class="form-control smart-input" />
+                </div>
+
+                <div class="col-md-5">
+                    <label class="form-label">To</label>
+                    <input id="dateTo"
+                           type="date"
+                           class="form-control smart-input" />
+                </div>
+
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="button"
+                            id="generateReport"
+                            class="smart-btn-primary w-100">
+                        Generate
+                    </button>
+                </div>
+
+            </div>
+
+            <div id="reportMessage"
+                 class="alert alert-success mt-4 d-none">
+                Report generated successfully.
+            </div>
+
+        </div>
 
         <div class="row g-4 mb-5">
 
@@ -105,9 +118,7 @@
                         </div>
 
                         <div class="progress">
-                            <div class="progress-bar"
-                                 style="width:73%">
-                            </div>
+                            <div class="progress-bar" style="width:73%"></div>
                         </div>
                     </div>
 
@@ -118,9 +129,7 @@
                         </div>
 
                         <div class="progress">
-                            <div class="progress-bar"
-                                 style="width:82%">
-                            </div>
+                            <div class="progress-bar" style="width:82%"></div>
                         </div>
                     </div>
 
@@ -131,9 +140,7 @@
                         </div>
 
                         <div class="progress">
-                            <div class="progress-bar"
-                                 style="width:88%">
-                            </div>
+                            <div class="progress-bar" style="width:88%"></div>
                         </div>
                     </div>
 
@@ -144,9 +151,7 @@
                         </div>
 
                         <div class="progress">
-                            <div class="progress-bar"
-                                 style="width:100%">
-                            </div>
+                            <div class="progress-bar" style="width:100%"></div>
                         </div>
                     </div>
 
@@ -163,7 +168,6 @@
                     </h4>
 
                     <div class="mb-3">
-
                         <div class="d-flex justify-content-between">
                             <span>January</span>
                             <strong>R142k</strong>
@@ -171,14 +175,11 @@
 
                         <div class="progress">
                             <div class="progress-bar bg-success"
-                                 style="width:77%">
-                            </div>
+                                 style="width:77%"></div>
                         </div>
-
                     </div>
 
                     <div class="mb-3">
-
                         <div class="d-flex justify-content-between">
                             <span>February</span>
                             <strong>R155k</strong>
@@ -186,14 +187,11 @@
 
                         <div class="progress">
                             <div class="progress-bar bg-success"
-                                 style="width:84%">
-                            </div>
+                                 style="width:84%"></div>
                         </div>
-
                     </div>
 
                     <div class="mb-3">
-
                         <div class="d-flex justify-content-between">
                             <span>March</span>
                             <strong>R170k</strong>
@@ -201,14 +199,11 @@
 
                         <div class="progress">
                             <div class="progress-bar bg-success"
-                                 style="width:92%">
-                            </div>
+                                 style="width:92%"></div>
                         </div>
-
                     </div>
 
                     <div>
-
                         <div class="d-flex justify-content-between">
                             <span>April</span>
                             <strong>R185k</strong>
@@ -216,10 +211,8 @@
 
                         <div class="progress">
                             <div class="progress-bar bg-success"
-                                 style="width:100%">
-                            </div>
+                                 style="width:100%"></div>
                         </div>
-
                     </div>
 
                 </div>
@@ -228,20 +221,14 @@
 
         </div>
 
-        <!-- Doctor Performance -->
-
         <div class="smart-card mb-5">
 
             <div class="section-header">
-
-                <h4>
-                    Doctor Utilisation Report
-                </h4>
+                <h4>Doctor Utilisation Report</h4>
 
                 <span class="text-muted">
                     Monthly Overview
                 </span>
-
             </div>
 
             <div class="table-responsive">
@@ -249,14 +236,12 @@
                 <table class="table align-middle smart-table">
 
                     <thead>
-
                         <tr>
                             <th>Doctor</th>
                             <th>Appointments</th>
                             <th>Utilisation</th>
                             <th>Status</th>
                         </tr>
-
                     </thead>
 
                     <tbody>
@@ -302,8 +287,6 @@
 
         </div>
 
-        <!-- Attendance Analytics -->
-
         <div class="row g-4 mb-5">
 
             <div class="col-md-6">
@@ -342,35 +325,21 @@
                     </h4>
 
                     <div class="notification-item">
-
                         <i class="bi bi-file-earmark-bar-graph"></i>
 
                         <div>
-
                             <strong>Monthly Report Generated</strong>
-
-                            <p>
-                                April performance report exported.
-                            </p>
-
+                            <p>April performance report exported.</p>
                         </div>
-
                     </div>
 
                     <div class="notification-item">
-
                         <i class="bi bi-cloud-arrow-down"></i>
 
                         <div>
-
                             <strong>Backup Complete</strong>
-
-                            <p>
-                                Analytics archive successfully stored.
-                            </p>
-
+                            <p>Analytics archive successfully stored.</p>
                         </div>
-
                     </div>
 
                 </div>
@@ -379,39 +348,95 @@
 
         </div>
 
-        <!-- Export Actions -->
-
         <div class="smart-card">
 
             <div class="section-header">
-
-                <h4>
-                    Report Actions
-                </h4>
-
+                <h4>Report Actions</h4>
             </div>
 
             <div class="d-flex flex-wrap gap-3">
 
-                <button class="btn btn-outline-primary rounded-3">
+                <button type="button"
+                        class="btn btn-outline-primary rounded-3 export-report"
+                        data-report="Appointment Report">
                     Export Appointment Report
                 </button>
 
-                <button class="btn btn-outline-primary rounded-3">
+                <button type="button"
+                        class="btn btn-outline-primary rounded-3 export-report"
+                        data-report="Revenue Report">
                     Export Revenue Report
                 </button>
 
-                <button class="btn btn-outline-primary rounded-3">
+                <button type="button"
+                        class="btn btn-outline-primary rounded-3 export-report"
+                        data-report="Doctor Utilisation">
                     Export Doctor Utilisation
                 </button>
 
-                <button class="btn btn-outline-primary rounded-3">
+                <button type="button"
+                        class="btn btn-outline-primary rounded-3"
+                        id="downloadSummary">
                     Download PDF Summary
                 </button>
 
+            </div>
+
+            <div id="exportMessage"
+                 class="alert alert-success mt-4 d-none">
             </div>
 
         </div>
 
     </div>
 </section>
+
+<script>
+
+    document.getElementById("generateReport").addEventListener("click", function () {
+
+        const from = document.getElementById("dateFrom").value;
+        const to = document.getElementById("dateTo").value;
+        const message = document.getElementById("reportMessage");
+
+        if (!from || !to) {
+            message.className = "alert alert-warning mt-4";
+            message.textContent = "Please select both a start and end date.";
+            return;
+        }
+
+        if (from > to) {
+            message.className = "alert alert-warning mt-4";
+            message.textContent = "The start date cannot be after the end date.";
+            return;
+        }
+
+        message.className = "alert alert-success mt-4";
+        message.textContent = "Report generated successfully.";
+    });
+
+    document.querySelectorAll(".export-report").forEach(button => {
+
+        button.addEventListener("click", function () {
+
+            const message = document.getElementById("exportMessage");
+
+            message.textContent =
+                this.dataset.report + " prepared for export.";
+
+            message.classList.remove("d-none");
+        });
+
+    });
+
+    document.getElementById("downloadSummary").addEventListener("click", function () {
+
+        const message = document.getElementById("exportMessage");
+
+        message.textContent =
+            "PDF summary prepared successfully.";
+
+        message.classList.remove("d-none");
+    });
+
+</script>

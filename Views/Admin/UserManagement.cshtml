@@ -1,16 +1,12 @@
-﻿*@{
+﻿@{
     ViewData["Title"] = "User Management";
 }
 
 <section class="page-section">
     <div class="container">
 
-        <!-- Header -->
         <div class="mb-5">
-
-            <span class="smart-badge">
-                Clinic Administrator
-            </span>
+            <span class="smart-badge">Clinic Administrator</span>
 
             <h1 class="dashboard-title mt-3">
                 User Management
@@ -19,16 +15,14 @@
             <p class="text-muted">
                 Manage patients, doctors and reception staff within the clinic system.
             </p>
-
         </div>
 
-        <!-- Statistics -->
         <div class="row g-4 mb-5">
 
             <div class="col-md-4">
                 <div class="smart-card stat-panel">
                     <i class="bi bi-people"></i>
-                    <h3>2,450</h3>
+                    <h3 id="patientCount">2,450</h3>
                     <p>Registered Patients</p>
                 </div>
             </div>
@@ -36,7 +30,7 @@
             <div class="col-md-4">
                 <div class="smart-card stat-panel">
                     <i class="bi bi-heart-pulse"></i>
-                    <h3>5</h3>
+                    <h3 id="doctorCount">5</h3>
                     <p>Active Doctors</p>
                 </div>
             </div>
@@ -44,28 +38,40 @@
             <div class="col-md-4">
                 <div class="smart-card stat-panel">
                     <i class="bi bi-headset"></i>
-                    <h3>4</h3>
+                    <h3 id="receptionCount">4</h3>
                     <p>Reception Staff</p>
                 </div>
             </div>
 
         </div>
 
-        <!-- Search -->
         <div class="smart-card mb-4">
 
             <div class="row g-3">
 
-                <div class="col-md-8">
-                    <input type="text"
+                <div class="col-md-6">
+                    <input id="userSearch"
+                           type="text"
                            class="form-control smart-input"
-                           placeholder="Search users..." />
+                           placeholder="Search users..."
+                           autocomplete="off" />
                 </div>
 
-                <div class="col-md-4">
-                    <button class="smart-btn-primary w-100">
-                        <i class="bi bi-search me-2"></i>
-                        Search
+                <div class="col-md-3">
+                    <select id="roleFilter" class="form-select smart-input">
+                        <option value="">All Roles</option>
+                        <option value="Patient">Patient</option>
+                        <option value="Doctor">Doctor</option>
+                        <option value="Reception">Reception</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <button type="button"
+                            id="clearFilters"
+                            class="btn btn-outline-secondary w-100">
+                        <i class="bi bi-arrow-counterclockwise me-2"></i>
+                        Clear Filters
                     </button>
                 </div>
 
@@ -73,14 +79,16 @@
 
         </div>
 
-        <!-- Users Table -->
         <div class="smart-card">
 
             <div class="section-header">
 
                 <h4>System Users</h4>
 
-                <button class="smart-btn-primary">
+                <button type="button"
+                        class="smart-btn-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#addUserModal">
                     <i class="bi bi-person-plus me-2"></i>
                     Add User
                 </button>
@@ -89,10 +97,9 @@
 
             <div class="table-responsive">
 
-                <table class="table smart-table align-middle">
+                <table class="table smart-table align-middle" id="usersTable">
 
                     <thead>
-
                         <tr>
                             <th>Name</th>
                             <th>Role</th>
@@ -100,54 +107,50 @@
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
-
                     </thead>
 
                     <tbody>
 
-                        <tr>
+                        <tr data-role="Patient">
                             <td>Sarah Jacobs</td>
                             <td>Patient</td>
                             <td>sarah@email.com</td>
                             <td>
-                                <span class="status-badge confirmed">
-                                    Active
-                                </span>
+                                <span class="status-badge confirmed">Active</span>
                             </td>
                             <td>
-                                <button class="btn btn-outline-primary btn-sm">
+                                <button type="button"
+                                        class="btn btn-outline-primary btn-sm edit-user">
                                     Edit
                                 </button>
                             </td>
                         </tr>
 
-                        <tr>
-                            <td>Dr Esme Cilliers</td>
+                        <tr data-role="Doctor">
+                            <td>Dr Esmé Cilliers</td>
                             <td>Doctor</td>
                             <td>doctor@email.com</td>
                             <td>
-                                <span class="status-badge confirmed">
-                                    Active
-                                </span>
+                                <span class="status-badge confirmed">Active</span>
                             </td>
                             <td>
-                                <button class="btn btn-outline-primary btn-sm">
+                                <button type="button"
+                                        class="btn btn-outline-primary btn-sm edit-user">
                                     Edit
                                 </button>
                             </td>
                         </tr>
 
-                        <tr>
+                        <tr data-role="Reception">
                             <td>Lisa Adams</td>
                             <td>Reception</td>
                             <td>reception@email.com</td>
                             <td>
-                                <span class="status-badge pending">
-                                    Pending
-                                </span>
+                                <span class="status-badge pending">Pending</span>
                             </td>
                             <td>
-                                <button class="btn btn-outline-primary btn-sm">
+                                <button type="button"
+                                        class="btn btn-outline-primary btn-sm edit-user">
                                     Edit
                                 </button>
                             </td>
@@ -157,9 +160,172 @@
 
                 </table>
 
+                <div id="noUsersMessage"
+                     class="text-center text-muted py-4 d-none">
+                    No users match the selected criteria.
+                </div>
+
             </div>
 
         </div>
 
     </div>
 </section>
+
+<div class="modal fade" id="addUserModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Add User</h5>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"></button>
+            </div>
+
+            <form id="addUserForm">
+
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label class="form-label">Full Name</label>
+                        <input id="newUserName"
+                               type="text"
+                               class="form-control"
+                               required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input id="newUserEmail"
+                               type="email"
+                               class="form-control"
+                               required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Role</label>
+                        <select id="newUserRole"
+                                class="form-select"
+                                required>
+                            <option value="">Select role</option>
+                            <option value="Patient">Patient</option>
+                            <option value="Doctor">Doctor</option>
+                            <option value="Reception">Reception</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+
+                    <button type="submit"
+                            class="smart-btn-primary">
+                        Add User
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    const searchInput = document.getElementById("userSearch");
+    const roleFilter = document.getElementById("roleFilter");
+    const clearFilters = document.getElementById("clearFilters");
+    const tableRows = document.querySelectorAll("#usersTable tbody tr");
+    const noUsersMessage = document.getElementById("noUsersMessage");
+
+    function filterUsers() {
+
+        const search = searchInput.value.toLowerCase().trim();
+        const role = roleFilter.value;
+
+        let visibleRows = 0;
+
+        tableRows.forEach(row => {
+
+            const text = row.innerText.toLowerCase();
+            const rowRole = row.dataset.role;
+
+            const matchesSearch = text.includes(search);
+            const matchesRole = !role || rowRole === role;
+
+            if (matchesSearch && matchesRole) {
+                row.style.display = "";
+                visibleRows++;
+            } else {
+                row.style.display = "none";
+            }
+        });
+
+        noUsersMessage.classList.toggle("d-none", visibleRows !== 0);
+    }
+
+    searchInput.addEventListener("input", filterUsers);
+    roleFilter.addEventListener("change", filterUsers);
+
+    clearFilters.addEventListener("click", function () {
+        searchInput.value = "";
+        roleFilter.value = "";
+        filterUsers();
+    });
+
+    document.querySelectorAll(".edit-user").forEach(button => {
+
+        button.addEventListener("click", function () {
+
+            const row = this.closest("tr");
+            const name = row.children[0].innerText;
+
+            alert("User management action selected for " + name + ".");
+        });
+    });
+
+    document.getElementById("addUserForm").addEventListener("submit", function (event) {
+
+        event.preventDefault();
+
+        const name = document.getElementById("newUserName").value;
+        const email = document.getElementById("newUserEmail").value;
+        const role = document.getElementById("newUserRole").value;
+
+        const row = document.createElement("tr");
+
+        row.dataset.role = role;
+
+        row.innerHTML = `
+            <td>${name}</td>
+            <td>${role}</td>
+            <td>${email}</td>
+            <td>
+                <span class="status-badge confirmed">Active</span>
+            </td>
+            <td>
+                <button type="button"
+                        class="btn btn-outline-primary btn-sm edit-user">
+                    Edit
+                </button>
+            </td>
+        `;
+
+        document.querySelector("#usersTable tbody").appendChild(row);
+
+        bootstrap.Modal.getInstance(
+            document.getElementById("addUserModal")
+        ).hide();
+
+        this.reset();
+
+        location.reload();
+    });
+</script>
+
+
