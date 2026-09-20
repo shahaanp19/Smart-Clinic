@@ -8,41 +8,42 @@ namespace SmartClinicManagementSystem.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(
-            ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }
 
-        // Landing page
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
-        // About page
+        [HttpGet]
         public IActionResult About()
         {
             return View();
         }
 
-        // Contact page
+        [HttpGet]
         public IActionResult Contact()
         {
             return View();
         }
 
-        // Medical Divisions page
+        [HttpGet]
         public IActionResult MedicalDivisions()
         {
             return View();
         }
 
-        // Existing privacy page
+        [HttpGet]
         public IActionResult Privacy()
         {
             return View();
         }
+
+        [HttpGet]
         public IActionResult Chatbot()
         {
             return View();
@@ -52,16 +53,15 @@ namespace SmartClinicManagementSystem.Controllers
             Duration = 0,
             Location = ResponseCacheLocation.None,
             NoStore = true)]
-
         public IActionResult Error()
         {
-            return View(
-                new ErrorViewModel
-                {
-                    RequestId =
+            return View(new ErrorViewModel
+            {
+                RequestId =
                     Activity.Current?.Id ??
                     HttpContext.TraceIdentifier
-                });
+            });
         }
     }
 }
+
