@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="SmartClinicManagementSystem.csproj" />
+  <Project Path="SmartClinicManagementSystem.Tests/SmartClinicManagementSystem.Tests.csproj" />
+</Solution>

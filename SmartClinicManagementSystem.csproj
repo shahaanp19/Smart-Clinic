@@ -6,4 +6,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="SmartClinicManagementSystem.Tests\**" />
+    <Content Remove="SmartClinicManagementSystem.Tests\**" />
+    <EmbeddedResource Remove="SmartClinicManagementSystem.Tests\**" />
+    <None Remove="SmartClinicManagementSystem.Tests\**" />
+  </ItemGroup>
+
 </Project>

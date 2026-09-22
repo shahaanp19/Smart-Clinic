@@ -26,11 +26,13 @@ jobs:
           dotnet-version: 8.0.x
 
       - name: Restore dependencies
+        working-directory: SmartClinicManagementSystem
         run: dotnet restore SmartClinicManagementSystem.slnx
 
       - name: Build solution
+        working-directory: SmartClinicManagementSystem
         run: dotnet build SmartClinicManagementSystem.slnx --configuration Release --no-restore
 
       - name: Run automated tests
+        working-directory: SmartClinicManagementSystem
         run: dotnet test SmartClinicManagementSystem.slnx --configuration Release --no-build --verbosity normal
-
