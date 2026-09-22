@@ -1,463 +1,875 @@
-/* ==================================================
-   SMART CLINIC PROFESSIONAL DESIGN SYSTEM
-================================================== */
+/* ============================================================
+   DORINGKLOOF MEDICAL CENTRE
+   GLOBAL APPLICATION DESIGN SYSTEM
+   ============================================================ */
+
+
+/* ============================================================
+   DESIGN TOKENS
+   ============================================================ */
 
 :root {
-    /* Primary Medical Blue */
-
-    --primary: #0F4C81;
-    --primary-dark: #0B3C66;
-    --primary-light: #EAF4FF;
-    /* Secondary Medical Red */
-
-    --secondary: #C62828;
-    --secondary-dark: #A61E1E;
-    --secondary-light: #FFF1F1;
-    /* Status */
-
-    --success: #10B981;
-    --warning: #F59E0B;
-    --danger: #DC2626;
-    /* Neutral */
-
-    --background: #F8FAFC;
-    --surface: #FFFFFF;
-    --text-dark: #1F2937;
-    --text-muted: #6B7280;
-    --border: #E5E7EB;
-    /* Radius */
-
-    --radius-sm: 12px;
-    --radius-md: 18px;
-    --radius-lg: 24px;
-    /* Shadow */
-
-    --shadow-sm: 0 4px 12px rgba(15,76,129,.06);
-    --shadow-md: 0 10px 25px rgba(15,76,129,.08);
-    --shadow-lg: 0 20px 40px rgba(15,76,129,.12);
+    --primary: #0f4c81;
+    --primary-dark: #0b3c66;
+    --primary-deep: #082f52;
+    --primary-light: #eaf4ff;
+    --primary-soft: #f3f8fc;
+    --secondary: #c62828;
+    --secondary-dark: #a61e1e;
+    --secondary-light: #fff1f1;
+    --success: #198754;
+    --warning: #b77900;
+    --danger: #dc2626;
+    --info: #0b7285;
+    --background: #f5f8fb;
+    --surface: #ffffff;
+    --surface-muted: #f8fafc;
+    --text-dark: #17212b;
+    --text-body: #334155;
+    --text-muted: #64748b;
+    --text-light: #94a3b8;
+    --border: #dce4ec;
+    --border-light: #e9eef3;
+    --radius-xs: 8px;
+    --radius-sm: 10px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+    --radius-xl: 28px;
+    --radius-pill: 999px;
+    --shadow-xs: 0 1px 3px rgba(15, 76, 129, 0.06);
+    --shadow-sm: 0 4px 12px rgba(15, 76, 129, 0.07);
+    --shadow-md: 0 10px 28px rgba(15, 76, 129, 0.09);
+    --shadow-lg: 0 20px 45px rgba(15, 76, 129, 0.13);
+    --transition-fast: 150ms ease;
+    --transition-normal: 250ms ease;
+    --transition-slow: 350ms ease;
+    --container-width: 1320px;
 }
 
-/* ==================================================
-   GLOBAL
-================================================== */
+
+/* ============================================================
+   GLOBAL DOCUMENT
+   ============================================================ */
+
+html {
+    scroll-behavior: smooth;
+    min-height: 100%;
+}
 
 body {
-    font-family: "Segoe UI", Arial, sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
     background: var(--background);
-    color: var(--text-dark);
+    color: var(--text-body);
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+    font-size: 16px;
     line-height: 1.6;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
 }
 
-/* ==================================================
+main {
+    flex: 1 0 auto;
+    width: 100%;
+}
+
+img {
+    max-width: 100%;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+a {
+    color: var(--primary);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+}
+
+    a:hover {
+        color: var(--primary-dark);
+    }
+
+
+/* ============================================================
+   ACCESSIBILITY
+   ============================================================ */
+
+.skip-link {
+    position: fixed;
+    top: -100px;
+    left: 16px;
+    z-index: 2000;
+    padding: 12px 18px;
+    background: var(--primary-dark);
+    color: #ffffff;
+    border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: var(--shadow-md);
+    transition: top var(--transition-fast);
+}
+
+    .skip-link:focus {
+        top: 0;
+        color: #ffffff;
+    }
+
+:focus-visible {
+    outline: 3px solid rgba(15, 76, 129, 0.35);
+    outline-offset: 3px;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid rgba(15, 76, 129, 0.35);
+    outline-offset: 2px;
+}
+
+
+/* ============================================================
    TYPOGRAPHY
-================================================== */
+   ============================================================ */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--text-dark);
+    margin-top: 0;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+}
 
 h1 {
-    font-size: 3rem;
+    font-size: clamp(2rem, 4vw, 3rem);
     font-weight: 800;
 }
 
 h2 {
-    font-size: 2.3rem;
+    font-size: clamp(1.65rem, 3vw, 2.35rem);
     font-weight: 800;
 }
 
 h3 {
-    font-size: 1.8rem;
-    font-weight: 700;
+    font-size: clamp(1.35rem, 2.5vw, 1.8rem);
 }
 
 h4 {
     font-size: 1.3rem;
-    font-weight: 700;
 }
 
 h5 {
     font-size: 1.1rem;
-    font-weight: 700;
+}
+
+h6 {
+    font-size: 1rem;
 }
 
 p {
     color: var(--text-muted);
 }
 
-/* ==================================================
-   NAVBAR
-================================================== */
+.text-muted {
+    color: var(--text-muted) !important;
+}
 
-<a class="navbar-brand d-flex align-items-center"
-asp-controller="Home"
-asp-action="Index" >
 
-<img src="~/images/logo.png"
-alt="Doringkloof Medical Centre"
-class="clinic-logo me-3" / >
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
 
-<div >
-<div class="fw-bold clinic-brand-title" >
-Doringkloof Medical Centre
-</div >
+.site-header {
+    position: relative;
+    z-index: 1030;
+}
 
-<small class="clinic-brand-subtitle" >
-Smart Clinic Management System
-</small >
-</div >
+.smart-navbar {
+    min-height: 82px;
+    background: linear-gradient( 135deg, var(--primary-deep) 0%, var(--primary) 55%, #165f94 100% );
+    box-shadow: 0 4px 18px rgba(8, 47, 82, 0.16);
+}
 
-</a >
-/* ==================================================
+    .smart-navbar .container {
+        min-height: 82px;
+    }
+
+
+/* Brand */
+
+.clinic-brand {
+    min-width: 0;
+    color: #ffffff !important;
+    text-decoration: none;
+}
+
+.clinic-logo {
+    width: 62px;
+    height: 62px;
+    flex: 0 0 auto;
+    object-fit: contain;
+}
+
+.clinic-brand-copy {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.clinic-brand-title {
+    display: block;
+    color: #ffffff;
+    font-size: 1.08rem;
+    font-weight: 800;
+    line-height: 1.15;
+    white-space: nowrap;
+}
+
+.clinic-brand-subtitle {
+    display: block;
+    margin-top: 4px;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+}
+
+
+/* Navigation links */
+
+.smart-navbar .nav-link {
+    position: relative;
+    padding: 10px 13px !important;
+    color: rgba(255, 255, 255, 0.86) !important;
+    font-size: 0.94rem;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+    .smart-navbar .nav-link:hover,
+    .smart-navbar .nav-link:focus-visible {
+        color: #ffffff !important;
+        background: rgba(255, 255, 255, 0.10);
+    }
+
+    .smart-navbar .nav-link.active {
+        color: #ffffff !important;
+        background: rgba(255, 255, 255, 0.13);
+    }
+
+        .smart-navbar .nav-link.active::after {
+            content: "";
+            position: absolute;
+            left: 13px;
+            right: 13px;
+            bottom: 3px;
+            height: 2px;
+            background: #ffffff;
+            border-radius: var(--radius-pill);
+        }
+
+
+/* Mobile toggle */
+
+.smart-navbar .navbar-toggler {
+    padding: 8px 10px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: var(--radius-sm);
+}
+
+    .smart-navbar .navbar-toggler:focus {
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.18);
+    }
+
+.smart-navbar .navbar-toggler-icon {
+    filter: brightness(0) invert(1);
+}
+
+
+/* Portal button */
+
+.smart-login-btn {
+    min-height: 44px;
+    padding: 9px 17px;
+    background: #ffffff;
+    color: var(--primary);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    transition: background-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+    .smart-login-btn:hover,
+    .smart-login-btn:focus-visible {
+        background: var(--primary-light);
+        color: var(--primary-dark);
+        transform: translateY(-1px);
+        box-shadow: 0 5px 14px rgba(0, 0, 0, 0.12);
+    }
+
+
+/* Portal dropdown */
+
+.portal-dropdown {
+    min-width: 280px;
+    margin-top: 10px !important;
+    padding: 8px;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+}
+
+    .portal-dropdown .dropdown-header {
+        padding: 9px 12px;
+        color: var(--text-muted);
+        font-size: 0.76rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+    }
+
+    .portal-dropdown .dropdown-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 11px 12px;
+        color: var(--text-body);
+        border-radius: var(--radius-sm);
+        white-space: normal;
+        transition: background-color var(--transition-fast), color var(--transition-fast);
+    }
+
+        .portal-dropdown .dropdown-item:hover,
+        .portal-dropdown .dropdown-item:focus-visible {
+            background: var(--primary-light);
+            color: var(--primary-dark);
+        }
+
+        .portal-dropdown .dropdown-item > i {
+            flex: 0 0 22px;
+            margin-top: 2px;
+            color: var(--primary);
+            font-size: 1.15rem;
+        }
+
+        .portal-dropdown .dropdown-item span {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .portal-dropdown .dropdown-item strong {
+            font-size: 0.92rem;
+        }
+
+        .portal-dropdown .dropdown-item small {
+            color: var(--text-muted);
+            font-size: 0.76rem;
+        }
+
+
+/* ============================================================
    PAGE HEADERS
-================================================== */
+   ============================================================ */
+
 .page-header {
-    margin-bottom: 50px;
+    margin-bottom: 42px;
 }
 
 .page-title {
-    color: var(--primary);
-    font-size: 2.75rem;
-    font-weight: 800;
     position: relative;
+    margin-bottom: 16px;
     padding-bottom: 14px;
+    color: var(--primary);
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 800;
 }
 
     .page-title::after {
         content: "";
-        width: 80px;
-        height: 4px;
-        background: var(--secondary);
         position: absolute;
         left: 0;
         bottom: 0;
-        border-radius: 999px;
+        width: 64px;
+        height: 4px;
+        background: var(--secondary);
+        border-radius: var(--radius-pill);
     }
 
 .page-subtitle {
+    max-width: 760px;
+    margin-bottom: 0;
     color: var(--text-muted);
-    max-width: 700px;
+    font-size: 1.02rem;
 }
 
-/* ==================================================
-   SECTIONS
-================================================== */
+
+/* ============================================================
+   PAGE SECTIONS
+   ============================================================ */
 
 .page-section {
-    padding: 80px 0;
+    padding: 72px 0;
 }
 
 .section-sm {
-    padding: 50px 0;
+    padding: 44px 0;
 }
 
 .section-lg {
-    padding: 120px 0;
+    padding: 104px 0;
 }
 
-/* ==================================================
+
+/* ============================================================
    CARDS
-================================================== */
+   ============================================================ */
 
 .smart-card {
-    background: white;
-    border-top: 5px solid var(--primary);
-    border-radius: var(--radius-md);
-    border-left: 1px solid var(--border);
-    border-right: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    box-shadow: var(--shadow-md);
-    padding: 24px;
-    transition: all .25s ease;
+    height: 100%;
+    padding: 26px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal);
 }
 
     .smart-card:hover {
-        transform: translateY(-4px);
-        border-top-color: var(--secondary);
-        box-shadow: var(--shadow-lg);
+        transform: translateY(-3px);
+        border-color: #c8d8e7;
+        box-shadow: var(--shadow-md);
     }
 
-/* ==================================================
-   DASHBOARD CARDS
-================================================== */
-
-.dashboard-card {
-    background: white;
-    border-radius: 20px;
-    border-left: 5px solid var(--primary);
-    padding: 28px;
-    box-shadow: var(--shadow-md);
-    height: 100%;
+.smart-card-accent {
+    border-top: 4px solid var(--primary);
 }
 
-    .dashboard-card h3 {
-        font-size: 2.3rem;
-        font-weight: 800;
-        color: var(--primary);
+
+/* ============================================================
+   DASHBOARD CARDS
+   ============================================================ */
+
+.dashboard-card {
+    height: 100%;
+    padding: 26px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--primary);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+    .dashboard-card:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-md);
     }
 
-/* ==================================================
-   BUTTONS
-================================================== */
+    .dashboard-card h3 {
+        margin-bottom: 5px;
+        color: var(--primary);
+        font-size: 2.15rem;
+        font-weight: 800;
+    }
+
+
+/* ============================================================
+   BUTTON SYSTEM
+   ============================================================ */
+
+.smart-btn-primary,
+.smart-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 46px;
+    padding: 10px 20px;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+}
 
 .smart-btn-primary {
     background: var(--primary);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    padding: 12px 24px;
-    font-weight: 600;
-    transition: .25s;
+    color: #ffffff;
+    border: 1px solid var(--primary);
 }
 
-    .smart-btn-primary:hover {
-        background: var(--secondary);
-        color: white;
-        transform: translateY(-2px);
+    .smart-btn-primary:hover,
+    .smart-btn-primary:focus-visible {
+        background: var(--primary-dark);
+        color: #ffffff;
+        border-color: var(--primary-dark);
+        transform: translateY(-1px);
+        box-shadow: 0 6px 15px rgba(15, 76, 129, 0.18);
     }
 
 .smart-btn-secondary {
     background: var(--secondary);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    padding: 12px 24px;
-    font-weight: 600;
-    transition: .25s;
+    color: #ffffff;
+    border: 1px solid var(--secondary);
 }
 
-    .smart-btn-secondary:hover {
+    .smart-btn-secondary:hover,
+    .smart-btn-secondary:focus-visible {
         background: var(--secondary-dark);
-        color: white;
+        color: #ffffff;
+        border-color: var(--secondary-dark);
+        transform: translateY(-1px);
+        box-shadow: 0 6px 15px rgba(198, 40, 40, 0.18);
     }
 
-/* ==================================================
+
+/* Bootstrap button consistency */
+
+.btn {
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+}
+
+    .btn:disabled,
+    .btn.disabled {
+        cursor: not-allowed;
+    }
+
+
+/* ============================================================
    FORMS
-================================================== */
+   ============================================================ */
+
+.form-label {
+    margin-bottom: 7px;
+    color: var(--text-dark);
+    font-size: 0.92rem;
+    font-weight: 700;
+}
 
 .form-control,
 .form-select,
 .smart-input {
-    min-height: 50px;
-    border-radius: 12px;
-    border: 1px solid #D1D5DB;
+    min-height: 48px;
+    padding: 10px 13px;
+    color: var(--text-body);
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: var(--radius-sm);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
+
+    .form-control::placeholder {
+        color: #94a3b8;
+    }
+
+    .form-control:hover,
+    .form-select:hover {
+        border-color: #9fb2c5;
+    }
 
     .form-control:focus,
     .form-select:focus,
     .smart-input:focus {
+        color: var(--text-body);
+        background-color: #ffffff;
         border-color: var(--primary);
-        box-shadow: 0 0 0 3px rgba(15,76,129,.15);
+        box-shadow: 0 0 0 3px rgba(15, 76, 129, 0.12);
     }
 
-/* ==================================================
+textarea.form-control {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.form-text {
+    color: var(--text-muted);
+    font-size: 0.82rem;
+}
+
+.input-group .form-control:focus {
+    z-index: 3;
+}
+
+
+/* Validation */
+
+.field-validation-error,
+.text-danger {
+    color: var(--danger) !important;
+    font-size: 0.84rem;
+    font-weight: 600;
+}
+
+.input-validation-error {
+    border-color: var(--danger) !important;
+}
+
+    .input-validation-error:focus {
+        box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12) !important;
+    }
+
+.validation-summary-errors {
+    padding: 14px 16px;
+    background: var(--secondary-light);
+    border: 1px solid #f3b8b8;
+    border-radius: var(--radius-sm);
+    color: var(--danger);
+}
+
+    .validation-summary-errors ul {
+        margin-bottom: 0;
+    }
+
+
+/* ============================================================
    TABLES
-================================================== */
+   ============================================================ */
+
+.table-responsive {
+    border-radius: var(--radius-md);
+}
 
 .table {
-    background: white;
-    border-radius: 16px;
-    overflow: hidden;
+    margin-bottom: 0;
+    background: var(--surface);
+    border-color: var(--border-light);
 }
 
     .table thead {
         background: var(--primary);
-        color: white;
+        color: #ffffff;
     }
 
-    .table tbody tr:hover {
-        background: #F8FAFC;
+        .table thead th {
+            padding: 13px 15px;
+            border-bottom: none;
+            font-size: 0.84rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+            white-space: nowrap;
+        }
+
+    .table tbody td {
+        padding: 13px 15px;
+        vertical-align: middle;
     }
 
-/* ==================================================
+    .table tbody tr {
+        transition: background-color var(--transition-fast);
+    }
+
+        .table tbody tr:hover {
+            background: var(--primary-soft);
+        }
+
+
+/* ============================================================
    BADGES
-================================================== */
+   ============================================================ */
 
 .smart-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 28px;
+    padding: 4px 11px;
     background: var(--secondary-light);
     color: var(--secondary);
-    border-radius: 999px;
-    padding: 6px 12px;
-    font-size: 13px;
+    border-radius: var(--radius-pill);
+    font-size: 0.78rem;
     font-weight: 700;
 }
 
-/* ==================================================
-   FOOTER
-================================================== */
 
-.smart-footer {
-    background: linear-gradient( 90deg, var(--primary), #165A94 );
-    padding: 24px 0;
-    color: white;
-    margin-top: 80px;
+/* ============================================================
+   ALERTS / FEEDBACK
+   ============================================================ */
+
+.alert {
+    border-radius: var(--radius-md);
+    border-width: 1px;
 }
 
-    .smart-footer p {
-        color: white;
-    }
-
-/* =========================================
-   LOGO BRANDING
-========================================= */
-
-.clinic-logo {
-    height: 55px;
-    width: auto;
-    object-fit: contain;
-}
-
-.clinic-brand-title {
-    color: white;
-    font-size: 18px;
-    line-height: 1.1;
+.alert-heading {
     font-weight: 800;
 }
 
-.clinic-brand-subtitle {
-    color: rgba(255,255,255,.85);
-    font-size: 12px;
-    letter-spacing: .5px;
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
+.smart-footer {
+    flex-shrink: 0;
+    margin-top: 72px;
+    padding: 32px 0;
+    background: linear-gradient( 135deg, var(--primary-deep), var(--primary) );
+    color: #ffffff;
 }
 
-.clinic-logo {
-    height: 70px;
+.footer-brand-title {
+    margin-bottom: 5px;
+    color: #ffffff;
+    font-size: 1.05rem;
+    font-weight: 800;
 }
-/* ==========================
-   CHATBOT
-========================== */
+
+.footer-tagline {
+    color: rgba(255, 255, 255, 0.75) !important;
+    font-size: 0.9rem;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+}
+
+    .footer-links a {
+        color: rgba(255, 255, 255, 0.88);
+        font-size: 0.88rem;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+        .footer-links a:hover,
+        .footer-links a:focus-visible {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+
+.footer-copyright {
+    color: rgba(255, 255, 255, 0.65) !important;
+    font-size: 0.8rem;
+}
+
+
+/* ============================================================
+   CHATBOT / HEALTH BOT
+   ============================================================ */
 
 .chatbot-launcher {
     position: fixed;
-    bottom: 30px;
-    right: 30px;
+    right: 24px;
+    bottom: 24px;
     z-index: 999;
 }
 
 .chatbot-btn {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    background: linear-gradient(135deg,#0d6efd,#c1121f);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
-    font-size: 28px;
+    width: 64px;
+    height: 64px;
+    background: linear-gradient( 135deg, var(--primary), var(--secondary) );
+    color: #ffffff;
+    border-radius: 50%;
     text-decoration: none;
-    box-shadow: 0 10px 25px rgba(0,0,0,.25);
-    transition: all .3s ease;
+    box-shadow: var(--shadow-lg);
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
 }
 
-    .chatbot-btn:hover {
-        transform: translateY(-5px);
-        color: white;
-    }
-
-.chatbot-window {
-    max-width: 900px;
-    margin: auto;
-}
-
-.chat-message {
-    padding: 15px;
-    border-radius: 12px;
-    margin-bottom: 15px;
-}
-
-.bot-message {
-    background: #f8f9fa;
-    border-left: 4px solid #0d6efd;
-}
-
-.user-message {
-    background: #eef5ff;
-    border-left: 4px solid #c1121f;
-}
-
-.quick-question {
-    border: 1px solid #dee2e6;
-    border-radius: 10px;
-    padding: 10px 15px;
-    background: white;
-    cursor: pointer;
-    transition: .3s;
-}
-
-    .quick-question:hover {
-        background: #f8f9fa;
+    .chatbot-btn:hover,
+    .chatbot-btn:focus-visible {
+        color: #ffffff;
+        transform: translateY(-4px);
+        box-shadow: 0 15px 32px rgba(15, 76, 129, 0.24);
     }
 
 
-/* ==========================
-   HEALTH BOT
-========================== */
+/* Doctor bot */
 
 #doctorBot {
     position: fixed;
-    bottom: 25px;
-    right: 25px;
+    right: 24px;
+    bottom: 24px;
     z-index: 999;
     cursor: pointer;
 }
 
     #doctorBot i {
-        font-size: 75px;
-        color: #0d6efd;
+        color: var(--primary);
+        font-size: 70px;
         animation: floatBot 3s ease-in-out infinite;
     }
 
-@keyframes floatBot {
-
-    0% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-10px);
-    }
-
-    100% {
-        transform: translateY(0);
-    }
-}
-
 .speech-bubble {
-    background: white;
-    padding: 10px 15px;
-    border-radius: 12px;
-    box-shadow: 0 3px 10px rgba(0,0,0,.15);
     margin-bottom: 10px;
-    font-size: 14px;
+    padding: 10px 15px;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-sm);
+    font-size: 0.84rem;
     text-align: center;
 }
+
+
+/* Chat window */
+
 #chatWindow {
     position: fixed;
-    bottom: 120px;
-    right: 25px;
-    width: 350px;
-    height: 450px;
-    background: white;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0,0,0,.15);
+    right: 24px;
+    bottom: 110px;
+    z-index: 1000;
     display: none;
     flex-direction: column;
-    z-index: 1000;
+    width: min(350px, calc(100vw - 32px));
+    height: min(450px, calc(100vh - 150px));
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
 }
 
 .chat-header {
-    background: #0d6efd;
-    color: white;
-    padding: 15px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    border-radius: 15px 15px 0 0;
+    justify-content: space-between;
+    padding: 14px 16px;
+    background: var(--primary);
+    color: #ffffff;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
 }
 
 #closeChat {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
     background: transparent;
+    color: #ffffff;
     border: none;
-    color: white;
-    font-size: 22px;
+    border-radius: 50%;
+    font-size: 21px;
     cursor: pointer;
 }
+
+    #closeChat:hover,
+    #closeChat:focus-visible {
+        background: rgba(255, 255, 255, 0.12);
+    }
 
 #chatMessages {
     flex: 1;
@@ -468,59 +880,316 @@ Smart Clinic Management System
 .chat-input-area {
     display: flex;
     padding: 10px;
-    border-top: 1px solid #eee;
+    border-top: 1px solid var(--border-light);
+    background: #ffffff;
 }
 
     .chat-input-area input {
+        min-width: 0;
         flex: 1;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 10px;
+        padding: 10px 12px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
     }
+
+        .chat-input-area input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(15, 76, 129, 0.12);
+        }
 
     .chat-input-area button {
-        margin-left: 10px;
-        border: none;
-        background: #0d6efd;
-        color: white;
-        border-radius: 10px;
+        margin-left: 8px;
         padding: 10px 15px;
+        background: var(--primary);
+        color: #ffffff;
+        border: none;
+        border-radius: var(--radius-sm);
+        font-weight: 700;
     }
 
-.doctor-avatar {
-    width: 90px;
-    height: 90px;
-    object-fit: contain;
-    animation: floatBot 3s ease-in-out infinite;
-}
-.chat-window {
-    height: 350px;
-    overflow-y: auto;
-    border: 1px solid #e5e7eb;
-    border-radius: 16px;
-    padding: 20px;
-    background: #fafafa;
-}
+        .chat-input-area button:hover {
+            background: var(--primary-dark);
+        }
+
+
+/* Chat messages */
 
 .chat-message {
-    margin-bottom: 15px;
-    padding: 15px;
-    border-radius: 14px;
+    margin-bottom: 14px;
+    padding: 13px 15px;
+    border-radius: var(--radius-md);
 }
 
 .bot-message {
-    background: #eef6ff;
+    background: var(--primary-light);
+    border-left: 4px solid var(--primary);
 }
 
 .user-message {
-    background: #f4f4f4;
+    background: #f1f5f9;
+    border-left: 4px solid var(--secondary);
     text-align: right;
 }
+
+.quick-question {
+    padding: 9px 14px;
+    background: #ffffff;
+    color: var(--text-body);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+    .quick-question:hover,
+    .quick-question:focus-visible {
+        background: var(--primary-light);
+        border-color: #aac5dc;
+    }
+
+
+/* Doctor avatar */
 
 .doctor-avatar {
     width: 90px;
     height: 90px;
     object-fit: cover;
-    border-radius: 50%;
     border: 4px solid var(--primary);
+    border-radius: 50%;
+}
+
+
+/* Generic chat window */
+
+.chat-window {
+    height: 350px;
+    overflow-y: auto;
+    padding: 20px;
+    background: #fafcff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+}
+
+
+/* ============================================================
+   UTILITY CLASSES
+   ============================================================ */
+
+.surface-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.text-primary-custom {
+    color: var(--primary) !important;
+}
+
+.text-secondary-custom {
+    color: var(--secondary) !important;
+}
+
+.bg-primary-soft {
+    background: var(--primary-light) !important;
+}
+
+.bg-secondary-soft {
+    background: var(--secondary-light) !important;
+}
+
+
+/* ============================================================
+   ANIMATION
+   ============================================================ */
+
+@keyframes floatBot {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+
+/* ============================================================
+   RESPONSIVE — TABLET
+   ============================================================ */
+
+@media (max-width: 991.98px) {
+
+    .smart-navbar .navbar-collapse {
+        margin-top: 12px;
+        padding: 12px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.10);
+        border-radius: var(--radius-md);
+    }
+
+    .smart-navbar .nav-link {
+        padding: 11px 12px !important;
+    }
+
+        .smart-navbar .nav-link.active::after {
+            display: none;
+        }
+
+    .smart-navbar .dropdown {
+        margin-left: 0 !important;
+    }
+
+    .portal-dropdown {
+        width: 100%;
+        margin-top: 6px !important;
+    }
+
+    .page-section {
+        padding: 58px 0;
+    }
+
+    .section-lg {
+        padding: 80px 0;
+    }
+
+    .smart-footer {
+        margin-top: 56px;
+    }
+
+    .footer-links {
+        justify-content: flex-start;
+    }
+}
+
+
+/* ============================================================
+   RESPONSIVE — MOBILE
+   ============================================================ */
+
+@media (max-width: 767.98px) {
+
+    .smart-navbar,
+    .smart-navbar .container {
+        min-height: 74px;
+    }
+
+    .clinic-logo {
+        width: 52px;
+        height: 52px;
+    }
+
+    .clinic-brand-title {
+        font-size: 0.92rem;
+    }
+
+    .clinic-brand-subtitle {
+        font-size: 0.62rem;
+    }
+
+    .page-header {
+        margin-bottom: 32px;
+    }
+
+    .page-section {
+        padding: 48px 0;
+    }
+
+    .section-sm {
+        padding: 36px 0;
+    }
+
+    .section-lg {
+        padding: 64px 0;
+    }
+
+    .smart-card,
+    .dashboard-card {
+        padding: 20px;
+        border-radius: var(--radius-md);
+    }
+
+    .smart-footer {
+        padding: 28px 0;
+    }
+
+    .footer-links {
+        justify-content: flex-start;
+    }
+
+    .chatbot-launcher,
+    #doctorBot {
+        right: 16px;
+        bottom: 16px;
+    }
+
+    .chatbot-btn {
+        width: 56px;
+        height: 56px;
+    }
+
+    #doctorBot i {
+        font-size: 58px;
+    }
+
+    #chatWindow {
+        right: 16px;
+        bottom: 88px;
+        width: calc(100vw - 32px);
+        height: min(430px, calc(100vh - 120px));
+    }
+
+    .table-responsive {
+        border-radius: var(--radius-sm);
+    }
+}
+
+
+/* ============================================================
+   RESPONSIVE — SMALL MOBILE
+   ============================================================ */
+
+@media (max-width: 420px) {
+
+    .clinic-brand-subtitle {
+        display: none;
+    }
+
+    .clinic-brand-title {
+        max-width: 185px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .smart-navbar .container {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .smart-btn-primary,
+    .smart-btn-secondary {
+        width: 100%;
+    }
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
 }
