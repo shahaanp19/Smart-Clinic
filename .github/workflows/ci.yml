@@ -1,13 +1,11 @@
-```yaml
 name: Smart Clinic CI
 
-'on':
+on:
   push:
     branches:
       - main
       - develop
-      - 'feature/**'
-
+      - feature/*
   pull_request:
     branches:
       - main
@@ -22,10 +20,10 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v4
 
-      - name: Setup .NET 8
+      - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: 8.0.x
 
       - name: Restore dependencies
         run: dotnet restore SmartClinicManagementSystem.slnx
@@ -35,4 +33,4 @@ jobs:
 
       - name: Run automated tests
         run: dotnet test SmartClinicManagementSystem.slnx --configuration Release --no-build --verbosity normal
-```
+
