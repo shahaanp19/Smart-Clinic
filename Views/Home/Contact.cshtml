@@ -2,101 +2,380 @@
     ViewData["Title"] = "Contact";
 }
 
-<section class="container py-5">
+<!-- PAGE HERO -->
 
-    <div class="row">
+<section class="hero-about py-5">
+    <div class="container py-lg-5">
 
-        <div class="col-lg-5">
+        ```
+        <div class="row justify-content-center text-center">
+            <div class="col-lg-8">
 
-            <h1>Get in touch</h1>
+                <span class="smart-badge">
+                    Contact Us
+                </span>
 
-            <p>
+                <h1 class="hero-title mt-4 mb-4">
+                    We're here to help.
+                </h1>
 
-                Doringkloof Mall, 6 Aster Avenue,<br>
-
-                Doringkloof, Centurion
-
-            </p>
-
-            <p>
-
-                julia@drlvd.co.za
-
-            </p>
-
-            <p>
-
-                (012) 667-2550
-
-            </p>
-
-            <p>
-
-                (012) 667-2551
-
-            </p>
-
-        </div>
-
-
-        <div class="col-lg-7">
-
-            <div class="smart-card">
-
-                <h3>
-
-                    Message us
-
-                </h3>
-
-                <p>
-
-                    Fields marked with * are required
-
+                <p class="hero-text mx-auto">
+                    Get in touch with Doringkloof Medical Centre
+                    for appointments, enquiries or information
+                    about our healthcare services.
                 </p>
 
-                <form>
+            </div>
+        </div>
 
-                    <input class="form-control mb-3"
-                           placeholder="Name *">
+    </div>
+    ```
 
-                    <input class="form-control mb-3"
-                           placeholder="Surname *">
+</section>
 
-                    <input class="form-control mb-3"
-                           placeholder="Phone Number *">
+<!-- CONTACT CONTENT -->
 
-                    <input class="form-control mb-3"
-                           placeholder="Email *">
+<section class="page-section">
+    <div class="container">
+
+        ```
+        <div class="row g-5 align-items-stretch">
+
+            <!-- CONTACT INFORMATION -->
+            <div class="col-lg-5">
+
+                <div class="contact-info-panel h-100">
+
+                    <span class="smart-badge">
+                        Get in Touch
+                    </span>
+
+                    <h2 class="section-title mt-3 mb-4">
+                        Contact information
+                    </h2>
+
+                    <p class="contact-intro mb-5">
+                        Whether you have a question about our services
+                        or need assistance contacting the practice,
+                        our team is available to assist.
+                    </p>
 
 
-                    <select class="form-select mb-3">
+                    <!-- ADDRESS -->
+                    <div class="contact-detail">
 
-                        <option>
+                        <div class="contact-detail-icon">
+                            <i class="bi bi-geo-alt"></i>
+                        </div>
 
-                            Family Practitioner
+                        <div>
+                            <span class="contact-detail-label">
+                                Address
+                            </span>
 
-                        </option>
+                            <p class="mb-0">
+                                Doringkloof Mall<br />
+                                6 Aster Avenue<br />
+                                Doringkloof<br />
+                                Centurion
+                            </p>
+                        </div>
 
-                    </select>
+                    </div>
 
-                    <textarea class="form-control mb-3"
-                          rows="6"
-                              placeholder="Message *">
-</textarea>
 
-                    <button class="smart-btn-primary">
+                    <!-- EMAIL -->
+                    <div class="contact-detail">
 
-                        Send Message
+                        <div class="contact-detail-icon">
+                            <i class="bi bi-envelope"></i>
+                        </div>
 
-                    </button>
+                        <div>
+                            <span class="contact-detail-label">
+                                Email
+                            </span>
 
-                </form>
+                            <p class="mb-0">
+                                julia@drlvd.co.za
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <!-- PHONE -->
+                    <div class="contact-detail">
+
+                        <div class="contact-detail-icon">
+                            <i class="bi bi-telephone"></i>
+                        </div>
+
+                        <div>
+                            <span class="contact-detail-label">
+                                Telephone
+                            </span>
+
+                            <p class="mb-0">
+                                (012) 667-2550<br />
+                                (012) 667-2551
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- CONTACT FORM -->
+            <div class="col-lg-7">
+
+                <div class="smart-card contact-form-card h-100">
+
+                    <div class="mb-4">
+
+                        <span class="smart-badge">
+                            Send a Message
+                        </span>
+
+                        <h2 class="mt-3 mb-2">
+                            How can we help?
+                        </h2>
+
+                        <p class="text-muted mb-0">
+                            Complete the form below and provide
+                            as much information as possible.
+                        </p>
+
+                    </div>
+
+
+                    <form>
+
+                        <div class="row g-4">
+
+                            <!-- NAME -->
+                            <div class="col-md-6">
+
+                                <label for="name"
+                                       class="form-label smart-label">
+                                    Name
+                                </label>
+
+                                <input id="name"
+                                       type="text"
+                                       class="form-control smart-input"
+                                       placeholder="Enter your name"
+                                       required />
+
+                            </div>
+
+
+                            <!-- SURNAME -->
+                            <div class="col-md-6">
+
+                                <label for="surname"
+                                       class="form-label smart-label">
+                                    Surname
+                                </label>
+
+                                <input id="surname"
+                                       type="text"
+                                       class="form-control smart-input"
+                                       placeholder="Enter your surname"
+                                       required />
+
+                            </div>
+
+
+                            <!-- PHONE -->
+                            <div class="col-md-6">
+
+                                <label for="phone"
+                                       class="form-label smart-label">
+                                    Phone Number
+                                </label>
+
+                                <input id="phone"
+                                       type="tel"
+                                       class="form-control smart-input"
+                                       placeholder="Enter your phone number"
+                                       required />
+
+                            </div>
+
+
+                            <!-- EMAIL -->
+                            <div class="col-md-6">
+
+                                <label for="email"
+                                       class="form-label smart-label">
+                                    Email Address
+                                </label>
+
+                                <input id="email"
+                                       type="email"
+                                       class="form-control smart-input"
+                                       placeholder="Enter your email address"
+                                       required />
+
+                            </div>
+
+
+                            <!-- SERVICE -->
+                            <div class="col-12">
+
+                                <label for="service"
+                                       class="form-label smart-label">
+                                    Enquiry Type
+                                </label>
+
+                                <select id="service"
+                                        class="form-select smart-input">
+
+                                    <option selected disabled>
+                                        Select an enquiry type
+                                    </option>
+
+                                    <option>
+                                        General Enquiry
+                                    </option>
+
+                                    <option>
+                                        Appointment Enquiry
+                                    </option>
+
+                                    <option>
+                                        Medical Services
+                                    </option>
+
+                                    <option>
+                                        Patient Portal
+                                    </option>
+
+                                    <option>
+                                        Other
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <!-- MESSAGE -->
+                            <div class="col-12">
+
+                                <label for="message"
+                                       class="form-label smart-label">
+                                    Message
+                                </label>
+
+                                <textarea id="message"
+                                          class="form-control smart-input"
+                                          rows="6"
+                                          placeholder="How can we help?"
+                                          required></textarea>
+
+                            </div>
+
+
+                            <!-- SUBMIT -->
+                            <div class="col-12 pt-2">
+
+                                <button type="submit"
+                                        class="smart-btn-primary">
+
+                                    <i class="bi bi-send me-2"></i>
+                                    Send Message
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </form>
+
+                </div>
 
             </div>
 
         </div>
 
     </div>
+    ```
+
+</section>
+
+<!-- LOCATION -->
+
+<section class="page-section bg-white">
+    <div class="container">
+
+        ```
+        <div class="row justify-content-center text-center">
+            <div class="col-lg-8">
+
+                <span class="smart-badge">
+                    Find Us
+                </span>
+
+                <h2 class="section-title mt-3 mb-3">
+                    Visit Doringkloof Medical Centre
+                </h2>
+
+                <p class="section-subtitle mb-4">
+                    Doringkloof Mall, 6 Aster Avenue,
+                    Doringkloof, Centurion.
+                </p>
+
+                <a href="https://www.google.com/maps/search/?api=1&query=6+Aster+Avenue+Doringkloof+Centurion"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="btn btn-outline-primary rounded-3 px-4 py-3">
+
+                    <i class="bi bi-geo-alt me-2"></i>
+                    View Location
+
+                </a>
+
+            </div>
+        </div>
+
+    </div>
+    ```
+
+</section>
+
+<!-- FINAL CTA -->
+
+<section class="contact-banner">
+
+    ```
+    <div class="container text-center">
+
+        <div class="cta-icon">
+            <i class="bi bi-chat-dots"></i>
+        </div>
+
+        <h2 class="mt-4 mb-3">
+            Need assistance?
+        </h2>
+
+        <p class="mb-4">
+            We're ready to help with your enquiry.
+        </p>
+
+        <a asp-controller="Patient"
+               asp-action="Dashboard"
+               class="smart-btn-primary text-decoration-none">
+            Patient Portal
+            <i class="bi bi-arrow-right ms-2"></i>
+        </a>
+
+    </div>
+    ```
 
 </section>

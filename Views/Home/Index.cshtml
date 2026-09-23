@@ -2,343 +2,577 @@
     ViewData["Title"] = "Home";
 }
 
-<!-- HERO SECTION -->
-<section class="hero-section">
-    <div class="container">
+<div class="home-page">
 
-        <div class="text-center mb-5">
+    ```
+    <!-- HERO -->
+    <section class="home-hero">
+        <div class="container">
+            <div class="home-hero-card">
 
-            <img src="~/images/Logo.png"
-                 alt="Doringkloof Medical Centre"
-                 class="img-fluid"
-                 style="max-width:500px;" />
+                <div class="home-hero-content">
 
+                    <div class="home-logo-wrap">
+                        <img src="~/images/Logo.png"
+                             alt="Doringkloof Medical Centre"
+                             class="home-logo" />
+                    </div>
+
+                    <div class="home-label">
+                        <i class="bi bi-heart-pulse-fill"></i>
+                        Doringkloof Medical Centre
+                    </div>
+
+                    <h1>
+                        Healthcare that
+                        <span>puts you first.</span>
+                    </h1>
+
+                    <p>
+                        Quality healthcare services, convenient patient
+                        access and a connected clinic experience.
+                    </p>
+
+                    <div class="home-hero-actions">
+                        <a asp-controller="Patient"
+                               asp-action="Dashboard"
+                               class="home-btn home-btn-primary">
+                            <i class="bi bi-person-circle"></i>
+                            Patient Portal
+                        </a>
+
+                        <a asp-controller="Home"
+                               asp-action="Divisions"
+                               class="home-btn home-btn-white">
+                            Our Services
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+
+                    <div class="home-hero-meta">
+                        <div>
+                            <i class="bi bi-shield-check"></i>
+                            <span>Patient-focused care</span>
+                        </div>
+
+                        <div>
+                            <i class="bi bi-hospital"></i>
+                            <span>Multiple healthcare services</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="home-hero-image">
+                    <img src="~/images/Consult 3.jpg"
+                         alt="Doctor consulting with a patient" />
+
+                    <div class="home-image-card">
+                        <div class="home-image-card-icon">
+                            <i class="bi bi-calendar2-check-fill"></i>
+                        </div>
+
+                        <div>
+                            <small>Smart Clinic</small>
+                            <strong>Your care, connected.</strong>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
+    </section>
 
-        <div class="row align-items-center">
 
-            <!-- LEFT SIDE -->
-            <div class="col-lg-6">
+    <!-- QUICK ACCESS -->
+    <section class="home-section">
+        <div class="container">
 
-                <span class="smart-badge">
-                    Your Health • Our Priority
-                </span>
+            <div class="home-section-heading">
+                <div>
+                    <span class="home-kicker">QUICK ACCESS</span>
+                    <h2>Everything you need.</h2>
+                </div>
 
-                <h1 class="hero-title mt-4">
-                    Modern Healthcare Management
-                </h1>
-
-                <p class="hero-text mt-3">
-                    Smart Clinic Management System provides patients,
-                    doctors, reception staff and administrators with
-                    one integrated healthcare platform for appointments,
-                    medical records, communication and clinic operations.
+                <p>
+                    Access important clinic services quickly and easily.
                 </p>
-
-                <div class="mt-4">
-
-                    <a asp-controller="Patient"
-                           asp-action="Dashboard"
-                           class="smart-btn-primary text-decoration-none me-3">
-                        Patient Portal
-                    </a>
-
-                    <a asp-controller="Home"
-                           asp-action="Contact"
-                           class="btn btn-outline-primary rounded-3 px-4">
-                        Contact Us
-                    </a>
-
-                </div>
-
             </div>
 
-            <!-- RIGHT SIDE - CONSULTATION IMAGE -->
-            <div class="col-lg-6">
-
-                <img src="~/images/Consult 3.jpg"
-                     alt="Doctor Consultation"
-                     class="img-fluid rounded-4 shadow-sm hero-consult-image" />
-
-            </div>
-
-        </div>
-
-    </div>
-</section>
-
-
-<!-- FEATURES -->
-<section class="page-section bg-white">
-
-    <div class="container">
-
-        <div class="text-center mb-5">
-
-            <span class="smart-badge">
-                Core Features
-            </span>
-
-            <h2 class="section-title mt-3">
-                Smart Healthcare Management
-            </h2>
-
-            <p class="section-subtitle">
-                Supporting patients, doctors, reception staff and
-                administrators through one integrated platform.
-            </p>
-
-        </div>
-
-        <div class="row g-4">
-
-            <div class="col-md-4">
-                <div class="smart-card h-100 text-center">
-
-                    <i class="bi bi-calendar-check feature-icon"></i>
-
-                    <h5>Appointment Management</h5>
-
-                    <p>
-                        Book, update and track appointments online.
-                    </p>
-
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="smart-card h-100 text-center">
-
-                    <i class="bi bi-file-medical feature-icon"></i>
-
-                    <h5>Medical Records</h5>
-
-                    <p>
-                        Secure patient records and consultation history.
-                    </p>
-
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="smart-card h-100 text-center">
-
-                    <i class="bi bi-people feature-icon"></i>
-
-                    <h5>Queue Management</h5>
-
-                    <p>
-                        Streamlined patient check-in and waiting queues.
-                    </p>
-
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- CLINIC STATISTICS -->
-<section class="page-section">
-
-    <div class="container">
-
-        <div class="row g-4 text-center">
-
-            <div class="col-md-3">
-                <div class="smart-card">
-
-                    <h2 class="text-primary fw-bold">15+</h2>
-
-                    <p class="mb-0">
-                        Medical Practitioners
-                    </p>
-
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="smart-card">
-
-                    <h2 class="text-primary fw-bold">5000+</h2>
-
-                    <p class="mb-0">
-                        Patients Served
-                    </p>
-
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="smart-card">
-
-                    <h2 class="text-primary fw-bold">12</h2>
-
-                    <p class="mb-0">
-                        Healthcare Services
-                    </p>
-
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="smart-card">
-
-                    <h2 class="text-primary fw-bold">98%</h2>
-
-                    <p class="mb-0">
-                        Patient Satisfaction
-                    </p>
-
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- PORTALS -->
-<section class="page-section bg-white">
-
-    <div class="container">
-
-        <div class="text-center mb-5">
-
-            <span class="smart-badge">
-                System Portals
-            </span>
-
-            <h2 class="section-title mt-3">
-                Access Your Workspace
-            </h2>
-
-        </div>
-
-        <div class="row g-4">
-
-            <div class="col-md-3">
+            <div class="home-card-grid home-card-grid-4">
 
                 <a asp-controller="Patient"
                        asp-action="Dashboard"
-                       class="portal-card text-decoration-none">
+                       class="smart-home-card">
 
-                    <i class="bi bi-person-heart"></i>
+                    <div class="smart-card-top">
+                        <div class="smart-card-icon">
+                            <i class="bi bi-calendar2-check"></i>
+                        </div>
 
-                    <h4>Patient Portal</h4>
+                        <span>01</span>
+                    </div>
+
+                    <h3>Appointments</h3>
 
                     <p>
-                        Appointments, records and notifications.
+                        View and manage your upcoming healthcare visits.
                     </p>
 
+                    <div class="smart-card-link">
+                        Open portal
+                        <i class="bi bi-arrow-up-right"></i>
+                    </div>
+                </a>
+
+
+                <a asp-controller="Patient"
+                       asp-action="Dashboard"
+                       class="smart-home-card">
+
+                    <div class="smart-card-top">
+                        <div class="smart-card-icon">
+                            <i class="bi bi-file-earmark-medical"></i>
+                        </div>
+
+                        <span>02</span>
+                    </div>
+
+                    <h3>Medical Records</h3>
+
+                    <p>
+                        Keep important healthcare information organised.
+                    </p>
+
+                    <div class="smart-card-link">
+                        Patient portal
+                        <i class="bi bi-arrow-up-right"></i>
+                    </div>
+                </a>
+
+
+                <a asp-controller="Home"
+                       asp-action="Divisions"
+                       class="smart-home-card">
+
+                    <div class="smart-card-top">
+                        <div class="smart-card-icon">
+                            <i class="bi bi-grid-1x2"></i>
+                        </div>
+
+                        <span>03</span>
+                    </div>
+
+                    <h3>Medical Services</h3>
+
+                    <p>
+                        Explore the healthcare services available to patients.
+                    </p>
+
+                    <div class="smart-card-link">
+                        View services
+                        <i class="bi bi-arrow-up-right"></i>
+                    </div>
+                </a>
+
+
+                <a asp-controller="Home"
+                       asp-action="Contact"
+                       class="smart-home-card">
+
+                    <div class="smart-card-top">
+                        <div class="smart-card-icon">
+                            <i class="bi bi-chat-square-text"></i>
+                        </div>
+
+                        <span>04</span>
+                    </div>
+
+                    <h3>Contact Us</h3>
+
+                    <p>
+                        Find our location or get in touch with the practice.
+                    </p>
+
+                    <div class="smart-card-link">
+                        Contact practice
+                        <i class="bi bi-arrow-up-right"></i>
+                    </div>
                 </a>
 
             </div>
+        </div>
+    </section>
 
-            <div class="col-md-3">
 
-                <a asp-controller="Doctor"
-                       asp-action="Dashboard"
-                       class="portal-card text-decoration-none">
+    <!-- SERVICES -->
+    <section class="home-section home-services">
+        <div class="container">
 
-                    <i class="bi bi-heart-pulse"></i>
+            <div class="home-section-heading">
+                <div>
+                    <span class="home-kicker">HEALTHCARE SERVICES</span>
+                    <h2>Care under one roof.</h2>
+                </div>
 
-                    <h4>Doctor Portal</h4>
+                <a asp-controller="Home"
+                       asp-action="Divisions"
+                       class="home-view-link">
+                    View all services
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+
+
+            <div class="home-service-grid">
+
+                <div class="home-service-card">
+                    <div class="home-service-icon">
+                        <i class="bi bi-heart-pulse"></i>
+                    </div>
+
+                    <div class="home-service-content">
+                        <span>MEDICAL CARE</span>
+                        <h3>Doctors</h3>
+                        <p>
+                            General and family healthcare for everyday
+                            medical needs.
+                        </p>
+                    </div>
+
+                    <a asp-controller="Home"
+                           asp-action="Divisions"
+                           class="home-service-arrow"
+                           aria-label="View Doctors">
+                        <i class="bi bi-arrow-up-right"></i>
+                    </a>
+                </div>
+
+
+                <div class="home-service-card">
+                    <div class="home-service-icon">
+                        <i class="bi bi-emoji-smile"></i>
+                    </div>
+
+                    <div class="home-service-content">
+                        <span>DENTAL CARE</span>
+                        <h3>Dentistry</h3>
+                        <p>
+                            Preventive, cosmetic and paediatric dental care.
+                        </p>
+                    </div>
+
+                    <a asp-controller="Home"
+                           asp-action="Divisions"
+                           class="home-service-arrow"
+                           aria-label="View Dentistry">
+                        <i class="bi bi-arrow-up-right"></i>
+                    </a>
+                </div>
+
+
+                <div class="home-service-card">
+                    <div class="home-service-icon">
+                        <i class="bi bi-apple"></i>
+                    </div>
+
+                    <div class="home-service-content">
+                        <span>NUTRITION</span>
+                        <h3>Dietetics</h3>
+                        <p>
+                            Nutrition guidance and personalised lifestyle
+                            support.
+                        </p>
+                    </div>
+
+                    <a asp-controller="Home"
+                           asp-action="Divisions"
+                           class="home-service-arrow"
+                           aria-label="View Dietetics">
+                        <i class="bi bi-arrow-up-right"></i>
+                    </a>
+                </div>
+
+
+                <div class="home-service-card">
+                    <div class="home-service-icon">
+                        <i class="bi bi-person-standing"></i>
+                    </div>
+
+                    <div class="home-service-content">
+                        <span>REHABILITATION</span>
+                        <h3>Orthotics & Prosthetics</h3>
+                        <p>
+                            Support for mobility, rehabilitation and
+                            improved function.
+                        </p>
+                    </div>
+
+                    <a asp-controller="Home"
+                           asp-action="Divisions"
+                           class="home-service-arrow"
+                           aria-label="View Orthotics and Prosthetics">
+                        <i class="bi bi-arrow-up-right"></i>
+                    </a>
+                </div>
+
+
+                <div class="home-service-card">
+                    <div class="home-service-icon">
+                        <i class="bi bi-activity"></i>
+                    </div>
+
+                    <div class="home-service-content">
+                        <span>REHABILITATION</span>
+                        <h3>Physiotherapy</h3>
+                        <p>
+                            Movement, recovery and rehabilitation-focused care.
+                        </p>
+                    </div>
+
+                    <a asp-controller="Home"
+                           asp-action="Divisions"
+                           class="home-service-arrow"
+                           aria-label="View Physiotherapy">
+                        <i class="bi bi-arrow-up-right"></i>
+                    </a>
+                </div>
+
+
+                <div class="home-service-card">
+                    <div class="home-service-icon">
+                        <i class="bi bi-person-walking"></i>
+                    </div>
+
+                    <div class="home-service-content">
+                        <span>FOOT CARE</span>
+                        <h3>Podiatry</h3>
+                        <p>
+                            Foot, ankle and lower-limb healthcare and treatment.
+                        </p>
+                    </div>
+
+                    <a asp-controller="Home"
+                           asp-action="Divisions"
+                           class="home-service-arrow"
+                           aria-label="View Podiatry">
+                        <i class="bi bi-arrow-up-right"></i>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- PATIENT PORTAL -->
+    <section class="home-section">
+        <div class="container">
+
+            <div class="portal-card">
+
+                <div class="portal-main">
+                    <span class="home-kicker">PATIENT PORTAL</span>
+
+                    <h2>
+                        Your healthcare,
+                        <span>in one place.</span>
+                    </h2>
 
                     <p>
-                        Consultations, prescriptions and schedules.
+                        Access your patient dashboard and stay connected
+                        with your healthcare information.
                     </p>
 
-                </a>
+                    <a asp-controller="Patient"
+                           asp-action="Dashboard"
+                           class="home-btn home-btn-primary">
+                        Open Patient Portal
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+
+
+                <div class="portal-options">
+
+                    <div class="portal-option">
+                        <div class="portal-option-icon">
+                            <i class="bi bi-calendar-check"></i>
+                        </div>
+
+                        <div>
+                            <strong>Appointments</strong>
+                            <span>Manage your visits</span>
+                        </div>
+                    </div>
+
+
+                    <div class="portal-option">
+                        <div class="portal-option-icon">
+                            <i class="bi bi-file-medical"></i>
+                        </div>
+
+                        <div>
+                            <strong>Medical Records</strong>
+                            <span>Access your information</span>
+                        </div>
+                    </div>
+
+
+                    <div class="portal-option">
+                        <div class="portal-option-icon">
+                            <i class="bi bi-person-vcard"></i>
+                        </div>
+
+                        <div>
+                            <strong>Patient Profile</strong>
+                            <span>Manage your details</span>
+                        </div>
+                    </div>
+
+                </div>
 
             </div>
 
-            <div class="col-md-3">
+        </div>
+    </section>
 
-                <a asp-controller="Reception"
-                       asp-action="Dashboard"
-                       class="portal-card text-decoration-none">
 
-                    <i class="bi bi-headset"></i>
+    <!-- INFORMATION -->
+    <section class="home-section home-information">
+        <div class="container">
 
-                    <h4>Reception Portal</h4>
-
-                    <p>
-                        Registration and queue management.
-                    </p>
-
-                </a>
-
+            <div class="home-section-heading">
+                <div>
+                    <span class="home-kicker">THE PRACTICE</span>
+                    <h2>Good healthcare starts here.</h2>
+                </div>
             </div>
 
-            <div class="col-md-3">
 
-                <a asp-controller="Admin"
-                       asp-action="Dashboard"
-                       class="portal-card text-decoration-none">
+            <div class="home-info-grid">
 
-                    <i class="bi bi-graph-up-arrow"></i>
+                <!-- ABOUT -->
+                <div class="home-info-card home-info-image-card">
 
-                    <h4>Admin Portal</h4>
+                    <img src="~/images/Doctor.jpg"
+                         alt="Doctor at Doringkloof Medical Centre" />
+
+                    <div class="home-info-image-content">
+                        <span>ABOUT US</span>
+
+                        <h3>
+                            Patient-focused care
+                            in a professional environment.
+                        </h3>
+
+                        <a asp-controller="Home"
+                               asp-action="About">
+                            About the practice
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+
+                </div>
+
+
+                <!-- LOCATION -->
+                <div class="home-info-card">
+
+                    <div class="home-info-card-icon">
+                        <i class="bi bi-geo-alt-fill"></i>
+                    </div>
+
+                    <span class="home-info-label">LOCATION</span>
+
+                    <h3>Doringkloof Medical Centre</h3>
 
                     <p>
-                        Reports, analytics and system management.
+                        Doringkloof Mall<br />
+                        6 Aster Avenue<br />
+                        Doringkloof<br />
+                        Centurion
                     </p>
 
+                    <a asp-controller="Home"
+                           asp-action="Contact"
+                           class="home-info-link">
+                        Contact & location
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+
+                </div>
+
+
+                <!-- CONTACT -->
+                <div class="home-info-card">
+
+                    <div class="home-info-card-icon">
+                        <i class="bi bi-headset"></i>
+                    </div>
+
+                    <span class="home-info-label">ASSISTANCE</span>
+
+                    <h3>Need help?</h3>
+
+                    <p>
+                        Have a question about our services or need
+                        assistance before your visit?
+                    </p>
+
+                    <a asp-controller="Home"
+                           asp-action="Contact"
+                           class="home-info-link">
+                        Contact the practice
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- BOTTOM CTA -->
+    <section class="home-cta-section">
+        <div class="container">
+
+            <div class="home-cta-card">
+
+                <div class="home-cta-icon">
+                    <i class="bi bi-heart-pulse-fill"></i>
+                </div>
+
+                <div class="home-cta-content">
+                    <span>DORINGKLOOF MEDICAL CENTRE</span>
+                    <h2>Healthcare made simpler.</h2>
+                    <p>
+                        Explore our services or get in touch with our team.
+                    </p>
+                </div>
+
+                <a asp-controller="Home"
+                       asp-action="Contact"
+                       class="home-btn home-btn-primary">
+                    Contact Us
+                    <i class="bi bi-arrow-right"></i>
                 </a>
 
             </div>
 
         </div>
-
-    </div>
-
-</section>
+    </section>
 
 
-<!-- CONTACT CTA -->
-<section class="page-section">
-
-    <div class="container">
-
-        <div class="smart-card text-center">
-
-            <h2 class="section-title">
-                Need Assistance?
-            </h2>
-
-            <p class="text-muted mt-3">
-                Contact our team for appointments, enquiries,
-                support or clinic information.
-            </p>
-
-            <a asp-controller="Home"
-                   asp-action="Contact"
-                   class="smart-btn-primary text-decoration-none mt-2">
-                Contact Us
-            </a>
-
-        </div>
-
-    </div>
-
-    <!-- Floating Chatbot Button -->
-
-    <div class="chatbot-launcher">
-
+    <!-- CHATBOT -->
+    <div class="home-chatbot">
         <a asp-controller="Home"
                asp-action="Chatbot"
-               class="chatbot-btn">
-
+               aria-label="Open healthcare assistant">
             <i class="bi bi-chat-dots-fill"></i>
-
         </a>
-
     </div>
+    ```
 
-</section>
+</div>
