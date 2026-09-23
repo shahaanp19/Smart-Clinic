@@ -2,262 +2,60 @@
     ViewData["Title"] = "Notifications";
 }
 
-<section class="page-section">
+<section class="page-section patient-notifications-page">
 
     <div class="container">
 
-        <!-- ========================= -->
         <!-- PAGE HEADER -->
-        <!-- ========================= -->
+        <div class="notifications-page-header mb-5">
 
-        <div class="smart-card mb-4">
-
-            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
-
-                <div>
-
-                    <span class="smart-badge">
-                        Patient Portal
-                    </span>
-
-                    <h1 class="dashboard-title mt-3 mb-2">
-                        Notifications
-                    </h1>
-
-                    <p class="text-muted mb-0">
-                        Stay updated with appointments, prescriptions and clinic communications.
-                    </p>
-
-                </div>
-
-                <a asp-controller="Patient"
-                       asp-action="Dashboard"
-                       class="btn btn-outline-primary rounded-3 px-4">
-
-                    <i class="bi bi-arrow-left me-2"></i>
-                    Back to Dashboard
-
-                </a>
-
-            </div>
-
-        </div>
-
-
-        <!-- ========================= -->
-        <!-- NOTIFICATION STATISTICS -->
-        <!-- ========================= -->
-
-        <div class="row g-4 mb-4">
-
-            <div class="col-md-4">
-
-                <div class="smart-card stat-panel text-center h-100">
-
-                    <i class="bi bi-bell-fill"></i>
-
-                    <h3>4</h3>
-
-                    <p class="mb-0">
-                        Total Notifications
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="col-md-4">
-
-                <div class="smart-card stat-panel text-center h-100">
-
-                    <i class="bi bi-envelope-fill"></i>
-
-                    <h3>1</h3>
-
-                    <p class="mb-0">
-                        Unread Messages
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="col-md-4">
-
-                <div class="smart-card stat-panel text-center h-100">
-
-                    <i class="bi bi-calendar-check"></i>
-
-                    <h3>2</h3>
-
-                    <p class="mb-0">
-                        Appointment Alerts
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- ========================= -->
-        <!-- RECENT NOTIFICATIONS -->
-        <!-- ========================= -->
-
-        <div class="smart-card">
-
-            <div class="section-header d-flex justify-content-between align-items-center mb-4">
-
-                <h4 class="mb-0">
-                    Recent Notifications
-                </h4>
-
-                <span class="text-muted">
-                    Updated Today
+            <div>
+                <span class="smart-badge">
+                    Patient Portal
                 </span>
 
+                <h1 class="dashboard-title mt-3 mb-2">
+                    Notifications
+                </h1>
+
+                <p class="text-muted mb-0">
+                    Stay updated with appointments, prescriptions and clinic communications.
+                </p>
             </div>
 
+            <a asp-controller="Patient"
+                   asp-action="Dashboard"
+                   class="notifications-back-link">
 
-            <div class="notification-list">
+                <i class="bi bi-arrow-left"></i>
+                Back to Dashboard
 
-                <!-- APPOINTMENT CONFIRMED -->
+            </a>
 
-                <div class="large-notification unread">
-
-                    <div class="notification-icon">
-
-                        <i class="bi bi-calendar-check"></i>
-
-                    </div>
+        </div>
 
 
-                    <div class="notification-content flex-grow-1">
+        <!-- NOTIFICATION OVERVIEW -->
+        <div class="smart-card notification-overview mb-4">
 
-                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+            <div class="notification-overview-content">
 
-                            <h5 class="mb-0">
-                                Appointment Confirmed
-                            </h5>
-
-                            <span class="status-badge confirmed">
-                                New
-                            </span>
-
-                        </div>
-
-
-                        <p>
-                            Your appointment with Dr Esmé Cilliers has been confirmed
-                            for 12 May 2026 at 09:30.
-                        </p>
-
-
-                        <span class="text-muted">
-                            Today • 08:15
-                        </span>
-
-                    </div>
-
+                <div class="notification-overview-icon">
+                    <i class="bi bi-bell"></i>
                 </div>
 
+                <div>
+                    <span class="notification-section-label">
+                        NOTIFICATION CENTRE
+                    </span>
 
-                <!-- APPOINTMENT REMINDER -->
+                    <h3>
+                        Your updates
+                    </h3>
 
-                <div class="large-notification">
-
-                    <div class="notification-icon">
-
-                        <i class="bi bi-bell"></i>
-
-                    </div>
-
-
-                    <div class="notification-content flex-grow-1">
-
-                        <h5>
-                            Appointment Reminder
-                        </h5>
-
-
-                        <p>
-                            Please arrive 15 minutes before your scheduled consultation.
-                        </p>
-
-
-                        <span class="text-muted">
-                            Yesterday • 16:30
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <!-- PRESCRIPTION -->
-
-                <div class="large-notification">
-
-                    <div class="notification-icon">
-
-                        <i class="bi bi-capsule"></i>
-
-                    </div>
-
-
-                    <div class="notification-content flex-grow-1">
-
-                        <h5>
-                            Prescription Available
-                        </h5>
-
-
-                        <p>
-                            Your latest prescription has been uploaded to your patient profile.
-                        </p>
-
-
-                        <span class="text-muted">
-                            02 May 2026 • 11:45
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <!-- FOLLOW-UP -->
-
-                <div class="large-notification">
-
-                    <div class="notification-icon">
-
-                        <i class="bi bi-heart-pulse"></i>
-
-                    </div>
-
-
-                    <div class="notification-content flex-grow-1">
-
-                        <h5>
-                            Follow-Up Consultation Recommended
-                        </h5>
-
-
-                        <p>
-                            Your doctor recommends scheduling a follow-up appointment within 7 days.
-                        </p>
-
-
-                        <span class="text-muted">
-                            02 May 2026 • 12:10
-                        </span>
-
-                    </div>
-
+                    <p>
+                        Notifications from your healthcare providers will appear here.
+                    </p>
                 </div>
 
             </div>
@@ -265,74 +63,140 @@
         </div>
 
 
-        <!-- ========================= -->
-        <!-- QUICK ACTIONS -->
-        <!-- ========================= -->
+        <!-- NOTIFICATIONS -->
+        <div class="smart-card notifications-card">
 
-        <div class="smart-card mt-4">
+            <div class="notifications-card-header">
 
-            <div class="section-header mb-4">
+                <div>
+                    <span class="notification-section-label">
+                        RECENT ACTIVITY
+                    </span>
 
-                <h4 class="mb-0">
-                    Quick Actions
-                </h4>
+                    <h3>
+                        Notifications
+                    </h3>
+                </div>
 
             </div>
 
 
-            <div class="row g-4">
+            <div class="notifications-empty-state">
 
-                <!-- BOOK APPOINTMENT -->
+                <div class="notifications-empty-icon">
+                    <i class="bi bi-check2-circle"></i>
+                </div>
+
+                <h4>
+                    You're all caught up
+                </h4>
+
+                <p>
+                    You currently have no notifications.
+                    New appointment reminders, prescription updates and
+                    clinic communications will appear here.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- QUICK ACTIONS -->
+        <div class="smart-card mt-4 quick-actions-card">
+
+            <div class="notifications-card-header">
+
+                <div>
+                    <span class="notification-section-label">
+                        PATIENT PORTAL
+                    </span>
+
+                    <h3>
+                        Quick actions
+                    </h3>
+                </div>
+
+            </div>
+
+
+            <div class="row g-3">
 
                 <div class="col-md-4">
 
                     <a asp-controller="Patient"
                            asp-action="BookAppointment"
-                           class="quick-action-card text-decoration-none">
+                           class="notification-action-card text-decoration-none">
 
-                        <i class="bi bi-calendar-plus"></i>
+                        <div class="notification-action-icon">
+                            <i class="bi bi-calendar-plus"></i>
+                        </div>
 
-                        <span>
-                            Book Appointment
-                        </span>
+                        <div>
+                            <strong>
+                                Book Appointment
+                            </strong>
+
+                            <span>
+                                Schedule a consultation
+                            </span>
+                        </div>
+
+                        <i class="bi bi-arrow-up-right notification-action-arrow"></i>
 
                     </a>
 
                 </div>
 
-
-                <!-- MEDICAL HISTORY -->
 
                 <div class="col-md-4">
 
                     <a asp-controller="Patient"
                            asp-action="MedicalHistory"
-                           class="quick-action-card text-decoration-none">
+                           class="notification-action-card text-decoration-none">
 
-                        <i class="bi bi-file-medical"></i>
+                        <div class="notification-action-icon">
+                            <i class="bi bi-file-medical"></i>
+                        </div>
 
-                        <span>
-                            Medical History
-                        </span>
+                        <div>
+                            <strong>
+                                Medical History
+                            </strong>
+
+                            <span>
+                                Review your records
+                            </span>
+                        </div>
+
+                        <i class="bi bi-arrow-up-right notification-action-arrow"></i>
 
                     </a>
 
                 </div>
 
 
-                <!-- DASHBOARD -->
-
                 <div class="col-md-4">
 
                     <a asp-controller="Patient"
                            asp-action="Dashboard"
-                           class="quick-action-card text-decoration-none">
+                           class="notification-action-card text-decoration-none">
 
-                        <i class="bi bi-house-door"></i>
+                        <div class="notification-action-icon">
+                            <i class="bi bi-house-door"></i>
+                        </div>
 
-                        <span>
-                            Dashboard
-                        </span>
+                        <div>
+                            <strong>
+                                Dashboard
+                            </strong>
+
+                            <span>
+                                Return to your portal
+                            </span>
+                        </div>
+
+                        <i class="bi bi-arrow-up-right notification-action-arrow"></i>
 
                     </a>
 
@@ -343,5 +207,271 @@
         </div>
 
     </div>
+
+
+    <style>
+
+            .patient-notifications-page {
+                padding-bottom: 80px;
+            }
+
+
+            /* PAGE HEADER */
+
+            .notifications-page-header {
+                display: flex;
+                align-items: flex-end;
+                justify-content: space-between;
+                gap: 30px;
+            }
+
+
+            .notifications-back-link {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                padding: 10px 15px;
+                border: 1px solid #e5e7eb;
+                border-radius: 10px;
+                background: #ffffff;
+                color: #475569;
+                font-size: 13px;
+                font-weight: 700;
+                text-decoration: none;
+                transition: all 0.2s ease;
+            }
+
+
+                .notifications-back-link:hover {
+                    color: var(--primary);
+                    border-color: rgba(15, 118, 110, 0.25);
+                    background: #f0fdfa;
+                }
+
+
+            /* OVERVIEW */
+
+            .notification-overview {
+                padding: 26px 30px;
+                border-radius: 20px;
+                background: linear-gradient( 135deg, #f0fdfa 0%, #ffffff 72% );
+                border-color: rgba(15, 118, 110, 0.10);
+            }
+
+
+            .notification-overview-content {
+                display: flex;
+                align-items: center;
+                gap: 17px;
+            }
+
+
+            .notification-overview-icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex: 0 0 auto;
+                width: 52px;
+                height: 52px;
+                border-radius: 15px;
+                background: #ffffff;
+                color: var(--primary);
+                font-size: 21px;
+                box-shadow: 0 5px 16px rgba(15, 118, 110, 0.08);
+            }
+
+
+            .notification-section-label {
+                display: block;
+                margin-bottom: 5px;
+                font-size: 10px;
+                font-weight: 800;
+                letter-spacing: 0.14em;
+                color: var(--primary);
+            }
+
+
+            .notification-overview h3 {
+                margin: 0 0 4px;
+                color: #111827;
+                font-size: 20px;
+                letter-spacing: -0.02em;
+            }
+
+
+            .notification-overview p {
+                margin: 0;
+                color: #64748b;
+                font-size: 13px;
+            }
+
+
+            /* MAIN CARD */
+
+            .notifications-card,
+            .quick-actions-card {
+                padding: 30px;
+                border-radius: 20px;
+            }
+
+
+            .notifications-card-header {
+                display: flex;
+                align-items: flex-start;
+                justify-content: space-between;
+                gap: 20px;
+                padding-bottom: 20px;
+                border-bottom: 1px solid #eef2f7;
+            }
+
+
+                .notifications-card-header h3 {
+                    margin: 0;
+                    color: #111827;
+                    font-size: 21px;
+                    letter-spacing: -0.02em;
+                }
+
+
+            /* EMPTY STATE */
+
+            .notifications-empty-state {
+                min-height: 350px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 45px 20px;
+                text-align: center;
+            }
+
+
+            .notifications-empty-icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 68px;
+                height: 68px;
+                margin-bottom: 20px;
+                border-radius: 20px;
+                background: #f0fdfa;
+                color: var(--primary);
+                font-size: 28px;
+            }
+
+
+            .notifications-empty-state h4 {
+                margin-bottom: 8px;
+                color: #334155;
+                font-size: 18px;
+            }
+
+
+            .notifications-empty-state p {
+                max-width: 500px;
+                margin: 0;
+                color: #94a3b8;
+                font-size: 14px;
+                line-height: 1.7;
+            }
+
+
+            /* QUICK ACTIONS */
+
+            .notification-action-card {
+                position: relative;
+                min-height: 92px;
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                padding: 18px;
+                border: 1px solid #e5e7eb;
+                border-radius: 14px;
+                background: #ffffff;
+                transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+            }
+
+
+                .notification-action-card:hover {
+                    transform: translateY(-4px);
+                    border-color: rgba(15, 118, 110, 0.25);
+                    box-shadow: 0 13px 28px rgba(15, 23, 42, 0.08);
+                }
+
+
+            .notification-action-icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex: 0 0 auto;
+                width: 42px;
+                height: 42px;
+                border-radius: 12px;
+                background: #f0fdfa;
+                color: var(--primary);
+                font-size: 17px;
+            }
+
+
+            .notification-action-card strong {
+                display: block;
+                margin-bottom: 3px;
+                color: #1f2937;
+                font-size: 13px;
+            }
+
+
+            .notification-action-card span {
+                display: block;
+                color: #94a3b8;
+                font-size: 12px;
+            }
+
+
+            .notification-action-arrow {
+                position: absolute;
+                top: 17px;
+                right: 17px;
+                color: #94a3b8;
+                font-size: 13px;
+                transition: color 0.2s ease, transform 0.2s ease;
+            }
+
+
+            .notification-action-card:hover .notification-action-arrow {
+                color: var(--primary);
+                transform: translate(2px, -2px);
+            }
+
+
+            /* RESPONSIVE */
+
+            @@media (max-width: 767.98px) {
+
+                .notifications-page-header {
+                    display: block;
+                }
+
+                .notifications-back-link {
+                    margin-top: 18px;
+                }
+
+                .notification-overview,
+                .notifications-card,
+                .quick-actions-card {
+                    padding: 22px;
+                }
+
+                .notification-overview-content {
+                    align-items: flex-start;
+                }
+
+                .notifications-empty-state {
+                    min-height: 300px;
+                    padding: 35px 10px;
+                }
+            }
+
+    </style>
 
 </section>

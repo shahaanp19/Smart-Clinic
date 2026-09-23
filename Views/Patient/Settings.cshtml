@@ -1,263 +1,1068 @@
 ﻿@{
     ViewData["Title"] = "Settings";
+
+    var patientName = User?.Identity?.IsAuthenticated == true
+        ? User.Identity.Name
+        : "Patient";
 }
 
-<section class="page-section">
+<section class="page-section patient-settings-page">
+
     <div class="container">
 
-        ```
-        <!-- Page Header -->
+        <div class="settings-header">
+            <div>
+                <span class="smart-badge">
+                    <i class="bi bi-gear me-1"></i>
+                    Patient Portal
+                </span>
 
-        <div class="mb-5">
+                <h1 class="dashboard-title mt-3">
+                    Account Settings
+                </h1>
 
-            <span class="smart-badge">
-                Patient Portal
-            </span>
+                <p class="text-muted mb-0">
+                    Manage your account, notifications and security preferences.
+                </p>
+            </div>
 
-            <h1 class="dashboard-title mt-3">
-                Account Settings
-            </h1>
-
-            <p class="text-muted">
-                Manage your account information, notification preferences,
-                privacy settings and security options.
-            </p>
-
+            <a asp-controller="Patient"
+                   asp-action="Dashboard"
+                   class="settings-back-link">
+                <i class="bi bi-arrow-left"></i>
+                Back to Dashboard
+            </a>
         </div>
 
-        <div class="row g-4">
 
-            <!-- Left Column -->
+        <div class="settings-layout">
 
-            <div class="col-lg-8">
+            <!-- MAIN SETTINGS COLUMN -->
+            <div class="settings-main-column">
 
-                <!-- Account Information -->
+                <!-- ACCOUNT INFORMATION -->
+                <div class="smart-card settings-card">
 
-                <div class="smart-card mb-4">
+                    <div class="settings-section-header">
+                        <div class="settings-icon">
+                            <i class="bi bi-person-vcard"></i>
+                        </div>
 
-                    <h4 class="mb-4">
-                        Account Information
-                    </h4>
+                        <div>
+                            <h4>Account Information</h4>
+                            <p>
+                                Update the information associated with your account.
+                            </p>
+                        </div>
+                    </div>
 
-                    <div class="row g-3">
+                    <form method="post"
+                          asp-controller="Patient"
+                          asp-action="Settings">
 
-                        <div class="col-md-6">
+                        <div class="settings-form-grid">
 
-                            <label class="smart-label">
-                                First Name
-                            </label>
+                            <div>
+                                <label class="smart-label" for="FirstName">
+                                    First Name
+                                </label>
 
-                            <input type="text"
-                                   class="form-control smart-input"
-                                   value="Sarah">
+                                <div class="settings-input-wrapper">
+                                    <i class="bi bi-person"></i>
+
+                                    <input id="FirstName"
+                                           name="FirstName"
+                                           type="text"
+                                           class="form-control smart-input"
+                                           autocomplete="given-name" />
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="smart-label" for="LastName">
+                                    Last Name
+                                </label>
+
+                                <div class="settings-input-wrapper">
+                                    <i class="bi bi-person"></i>
+
+                                    <input id="LastName"
+                                           name="LastName"
+                                           type="text"
+                                           class="form-control smart-input"
+                                           autocomplete="family-name" />
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="smart-label" for="Email">
+                                    Email Address
+                                </label>
+
+                                <div class="settings-input-wrapper">
+                                    <i class="bi bi-envelope"></i>
+
+                                    <input id="Email"
+                                           name="Email"
+                                           type="email"
+                                           class="form-control smart-input"
+                                           autocomplete="email" />
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="smart-label" for="PhoneNumber">
+                                    Phone Number
+                                </label>
+
+                                <div class="settings-input-wrapper">
+                                    <i class="bi bi-telephone"></i>
+
+                                    <input id="PhoneNumber"
+                                           name="PhoneNumber"
+                                           type="tel"
+                                           class="form-control smart-input"
+                                           autocomplete="tel" />
+                                </div>
+                            </div>
 
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="settings-action-row">
 
-                            <label class="smart-label">
-                                Last Name
-                            </label>
+                            <span class="settings-helper">
+                                <i class="bi bi-shield-check"></i>
+                                Your account information is protected.
+                            </span>
 
-                            <input type="text"
-                                   class="form-control smart-input"
-                                   value="Jacobs">
-
-                        </div>
-
-                        <div class="col-md-6">
-
-                            <label class="smart-label">
-                                Email Address
-                            </label>
-
-                            <input type="email"
-                                   class="form-control smart-input"
-                                   value="sarah.jacobs@email.com">
+                            <button type="submit"
+                                    class="smart-btn-primary settings-submit-button">
+                                <i class="bi bi-check2-circle me-2"></i>
+                                Save Account
+                            </button>
 
                         </div>
 
-                        <div class="col-md-6">
+                    </form>
 
-                            <label class="smart-label">
-                                Phone Number
-                            </label>
+                </div>
 
-                            <input type="text"
-                                   class="form-control smart-input"
-                                   value="082 555 0147">
 
+                <!-- NOTIFICATION PREFERENCES -->
+                <div class="smart-card settings-card">
+
+                    <div class="settings-section-header">
+                        <div class="settings-icon">
+                            <i class="bi bi-bell"></i>
                         </div>
+
+                        <div>
+                            <h4>Notification Preferences</h4>
+                            <p>
+                                Choose which notifications you would like to receive.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="settings-options">
+
+                        <label class="settings-option">
+
+                            <div class="settings-option-content">
+                                <div class="settings-option-icon">
+                                    <i class="bi bi-calendar-check"></i>
+                                </div>
+
+                                <div>
+                                    <strong>Appointment Reminders</strong>
+                                    <span>
+                                        Receive reminders about upcoming appointments.
+                                    </span>
+                                </div>
+                            </div>
+
+                            <input type="checkbox"
+                                   class="form-check-input"
+                                   name="AppointmentReminders"
+                                   value="true" />
+
+                        </label>
+
+
+                        <label class="settings-option">
+
+                            <div class="settings-option-content">
+                                <div class="settings-option-icon">
+                                    <i class="bi bi-prescription2"></i>
+                                </div>
+
+                                <div>
+                                    <strong>Prescription Notifications</strong>
+                                    <span>
+                                        Receive updates when prescription information changes.
+                                    </span>
+                                </div>
+                            </div>
+
+                            <input type="checkbox"
+                                   class="form-check-input"
+                                   name="PrescriptionNotifications"
+                                   value="true" />
+
+                        </label>
+
+
+                        <label class="settings-option">
+
+                            <div class="settings-option-content">
+                                <div class="settings-option-icon">
+                                    <i class="bi bi-megaphone"></i>
+                                </div>
+
+                                <div>
+                                    <strong>Promotional Communications</strong>
+                                    <span>
+                                        Receive optional clinic news and communications.
+                                    </span>
+                                </div>
+                            </div>
+
+                            <input type="checkbox"
+                                   class="form-check-input"
+                                   name="PromotionalCommunications"
+                                   value="true" />
+
+                        </label>
 
                     </div>
 
                 </div>
 
-                <!-- Notifications -->
 
-                <div class="smart-card mb-4">
+                <!-- SECURITY -->
+                <div class="smart-card settings-card">
 
-                    <h4 class="mb-4">
-                        Notification Preferences
-                    </h4>
+                    <div class="settings-section-header">
+                        <div class="settings-icon">
+                            <i class="bi bi-shield-lock"></i>
+                        </div>
 
-                    <div class="form-check form-switch mb-3">
-
-                        <input class="form-check-input"
-                               type="checkbox"
-                               checked>
-
-                        <label class="form-check-label">
-                            Appointment Reminders
-                        </label>
-
+                        <div>
+                            <h4>Security Settings</h4>
+                            <p>
+                                Update your password to help keep your account secure.
+                            </p>
+                        </div>
                     </div>
 
-                    <div class="form-check form-switch mb-3">
+                    <form method="post"
+                          asp-controller="Patient"
+                          asp-action="ChangePassword">
 
-                        <input class="form-check-input"
-                               type="checkbox"
-                               checked>
+                        <div class="settings-form-grid">
 
-                        <label class="form-check-label">
-                            Prescription Notifications
-                        </label>
+                            <div>
+                                <label class="smart-label" for="NewPassword">
+                                    New Password
+                                </label>
 
-                    </div>
+                                <div class="settings-input-wrapper">
+                                    <i class="bi bi-key"></i>
 
-                    <div class="form-check form-switch">
+                                    <input id="NewPassword"
+                                           name="NewPassword"
+                                           type="password"
+                                           class="form-control smart-input"
+                                           autocomplete="new-password" />
+                                </div>
+                            </div>
 
-                        <input class="form-check-input"
-                               type="checkbox">
+                            <div>
+                                <label class="smart-label" for="ConfirmPassword">
+                                    Confirm Password
+                                </label>
 
-                        <label class="form-check-label">
-                            Promotional Communications
-                        </label>
+                                <div class="settings-input-wrapper">
+                                    <i class="bi bi-key-fill"></i>
 
-                    </div>
-
-                </div>
-
-                <!-- Security -->
-
-                <div class="smart-card">
-
-                    <h4 class="mb-4">
-                        Security Settings
-                    </h4>
-
-                    <div class="row g-3">
-
-                        <div class="col-md-6">
-
-                            <label class="smart-label">
-                                New Password
-                            </label>
-
-                            <input type="password"
-                                   class="form-control smart-input">
+                                    <input id="ConfirmPassword"
+                                           name="ConfirmPassword"
+                                           type="password"
+                                           class="form-control smart-input"
+                                           autocomplete="new-password" />
+                                </div>
+                            </div>
 
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="settings-action-row">
 
-                            <label class="smart-label">
-                                Confirm Password
-                            </label>
+                            <span class="settings-helper">
+                                <i class="bi bi-info-circle"></i>
+                                Use a strong password that you do not reuse elsewhere.
+                            </span>
 
-                            <input type="password"
-                                   class="form-control smart-input">
+                            <button type="submit"
+                                    class="smart-btn-primary settings-submit-button">
+                                <i class="bi bi-shield-check me-2"></i>
+                                Update Password
+                            </button>
 
                         </div>
 
-                    </div>
-
-                    <button class="smart-btn-primary mt-4">
-
-                        <i class="bi bi-shield-lock me-2"></i>
-
-                        Update Password
-
-                    </button>
+                    </form>
 
                 </div>
 
             </div>
 
-            <!-- Right Column -->
 
-            <div class="col-lg-4">
+            <!-- SIDE COLUMN -->
+            <aside class="settings-sidebar">
 
-                <!-- Profile Summary -->
+                <!-- PROFILE SUMMARY -->
+                <div class="smart-card settings-profile-card">
 
-                <div class="smart-card mb-4 text-center">
+                    <div class="settings-profile-icon">
+                        <i class="bi bi-person"></i>
+                    </div>
 
-                    <i class="bi bi-person-circle"
-                       style="font-size:80px;color:var(--primary);"></i>
+                    <h3>
+                        @patientName
+                    </h3>
 
-                    <h4 class="mt-3">
-                        Sarah Jacobs
-                    </h4>
-
-                    <p class="text-muted mb-3">
-                        Active Patient
+                    <p>
+                        Patient Account
                     </p>
 
-                    <span class="status-badge confirmed">
-                        Account Verified
-                    </span>
+                    <div class="settings-profile-links">
+
+                        <a asp-controller="Patient"
+                               asp-action="MyProfile">
+
+                            <i class="bi bi-person-vcard"></i>
+
+                            <span>
+                                View My Profile
+                            </span>
+
+                            <i class="bi bi-chevron-right"></i>
+
+                        </a>
+
+                        <a asp-controller="Patient"
+                               asp-action="MedicalHistory">
+
+                            <i class="bi bi-file-medical"></i>
+
+                            <span>
+                                Medical History
+                            </span>
+
+                            <i class="bi bi-chevron-right"></i>
+
+                        </a>
+
+                    </div>
 
                 </div>
 
-                <!-- Security Status -->
 
-                <div class="smart-card">
+                <!-- SECURITY INFORMATION -->
+                <div class="smart-card account-security-card">
 
-                    <h4 class="mb-3">
-                        Account Status
-                    </h4>
+                    <div class="security-card-heading">
 
-                    <p>
-                        <strong>Email:</strong>
-                        Verified
-                    </p>
+                        <div class="settings-icon">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
 
-                    <p>
-                        <strong>Phone:</strong>
-                        Verified
-                    </p>
+                        <div>
+                            <h4>Account Security</h4>
+                            <p>Security information</p>
+                        </div>
 
-                    <p>
-                        <strong>Two-Factor Authentication:</strong>
-                        Enabled
-                    </p>
+                    </div>
 
-                    <p class="mb-0">
-                        <strong>Last Login:</strong>
-                        Today, 08:15
-                    </p>
+
+                    <div class="security-status-list">
+
+                        <div class="security-status-item">
+
+                            <span>
+                                <i class="bi bi-envelope-check"></i>
+                                Email Verification
+                            </span>
+
+                            <strong>
+                                <i class="bi bi-dash-circle"></i>
+                                Not Available
+                            </strong>
+
+                        </div>
+
+
+                        <div class="security-status-item">
+
+                            <span>
+                                <i class="bi bi-telephone-check"></i>
+                                Phone Verification
+                            </span>
+
+                            <strong>
+                                <i class="bi bi-dash-circle"></i>
+                                Not Available
+                            </strong>
+
+                        </div>
+
+
+                        <div class="security-status-item">
+
+                            <span>
+                                <i class="bi bi-shield-lock"></i>
+                                Two-Factor Authentication
+                            </span>
+
+                            <strong>
+                                <i class="bi bi-dash-circle"></i>
+                                Not Configured
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="security-note">
+
+                        <i class="bi bi-info-circle"></i>
+
+                        <span>
+                            Additional security options can be configured when available.
+                        </span>
+
+                    </div>
 
                 </div>
 
-            </div>
-
-        </div>
-
-        <!-- Save Button -->
-
-        <div class="mt-5">
-
-            <button class="smart-btn-primary">
-
-                <i class="bi bi-check-circle me-2"></i>
-
-                Save Settings
-
-            </button>
+            </aside>
 
         </div>
 
     </div>
-    ```
+
+
+    <style>
+
+            .patient-settings-page {
+                padding-top: 2rem;
+                padding-bottom: 4rem;
+            }
+
+
+            .settings-header {
+                display: flex;
+                align-items: flex-end;
+                justify-content: space-between;
+                gap: 2rem;
+                margin-bottom: 2rem;
+            }
+
+
+            .settings-back-link {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: .5rem;
+                min-height: 42px;
+                padding: .65rem 1rem;
+                border: 1px solid #e5e7eb;
+                border-radius: 10px;
+                background: #ffffff;
+                color: #475569;
+                font-size: .82rem;
+                font-weight: 700;
+                text-decoration: none;
+                white-space: nowrap;
+                transition: all .2s ease;
+            }
+
+
+                .settings-back-link:hover {
+                    color: var(--primary);
+                    border-color: rgba(15, 118, 110, .25);
+                    background: #f0fdfa;
+                }
+
+
+            /*
+                        Independent CSS grid prevents Bootstrap row/column height
+                        interactions from creating stretched cards and misplaced content.
+                    */
+
+            .settings-layout {
+                display: grid;
+                grid-template-columns: minmax(0, 1.7fr) minmax(280px, .8fr);
+                gap: 1.5rem;
+                align-items: start;
+            }
+
+
+            .settings-main-column {
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
+                min-width: 0;
+            }
+
+
+            .settings-sidebar {
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
+                min-width: 0;
+            }
+
+
+            .settings-card {
+                padding: 1.75rem;
+                border-radius: 18px;
+                overflow: hidden;
+            }
+
+
+            .settings-section-header {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                padding-bottom: 1.25rem;
+                margin-bottom: 1.5rem;
+                border-bottom: 1px solid #e5e7eb;
+            }
+
+
+            .settings-icon {
+                width: 46px;
+                height: 46px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex: 0 0 auto;
+                border-radius: 12px;
+                background: rgba(15, 118, 110, .1);
+                color: var(--primary);
+                font-size: 1.2rem;
+            }
+
+
+            .settings-section-header h4 {
+                margin: 0 0 .25rem;
+                color: var(--text-dark);
+                font-size: 1.05rem;
+                font-weight: 700;
+            }
+
+
+            .settings-section-header p {
+                margin: 0;
+                color: #6b7280;
+                font-size: .82rem;
+                line-height: 1.5;
+            }
+
+
+            .settings-form-grid {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 1.25rem;
+            }
+
+
+            .smart-label {
+                display: block;
+                margin-bottom: .5rem;
+                color: var(--text-dark);
+                font-size: .82rem;
+                font-weight: 600;
+            }
+
+
+            .settings-input-wrapper {
+                position: relative;
+            }
+
+
+                .settings-input-wrapper > i {
+                    position: absolute;
+                    top: 50%;
+                    left: 1rem;
+                    z-index: 2;
+                    transform: translateY(-50%);
+                    color: #6b7280;
+                    pointer-events: none;
+                }
+
+
+                .settings-input-wrapper .smart-input {
+                    min-height: 46px;
+                    padding-left: 2.7rem;
+                }
+
+
+                    .settings-input-wrapper .smart-input:focus {
+                        border-color: var(--primary);
+                        box-shadow: 0 0 0 .2rem rgba(15, 118, 110, .1);
+                    }
+
+
+            .settings-action-row {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 1rem;
+                margin-top: 1.5rem;
+                padding-top: 1.25rem;
+                border-top: 1px solid #e5e7eb;
+            }
+
+
+            .settings-helper {
+                display: flex;
+                align-items: center;
+                gap: .45rem;
+                color: #6b7280;
+                font-size: .76rem;
+                line-height: 1.4;
+            }
+
+
+                .settings-helper i {
+                    flex-shrink: 0;
+                    color: var(--primary);
+                    font-size: .95rem;
+                }
+
+
+            .settings-submit-button {
+                flex-shrink: 0;
+                white-space: nowrap;
+            }
+
+
+            .settings-options {
+                display: flex;
+                flex-direction: column;
+                gap: .65rem;
+            }
+
+
+            .settings-option {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 1rem;
+                min-height: 70px;
+                padding: .85rem 1rem;
+                border: 1px solid #e5e7eb;
+                border-radius: 12px;
+                cursor: pointer;
+                transition: border-color .2s ease, background-color .2s ease;
+            }
+
+
+                .settings-option:hover {
+                    border-color: rgba(15, 118, 110, .3);
+                    background: #f8fffe;
+                }
+
+
+            .settings-option-content {
+                display: flex;
+                align-items: center;
+                gap: .8rem;
+                min-width: 0;
+            }
+
+
+            .settings-option-icon {
+                width: 38px;
+                height: 38px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex: 0 0 auto;
+                border-radius: 10px;
+                background: #f0fdfa;
+                color: var(--primary);
+            }
+
+
+            .settings-option strong {
+                display: block;
+                margin-bottom: .15rem;
+                color: var(--text-dark);
+                font-size: .84rem;
+                font-weight: 700;
+            }
+
+
+            .settings-option-content span {
+                display: block;
+                color: #6b7280;
+                font-size: .74rem;
+                line-height: 1.45;
+            }
+
+
+            .settings-option .form-check-input {
+                width: 2.4rem;
+                height: 1.25rem;
+                flex: 0 0 auto;
+                margin: 0;
+                cursor: pointer;
+            }
+
+
+                .settings-option .form-check-input:checked {
+                    background-color: var(--primary);
+                    border-color: var(--primary);
+                }
+
+
+            .settings-profile-card {
+                padding: 1.75rem;
+                text-align: center;
+            }
+
+
+            .settings-profile-icon {
+                width: 70px;
+                height: 70px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0 auto 1rem;
+                border-radius: 50%;
+                background: rgba(15, 118, 110, .1);
+                color: var(--primary);
+                font-size: 2rem;
+            }
+
+
+            .settings-profile-card h3 {
+                margin: 0;
+                color: var(--text-dark);
+                font-size: 1.2rem;
+                font-weight: 700;
+                overflow-wrap: anywhere;
+            }
+
+
+            .settings-profile-card > p {
+                margin: .3rem 0 1.25rem;
+                color: #6b7280;
+                font-size: .82rem;
+            }
+
+
+            .settings-profile-links {
+                border-top: 1px solid #e5e7eb;
+            }
+
+
+                .settings-profile-links a {
+                    display: grid;
+                    grid-template-columns: 22px minmax(0, 1fr) 14px;
+                    align-items: center;
+                    gap: .7rem;
+                    padding: .85rem 0;
+                    color: var(--text-dark);
+                    text-decoration: none;
+                    text-align: left;
+                    border-bottom: 1px solid #e5e7eb;
+                    transition: color .2s ease;
+                }
+
+
+                    .settings-profile-links a:last-child {
+                        border-bottom: 0;
+                    }
+
+
+                    .settings-profile-links a > i:first-child {
+                        color: var(--primary);
+                    }
+
+
+                    .settings-profile-links a > i:last-child {
+                        color: #9ca3af;
+                        font-size: .7rem;
+                    }
+
+
+                    .settings-profile-links a:hover {
+                        color: var(--primary);
+                    }
+
+
+            .account-security-card {
+                padding: 1.75rem;
+            }
+
+
+            .security-card-heading {
+                display: flex;
+                align-items: center;
+                gap: .85rem;
+                margin-bottom: 1.25rem;
+            }
+
+
+                .security-card-heading h4 {
+                    margin: 0 0 .15rem;
+                    color: var(--text-dark);
+                    font-size: 1rem;
+                    font-weight: 700;
+                }
+
+
+                .security-card-heading p {
+                    margin: 0;
+                    color: #6b7280;
+                    font-size: .75rem;
+                }
+
+
+            .security-status-list {
+                border-top: 1px solid #e5e7eb;
+            }
+
+
+            .security-status-item {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: .75rem;
+                padding: .8rem 0;
+                border-bottom: 1px solid #e5e7eb;
+            }
+
+
+                .security-status-item > span {
+                    display: flex;
+                    align-items: center;
+                    gap: .5rem;
+                    min-width: 0;
+                    color: var(--text-dark);
+                    font-size: .75rem;
+                    line-height: 1.4;
+                }
+
+
+                    .security-status-item > span i {
+                        flex: 0 0 auto;
+                        color: var(--primary);
+                    }
+
+
+                .security-status-item strong {
+                    display: flex;
+                    align-items: center;
+                    gap: .3rem;
+                    flex: 0 0 auto;
+                    color: #64748b;
+                    font-size: .68rem;
+                    font-weight: 600;
+                    white-space: nowrap;
+                }
+
+
+            .security-note {
+                display: flex;
+                align-items: flex-start;
+                gap: .55rem;
+                margin-top: 1rem;
+                padding: .75rem;
+                border-radius: 10px;
+                background: #f8fafc;
+                color: #64748b;
+                font-size: .72rem;
+                line-height: 1.5;
+            }
+
+
+                .security-note i {
+                    flex-shrink: 0;
+                    margin-top: .05rem;
+                    color: var(--primary);
+                }
+
+
+            @@media (max-width: 1100px) {
+
+                .settings-layout {
+                    grid-template-columns: minmax(0, 1.45fr) minmax(260px, .8fr);
+                }
+
+                .settings-action-row {
+                    align-items: flex-start;
+                    flex-direction: column;
+                }
+
+                .settings-submit-button {
+                    align-self: flex-end;
+                }
+            }
+
+
+            @@media (max-width: 991.98px) {
+
+                .settings-header {
+                    align-items: flex-start;
+                    flex-direction: column;
+                }
+
+                .settings-back-link {
+                    margin-top: -.5rem;
+                }
+
+                .settings-layout {
+                    grid-template-columns: 1fr;
+                }
+
+                .settings-sidebar {
+                    display: grid;
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                    align-items: start;
+                }
+
+                .settings-profile-card,
+                .account-security-card {
+                    height: 100%;
+                }
+
+                .settings-action-row {
+                    align-items: center;
+                    flex-direction: row;
+                }
+
+                .settings-submit-button {
+                    align-self: auto;
+                }
+            }
+
+
+            @@media (max-width: 767.98px) {
+
+                .patient-settings-page {
+                    padding-top: 1rem;
+                }
+
+                .settings-layout {
+                    gap: 1rem;
+                }
+
+                .settings-main-column,
+                .settings-sidebar {
+                    gap: 1rem;
+                }
+
+                .settings-sidebar {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .settings-card,
+                .settings-profile-card,
+                .account-security-card {
+                    padding: 1.35rem;
+                    border-radius: 16px;
+                }
+
+                .settings-form-grid {
+                    grid-template-columns: 1fr;
+                    gap: 1rem;
+                }
+
+                .settings-action-row {
+                    align-items: stretch;
+                    flex-direction: column;
+                }
+
+                .settings-submit-button {
+                    width: 100%;
+                }
+
+                .settings-helper {
+                    justify-content: center;
+                    text-align: center;
+                }
+            }
+
+
+            @@media (max-width: 575.98px) {
+
+                .settings-header {
+                    gap: 1.25rem;
+                    margin-bottom: 1.5rem;
+                }
+
+                .settings-back-link {
+                    width: 100%;
+                    margin-top: 0;
+                }
+
+                .settings-section-header {
+                    align-items: flex-start;
+                    gap: .75rem;
+                    margin-bottom: 1.25rem;
+                    padding-bottom: 1rem;
+                }
+
+                .settings-icon {
+                    width: 42px;
+                    height: 42px;
+                    font-size: 1.05rem;
+                }
+
+                .settings-section-header h4 {
+                    font-size: .98rem;
+                }
+
+                .settings-section-header p {
+                    font-size: .76rem;
+                }
+
+                .settings-option {
+                    align-items: flex-start;
+                    padding: .8rem;
+                }
+
+                .settings-option-content {
+                    align-items: flex-start;
+                }
+
+                    .settings-option-content span {
+                        font-size: .7rem;
+                    }
+
+                .settings-profile-card,
+                .account-security-card {
+                    padding: 1.25rem;
+                }
+
+                .security-status-item {
+                    align-items: flex-start;
+                    flex-direction: column;
+                    gap: .35rem;
+                }
+
+                    .security-status-item strong {
+                        margin-left: 1.45rem;
+                    }
+            }
+
+    </style>
 
 </section>

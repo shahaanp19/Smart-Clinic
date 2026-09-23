@@ -1,228 +1,641 @@
 ﻿@{
     ViewData["Title"] = "Medical History";
+
+    var patientName = User?.Identity?.IsAuthenticated == true
+        ? User.Identity.Name
+        : "Patient";
 }
 
-<section class="page-section">
+<section class="page-section patient-history-page">
+
     <div class="container">
-        <!-- Page Header -->
 
-        <div class="mb-5">
+        <div class="history-page-header">
+            <div>
+                <span class="smart-badge">
+                    <i class="bi bi-heart-pulse me-1"></i>
+                    Patient Portal
+                </span>
 
-            <span class="smart-badge">
-                Patient Portal
-            </span>
+                <h1 class="dashboard-title mt-3">
+                    Medical History
+                </h1>
 
-            <h1 class="dashboard-title mt-3">
-                Medical History
-            </h1>
-
-            <p class="text-muted">
-                Review consultation records, diagnoses and prescription history.
-            </p>
-
-        </div>
-
-        <div class="row g-4">
-
-            <!-- Left Column -->
-
-            <div class="col-lg-4">
-
-                <div class="smart-card">
-
-                    <h4 class="mb-4">
-                        Patient Information
-                    </h4>
-
-                    <div class="summary-item">
-                        <span>Name</span>
-                        <strong>Sarah Jacobs</strong>
-                    </div>
-
-                    <div class="summary-item">
-                        <span>Date of Birth</span>
-                        <strong>12 Mar 1992</strong>
-                    </div>
-
-                    <div class="summary-item">
-                        <span>Gender</span>
-                        <strong>Female</strong>
-                    </div>
-
-                    <div class="summary-item">
-                        <span>Blood Type</span>
-                        <strong>O+</strong>
-                    </div>
-
-                    <div class="summary-item">
-                        <span>Allergies</span>
-                        <strong>Penicillin</strong>
-                    </div>
-
-                </div>
-
-                <div class="smart-card mt-4">
-
-                    <h4 class="mb-4">
-                        Active Prescriptions
-                    </h4>
-
-                    <div class="notification-item">
-
-                        <i class="bi bi-capsule"></i>
-
-                        <div>
-                            <strong>Paracetamol 500mg</strong>
-                            <p>
-                                Twice daily for 5 days.
-                            </p>
-                        </div>
-
-                    </div>
-
-                    <div class="notification-item">
-
-                        <i class="bi bi-capsule"></i>
-
-                        <div>
-                            <strong>Blood Pressure Medication</strong>
-                            <p>
-                                Continue daily as prescribed.
-                            </p>
-                        </div>
-
-                    </div>
-
-                </div>
-
+                <p class="text-muted mb-0">
+                    Review your medical information, consultation history and prescriptions.
+                </p>
             </div>
-
-            <!-- Right Column -->
-
-            <div class="col-lg-8">
-
-                <div class="smart-card">
-
-                    <div class="section-header">
-
-                        <h4>
-                            Consultation History
-                        </h4>
-
-                    </div>
-
-                    <div class="medical-timeline">
-
-                        <div class="timeline-entry">
-
-                            <div class="timeline-date">
-                                02 May 2026
-                            </div>
-
-                            <div class="timeline-card">
-
-                                <h5>
-                                    Flu Symptoms Consultation
-                                </h5>
-
-                                <p>
-                                    <strong>Doctor:</strong>
-                                    Dr Esmé Cilliers
-                                </p>
-
-                                <p>
-                                    <strong>Diagnosis:</strong>
-                                    Upper Respiratory Infection
-                                </p>
-
-                                <p class="mb-0">
-                                    Medication prescribed and follow-up scheduled.
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                        <div class="timeline-entry">
-
-                            <div class="timeline-date">
-                                18 Apr 2026
-                            </div>
-
-                            <div class="timeline-card">
-
-                                <h5>
-                                    Blood Pressure Review
-                                </h5>
-
-                                <p>
-                                    <strong>Doctor:</strong>
-                                    Dr Naidoo
-                                </p>
-
-                                <p>
-                                    <strong>Diagnosis:</strong>
-                                    Hypertension Monitoring
-                                </p>
-
-                                <p class="mb-0">
-                                    Condition stable. Continue treatment plan.
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                        <div class="timeline-entry">
-
-                            <div class="timeline-date">
-                                04 Mar 2026
-                            </div>
-
-                            <div class="timeline-card">
-
-                                <h5>
-                                    Annual Health Examination
-                                </h5>
-
-                                <p>
-                                    <strong>Doctor:</strong>
-                                    Dr Petersen
-                                </p>
-
-                                <p>
-                                    <strong>Outcome:</strong>
-                                    General health screening completed.
-                                </p>
-
-                                <p class="mb-0">
-                                    No significant concerns identified.
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="mt-4">
 
             <a asp-controller="Patient"
                    asp-action="Dashboard"
-                   class="btn btn-outline-primary rounded-3 px-4">
-
-                <i class="bi bi-arrow-left me-2"></i>
+                   class="history-back-link">
+                <i class="bi bi-arrow-left"></i>
                 Back to Dashboard
-
             </a>
+        </div>
+
+
+        <div class="history-layout">
+
+            <!-- LEFT SIDE -->
+            <div class="history-sidebar">
+
+                <!-- PATIENT INFORMATION -->
+                <div class="smart-card history-card">
+
+                    <div class="history-card-header">
+                        <div>
+                            <span class="history-section-label">
+                                PROFILE
+                            </span>
+
+                            <h3>
+                                Patient information
+                            </h3>
+                        </div>
+
+                        <div class="history-header-icon">
+                            <i class="bi bi-person-vcard"></i>
+                        </div>
+                    </div>
+
+                    <div class="history-empty-content">
+
+                        <div class="history-empty-icon">
+                            <i class="bi bi-person"></i>
+                        </div>
+
+                        <h4>
+                            No profile information yet
+                        </h4>
+
+                        <p>
+                            Your personal and medical information will appear here
+                            once it has been added to your patient profile.
+                        </p>
+
+                        <a asp-controller="Patient"
+                               asp-action="PatientIntakeForm"
+                               class="history-outline-button text-decoration-none">
+                            <i class="bi bi-person-gear"></i>
+                            Manage Profile
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ACTIVE PRESCRIPTIONS -->
+                <div class="smart-card history-card">
+
+                    <div class="history-card-header">
+                        <div>
+                            <span class="history-section-label">
+                                MEDICATION
+                            </span>
+
+                            <h3>
+                                Active prescriptions
+                            </h3>
+                        </div>
+
+                        <div class="history-header-icon">
+                            <i class="bi bi-capsule"></i>
+                        </div>
+                    </div>
+
+                    <div class="history-empty-content">
+
+                        <div class="history-empty-icon">
+                            <i class="bi bi-capsule"></i>
+                        </div>
+
+                        <h4>
+                            No active prescriptions
+                        </h4>
+
+                        <p>
+                            Active prescriptions will appear here when they
+                            have been recorded by your healthcare provider.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RIGHT SIDE -->
+            <div class="history-main-column">
+
+                <div class="smart-card history-card consultation-card">
+
+                    <div class="history-card-header">
+                        <div>
+                            <span class="history-section-label">
+                                HEALTHCARE RECORDS
+                            </span>
+
+                            <h3>
+                                Consultation history
+                            </h3>
+                        </div>
+
+                        <div class="history-header-icon">
+                            <i class="bi bi-clipboard2-pulse"></i>
+                        </div>
+                    </div>
+
+                    <div class="consultation-empty-content">
+
+                        <div class="consultation-icon">
+                            <i class="bi bi-clipboard2-pulse"></i>
+                        </div>
+
+                        <h4>
+                            No consultation records
+                        </h4>
+
+                        <p>
+                            Your consultation history will appear here after
+                            healthcare visits have been recorded.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- NOTICE IS NOW OUTSIDE THE CARD GRID -->
+        <div class="history-notice">
+
+            <div class="history-notice-icon">
+                <i class="bi bi-shield-check"></i>
+            </div>
+
+            <div>
+                <strong>
+                    Your medical information
+                </strong>
+
+                <p>
+                    Medical information displayed in this portal is based on
+                    records associated with your patient account.
+                </p>
+            </div>
 
         </div>
 
     </div>
+
+
+    <style>
+
+            .patient-history-page {
+                padding-top: 2rem;
+                padding-bottom: 4rem;
+            }
+
+
+            .history-page-header {
+                display: flex;
+                align-items: flex-end;
+                justify-content: space-between;
+                gap: 2rem;
+                margin-bottom: 2rem;
+            }
+
+
+            .history-back-link {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: .5rem;
+                min-height: 42px;
+                padding: .65rem 1rem;
+                border: 1px solid #e5e7eb;
+                border-radius: 10px;
+                background: #ffffff;
+                color: #475569;
+                font-size: .82rem;
+                font-weight: 700;
+                text-decoration: none;
+                white-space: nowrap;
+                transition: all .2s ease;
+            }
+
+
+                .history-back-link:hover {
+                    color: var(--primary);
+                    border-color: rgba(15, 118, 110, .25);
+                    background: #f0fdfa;
+                }
+
+
+            /*
+                        IMPORTANT:
+                        The page uses an independent grid instead of Bootstrap's row/column
+                        sizing so the notice can never overlap or be pulled upward by
+                        unequal card heights.
+                    */
+
+            .history-layout {
+                display: grid;
+                grid-template-columns: minmax(280px, .85fr) minmax(0, 1.55fr);
+                gap: 1.5rem;
+                align-items: stretch;
+            }
+
+
+            .history-sidebar {
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
+                min-width: 0;
+            }
+
+
+            .history-main-column {
+                min-width: 0;
+            }
+
+
+            .history-card {
+                width: 100%;
+                padding: 1.75rem;
+                border-radius: 20px;
+                box-sizing: border-box;
+            }
+
+
+            .history-sidebar .history-card:first-child {
+                min-height: 390px;
+            }
+
+
+            .history-sidebar .history-card:last-child {
+                min-height: 350px;
+            }
+
+
+            .consultation-card {
+                height: 100%;
+                min-height: 756px;
+            }
+
+
+            .history-card-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 1rem;
+                padding-bottom: 1.25rem;
+                border-bottom: 1px solid #eef2f7;
+            }
+
+
+            .history-section-label {
+                display: block;
+                margin-bottom: .4rem;
+                color: var(--primary);
+                font-size: .65rem;
+                font-weight: 800;
+                letter-spacing: .14em;
+            }
+
+
+            .history-card-header h3 {
+                margin: 0;
+                color: #111827;
+                font-size: 1.2rem;
+                font-weight: 700;
+                line-height: 1.3;
+            }
+
+
+            .history-header-icon {
+                width: 42px;
+                height: 42px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+                border-radius: 11px;
+                background: #f0fdfa;
+                color: var(--primary);
+                font-size: 1.05rem;
+            }
+
+
+            .history-empty-content {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: center;
+                min-height: 275px;
+                padding: 1.5rem .25rem .25rem;
+            }
+
+
+            .history-empty-icon {
+                width: 48px;
+                height: 48px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 1rem;
+                border-radius: 14px;
+                background: #f0fdfa;
+                color: var(--primary);
+                font-size: 1.2rem;
+            }
+
+
+            .history-empty-content h4 {
+                margin: 0 0 .5rem;
+                color: #334155;
+                font-size: 1rem;
+                font-weight: 700;
+            }
+
+
+            .history-empty-content p {
+                max-width: 390px;
+                margin: 0 0 1.1rem;
+                color: #94a3b8;
+                font-size: .82rem;
+                line-height: 1.65;
+            }
+
+
+            .history-outline-button {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: .5rem;
+                min-height: 38px;
+                padding: .6rem .85rem;
+                border: 1px solid rgba(15, 118, 110, .2);
+                border-radius: 9px;
+                background: #ffffff;
+                color: var(--primary);
+                font-size: .8rem;
+                font-weight: 700;
+                text-decoration: none;
+                transition: all .2s ease;
+            }
+
+
+                .history-outline-button:hover {
+                    background: #f0fdfa;
+                    border-color: rgba(15, 118, 110, .35);
+                    color: var(--primary);
+                    transform: translateY(-1px);
+                }
+
+
+            .consultation-empty-content {
+                min-height: 650px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 2rem;
+                text-align: center;
+            }
+
+
+            .consultation-icon {
+                width: 70px;
+                height: 70px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 1.25rem;
+                border-radius: 20px;
+                background: #f0fdfa;
+                color: var(--primary);
+                font-size: 1.75rem;
+            }
+
+
+            .consultation-empty-content h4 {
+                margin: 0 0 .5rem;
+                color: #334155;
+                font-size: 1.15rem;
+                font-weight: 700;
+            }
+
+
+            .consultation-empty-content p {
+                max-width: 430px;
+                margin: 0;
+                color: #94a3b8;
+                font-size: .85rem;
+                line-height: 1.7;
+            }
+
+
+            /*
+                        The notice is deliberately given its own block-level space.
+                        It is NOT inside the grid and has no negative margin, absolute
+                        positioning, transform, or fixed height.
+                    */
+
+            .history-notice {
+                display: flex;
+                align-items: flex-start;
+                gap: .9rem;
+                width: 100%;
+                margin-top: 1.5rem;
+                padding: 1rem 1.15rem;
+                border: 1px solid rgba(15, 118, 110, .12);
+                border-radius: 14px;
+                background: #f8fffe;
+                box-sizing: border-box;
+            }
+
+
+            .history-notice-icon {
+                width: 38px;
+                height: 38px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex: 0 0 auto;
+                border-radius: 10px;
+                background: #f0fdfa;
+                color: var(--primary);
+                font-size: 1rem;
+            }
+
+
+            .history-notice strong {
+                display: block;
+                margin-bottom: .2rem;
+                color: #334155;
+                font-size: .82rem;
+                font-weight: 700;
+            }
+
+
+            .history-notice p {
+                margin: 0;
+                color: #64748b;
+                font-size: .76rem;
+                line-height: 1.6;
+            }
+
+
+            @@media (max-width: 991.98px) {
+
+                .history-page-header {
+                    align-items: flex-start;
+                    flex-direction: column;
+                }
+
+                .history-back-link {
+                    margin-top: -.5rem;
+                }
+
+                .history-layout {
+                    grid-template-columns: 1fr;
+                }
+
+                .history-sidebar {
+                    display: grid;
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                    gap: 1.5rem;
+                }
+
+                    .history-sidebar .history-card:first-child,
+                    .history-sidebar .history-card:last-child {
+                        min-height: 390px;
+                    }
+
+                .consultation-card {
+                    min-height: 500px;
+                }
+
+                .consultation-empty-content {
+                    min-height: 400px;
+                }
+            }
+
+
+            @@media (max-width: 767.98px) {
+
+                .patient-history-page {
+                    padding-top: 1rem;
+                }
+
+                .history-sidebar {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .history-card {
+                    padding: 1.4rem;
+                    border-radius: 17px;
+                }
+
+                .history-sidebar .history-card:first-child,
+                .history-sidebar .history-card:last-child {
+                    min-height: auto;
+                }
+
+                .history-empty-content {
+                    min-height: 225px;
+                }
+
+                .consultation-card {
+                    min-height: 400px;
+                }
+
+                .consultation-empty-content {
+                    min-height: 310px;
+                    padding: 2rem 1rem;
+                }
+
+                .history-notice {
+                    margin-top: 1.25rem;
+                }
+            }
+
+
+            @@media (max-width: 575.98px) {
+
+                .history-page-header {
+                    gap: 1.25rem;
+                    margin-bottom: 1.5rem;
+                }
+
+                .history-back-link {
+                    width: 100%;
+                    margin-top: 0;
+                }
+
+                .history-layout {
+                    gap: 1rem;
+                }
+
+                .history-sidebar {
+                    gap: 1rem;
+                }
+
+                .history-card {
+                    padding: 1.15rem;
+                    border-radius: 15px;
+                }
+
+                .history-card-header {
+                    align-items: center;
+                }
+
+                    .history-card-header h3 {
+                        font-size: 1.05rem;
+                    }
+
+                .history-header-icon {
+                    width: 38px;
+                    height: 38px;
+                    font-size: .95rem;
+                }
+
+                .history-empty-content {
+                    min-height: 215px;
+                    padding-top: 1.25rem;
+                }
+
+                .consultation-empty-content {
+                    min-height: 275px;
+                    padding: 1.5rem .5rem;
+                }
+
+                .consultation-icon {
+                    width: 58px;
+                    height: 58px;
+                    margin-bottom: 1rem;
+                    border-radius: 17px;
+                    font-size: 1.45rem;
+                }
+
+                .history-notice {
+                    padding: .9rem;
+                }
+
+                .history-notice-icon {
+                    width: 34px;
+                    height: 34px;
+                }
+            }
+
+    </style>
+
 </section>
