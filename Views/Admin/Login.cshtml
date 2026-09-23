@@ -1,127 +1,137 @@
-﻿@{
+﻿```cshtml
+@{
     ViewData["Title"] = "Admin Login";
 }
 
 <section class="login-section">
-
     <div class="container">
-
         <div class="row justify-content-center align-items-center min-vh-75">
-
-            <div class="col-lg-5">
+            <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
 
                 <div class="smart-card login-card">
 
-                    <div class="text-center mb-4">
+                    <div class="text-center login-header">
+                        <div class="login-icon-wrapper">
+                            <i class="bi bi-shield-lock login-icon"></i>
+                        </div>
 
-                        <i class="bi bi-speedometer2 login-icon"></i>
-
-                        <h1 class="dashboard-title mt-3">
+                        <h1 class="login-title">
                             Admin Login
                         </h1>
 
-                        <p class="text-muted">
-                            Access clinic management and reporting.
+                        <p class="login-subtitle">
+                            Sign in to the administration portal.
                         </p>
-
                     </div>
 
-                    <form id="adminLoginForm">
+                    <form id="adminLoginForm" class="login-form">
 
-                        <div class="mb-3">
-
-                            <label class="form-label smart-label">
+                        <div class="login-field">
+                            <label for="adminEmail" class="form-label smart-label">
                                 Email Address
                             </label>
 
-                            <input id="adminEmail"
-                                   type="email"
-                                   class="form-control smart-input"
-                                   value="admin@smartclinic.co.za"
-                                   required />
+                            <div class="login-input-wrapper">
+                                <i class="bi bi-envelope login-input-icon"></i>
 
+                                <input id="adminEmail"
+                                       name="email"
+                                       type="email"
+                                       class="form-control smart-input login-input"
+                                       value="admin@smartclinic.co.za"
+                                       readonly />
+                            </div>
                         </div>
 
-                        <div class="mb-3">
-
-                            <label class="form-label smart-label">
+                        <div class="login-field">
+                            <label for="adminPassword" class="form-label smart-label">
                                 Password
                             </label>
 
-                            <input id="adminPassword"
-                                   type="password"
-                                   class="form-control smart-input"
-                                   value="password123"
-                                   required />
+                            <div class="login-input-wrapper">
+                                <i class="bi bi-lock login-input-icon"></i>
 
+                                <input id="adminPassword"
+                                       name="password"
+                                       type="password"
+                                       class="form-control smart-input login-input"
+                                       value="password123"
+                                       readonly />
+                            </div>
                         </div>
 
                         <div id="loginError"
-                             class="alert alert-danger d-none">
+                             class="alert alert-danger login-error d-none"
+                             role="alert">
                             Invalid administrator credentials.
                         </div>
 
-                        <div class="d-grid mt-4">
-
+                        <div class="d-grid login-action">
                             <button type="submit"
-                                    class="smart-btn-primary">
-                                <i class="bi bi-box-arrow-in-right me-2"></i>
-                                Login as Administrator
+                                    class="smart-btn-primary login-button">
+                                Login
                             </button>
-
                         </div>
 
                     </form>
 
-                    <div class="text-center mt-4">
+                    <div class="prototype-login-details">
+                        <div class="prototype-login-title">
+                            <i class="bi bi-info-circle me-2"></i>
+                            Prototype Login
+                        </div>
 
-                        <p class="text-muted mb-0">
-                            Prototype credentials:
-                            admin@smartclinic.co.za / password123
-                        </p>
+                        <div class="prototype-login-row">
+                            <span>Email</span>
+                            <strong>admin@smartclinic.co.za</strong>
+                        </div>
 
+                        <div class="prototype-login-row">
+                            <span>Password</span>
+                            <strong>password123</strong>
+                        </div>
+                    </div>
+
+                    <div class="login-footer text-center">
+                        <span>
+                            Smart Clinic Administration Portal
+                        </span>
                     </div>
 
                 </div>
 
             </div>
-
         </div>
-
     </div>
-
 </section>
 
 <script>
-
     document.getElementById("adminLoginForm")
         .addEventListener("submit", function (event) {
 
             event.preventDefault();
 
-            const email =
-                document.getElementById("adminEmail").value.trim();
+            const email = document
+                .getElementById("adminEmail")
+                .value
+                .trim();
 
-            const password =
-                document.getElementById("adminPassword").value;
+            const password = document
+                .getElementById("adminPassword")
+                .value;
 
-            const error =
-                document.getElementById("loginError");
+            const error = document
+                .getElementById("loginError");
 
             if (
                 email === "admin@smartclinic.co.za" &&
                 password === "password123"
             ) {
-
                 window.location.href =
                     '@Url.Action("Dashboard", "Admin")';
-
             } else {
-
                 error.classList.remove("d-none");
-
             }
-
         });
-
 </script>
+```
