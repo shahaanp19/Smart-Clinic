@@ -5,196 +5,583 @@
 <section class="page-section">
     <div class="container">
 
-        <!-- Header -->
+        <div class="smart-card prescription-header mb-4">
 
-        <div class="smart-card mb-5">
+            <div>
+                <span class="smart-badge">
+                    Doctor Portal
+                </span>
 
-            <span class="smart-badge">
-                Doctor Portal
-            </span>
+                <h1 class="dashboard-title mt-3">
+                    Generate Prescription
+                </h1>
 
-            <h1 class="dashboard-title mt-3">
-                Generate Prescription
-            </h1>
+                <p class="text-muted mb-0">
+                    Create, review and issue medication instructions for a patient.
+                </p>
+            </div>
 
-            <p class="text-muted mb-0">
-                Create and issue prescriptions for patients.
-            </p>
+            <div class="prescription-header-status">
+                <span class="status-badge">
+                    Patient
+                </span>
+
+                <strong>Not Selected</strong>
+
+                <small>
+                    Patient information will appear when an appointment is selected.
+                </small>
+            </div>
 
         </div>
 
-        <div class="row g-4">
+        <div class="prescription-layout">
 
-            <!-- Left Side -->
+            <main class="prescription-main">
 
-            <div class="col-lg-8">
+                <div class="smart-card">
 
-                <!-- Patient Information -->
-
-                <div class="smart-card mb-4">
-
-                    <div class="section-header">
-                        <h4>Patient Information</h4>
+                    <div class="section-header mb-4">
+                        <div>
+                            <h4 class="mb-1">Patient Information</h4>
+                            <p class="text-muted mb-0">
+                                Review the selected patient's details before issuing medication.
+                            </p>
+                        </div>
                     </div>
 
-                    <div class="row g-3">
+                    <div class="patient-selection-empty">
+
+                        <div class="prescription-empty-icon">
+                            <i class="bi bi-person-vcard"></i>
+                        </div>
+
+                        <div>
+                            <h5>No patient selected</h5>
+                            <p class="mb-0">
+                                Patient information will be populated once a valid consultation or appointment is selected.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="row g-3 mt-1">
 
                         <div class="col-md-6">
-                            <label class="smart-label">Patient Name</label>
-                            <input class="form-control smart-input"
-                                   value="Sarah Jacobs" />
+                            <label for="patientName" class="smart-label">
+                                Patient Name
+                            </label>
+
+                            <input id="patientName"
+                                   class="form-control smart-input"
+                                   placeholder="Not available"
+                                   readonly />
                         </div>
 
                         <div class="col-md-6">
-                            <label class="smart-label">Patient ID</label>
-                            <input class="form-control smart-input"
-                                   value="PT-10024" />
+                            <label for="patientId" class="smart-label">
+                                Patient ID
+                            </label>
+
+                            <input id="patientId"
+                                   class="form-control smart-input"
+                                   placeholder="Not available"
+                                   readonly />
                         </div>
 
                         <div class="col-md-6">
-                            <label class="smart-label">Date of Birth</label>
-                            <input class="form-control smart-input"
-                                   value="14 March 1992" />
+                            <label for="dateOfBirth" class="smart-label">
+                                Date of Birth
+                            </label>
+
+                            <input id="dateOfBirth"
+                                   class="form-control smart-input"
+                                   placeholder="Not available"
+                                   readonly />
                         </div>
 
                         <div class="col-md-6">
-                            <label class="smart-label">Doctor</label>
-                            <input class="form-control smart-input"
-                                   value="Dr Esmé Cilliers" />
+                            <label for="doctorName" class="smart-label">
+                                Doctor
+                            </label>
+
+                            <input id="doctorName"
+                                   class="form-control smart-input"
+                                   placeholder="Current doctor"
+                                   readonly />
                         </div>
 
                     </div>
 
                 </div>
 
-                <!-- Prescription Details -->
-
                 <div class="smart-card">
 
-                    <div class="section-header">
-                        <h4>Prescription Details</h4>
+                    <div class="section-header mb-4">
+                        <div>
+                            <h4 class="mb-1">Prescription Details</h4>
+                            <p class="text-muted mb-0">
+                                Enter the medication, dosage and administration instructions.
+                            </p>
+                        </div>
                     </div>
 
                     <div class="row g-3">
 
                         <div class="col-md-6">
-                            <label class="smart-label">Medication Name</label>
-                            <input class="form-control smart-input"
-                                   placeholder="Enter medication" />
+                            <label for="medicationName" class="smart-label">
+                                Medication Name
+                            </label>
+
+                            <input id="medicationName"
+                                   class="form-control smart-input"
+                                   placeholder="Enter medication name" />
                         </div>
 
                         <div class="col-md-6">
-                            <label class="smart-label">Dosage</label>
-                            <input class="form-control smart-input"
-                                   placeholder="500mg" />
+                            <label for="dosage" class="smart-label">
+                                Dosage
+                            </label>
+
+                            <input id="dosage"
+                                   class="form-control smart-input"
+                                   placeholder="Enter dosage" />
                         </div>
 
                         <div class="col-md-6">
-                            <label class="smart-label">Frequency</label>
-                            <input class="form-control smart-input"
-                                   placeholder="Twice Daily" />
+                            <label for="frequency" class="smart-label">
+                                Frequency
+                            </label>
+
+                            <input id="frequency"
+                                   class="form-control smart-input"
+                                   placeholder="e.g. Once daily" />
                         </div>
 
                         <div class="col-md-6">
-                            <label class="smart-label">Duration</label>
-                            <input class="form-control smart-input"
-                                   placeholder="7 Days" />
+                            <label for="duration" class="smart-label">
+                                Duration
+                            </label>
+
+                            <input id="duration"
+                                   class="form-control smart-input"
+                                   placeholder="e.g. 7 days" />
                         </div>
 
                         <div class="col-12">
-                            <label class="smart-label">
+                            <label for="instructions" class="smart-label">
                                 Additional Instructions
                             </label>
 
-                            <textarea class="form-control smart-input"
-                                      rows="4">
-Take after meals.
-Complete full course.
-                            </textarea>
+                            <textarea id="instructions"
+                                      class="form-control smart-input"
+                                      rows="5"
+                                      placeholder="Enter any additional medication instructions..."></textarea>
                         </div>
 
                     </div>
 
-                    <div class="mt-4 d-flex gap-3 flex-wrap">
+                    <div class="prescription-note mt-4">
+                        <i class="bi bi-info-circle"></i>
 
-                        <button class="smart-btn-primary">
+                        <span>
+                            Confirm the medication and dosage against the patient's clinical information before issuing the prescription.
+                        </span>
+                    </div>
+
+                    <div class="prescription-actions mt-4">
+
+                        <button type="button"
+                                class="smart-btn-primary"
+                                disabled>
                             <i class="bi bi-file-earmark-medical me-2"></i>
                             Generate Prescription
                         </button>
 
-                        <button class="smart-btn-accent">
+                        <button type="button"
+                                class="smart-btn-accent"
+                                disabled>
                             <i class="bi bi-save me-2"></i>
                             Save Draft
                         </button>
 
                         <a asp-controller="Doctor"
                                asp-action="Dashboard"
-                               class="btn btn-outline-secondary rounded-3">
-
-                            Back
-
+                               class="btn btn-outline-secondary rounded-3 text-decoration-none">
+                            Back to Dashboard
                         </a>
 
                     </div>
 
                 </div>
 
-            </div>
+            </main>
 
-            <!-- Right Side -->
-
-            <div class="col-lg-4">
-
-                <!-- Safety Check -->
-
-                <div class="smart-card mb-4">
-
-                    <div class="section-header">
-                        <h4>Medication Safety</h4>
-                    </div>
-
-                    <div class="summary-item">
-                        <span>Allergy Status</span>
-                        <strong>No Known Allergies</strong>
-                    </div>
-
-                    <div class="summary-item">
-                        <span>Interaction Check</span>
-                        <strong>No Conflicts</strong>
-                    </div>
-
-                    <div class="summary-item border-0">
-                        <span>Age Group</span>
-                        <strong>Adult</strong>
-                    </div>
-
-                </div>
-
-                <!-- Preview -->
+            <aside class="prescription-sidebar">
 
                 <div class="smart-card">
 
-                    <div class="section-header">
-                        <h4>Prescription Preview</h4>
+                    <div class="section-header mb-4">
+                        <div>
+                            <h4 class="mb-1">Medication Safety</h4>
+                            <p class="text-muted mb-0">
+                                Safety information for the selected patient.
+                            </p>
+                        </div>
                     </div>
 
-                    <p><strong>Prescription ID:</strong> RX-2026-001</p>
+                    <div class="safety-empty-state">
 
-                    <p><strong>Patient:</strong> Sarah Jacobs</p>
+                        <div class="safety-icon">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
 
-                    <p><strong>Medication:</strong> Amoxicillin</p>
+                        <h5>Safety check unavailable</h5>
 
-                    <p><strong>Doctor:</strong> Dr Esmé Cilliers</p>
+                        <p>
+                            Allergy and medication interaction information will appear once patient data is available.
+                        </p>
 
-                    <p class="mb-0">
-                        <strong>Date Issued:</strong> 12 May 2026
-                    </p>
+                    </div>
+
+                    <div class="safety-list">
+
+                        <div class="summary-item">
+                            <span>Allergy Status</span>
+                            <strong>Not available</strong>
+                        </div>
+
+                        <div class="summary-item">
+                            <span>Interaction Check</span>
+                            <strong>Not available</strong>
+                        </div>
+
+                        <div class="summary-item border-0">
+                            <span>Age Group</span>
+                            <strong>Not available</strong>
+                        </div>
+
+                    </div>
 
                 </div>
 
-            </div>
+                <div class="smart-card">
+
+                    <div class="section-header mb-4">
+                        <div>
+                            <h4 class="mb-1">Prescription Preview</h4>
+                            <p class="text-muted mb-0">
+                                A preview will be generated after prescription details are entered.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="preview-empty-state">
+
+                        <div class="preview-icon">
+                            <i class="bi bi-file-earmark-medical"></i>
+                        </div>
+
+                        <h5>No prescription generated</h5>
+
+                        <p>
+                            Complete the prescription details to prepare the final prescription.
+                        </p>
+
+                    </div>
+
+                    <div class="preview-details">
+
+                        <div class="preview-row">
+                            <span>Prescription ID</span>
+                            <strong>Not generated</strong>
+                        </div>
+
+                        <div class="preview-row">
+                            <span>Patient</span>
+                            <strong>Not selected</strong>
+                        </div>
+
+                        <div class="preview-row">
+                            <span>Medication</span>
+                            <strong>Not entered</strong>
+                        </div>
+
+                        <div class="preview-row">
+                            <span>Doctor</span>
+                            <strong>Not available</strong>
+                        </div>
+
+                        <div class="preview-row border-0">
+                            <span>Date Issued</span>
+                            <strong>Not generated</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </aside>
 
         </div>
 
     </div>
 </section>
+
+<style>
+    .prescription-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 2rem;
+        padding: 1.75rem 2rem;
+    }
+
+    .prescription-header-status {
+        flex: 0 0 240px;
+        padding: 1rem 1.1rem;
+        border: 1px solid #e2e9ed;
+        border-radius: 14px;
+        background: #f8fafb;
+    }
+
+        .prescription-header-status .status-badge {
+            display: inline-block;
+            margin-bottom: 0.45rem;
+            color: #6c757d;
+            background: #edf1f3;
+        }
+
+        .prescription-header-status strong {
+            display: block;
+            color: #243447;
+            margin-bottom: 0.2rem;
+        }
+
+        .prescription-header-status small {
+            display: block;
+            color: #7a8793;
+            line-height: 1.4;
+        }
+
+    .prescription-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.7fr) minmax(280px, 0.78fr);
+        gap: 1.5rem;
+        align-items: start;
+    }
+
+    .prescription-main,
+    .prescription-sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+        .prescription-main .smart-card,
+        .prescription-sidebar .smart-card {
+            padding: 1.75rem;
+        }
+
+    .patient-selection-empty {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem 1.1rem;
+        margin-bottom: 1rem;
+        border: 1px dashed #d5dde5;
+        border-radius: 14px;
+        background: #fafcfd;
+    }
+
+    .prescription-empty-icon {
+        width: 48px;
+        height: 48px;
+        flex: 0 0 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 13px;
+        background: #e7f5f3;
+        color: var(--primary);
+        font-size: 1.25rem;
+    }
+
+    .patient-selection-empty h5 {
+        margin-bottom: 0.25rem;
+        color: #243447;
+    }
+
+    .patient-selection-empty p {
+        color: #6c757d;
+        font-size: 0.84rem;
+        line-height: 1.5;
+    }
+
+    .prescription-note {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.7rem;
+        padding: 0.9rem 1rem;
+        border-radius: 12px;
+        background: #f8fafb;
+        color: #6c757d;
+        font-size: 0.82rem;
+        line-height: 1.5;
+    }
+
+        .prescription-note i {
+            color: var(--primary);
+            font-size: 1rem;
+            margin-top: 0.1rem;
+        }
+
+    .prescription-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+
+        .prescription-actions .smart-btn-primary:disabled,
+        .prescription-actions .smart-btn-accent:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+    .safety-empty-state,
+    .preview-empty-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 1.25rem;
+        border: 1px dashed #d5dde5;
+        border-radius: 14px;
+        background: #fafcfd;
+    }
+
+    .safety-icon,
+    .preview-icon {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 0.75rem;
+        border-radius: 13px;
+        background: #e7f5f3;
+        color: var(--primary);
+        font-size: 1.2rem;
+    }
+
+    .safety-empty-state h5,
+    .preview-empty-state h5 {
+        margin-bottom: 0.3rem;
+        color: #243447;
+        font-size: 0.95rem;
+    }
+
+    .safety-empty-state p,
+    .preview-empty-state p {
+        margin: 0;
+        color: #6c757d;
+        font-size: 0.8rem;
+        line-height: 1.5;
+    }
+
+    .safety-list {
+        margin-top: 1rem;
+    }
+
+    .summary-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.85rem 0;
+        border-bottom: 1px solid #edf1f3;
+    }
+
+        .summary-item span {
+            color: #7a8793;
+            font-size: 0.82rem;
+        }
+
+        .summary-item strong {
+            color: #243447;
+            font-size: 0.82rem;
+            text-align: right;
+        }
+
+    .preview-details {
+        margin-top: 1rem;
+    }
+
+    .preview-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.8rem 0;
+        border-bottom: 1px solid #edf1f3;
+    }
+
+        .preview-row span {
+            color: #7a8793;
+            font-size: 0.8rem;
+        }
+
+        .preview-row strong {
+            color: #243447;
+            font-size: 0.8rem;
+            text-align: right;
+        }
+
+    @@media (max-width: 991.98px) {
+        .prescription-layout {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @@media (max-width: 767.98px) {
+        .prescription-header {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 1.25rem;
+        }
+
+        .prescription-header-status {
+            width: 100%;
+        }
+
+        .prescription-main .smart-card,
+        .prescription-sidebar .smart-card {
+            padding: 1.25rem;
+        }
+
+        .patient-selection-empty {
+            align-items: flex-start;
+        }
+
+        .prescription-actions {
+            flex-direction: column;
+        }
+
+            .prescription-actions > * {
+                width: 100%;
+                text-align: center;
+            }
+
+        .summary-item,
+        .preview-row {
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+            .summary-item strong,
+            .preview-row strong {
+                text-align: left;
+            }
+    }
+</style>

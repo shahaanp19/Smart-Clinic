@@ -3,218 +3,480 @@
 }
 
 <section class="page-section">
-
     <div class="container">
 
-        <!-- Page Header -->
+        <div class="smart-card consultation-header mb-4">
 
-        <div class="smart-card mb-4">
+            <div>
+                <span class="smart-badge">
+                    Doctor Dashboard
+                </span>
 
-            <div class="row align-items-center">
+                <h1 class="dashboard-title mt-3">
+                    Patient Consultation
+                </h1>
 
-                <div class="col-md-8">
+                <p class="text-muted mb-0">
+                    Complete consultation notes and manage treatment information.
+                </p>
+            </div>
 
-                    <span class="smart-badge">
-                        Doctor Dashboard
-                    </span>
+            <div class="consultation-header-status">
+                <span class="status-badge">
+                    Appointment Status
+                </span>
 
-                    <h1 class="dashboard-title mt-3">
-                        Patient Consultation
-                    </h1>
+                <strong>Not Selected</strong>
 
-                    <p class="text-muted mb-0">
-                        Complete consultation notes and generate prescriptions.
-                    </p>
-
-                </div>
-
-                <div class="col-md-4 text-md-end">
-
-                    <span class="status-badge confirmed">
-                        Checked In
-                    </span>
-
-                </div>
-
+                <small>
+                    Select an appointment to begin.
+                </small>
             </div>
 
         </div>
 
-        <div class="row g-4">
+        <div class="consultation-layout">
 
-            <!-- Patient Overview -->
-
-            <div class="col-lg-4">
+            <aside class="consultation-sidebar">
 
                 <div class="smart-card">
 
-                    <h4 class="mb-4">
-                        Patient Overview
-                    </h4>
-
-                    <div class="mb-3">
-                        <small class="text-muted">Patient Name</small>
-                        <h5>Sarah Jacobs</h5>
+                    <div class="section-header mb-3">
+                        <div>
+                            <h4 class="mb-1">Patient Overview</h4>
+                            <p class="text-muted mb-0">
+                                Patient information will appear here.
+                            </p>
+                        </div>
                     </div>
 
-                    <div class="mb-3">
-                        <small class="text-muted">Appointment Type</small>
-                        <h5>General Consultation</h5>
-                    </div>
+                    <div class="patient-overview-empty">
 
-                    <div class="mb-3">
-                        <small class="text-muted">Consultation Time</small>
-                        <h5>09:00 AM</h5>
-                    </div>
+                        <div class="consultation-empty-icon">
+                            <i class="bi bi-person-vcard"></i>
+                        </div>
 
-                    <hr />
+                        <h5>No patient selected</h5>
 
-                    <div>
-                        <small class="text-muted">
-                            Medical Alert
-                        </small>
-
-                        <p class="mb-0 text-danger fw-semibold">
-                            Penicillin Allergy
+                        <p>
+                            Select a patient appointment to view the relevant clinical information.
                         </p>
+
+                    </div>
+
+                    <div class="patient-detail-list">
+
+                        <div class="patient-detail">
+                            <span>Patient Name</span>
+                            <strong>Not available</strong>
+                        </div>
+
+                        <div class="patient-detail">
+                            <span>Appointment Type</span>
+                            <strong>Not available</strong>
+                        </div>
+
+                        <div class="patient-detail">
+                            <span>Consultation Time</span>
+                            <strong>Not available</strong>
+                        </div>
+
                     </div>
 
                 </div>
-
-            </div>
-
-            <!-- Consultation Form -->
-
-            <div class="col-lg-8">
 
                 <div class="smart-card">
 
-                    <h4 class="mb-4">
-                        Consultation Notes
-                    </h4>
-
-                    <div class="mb-3">
-
-                        <label class="smart-label">
-                            Symptoms
-                        </label>
-
-                        <textarea class="form-control smart-input"
-                                  rows="3"></textarea>
-
+                    <div class="section-header mb-3">
+                        <div>
+                            <h4 class="mb-1">Medical Alerts</h4>
+                            <p class="text-muted mb-0">
+                                Relevant alerts will be shown when patient data is available.
+                            </p>
+                        </div>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="alert-empty-state">
+                        <i class="bi bi-shield-check"></i>
 
-                        <label class="smart-label">
-                            Diagnosis
-                        </label>
-
-                        <input class="form-control smart-input" />
-
-                    </div>
-
-                    <div class="mb-4">
-
-                        <label class="smart-label">
-                            Treatment Notes
-                        </label>
-
-                        <textarea class="form-control smart-input"
-                                  rows="4"></textarea>
-
+                        <div>
+                            <strong>No alerts available</strong>
+                            <p class="mb-0">
+                                No medical alerts are currently available for the selected patient.
+                            </p>
+                        </div>
                     </div>
 
                 </div>
 
-                <!-- Prescription -->
+            </aside>
 
-                <div class="smart-card mt-4">
+            <main class="consultation-main">
 
-                    <h4 class="mb-4">
-                        Prescription
-                    </h4>
+                <div class="smart-card">
+
+                    <div class="section-header mb-4">
+                        <div>
+                            <h4 class="mb-1">Consultation Notes</h4>
+                            <p class="text-muted mb-0">
+                                Record the clinical findings and treatment plan.
+                            </p>
+                        </div>
+                    </div>
+
+                    <form>
+
+                        <div class="mb-4">
+                            <label for="symptoms" class="smart-label">
+                                Symptoms
+                            </label>
+
+                            <textarea id="symptoms"
+                                      class="form-control smart-input"
+                                      rows="4"
+                                      placeholder="Record the patient's reported symptoms..."></textarea>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="diagnosis" class="smart-label">
+                                Diagnosis
+                            </label>
+
+                            <input id="diagnosis"
+                                   class="form-control smart-input"
+                                   placeholder="Enter diagnosis..." />
+                        </div>
+
+                        <div>
+                            <label for="treatmentNotes" class="smart-label">
+                                Treatment Notes
+                            </label>
+
+                            <textarea id="treatmentNotes"
+                                      class="form-control smart-input"
+                                      rows="5"
+                                      placeholder="Record treatment, clinical observations and follow-up instructions..."></textarea>
+                        </div>
+
+                    </form>
+
+                </div>
+
+                <div class="smart-card">
+
+                    <div class="section-header mb-4">
+                        <div>
+                            <h4 class="mb-1">Prescription</h4>
+                            <p class="text-muted mb-0">
+                                Add medication instructions when a prescription is required.
+                            </p>
+                        </div>
+                    </div>
 
                     <div class="row g-3">
 
                         <div class="col-md-6">
-
-                            <label class="smart-label">
+                            <label for="medication" class="smart-label">
                                 Medication
                             </label>
 
-                            <input class="form-control smart-input" />
-
+                            <input id="medication"
+                                   class="form-control smart-input"
+                                   placeholder="Medication name" />
                         </div>
 
                         <div class="col-md-6">
-
-                            <label class="smart-label">
+                            <label for="dosage" class="smart-label">
                                 Dosage
                             </label>
 
-                            <input class="form-control smart-input" />
-
+                            <input id="dosage"
+                                   class="form-control smart-input"
+                                   placeholder="e.g. 500 mg" />
                         </div>
 
                         <div class="col-md-6">
-
-                            <label class="smart-label">
+                            <label for="duration" class="smart-label">
                                 Duration
                             </label>
 
-                            <input class="form-control smart-input" />
-
+                            <input id="duration"
+                                   class="form-control smart-input"
+                                   placeholder="e.g. 5 days" />
                         </div>
 
                         <div class="col-md-6">
-
-                            <label class="smart-label">
+                            <label for="instructions" class="smart-label">
                                 Instructions
                             </label>
 
-                            <input class="form-control smart-input" />
-
+                            <input id="instructions"
+                                   class="form-control smart-input"
+                                   placeholder="e.g. Take after meals" />
                         </div>
 
                     </div>
 
+                    <div class="prescription-note mt-4">
+                        <i class="bi bi-info-circle"></i>
+
+                        <span>
+                            Prescription details should be completed only after reviewing the patient's clinical information.
+                        </span>
+                    </div>
+
                 </div>
 
-                <!-- Actions -->
+                <div class="consultation-actions">
 
-                <div class="mt-4 d-flex gap-3 flex-wrap">
-
-                    <button class="smart-btn-primary">
-
+                    <button type="button"
+                            class="smart-btn-primary"
+                            disabled>
                         <i class="bi bi-save me-2"></i>
-
                         Save Consultation
-
                     </button>
 
-                    <button class="smart-btn-accent">
-
+                    <button type="button"
+                            class="smart-btn-accent"
+                            disabled>
                         <i class="bi bi-capsule me-2"></i>
-
                         Generate Prescription
-
                     </button>
 
                     <a asp-controller="Doctor"
                            asp-action="Dashboard"
-                           class="btn btn-outline-secondary rounded-3">
-
-                        Back
-
+                           class="btn btn-outline-secondary rounded-3 text-decoration-none">
+                        Back to Dashboard
                     </a>
 
                 </div>
 
-            </div>
+            </main>
 
         </div>
 
     </div>
-
 </section>
+
+<style>
+    .consultation-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 2rem;
+        padding: 1.75rem 2rem;
+    }
+
+    .consultation-header-status {
+        flex: 0 0 220px;
+        padding: 1rem 1.1rem;
+        border: 1px solid #e2e9ed;
+        border-radius: 14px;
+        background: #f8fafb;
+    }
+
+        .consultation-header-status .status-badge {
+            display: inline-block;
+            margin-bottom: 0.45rem;
+            color: #6c757d;
+            background: #edf1f3;
+        }
+
+        .consultation-header-status strong {
+            display: block;
+            color: #243447;
+            margin-bottom: 0.2rem;
+        }
+
+        .consultation-header-status small {
+            display: block;
+            color: #7a8793;
+            line-height: 1.4;
+        }
+
+    .consultation-layout {
+        display: grid;
+        grid-template-columns: minmax(280px, 0.78fr) minmax(0, 1.7fr);
+        gap: 1.5rem;
+        align-items: start;
+    }
+
+    .consultation-sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .consultation-main {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .patient-overview-empty {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 1.5rem 1rem;
+        border: 1px dashed #d5dde5;
+        border-radius: 14px;
+        background: #fafcfd;
+    }
+
+    .consultation-empty-icon {
+        width: 56px;
+        height: 56px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 0.9rem;
+        border-radius: 14px;
+        background: #e7f5f3;
+        color: var(--primary);
+        font-size: 1.4rem;
+    }
+
+    .patient-overview-empty h5 {
+        margin-bottom: 0.4rem;
+        color: #243447;
+    }
+
+    .patient-overview-empty p {
+        margin: 0;
+        color: #6c757d;
+        font-size: 0.88rem;
+        line-height: 1.5;
+    }
+
+    .patient-detail-list {
+        margin-top: 1rem;
+    }
+
+    .patient-detail {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.8rem 0;
+        border-bottom: 1px solid #edf1f3;
+    }
+
+        .patient-detail:last-child {
+            border-bottom: 0;
+        }
+
+        .patient-detail span {
+            color: #7a8793;
+            font-size: 0.82rem;
+        }
+
+        .patient-detail strong {
+            color: #243447;
+            font-size: 0.85rem;
+            text-align: right;
+        }
+
+    .alert-empty-state {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.8rem;
+        padding: 1rem;
+        border-radius: 13px;
+        background: #f8fafb;
+    }
+
+        .alert-empty-state > i {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-top: 0.1rem;
+        }
+
+        .alert-empty-state strong {
+            display: block;
+            color: #243447;
+            font-size: 0.88rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .alert-empty-state p {
+            color: #6c757d;
+            font-size: 0.8rem;
+            line-height: 1.45;
+        }
+
+    .consultation-main .smart-card {
+        padding: 1.75rem;
+    }
+
+    .prescription-note {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.7rem;
+        padding: 0.9rem 1rem;
+        border-radius: 12px;
+        background: #f8fafb;
+        color: #6c757d;
+        font-size: 0.82rem;
+        line-height: 1.5;
+    }
+
+        .prescription-note i {
+            color: var(--primary);
+            font-size: 1rem;
+            margin-top: 0.1rem;
+        }
+
+    .consultation-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+
+        .consultation-actions .smart-btn-primary:disabled,
+        .consultation-actions .smart-btn-accent:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+    @@media (max-width: 991.98px) {
+        .consultation-layout {
+            grid-template-columns: 1fr;
+        }
+
+        .consultation-sidebar {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: start;
+        }
+    }
+
+    @@media (max-width: 767.98px) {
+        .consultation-header {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 1.25rem;
+        }
+
+        .consultation-header-status {
+            width: 100%;
+        }
+
+        .consultation-sidebar {
+            display: flex;
+        }
+
+        .consultation-main .smart-card {
+            padding: 1.25rem;
+        }
+
+        .consultation-actions {
+            flex-direction: column;
+        }
+
+            .consultation-actions > * {
+                width: 100%;
+                text-align: center;
+            }
+    }
+</style>

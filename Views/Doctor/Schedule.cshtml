@@ -5,364 +5,525 @@
 <section class="page-section">
     <div class="container">
 
-        <!-- Header -->
-        <div class="smart-card mb-5">
+        <div class="smart-card schedule-header mb-4">
 
-            <div class="row align-items-center">
+            <div>
+                <span class="smart-badge">
+                    Doctor Portal
+                </span>
 
-                <div class="col-lg-8">
+                <h1 class="dashboard-title mt-3 mb-2">
+                    Schedule Management
+                </h1>
 
-                    <span class="smart-badge">
-                        Doctor Portal
-                    </span>
+                <p class="text-muted mb-0">
+                    View appointments, manage availability and monitor upcoming consultations.
+                </p>
+            </div>
 
-                    <h1 class="dashboard-title mt-3">
-                        Schedule Management
-                    </h1>
+            <a asp-controller="Doctor"
+                   asp-action="Dashboard"
+                   class="btn btn-outline-secondary rounded-3 px-4">
+                <i class="bi bi-arrow-left me-2"></i>
+                Back to Dashboard
+            </a>
+
+        </div>
+
+        <div class="schedule-stats">
+
+            <div class="smart-card stat-panel">
+                <div class="stat-icon">
+                    <i class="bi bi-calendar-check"></i>
+                </div>
+
+                <div>
+                    <h3>—</h3>
+                    <p>This Week</p>
+                    <span>No data available</span>
+                </div>
+            </div>
+
+            <div class="smart-card stat-panel">
+                <div class="stat-icon">
+                    <i class="bi bi-person-check"></i>
+                </div>
+
+                <div>
+                    <h3>—</h3>
+                    <p>Today</p>
+                    <span>No data available</span>
+                </div>
+            </div>
+
+            <div class="smart-card stat-panel">
+                <div class="stat-icon">
+                    <i class="bi bi-clock-history"></i>
+                </div>
+
+                <div>
+                    <h3>—</h3>
+                    <p>Pending</p>
+                    <span>No data available</span>
+                </div>
+            </div>
+
+            <div class="smart-card stat-panel">
+                <div class="stat-icon">
+                    <i class="bi bi-check-circle"></i>
+                </div>
+
+                <div>
+                    <h3>—</h3>
+                    <p>Attendance Rate</p>
+                    <span>No data available</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="smart-card calendar-card mb-4">
+
+            <div class="section-header mb-4">
+
+                <div>
+                    <h4 class="mb-1">
+                        Calendar
+                    </h4>
 
                     <p class="text-muted mb-0">
-                        View appointments, manage availability and monitor upcoming consultations.
+                        Monthly appointment overview.
                     </p>
-
                 </div>
 
-                <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
-
-                    <a asp-controller="Doctor"
-                           asp-action="Dashboard"
-                           class="btn btn-outline-secondary rounded-3">
-
-                        Back to Dashboard
-
-                    </a>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- Statistics -->
-        <div class="row g-4 mb-5">
-
-            <div class="col-md-3">
-
-                <div class="smart-card stat-panel">
-
-                    <i class="bi bi-calendar-check"></i>
-
-                    <h3>28</h3>
-
-                    <p>This Week</p>
-
-                </div>
-
-            </div>
-
-            <div class="col-md-3">
-
-                <div class="smart-card stat-panel">
-
-                    <i class="bi bi-person-check"></i>
-
-                    <h3>8</h3>
-
-                    <p>Today</p>
-
-                </div>
-
-            </div>
-
-            <div class="col-md-3">
-
-                <div class="smart-card stat-panel">
-
-                    <i class="bi bi-clock-history"></i>
-
-                    <h3>4</h3>
-
-                    <p>Pending</p>
-
-                </div>
-
-            </div>
-
-            <div class="col-md-3">
-
-                <div class="smart-card stat-panel">
-
-                    <i class="bi bi-check-circle"></i>
-
-                    <h3>91%</h3>
-
-                    <p>Attendance Rate</p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- Calendar -->
-        <div class="smart-card mb-5">
-
-            <div class="section-header">
-
-                <h4>June 2026 Calendar</h4>
-
-                <span class="text-muted">
-                    Monthly Overview
+                <span class="records-count">
+                    No appointments
                 </span>
 
             </div>
 
-            <div class="table-responsive">
+            <div class="calendar-empty-state">
 
-                <table class="table table-bordered text-center align-middle">
+                <div class="calendar-empty-icon">
+                    <i class="bi bi-calendar3"></i>
+                </div>
 
-                    <thead class="table-light">
+                <h5>
+                    Calendar data unavailable
+                </h5>
 
-                        <tr>
-                            <th>Mon</th>
-                            <th>Tue</th>
-                            <th>Wed</th>
-                            <th>Thu</th>
-                            <th>Fri</th>
-                            <th>Sat</th>
-                            <th>Sun</th>
-                        </tr>
-
-                    </thead>
-
-                    <tbody>
-
-                        <tr>
-                            <td></td>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td><strong>4</strong><br /><small>8 Appointments</small></td>
-                            <td>5</td>
-                            <td>6</td>
-                        </tr>
-
-                        <tr>
-                            <td>7</td>
-                            <td><strong>8</strong><br /><small>6 Appointments</small></td>
-                            <td>9</td>
-                            <td>10</td>
-                            <td><strong>11</strong><br /><small>7 Appointments</small></td>
-                            <td>12</td>
-                            <td>13</td>
-                        </tr>
-
-                        <tr>
-                            <td>14</td>
-                            <td>15</td>
-                            <td>16</td>
-                            <td><strong>17</strong><br /><small>9 Appointments</small></td>
-                            <td>18</td>
-                            <td>19</td>
-                            <td>20</td>
-                        </tr>
-
-                        <tr>
-                            <td>21</td>
-                            <td>22</td>
-                            <td>23</td>
-                            <td>24</td>
-                            <td>25</td>
-                            <td>26</td>
-                            <td>27</td>
-                        </tr>
-
-                        <tr>
-                            <td>28</td>
-                            <td>29</td>
-                            <td>30</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-
-                    </tbody>
-
-                </table>
+                <p>
+                    Appointment dates and consultation activity will appear here once schedule data is available.
+                </p>
 
             </div>
 
         </div>
 
-        <div class="row g-4">
+        <div class="schedule-content-grid">
 
-            <!-- Weekly Schedule -->
-            <div class="col-lg-8">
+            <div class="smart-card">
 
-                <div class="smart-card">
+                <div class="section-header mb-4">
 
-                    <div class="section-header">
+                    <div>
+                        <h4 class="mb-1">
+                            This Week's Schedule
+                        </h4>
 
-                        <h4>This Week's Schedule</h4>
-
+                        <p class="text-muted mb-0">
+                            Upcoming consultations and appointment status.
+                        </p>
                     </div>
 
-                    <div class="table-responsive">
+                    <span class="records-count">
+                        No appointments
+                    </span>
 
-                        <table class="table align-middle smart-table">
+                </div>
 
-                            <thead>
+                <div class="schedule-empty-state">
 
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Patient</th>
-                                    <th>Time</th>
-                                    <th>Service</th>
-                                    <th>Status</th>
-                                </tr>
-
-                            </thead>
-
-                            <tbody>
-
-                                <tr>
-                                    <td>Mon 8 Jun</td>
-                                    <td>Sarah Jacobs</td>
-                                    <td>09:00</td>
-                                    <td>General Consultation</td>
-                                    <td><span class="status-badge confirmed">Confirmed</span></td>
-                                </tr>
-
-                                <tr>
-                                    <td>Mon 8 Jun</td>
-                                    <td>Michael Brown</td>
-                                    <td>09:30</td>
-                                    <td>Follow-Up</td>
-                                    <td><span class="status-badge pending">Waiting</span></td>
-                                </tr>
-
-                                <tr>
-                                    <td>Tue 9 Jun</td>
-                                    <td>Lisa Adams</td>
-                                    <td>10:00</td>
-                                    <td>Medical Review</td>
-                                    <td><span class="status-badge confirmed">Confirmed</span></td>
-                                </tr>
-
-                                <tr>
-                                    <td>Wed 10 Jun</td>
-                                    <td>James Wilson</td>
-                                    <td>11:30</td>
-                                    <td>Consultation</td>
-                                    <td><span class="status-badge pending">Scheduled</span></td>
-                                </tr>
-
-                                <tr>
-                                    <td>Thu 11 Jun</td>
-                                    <td>Emma Smith</td>
-                                    <td>14:00</td>
-                                    <td>Review</td>
-                                    <td><span class="status-badge confirmed">Confirmed</span></td>
-                                </tr>
-
-                            </tbody>
-
-                        </table>
-
+                    <div class="schedule-empty-icon">
+                        <i class="bi bi-calendar-x"></i>
                     </div>
+
+                    <h5>
+                        No scheduled consultations
+                    </h5>
+
+                    <p>
+                        Your weekly appointment schedule will appear here when consultation data is available.
+                    </p>
 
                 </div>
 
             </div>
 
-            <!-- Sidebar -->
-            <div class="col-lg-4">
+            <aside class="schedule-sidebar">
 
                 <div class="smart-card">
 
-                    <h4 class="mb-4">
-                        Upcoming Consultations
-                    </h4>
-
-                    <div class="notification-item">
-
-                        <i class="bi bi-person-heart"></i>
+                    <div class="section-header mb-4">
 
                         <div>
+                            <h4 class="mb-1">
+                                Upcoming Consultations
+                            </h4>
 
-                            <strong>Sarah Jacobs</strong>
-
-                            <p>
-                                Today • 09:00
+                            <p class="text-muted mb-0">
+                                Next scheduled patient visits.
                             </p>
-
                         </div>
 
                     </div>
 
-                    <div class="notification-item">
+                    <div class="sidebar-empty-state">
 
                         <i class="bi bi-person-heart"></i>
 
+                        <strong>
+                            No upcoming consultations
+                        </strong>
+
+                        <p>
+                            Upcoming patient appointments will appear here.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="smart-card">
+
+                    <div class="section-header mb-4">
+
                         <div>
+                            <h4 class="mb-1">
+                                Availability
+                            </h4>
 
-                            <strong>Michael Brown</strong>
-
-                            <p>
-                                Today • 09:30
+                            <p class="text-muted mb-0">
+                                Current working hours and available slots.
                             </p>
-
                         </div>
 
                     </div>
 
-                    <div class="notification-item">
+                    <div class="availability-empty-state">
 
-                        <i class="bi bi-person-heart"></i>
+                        <div class="availability-icon">
+                            <i class="bi bi-clock"></i>
+                        </div>
 
-                        <div>
+                        <h5>
+                            Availability not configured
+                        </h5>
 
-                            <strong>Lisa Adams</strong>
+                        <p>
+                            Working hours and available consultation slots will appear when availability data is configured.
+                        </p>
 
-                            <p>
-                                Tomorrow • 10:00
-                            </p>
+                    </div>
 
+                    <div class="availability-details">
+
+                        <div class="availability-row">
+                            <span>Working Hours</span>
+                            <strong>Not available</strong>
+                        </div>
+
+                        <div class="availability-row border-0">
+                            <span>Next Available Slot</span>
+                            <strong>Not available</strong>
                         </div>
 
                     </div>
 
                 </div>
 
-                <div class="smart-card mt-4">
-
-                    <h4 class="mb-4">
-                        Availability
-                    </h4>
-
-                    <p class="mb-2">
-                        <strong>Monday - Friday</strong>
-                    </p>
-
-                    <p class="text-muted">
-                        08:00 - 17:00
-                    </p>
-
-                    <hr />
-
-                    <p class="mb-2">
-                        <strong>Next Available Slot</strong>
-                    </p>
-
-                    <p class="text-success mb-0">
-                        Today • 15:30
-                    </p>
-
-                </div>
-
-            </div>
+            </aside>
 
         </div>
 
     </div>
 </section>
+
+<style>
+    .schedule-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 2rem;
+        padding: 1.75rem 2rem;
+    }
+
+    .schedule-stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .stat-panel {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1.4rem 1.5rem;
+    }
+
+    .stat-icon {
+        width: 48px;
+        height: 48px;
+        flex: 0 0 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 13px;
+        background: #e7f5f3;
+        color: var(--primary);
+        font-size: 1.25rem;
+    }
+
+    .stat-panel h3 {
+        margin: 0;
+        color: #243447;
+        font-size: 1.7rem;
+        font-weight: 700;
+    }
+
+    .stat-panel p {
+        margin: 0.15rem 0;
+        color: #495866;
+        font-size: 0.86rem;
+        font-weight: 600;
+    }
+
+    .stat-panel span {
+        color: #8a96a1;
+        font-size: 0.75rem;
+    }
+
+    .calendar-card,
+    .schedule-content-grid > .smart-card,
+    .schedule-sidebar .smart-card {
+        padding: 1.75rem;
+    }
+
+    .records-count {
+        padding: 0.4rem 0.75rem;
+        border-radius: 999px;
+        background: #f1f4f6;
+        color: #687681;
+        font-size: 0.76rem;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .calendar-empty-state,
+    .schedule-empty-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 2.5rem 1.5rem;
+        border: 1px dashed #d5dde5;
+        border-radius: 15px;
+        background: #fafcfd;
+    }
+
+    .calendar-empty-icon,
+    .schedule-empty-icon {
+        width: 58px;
+        height: 58px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+        border-radius: 15px;
+        background: #e7f5f3;
+        color: var(--primary);
+        font-size: 1.4rem;
+    }
+
+    .calendar-empty-state h5,
+    .schedule-empty-state h5 {
+        margin-bottom: 0.45rem;
+        color: #243447;
+    }
+
+    .calendar-empty-state p,
+    .schedule-empty-state p {
+        max-width: 520px;
+        margin: 0;
+        color: #6c757d;
+        font-size: 0.85rem;
+        line-height: 1.6;
+    }
+
+    .schedule-content-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.7fr) minmax(280px, 0.78fr);
+        gap: 1.5rem;
+        align-items: start;
+    }
+
+    .schedule-sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .sidebar-empty-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 1.5rem 1rem;
+        border: 1px dashed #d5dde5;
+        border-radius: 14px;
+        background: #fafcfd;
+    }
+
+        .sidebar-empty-state > i {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.75rem;
+            border-radius: 13px;
+            background: #e7f5f3;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .sidebar-empty-state strong {
+            color: #243447;
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .sidebar-empty-state p {
+            margin: 0;
+            color: #6c757d;
+            font-size: 0.8rem;
+            line-height: 1.5;
+        }
+
+    .availability-empty-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 1.25rem;
+        border: 1px dashed #d5dde5;
+        border-radius: 14px;
+        background: #fafcfd;
+    }
+
+    .availability-icon {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 0.75rem;
+        border-radius: 13px;
+        background: #e7f5f3;
+        color: var(--primary);
+        font-size: 1.2rem;
+    }
+
+    .availability-empty-state h5 {
+        margin-bottom: 0.3rem;
+        color: #243447;
+        font-size: 0.92rem;
+    }
+
+    .availability-empty-state p {
+        margin: 0;
+        color: #6c757d;
+        font-size: 0.8rem;
+        line-height: 1.5;
+    }
+
+    .availability-details {
+        margin-top: 1rem;
+    }
+
+    .availability-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.8rem 0;
+        border-bottom: 1px solid #edf1f3;
+    }
+
+        .availability-row span {
+            color: #7a8793;
+            font-size: 0.8rem;
+        }
+
+        .availability-row strong {
+            color: #243447;
+            font-size: 0.8rem;
+            text-align: right;
+        }
+
+    @@media (max-width: 1199.98px) {
+        .schedule-stats {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @@media (max-width: 991.98px) {
+        .schedule-content-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @@media (max-width: 767.98px) {
+        .schedule-header {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 1.25rem;
+        }
+
+            .schedule-header a {
+                width: 100%;
+                text-align: center;
+            }
+
+        .schedule-stats {
+            grid-template-columns: 1fr;
+        }
+
+        .calendar-card,
+        .schedule-content-grid > .smart-card,
+        .schedule-sidebar .smart-card {
+            padding: 1.25rem;
+        }
+
+        .section-header {
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .records-count {
+            align-self: flex-start;
+        }
+
+        .availability-row {
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+            .availability-row strong {
+                text-align: left;
+            }
+    }
+</style>
