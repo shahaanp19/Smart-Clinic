@@ -1702,3 +1702,96 @@ REDUCED MOTION
 
     ```
 }
+
+.home-primary-button {
+    background: #0f766e !important;
+    color: #ffffff !important;
+    border: none !important;
+}
+
+    .home-primary-button *,
+    .home-primary-button::before,
+    .home-primary-button::after {
+        color: #ffffff !important;
+    }
+
+    .home-primary-button:hover,
+    .home-primary-button:focus,
+    .home-primary-button:active,
+    .home-primary-button:visited {
+        background: #0f766e !important;
+        color: #ffffff !important;
+    }
+
+        .home-primary-button:hover *,
+        .home-primary-button:focus *,
+        .home-primary-button:active *,
+        .home-primary-button:visited * {
+            color: #ffffff !important;
+        }
+
+.home-card-footer {
+    color: #0f766e !important;
+}
+
+    .home-card-footer span {
+        color: #0f766e !important;
+    }
+
+    .home-card-footer i {
+        color: #0f766e !important;
+    }
+
+.home-smart-card:hover .home-card-footer,
+.home-smart-card:hover .home-card-footer span,
+.home-smart-card:hover .home-card-footer i {
+    color: #ffffff !important;
+}
+
+.home-patient-card .home-primary-button {
+    background: #0f766e !important;
+    color: #ffffff !important;
+}
+
+    .home-patient-card .home-primary-button * {
+        color: #ffffff !important;
+    }
+.home-smart-card,
+.home-smart-card:hover,
+.home-smart-card:focus,
+.home-smart-card:active,
+.home-smart-card:visited {
+    color: #1f2937 !important;
+}
+
+    .home-smart-card:hover h3,
+    .home-smart-card:hover p,
+    .home-smart-card:hover .home-card-body,
+    .home-smart-card:hover .home-card-footer,
+    .home-smart-card:hover .home-card-footer span {
+        color: #1f2937 !important;
+    }
+
+        .home-smart-card:hover .home-card-footer i {
+            color: #1f2937 !important;
+        }
+
+    .home-smart-card h3 {
+        color: #111827 !important;
+    }
+
+    .home-smart-card p {
+        color: #6b7280 !important;
+    }
+
+    .home-smart-card .home-card-footer {
+        color: #0f766e !important;
+    }
+
+        .home-smart-card .home-card-footer span {
+            color: #0f766e !important;
+        }
+
+        .home-smart-card .home-card-footer i {
+            color: #0f766e !important;
+        }
