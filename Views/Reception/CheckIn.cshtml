@@ -5,9 +5,7 @@
 <section class="page-section">
     <div class="container">
 
-        <!-- Header -->
-
-        <div class="smart-card mb-5">
+        <div class="smart-card checkin-header mb-4">
 
             <span class="smart-badge">
                 Reception Dashboard
@@ -23,165 +21,164 @@
 
         </div>
 
-        <!-- Check-In Progress -->
+        <div class="smart-card checkin-progress-card mb-4">
 
-        <div class="smart-card mb-5">
-
-            <div class="section-header">
-                <h4>Check-In Progress</h4>
+            <div class="section-header mb-4">
+                <div>
+                    <h4 class="mb-1">Check-In Progress</h4>
+                    <p class="text-muted mb-0">
+                        Complete each step to check a patient into the clinic.
+                    </p>
+                </div>
             </div>
 
-            <div class="row text-center">
+            <div class="checkin-steps">
 
-                <div class="col-md-4">
-                    <i class="bi bi-search fs-2 text-primary"></i>
-                    <p class="mt-2 mb-0 fw-bold">Verify Appointment</p>
+                <div class="checkin-step">
+                    <div class="checkin-step-icon">
+                        <i class="bi bi-search"></i>
+                    </div>
+                    <div>
+                        <strong>Verify Appointment</strong>
+                        <span>Confirm the appointment details.</span>
+                    </div>
                 </div>
 
-                <div class="col-md-4">
-                    <i class="bi bi-person-check fs-2 text-primary"></i>
-                    <p class="mt-2 mb-0 fw-bold">Confirm Arrival</p>
+                <div class="checkin-step">
+                    <div class="checkin-step-icon">
+                        <i class="bi bi-person-check"></i>
+                    </div>
+                    <div>
+                        <strong>Confirm Arrival</strong>
+                        <span>Record the patient's arrival.</span>
+                    </div>
                 </div>
 
-                <div class="col-md-4">
-                    <i class="bi bi-ticket-perforated fs-2 text-primary"></i>
-                    <p class="mt-2 mb-0 fw-bold">Assign Queue Number</p>
+                <div class="checkin-step">
+                    <div class="checkin-step-icon">
+                        <i class="bi bi-ticket-perforated"></i>
+                    </div>
+                    <div>
+                        <strong>Assign Queue Number</strong>
+                        <span>Add the patient to the clinic queue.</span>
+                    </div>
                 </div>
 
             </div>
 
         </div>
 
-        <!-- Main Content -->
+        <div class="checkin-layout">
 
-        <div class="row g-4">
-
-            <!-- Left Side -->
-
-            <div class="col-lg-7">
-
-                <!-- Appointment Details -->
+            <div>
 
                 <div class="smart-card">
 
-                    <div class="section-header">
-                        <h4>Appointment Verification</h4>
+                    <div class="section-header mb-4">
+                        <div>
+                            <h4 class="mb-1">Appointment Verification</h4>
+                            <p class="text-muted mb-0">
+                                Enter an appointment reference to retrieve patient information.
+                            </p>
+                        </div>
                     </div>
 
-                    <div class="row g-3">
+                    <div class="checkin-form-empty">
 
-                        <div class="col-md-6">
-                            <label class="smart-label">Appointment ID</label>
-                            <input class="form-control smart-input"
-                                   value="APT-10024" />
+                        <div class="checkin-empty-icon">
+                            <i class="bi bi-calendar2-check"></i>
                         </div>
 
-                        <div class="col-md-6">
-                            <label class="smart-label">Patient Name</label>
-                            <input class="form-control smart-input"
-                                   value="Sarah Jacobs" />
-                        </div>
+                        <h5>No appointment selected</h5>
 
-                        <div class="col-md-6">
-                            <label class="smart-label">Doctor</label>
-                            <input class="form-control smart-input"
-                                   value="Dr Esmé Cilliers" />
-                        </div>
+                        <p>
+                            Appointment details will appear here after an appointment
+                            has been selected or retrieved.
+                        </p>
 
-                        <div class="col-md-6">
-                            <label class="smart-label">Appointment Time</label>
-                            <input class="form-control smart-input"
-                                   value="09:00" />
-                        </div>
+                        <div class="checkin-reference">
+                            <label for="appointmentId" class="smart-label">
+                                Appointment ID
+                            </label>
 
-                        <div class="col-md-6">
-                            <label class="smart-label">Service</label>
-                            <input class="form-control smart-input"
-                                   value="General Consultation" />
-                        </div>
+                            <div class="input-group">
+                                <input id="appointmentId"
+                                       type="text"
+                                       class="form-control smart-input"
+                                       placeholder="Enter appointment ID"
+                                       autocomplete="off" />
 
-                        <div class="col-md-6">
-                            <label class="smart-label">Status</label>
-                            <input class="form-control smart-input"
-                                   value="Confirmed" />
+                                <button type="button"
+                                        class="smart-btn-primary">
+                                    <i class="bi bi-search me-2"></i>
+                                    Find Appointment
+                                </button>
+                            </div>
                         </div>
 
                     </div>
 
-                    <div class="mt-4 d-flex flex-wrap gap-3">
+                    <div class="checkin-actions">
 
                         <button type="button"
-                                class="smart-btn-primary">
-
+                                class="smart-btn-primary"
+                                disabled>
                             <i class="bi bi-check-circle me-2"></i>
                             Confirm Check-In
-
                         </button>
 
                         <button type="button"
-                                class="smart-btn-accent">
-
+                                class="smart-btn-accent"
+                                disabled>
                             <i class="bi bi-ticket-perforated me-2"></i>
                             Generate Queue Number
-
                         </button>
 
                         <a asp-controller="Reception"
                                asp-action="Dashboard"
-                               class="btn btn-outline-secondary rounded-3 px-4">
-
+                               class="btn btn-outline-secondary rounded-3 px-4 text-decoration-none">
                             Back
-
                         </a>
 
                     </div>
 
                 </div>
 
-                <!-- Contact Information -->
-
                 <div class="smart-card mt-4">
 
-                    <div class="section-header">
-                        <h4>Patient Information</h4>
+                    <div class="section-header mb-3">
+                        <div>
+                            <h4 class="mb-1">Patient Information</h4>
+                            <p class="text-muted mb-0">
+                                Contact details will be displayed after an appointment is selected.
+                            </p>
+                        </div>
                     </div>
 
-                    <div class="row g-3">
+                    <div class="patient-info-empty">
 
-                        <div class="col-md-4">
-
-                            <div class="mini-service-card">
-
-                                <strong>Phone</strong>
-
-                                <p>082 555 0147</p>
-
+                        <div class="patient-info-item">
+                            <i class="bi bi-telephone"></i>
+                            <div>
+                                <span>Phone</span>
+                                <strong>Not available</strong>
                             </div>
-
                         </div>
 
-                        <div class="col-md-4">
-
-                            <div class="mini-service-card">
-
-                                <strong>Email</strong>
-
-                                <p>sarah.jacobs@email.com</p>
-
+                        <div class="patient-info-item">
+                            <i class="bi bi-envelope"></i>
+                            <div>
+                                <span>Email</span>
+                                <strong>Not available</strong>
                             </div>
-
                         </div>
 
-                        <div class="col-md-4">
-
-                            <div class="mini-service-card">
-
-                                <strong>Emergency Contact</strong>
-
-                                <p>Mark Jacobs</p>
-
+                        <div class="patient-info-item">
+                            <i class="bi bi-person-heart"></i>
+                            <div>
+                                <span>Emergency Contact</span>
+                                <strong>Not available</strong>
                             </div>
-
                         </div>
 
                     </div>
@@ -190,70 +187,74 @@
 
             </div>
 
-            <!-- Right Side -->
-
-            <div class="col-lg-5">
-
-                <!-- Queue Card -->
+            <div>
 
                 <div class="smart-card">
 
-                    <div class="section-header">
-                        <h4>Queue Allocation</h4>
+                    <div class="section-header mb-3">
+                        <div>
+                            <h4 class="mb-1">Queue Allocation</h4>
+                            <p class="text-muted mb-0">
+                                Queue information will be generated after check-in.
+                            </p>
+                        </div>
                     </div>
 
-                    <div class="queue-preview">
+                    <div class="queue-empty-state">
 
-                        <span>Assigned Queue Number</span>
+                        <div class="checkin-empty-icon">
+                            <i class="bi bi-ticket-perforated"></i>
+                        </div>
 
-                        <h2>Q001</h2>
+                        <h5>No queue number assigned</h5>
 
                         <p>
-                            Patient successfully added to today's queue.
+                            Confirm the patient's arrival before assigning a queue number.
                         </p>
 
                     </div>
 
-                    <div class="summary-item">
-                        <span>Queue Status</span>
-                        <strong>Waiting</strong>
-                    </div>
+                    <div class="queue-details">
 
-                    <div class="summary-item">
-                        <span>Priority</span>
-                        <strong>Normal</strong>
-                    </div>
+                        <div class="summary-item">
+                            <span>Queue Status</span>
+                            <strong>Not Assigned</strong>
+                        </div>
 
-                    <div class="summary-item border-0">
-                        <span>Estimated Wait</span>
-                        <strong>15 Minutes</strong>
+                        <div class="summary-item">
+                            <span>Priority</span>
+                            <strong>Not Available</strong>
+                        </div>
+
+                        <div class="summary-item border-0">
+                            <span>Estimated Wait</span>
+                            <strong>Not Available</strong>
+                        </div>
+
                     </div>
 
                 </div>
 
-                <!-- Appointment Summary -->
-
                 <div class="smart-card mt-4">
 
-                    <div class="section-header">
-                        <h4>Appointment Summary</h4>
+                    <div class="section-header mb-3">
+                        <div>
+                            <h4 class="mb-1">Appointment Summary</h4>
+                            <p class="text-muted mb-0">
+                                Selected appointment details will appear here.
+                            </p>
+                        </div>
                     </div>
 
-                    <p class="mb-2">
-                        <strong>Date:</strong> 12 May 2026
-                    </p>
+                    <div class="appointment-summary-empty">
 
-                    <p class="mb-2">
-                        <strong>Time:</strong> 09:00
-                    </p>
+                        <i class="bi bi-calendar-event"></i>
 
-                    <p class="mb-2">
-                        <strong>Doctor:</strong> Dr Esmé Cilliers
-                    </p>
+                        <p class="mb-0">
+                            No appointment has been selected yet.
+                        </p>
 
-                    <p class="mb-0">
-                        <strong>Service:</strong> General Consultation
-                    </p>
+                    </div>
 
                 </div>
 
@@ -263,3 +264,249 @@
 
     </div>
 </section>
+
+<style>
+    .checkin-header {
+        padding: 1.75rem 2rem;
+    }
+
+    .checkin-progress-card {
+        padding: 1.5rem 2rem;
+    }
+
+    .checkin-steps {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+    }
+
+    .checkin-step {
+        display: flex;
+        align-items: center;
+        gap: 0.85rem;
+        padding: 1rem;
+        border: 1px solid #e4eaee;
+        border-radius: 14px;
+        background: #fafcfd;
+    }
+
+    .checkin-step-icon {
+        flex: 0 0 42px;
+        width: 42px;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        background: #e7f5f3;
+        color: var(--primary);
+        font-size: 1.1rem;
+    }
+
+    .checkin-step strong {
+        display: block;
+        color: #243447;
+        margin-bottom: 0.2rem;
+    }
+
+    .checkin-step span {
+        display: block;
+        color: #6c757d;
+        font-size: 0.82rem;
+        line-height: 1.4;
+    }
+
+    .checkin-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.65fr) minmax(290px, 0.85fr);
+        gap: 1.5rem;
+        align-items: start;
+    }
+
+    .checkin-form-empty {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 2rem 1.5rem;
+        border: 1px dashed #d5dde5;
+        border-radius: 16px;
+        background: #fafcfd;
+    }
+
+    .checkin-empty-icon {
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+        border-radius: 15px;
+        background: #e7f5f3;
+        color: var(--primary);
+        font-size: 1.5rem;
+    }
+
+    .checkin-form-empty h5 {
+        margin-bottom: 0.45rem;
+        color: #243447;
+    }
+
+    .checkin-form-empty > p {
+        max-width: 500px;
+        margin: 0 0 1.5rem;
+        color: #6c757d;
+        line-height: 1.55;
+    }
+
+    .checkin-reference {
+        width: 100%;
+        max-width: 600px;
+        text-align: left;
+    }
+
+        .checkin-reference .input-group {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+            .checkin-reference .input-group .form-control {
+                border-radius: 10px;
+            }
+
+            .checkin-reference .input-group .smart-btn-primary {
+                border-radius: 10px;
+                white-space: nowrap;
+            }
+
+    .checkin-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-top: 1.5rem;
+    }
+
+    .queue-empty-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 1.75rem 1rem;
+        border: 1px dashed #d5dde5;
+        border-radius: 16px;
+        background: #fafcfd;
+    }
+
+        .queue-empty-state h5 {
+            margin-bottom: 0.4rem;
+            color: #243447;
+        }
+
+        .queue-empty-state p {
+            margin: 0;
+            color: #6c757d;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+    .queue-details {
+        margin-top: 1rem;
+    }
+
+    .patient-info-empty {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+    }
+
+    .patient-info-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        padding: 1rem;
+        border-radius: 12px;
+        background: #f7f9fa;
+    }
+
+        .patient-info-item > i {
+            color: var(--primary);
+            font-size: 1.15rem;
+            margin-top: 0.1rem;
+        }
+
+        .patient-info-item span {
+            display: block;
+            color: #7a8793;
+            font-size: 0.78rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .patient-info-item strong {
+            display: block;
+            color: #243447;
+            font-size: 0.88rem;
+            font-weight: 600;
+        }
+
+    .appointment-summary-empty {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1rem;
+        border-radius: 12px;
+        background: #f7f9fa;
+        color: #6c757d;
+    }
+
+        .appointment-summary-empty i {
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+    .btn:disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+
+    @@media (max-width: 991.98px) {
+        .checkin-steps {
+            grid-template-columns: 1fr;
+        }
+
+        .checkin-layout {
+            grid-template-columns: 1fr;
+        }
+
+        .patient-info-empty {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @@media (max-width: 767.98px) {
+        .checkin-header,
+        .checkin-progress-card {
+            padding: 1.25rem;
+        }
+
+        .checkin-reference .input-group {
+            flex-direction: column;
+        }
+
+            .checkin-reference .input-group .smart-btn-primary {
+                width: 100%;
+            }
+
+        .checkin-actions {
+            flex-direction: column;
+        }
+
+            .checkin-actions > * {
+                width: 100%;
+                text-align: center;
+            }
+
+        .checkin-form-empty {
+            padding: 1.75rem 1rem;
+        }
+    }
+</style>

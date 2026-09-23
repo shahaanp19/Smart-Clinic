@@ -5,18 +5,11 @@
 <section class="page-section">
     <div class="container">
 
-        ```
-        <!-- Welcome Header -->
+        <div class="smart-card reception-welcome mb-4">
+            <div class="reception-welcome-content">
 
-        <div class="smart-card mb-5">
-
-            <div class="row align-items-center">
-
-                <div class="col-lg-8">
-
-                    <span class="smart-badge">
-                        Reception Dashboard
-                    </span>
+                <div>
+                    <span class="smart-badge">Reception Dashboard</span>
 
                     <h1 class="dashboard-title mt-3">
                         Front Desk Operations
@@ -29,331 +22,203 @@
                     <a asp-controller="Reception"
                            asp-action="CheckIn"
                            class="smart-btn-primary text-decoration-none">
-
                         <i class="bi bi-person-check me-2"></i>
                         Check In Patient
-
                     </a>
-
                 </div>
 
-                <div class="col-lg-4 text-center">
-
-                    <i class="bi bi-headset"
-                       style="font-size:90px;color:var(--primary);"></i>
-
+                <div class="reception-welcome-icon">
+                    <i class="bi bi-headset"></i>
                 </div>
 
             </div>
-
         </div>
 
-        <!-- Statistics -->
-
-        <div class="row g-4 mb-5">
+        <div class="row g-4 mb-4">
 
             <div class="col-md-3">
-
                 <div class="smart-card stat-panel">
-
                     <i class="bi bi-calendar-event"></i>
-
-                    <h3>24</h3>
-
-                    <p>Appointments Today</p>
-
+                    <h3>—</h3>
+                    <p class="mb-1">Appointments Today</p>
+                    <small>No data available</small>
                 </div>
-
             </div>
 
             <div class="col-md-3">
-
                 <div class="smart-card stat-panel">
-
                     <i class="bi bi-person-check"></i>
-
-                    <h3>11</h3>
-
-                    <p>Patients Checked In</p>
-
+                    <h3>—</h3>
+                    <p class="mb-1">Patients Checked In</p>
+                    <small>No data available</small>
                 </div>
-
             </div>
 
             <div class="col-md-3">
-
                 <div class="smart-card stat-panel">
-
                     <i class="bi bi-hourglass-split"></i>
-
-                    <h3>7</h3>
-
-                    <p>Waiting in Queue</p>
-
+                    <h3>—</h3>
+                    <p class="mb-1">Waiting in Queue</p>
+                    <small>No data available</small>
                 </div>
-
             </div>
 
             <div class="col-md-3">
-
                 <div class="smart-card stat-panel">
-
                     <i class="bi bi-calendar-x"></i>
-
-                    <h3>3</h3>
-
-                    <p>Cancellations</p>
-
+                    <h3>—</h3>
+                    <p class="mb-1">Cancellations</p>
+                    <small>No data available</small>
                 </div>
-
             </div>
 
         </div>
 
-        <!-- Quick Actions -->
+        <div class="smart-card mb-4">
 
-        <div class="smart-card mb-5">
-
-            <div class="section-header">
-                <h4>Quick Actions</h4>
+            <div class="section-header mb-3">
+                <div>
+                    <h4 class="mb-1">Quick Actions</h4>
+                    <p class="text-muted mb-0">
+                        Access the main reception tasks.
+                    </p>
+                </div>
             </div>
 
-            <div class="row g-4">
+            <div class="row g-3">
 
                 <div class="col-md-3">
+                    <a asp-controller="Reception"
+                           asp-action="CheckIn"
+                           class="portal-card reception-action-card text-center">
+                        <i class="bi bi-person-check"></i>
+                        <h5>Check In</h5>
+                        <p>Register a patient's arrival.</p>
+                    </a>
+                </div>
+
+                <div class="col-md-3">
+                    <a asp-controller="Reception"
+                           asp-action="Queue"
+                           class="portal-card reception-action-card text-center">
+                        <i class="bi bi-people"></i>
+                        <h5>Manage Queue</h5>
+                        <p>Monitor active queue entries.</p>
+                    </a>
+                </div>
+
+                <div class="col-md-3">
+                    <a asp-controller="Patient"
+                           asp-action="BookAppointment"
+                           class="portal-card reception-action-card text-center">
+                        <i class="bi bi-calendar-plus"></i>
+                        <h5>Appointment</h5>
+                        <p>Access appointment booking.</p>
+                    </a>
+                </div>
+
+                <div class="col-md-3">
+                    <a href="#"
+                           class="portal-card reception-action-card text-center">
+                        <i class="bi bi-person-vcard"></i>
+                        <h5>Patient Records</h5>
+                        <p>Access patient information.</p>
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="reception-content-grid">
+
+            <div class="smart-card">
+
+                <div class="section-header">
+
+                    <div>
+                        <h4 class="mb-1">Today's Appointments</h4>
+                        <p class="text-muted mb-0">
+                            Scheduled appointments will appear here when available.
+                        </p>
+                    </div>
 
                     <a asp-controller="Reception"
                            asp-action="CheckIn"
-                           class="portal-card text-center">
-
-                        <i class="bi bi-person-check"></i>
-
-                        <h5>Check In</h5>
-
+                           class="text-decoration-none">
+                        Process Check-In
                     </a>
 
                 </div>
 
-                <div class="col-md-3">
+                <div class="appointment-empty-state">
 
-                    <a asp-controller="Reception"
-                           asp-action="Queue"
-                           class="portal-card text-center">
+                    <div class="reception-empty-icon">
+                        <i class="bi bi-calendar2-week"></i>
+                    </div>
 
-                        <i class="bi bi-people"></i>
+                    <h5>No appointments available</h5>
 
-                        <h5>Manage Queue</h5>
-
-                    </a>
-
-                </div>
-
-                <div class="col-md-3">
-
-                    <a asp-controller="Patient"
-                           asp-action="BookAppointment"
-                           class="portal-card text-center">
-
-                        <i class="bi bi-calendar-plus"></i>
-
-                        <h5>Appointment</h5>
-
-                    </a>
-
-                </div>
-
-                <div class="col-md-3">
-
-                    <a href="#"
-                           class="portal-card text-center">
-
-                        <i class="bi bi-person-vcard"></i>
-
-                        <h5>Patient Records</h5>
-
-                    </a>
+                    <p>
+                        There are currently no appointment records to display for today.
+                    </p>
 
                 </div>
 
             </div>
 
-        </div>
-
-        <!-- Main Content -->
-
-        <div class="row g-4">
-
-            <!-- Appointments -->
-
-            <div class="col-lg-8">
+            <div class="reception-sidebar">
 
                 <div class="smart-card">
 
-                    <div class="section-header">
+                    <div class="section-header mb-3">
+                        <div>
+                            <h4 class="mb-1">Current Queue</h4>
+                            <p class="text-muted mb-0">
+                                Active queue information will appear here.
+                            </p>
+                        </div>
+                    </div>
 
-                        <h4>Today's Appointments</h4>
+                    <div class="queue-empty-state">
+
+                        <div class="reception-empty-icon">
+                            <i class="bi bi-list-check"></i>
+                        </div>
+
+                        <h5>No active queue</h5>
+
+                        <p>
+                            No patients are currently waiting for consultation.
+                        </p>
 
                         <a asp-controller="Reception"
-                               asp-action="CheckIn">
-
-                            Process Check-In
-
+                               asp-action="Queue"
+                               class="btn btn-outline-primary w-100 rounded-3 text-decoration-none">
+                            View Full Queue
                         </a>
 
                     </div>
 
-                    <div class="mb-3">
-
-                        <input class="form-control smart-input"
-                               placeholder="Search patient or appointment..." />
-
-                    </div>
-
-                    <div class="table-responsive">
-
-                        <table class="table align-middle smart-table">
-
-                            <thead>
-
-                                <tr>
-                                    <th>Time</th>
-                                    <th>Patient</th>
-                                    <th>Doctor</th>
-                                    <th>Service</th>
-                                    <th>Status</th>
-                                </tr>
-
-                            </thead>
-
-                            <tbody>
-
-                                <tr>
-                                    <td>09:00</td>
-                                    <td>Sarah Jacobs</td>
-                                    <td>Dr Esmé Cilliers</td>
-                                    <td>General Consultation</td>
-                                    <td>
-                                        <span class="status-badge confirmed">
-                                            Checked In
-                                        </span>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>09:30</td>
-                                    <td>Michael Brown</td>
-                                    <td>Dr Esmé Cilliers</td>
-                                    <td>Follow-Up</td>
-                                    <td>
-                                        <span class="status-badge pending">
-                                            Waiting
-                                        </span>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>10:00</td>
-                                    <td>Lisa Adams</td>
-                                    <td>Dr Naidoo</td>
-                                    <td>Medical Review</td>
-                                    <td>
-                                        <span class="status-badge confirmed">
-                                            Confirmed
-                                        </span>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>10:30</td>
-                                    <td>James Wilson</td>
-                                    <td>Dr Petersen</td>
-                                    <td>General Consultation</td>
-                                    <td>
-                                        <span class="status-badge pending">
-                                            Not Arrived
-                                        </span>
-                                    </td>
-                                </tr>
-
-                            </tbody>
-
-                        </table>
-
-                    </div>
-
                 </div>
-
-            </div>
-
-            <!-- Sidebar -->
-
-            <div class="col-lg-4">
 
                 <div class="smart-card">
 
-                    <h4 class="mb-3">
-                        Current Queue
-                    </h4>
-
-                    <div class="queue-preview">
-
-                        <span>Now Serving</span>
-
-                        <h2>Q001</h2>
-
-                        <p>Sarah Jacobs</p>
-
+                    <div class="section-header mb-3">
+                        <div>
+                            <h4 class="mb-1">Today's Operations</h4>
+                            <p class="text-muted mb-0">
+                                Daily operational figures will appear here.
+                            </p>
+                        </div>
                     </div>
 
-                    <div class="queue-item">
-                        <span>Q002</span>
-                        <strong>Michael Brown</strong>
-                    </div>
+                    <div class="operations-empty-state">
+                        <i class="bi bi-bar-chart-line"></i>
 
-                    <div class="queue-item">
-                        <span>Q003</span>
-                        <strong>Lisa Adams</strong>
-                    </div>
-
-                    <div class="queue-item">
-                        <span>Q004</span>
-                        <strong>James Wilson</strong>
-                    </div>
-
-                    <a asp-controller="Reception"
-                           asp-action="Queue"
-                           class="btn btn-outline-primary w-100 mt-3 rounded-3">
-
-                        View Full Queue
-
-                    </a>
-
-                </div>
-
-                <div class="smart-card mt-4">
-
-                    <h4 class="mb-3">
-                        Today's Operations
-                    </h4>
-
-                    <div class="summary-item">
-                        <span>Total Appointments</span>
-                        <strong>24</strong>
-                    </div>
-
-                    <div class="summary-item">
-                        <span>Checked In</span>
-                        <strong>11</strong>
-                    </div>
-
-                    <div class="summary-item">
-                        <span>Waiting</span>
-                        <strong>7</strong>
-                    </div>
-
-                    <div class="summary-item">
-                        <span>Cancelled</span>
-                        <strong>3</strong>
+                        <p class="mb-0">
+                            Operational statistics are not available yet.
+                        </p>
                     </div>
 
                 </div>
@@ -363,6 +228,192 @@
         </div>
 
     </div>
-    ```
-
 </section>
+
+<style>
+    .reception-welcome {
+        padding: 2rem;
+    }
+
+    .reception-welcome-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 2rem;
+    }
+
+    .reception-welcome-icon {
+        flex: 0 0 auto;
+        width: 86px;
+        height: 86px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 20px;
+        background: #e7f5f3;
+        color: var(--primary);
+        font-size: 2.5rem;
+    }
+
+    .stat-panel {
+        height: auto;
+    }
+
+        .stat-panel small {
+            display: block;
+            color: #7a8793;
+            font-size: 0.82rem;
+        }
+
+    .reception-action-card {
+        display: block;
+        height: 100%;
+        padding: 1.4rem 1rem;
+        text-decoration: none;
+    }
+
+        .reception-action-card i {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 46px;
+            height: 46px;
+            margin-bottom: 0.8rem;
+            border-radius: 12px;
+            background: #e7f5f3;
+            color: var(--primary);
+            font-size: 1.35rem;
+        }
+
+        .reception-action-card h5 {
+            margin-bottom: 0.4rem;
+        }
+
+        .reception-action-card p {
+            margin: 0;
+            color: #6c757d;
+            font-size: 0.88rem;
+            line-height: 1.45;
+        }
+
+    .reception-content-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.75fr) minmax(280px, 0.85fr);
+        gap: 1.5rem;
+        align-items: start;
+    }
+
+    .reception-sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .appointment-empty-state,
+    .queue-empty-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 2.5rem 1.25rem;
+        margin-top: 1.25rem;
+        border: 1px dashed #d5dde5;
+        border-radius: 16px;
+        background: #fafcfd;
+    }
+
+    .reception-empty-icon {
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+        border-radius: 15px;
+        background: #e7f5f3;
+        color: var(--primary);
+        font-size: 1.5rem;
+    }
+
+    .appointment-empty-state h5,
+    .queue-empty-state h5 {
+        margin-bottom: 0.45rem;
+        color: #243447;
+    }
+
+    .appointment-empty-state p,
+    .queue-empty-state p {
+        max-width: 480px;
+        margin: 0;
+        color: #6c757d;
+        line-height: 1.55;
+    }
+
+    .queue-empty-state {
+        padding: 1.75rem 1rem;
+    }
+
+        .queue-empty-state p {
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+    .operations-empty-state {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        padding: 1rem;
+        border-radius: 12px;
+        background: #f7f9fa;
+        color: #6c757d;
+    }
+
+        .operations-empty-state i {
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+    @@media (max-width: 991.98px) {
+        .reception-content-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .reception-sidebar {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+    @@media (max-width: 767.98px) {
+        .reception-welcome {
+            padding: 1.5rem;
+        }
+
+        .reception-welcome-content {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .reception-welcome-icon {
+            display: none;
+        }
+
+        .reception-welcome .smart-btn-primary {
+            width: 100%;
+        }
+
+        .reception-sidebar {
+            display: flex;
+        }
+
+        .section-header {
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+            .section-header > a {
+                white-space: nowrap;
+            }
+    }
+</style>
