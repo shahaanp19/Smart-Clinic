@@ -2,365 +2,806 @@
     ViewData["Title"] = "Admin Dashboard";
 }
 
-<section class="page-section">
+<section class="page-section admin-dashboard-page">
 
     <div class="container">
 
-        <div class="smart-card mb-5">
+        <div class="admin-dashboard-header">
 
-            <div class="row align-items-center">
+            <div>
+                <span class="smart-badge">
+                    Clinic Administrator
+                </span>
 
-                <div class="col-lg-8">
+                <h1 class="dashboard-title mt-3">
+                    Administration Dashboard
+                </h1>
 
-                    <span class="smart-badge">
-                        Clinic Administrator
+                <p class="text-muted mb-0">
+                    Manage clinic operations, users, appointments and reporting
+                    from one central workspace.
+                </p>
+            </div>
+
+            <a asp-controller="Admin"
+                   asp-action="Reports"
+                   class="smart-btn-primary admin-header-button text-decoration-none">
+
+                <i class="bi bi-bar-chart-line me-2"></i>
+                View Reports
+
+            </a>
+
+        </div>
+
+
+        <div class="admin-stat-grid">
+
+            <div class="smart-card admin-stat-card">
+
+                <div class="admin-stat-icon">
+                    <i class="bi bi-people"></i>
+                </div>
+
+                <div>
+                    <span class="admin-stat-label">
+                        Patients
                     </span>
 
-                    <h1 class="dashboard-title mt-3">
-                        Administration Dashboard
-                    </h1>
+                    <strong class="admin-stat-empty">
+                        —
+                    </strong>
 
-                    <p class="text-muted mb-4">
-                        Monitor clinic performance, manage staff operations,
-                        review reports and oversee system activity.
-                    </p>
-
-                    <a asp-controller="Admin"
-                           asp-action="Reports"
-                           class="smart-btn-primary text-decoration-none">
-
-                        <i class="bi bi-bar-chart-line me-2"></i>
-                        View Reports
-
-                    </a>
-
-                </div>
-
-                <div class="col-lg-4 text-center">
-
-                    <i class="bi bi-shield-lock"
-                           style="font-size:90px;color:var(--primary);">
-                    </i>
-
+                    <span class="admin-stat-note">
+                        No data available
+                    </span>
                 </div>
 
             </div>
 
-        </div>
 
-        <div class="row g-4 mb-5">
+            <div class="smart-card admin-stat-card">
 
-            <div class="col-md-3">
-                <div class="smart-card stat-panel">
-                    <i class="bi bi-people"></i>
-                    <h3>2,450</h3>
-                    <p>Patients</p>
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="smart-card stat-panel">
+                <div class="admin-stat-icon">
                     <i class="bi bi-person-badge"></i>
-                    <h3>5</h3>
-                    <p>Doctors</p>
                 </div>
+
+                <div>
+                    <span class="admin-stat-label">
+                        Doctors
+                    </span>
+
+                    <strong class="admin-stat-empty">
+                        —
+                    </strong>
+
+                    <span class="admin-stat-note">
+                        No data available
+                    </span>
+                </div>
+
             </div>
 
-            <div class="col-md-3">
-                <div class="smart-card stat-panel">
+
+            <div class="smart-card admin-stat-card">
+
+                <div class="admin-stat-icon">
                     <i class="bi bi-calendar-check"></i>
-                    <h3>520</h3>
-                    <p>Appointments</p>
                 </div>
+
+                <div>
+                    <span class="admin-stat-label">
+                        Appointments
+                    </span>
+
+                    <strong class="admin-stat-empty">
+                        —
+                    </strong>
+
+                    <span class="admin-stat-note">
+                        No data available
+                    </span>
+                </div>
+
             </div>
 
-            <div class="col-md-3">
-                <div class="smart-card stat-panel">
+
+            <div class="smart-card admin-stat-card">
+
+                <div class="admin-stat-icon">
                     <i class="bi bi-graph-up-arrow"></i>
-                    <h3>91%</h3>
-                    <p>Attendance</p>
                 </div>
+
+                <div>
+                    <span class="admin-stat-label">
+                        Attendance
+                    </span>
+
+                    <strong class="admin-stat-empty">
+                        —
+                    </strong>
+
+                    <span class="admin-stat-note">
+                        No data available
+                    </span>
+                </div>
+
             </div>
 
         </div>
 
-        <div class="smart-card mb-5">
 
-            <div class="section-header">
-                <h4>Quick Actions</h4>
+        <div class="smart-card admin-actions-card">
+
+            <div class="admin-section-heading">
+
+                <div>
+                    <span class="admin-section-label">
+                        ADMINISTRATION
+                    </span>
+
+                    <h3>
+                        Quick Actions
+                    </h3>
+                </div>
+
+                <span class="admin-section-description">
+                    Common management tasks
+                </span>
+
             </div>
 
-            <div class="row g-4">
 
-                <div class="col-md-3">
+            <div class="admin-actions-grid">
 
-                    <a asp-controller="Admin"
-                           asp-action="UserManagement"
-                           class="portal-card text-center">
+                <a asp-controller="Admin"
+                       asp-action="UserManagement"
+                       class="admin-action-card">
 
+                    <span class="admin-action-icon">
                         <i class="bi bi-people-fill"></i>
-                        <h5>Manage Users</h5>
+                    </span>
 
-                    </a>
+                    <span class="admin-action-content">
+                        <strong>Manage Users</strong>
+                        <small>Manage patient and staff accounts</small>
+                    </span>
 
-                </div>
+                    <i class="bi bi-arrow-right admin-action-arrow"></i>
 
-                <div class="col-md-3">
+                </a>
 
-                    <a href="#doctorUtilisation"
-                           class="portal-card text-center">
 
+                <a href="#doctorUtilisation"
+                       class="admin-action-card">
+
+                    <span class="admin-action-icon">
                         <i class="bi bi-calendar-week"></i>
-                        <h5>Schedules</h5>
+                    </span>
 
-                    </a>
+                    <span class="admin-action-content">
+                        <strong>Schedules</strong>
+                        <small>Review doctor availability</small>
+                    </span>
 
-                </div>
+                    <i class="bi bi-arrow-right admin-action-arrow"></i>
 
-                <div class="col-md-3">
+                </a>
 
-                    <a href="#clinicServices"
-                           class="portal-card text-center">
 
+                <a href="#clinicServices"
+                       class="admin-action-card">
+
+                    <span class="admin-action-icon">
                         <i class="bi bi-hospital"></i>
-                        <h5>Services</h5>
+                    </span>
 
-                    </a>
+                    <span class="admin-action-content">
+                        <strong>Services</strong>
+                        <small>Review available clinic services</small>
+                    </span>
 
-                </div>
+                    <i class="bi bi-arrow-right admin-action-arrow"></i>
 
-                <div class="col-md-3">
+                </a>
 
-                    <a asp-controller="Admin"
-                           asp-action="Reports"
-                           class="portal-card text-center">
 
+                <a asp-controller="Admin"
+                       asp-action="Reports"
+                       class="admin-action-card">
+
+                    <span class="admin-action-icon">
                         <i class="bi bi-bar-chart-line"></i>
-                        <h5>Reports</h5>
+                    </span>
 
-                    </a>
+                    <span class="admin-action-content">
+                        <strong>Reports</strong>
+                        <small>View clinic reporting data</small>
+                    </span>
 
-                </div>
+                    <i class="bi bi-arrow-right admin-action-arrow"></i>
+
+                </a>
 
             </div>
 
         </div>
 
-        <div class="row g-4">
 
-            <div class="col-lg-8">
+        <div class="admin-content-layout">
 
-                <div class="smart-card"
+            <main class="admin-main-column">
+
+                <div class="smart-card admin-data-card"
                      id="doctorUtilisation">
 
-                    <div class="section-header">
+                    <div class="admin-card-heading">
 
-                        <h4>
-                            Doctor Utilisation Overview
-                        </h4>
+                        <div>
+                            <span class="admin-section-label">
+                                STAFF OPERATIONS
+                            </span>
 
-                        <span class="text-muted">
+                            <h3>
+                                Doctor Utilisation Overview
+                            </h3>
+                        </div>
+
+                        <span class="admin-period-label">
                             Current Month
                         </span>
 
                     </div>
 
-                    <div class="table-responsive">
 
-                        <table class="table align-middle smart-table">
+                    <div class="admin-empty-state">
 
-                            <thead>
+                        <div class="admin-empty-icon">
+                            <i class="bi bi-bar-chart"></i>
+                        </div>
 
-                                <tr>
-                                    <th>Doctor</th>
-                                    <th>Appointments</th>
-                                    <th>Utilisation</th>
-                                    <th>Status</th>
-                                </tr>
+                        <h4>
+                            No utilisation data available
+                        </h4>
 
-                            </thead>
-
-                            <tbody>
-
-                                <tr>
-                                    <td>Dr Esmé Cilliers</td>
-                                    <td>142</td>
-                                    <td>92%</td>
-                                    <td>
-                                        <span class="status-badge confirmed">
-                                            Active
-                                        </span>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>Dr Naidoo</td>
-                                    <td>118</td>
-                                    <td>84%</td>
-                                    <td>
-                                        <span class="status-badge confirmed">
-                                            Active
-                                        </span>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>Dr Petersen</td>
-                                    <td>96</td>
-                                    <td>76%</td>
-                                    <td>
-                                        <span class="status-badge pending">
-                                            Limited
-                                        </span>
-                                    </td>
-                                </tr>
-
-                            </tbody>
-
-                        </table>
+                        <p>
+                            Doctor appointment and utilisation information
+                            will appear here once clinic activity has been recorded.
+                        </p>
 
                     </div>
 
                 </div>
 
-                <div class="smart-card mt-4"
+
+                <div class="smart-card admin-data-card"
                      id="clinicServices">
 
-                    <div class="section-header">
-                        <h4>Clinic Services</h4>
+                    <div class="admin-card-heading">
+
+                        <div>
+                            <span class="admin-section-label">
+                                CLINIC CONFIGURATION
+                            </span>
+
+                            <h3>
+                                Clinic Services
+                            </h3>
+                        </div>
+
                     </div>
 
-                    <div class="row g-3">
 
-                        <div class="col-md-4">
-                            <div class="mini-service-card">
-                                <strong>General Consultation</strong>
-                                <p>30 Minutes · R450</p>
-                            </div>
+                    <div class="admin-service-empty">
+
+                        <div class="admin-empty-icon">
+                            <i class="bi bi-hospital"></i>
                         </div>
 
-                        <div class="col-md-4">
-                            <div class="mini-service-card">
-                                <strong>Follow-Up Review</strong>
-                                <p>20 Minutes · R300</p>
-                            </div>
-                        </div>
+                        <div>
+                            <h4>
+                                No service information available
+                            </h4>
 
-                        <div class="col-md-4">
-                            <div class="mini-service-card">
-                                <strong>Medical Examination</strong>
-                                <p>45 Minutes · R650</p>
-                            </div>
+                            <p>
+                                Configured clinic services will appear here
+                                when service data is available.
+                            </p>
                         </div>
 
                     </div>
 
                 </div>
 
-            </div>
+            </main>
 
-            <div class="col-lg-4">
 
-                <div class="smart-card">
+            <aside class="admin-sidebar">
 
-                    <h4 class="mb-4">
-                        System Status
-                    </h4>
+                <div class="smart-card admin-sidebar-card">
 
-                    <div class="notification-item">
-
-                        <i class="bi bi-check-circle-fill"></i>
+                    <div class="admin-card-heading">
 
                         <div>
+                            <span class="admin-section-label">
+                                SYSTEM
+                            </span>
 
-                            <strong>System Online</strong>
-
-                            <p>
-                                All clinic services are operating normally.
-                            </p>
-
+                            <h3>
+                                System Status
+                            </h3>
                         </div>
 
                     </div>
 
-                    <div class="notification-item">
 
-                        <i class="bi bi-cloud-check"></i>
+                    <div class="admin-status-empty">
 
-                        <div>
-
-                            <strong>Backup Completed</strong>
-
-                            <p>
-                                Daily database backup completed successfully.
-                            </p>
-
+                        <div class="admin-empty-icon">
+                            <i class="bi bi-activity"></i>
                         </div>
 
-                    </div>
+                        <h4>
+                            No status information available
+                        </h4>
 
-                    <div class="notification-item">
-
-                        <i class="bi bi-shield-check"></i>
-
-                        <div>
-
-                            <strong>Security Status</strong>
-
-                            <p>
-                                No security alerts detected.
-                            </p>
-
-                        </div>
+                        <p>
+                            System monitoring information will appear here
+                            when it is available.
+                        </p>
 
                     </div>
 
                 </div>
 
-                <div class="smart-card mt-4">
 
-                    <h4 class="mb-4">
-                        Recent Activity
-                    </h4>
+                <div class="smart-card admin-sidebar-card">
 
-                    <div class="notification-item">
-
-                        <i class="bi bi-person-plus"></i>
+                    <div class="admin-card-heading">
 
                         <div>
+                            <span class="admin-section-label">
+                                ACTIVITY
+                            </span>
 
-                            <strong>New Patient Registered</strong>
-
-                            <p>
-                                Registration completed successfully.
-                            </p>
-
+                            <h3>
+                                Recent Activity
+                            </h3>
                         </div>
 
                     </div>
 
-                    <div class="notification-item">
 
-                        <i class="bi bi-calendar-event"></i>
+                    <div class="admin-status-empty">
 
-                        <div>
-
-                            <strong>Schedule Updated</strong>
-
-                            <p>
-                                Doctor availability modified for May.
-                            </p>
-
+                        <div class="admin-empty-icon">
+                            <i class="bi bi-clock-history"></i>
                         </div>
+
+                        <h4>
+                            No recent activity
+                        </h4>
+
+                        <p>
+                            Recent clinic and administrative activity
+                            will appear here.
+                        </p>
 
                     </div>
 
                 </div>
 
-            </div>
+            </aside>
 
         </div>
 
     </div>
+
+
+    <style>
+
+            .admin-dashboard-page {
+                padding-top: 8px;
+                padding-bottom: 48px;
+            }
+
+
+            /* HEADER */
+
+            .admin-dashboard-header {
+                display: flex;
+                align-items: flex-end;
+                justify-content: space-between;
+                gap: 28px;
+                margin-bottom: 30px;
+            }
+
+            .admin-header-button {
+                flex-shrink: 0;
+                text-decoration: none;
+            }
+
+
+            /* STATISTICS */
+
+            .admin-stat-grid {
+                display: grid;
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+                gap: 20px;
+                margin-bottom: 24px;
+            }
+
+            .admin-stat-card {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                padding: 22px;
+                border-radius: 17px;
+            }
+
+            .admin-stat-icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex: 0 0 auto;
+                width: 46px;
+                height: 46px;
+                border-radius: 13px;
+                background: #f0fdfa;
+                color: var(--primary);
+                font-size: 19px;
+            }
+
+            .admin-stat-card > div:last-child {
+                min-width: 0;
+            }
+
+            .admin-stat-label {
+                display: block;
+                margin-bottom: 2px;
+                color: #64748b;
+                font-size: 12px;
+                font-weight: 700;
+            }
+
+            .admin-stat-empty {
+                display: block;
+                color: #334155;
+                font-size: 25px;
+                line-height: 1.2;
+                font-weight: 750;
+            }
+
+            .admin-stat-note {
+                display: block;
+                margin-top: 2px;
+                color: #94a3b8;
+                font-size: 11px;
+            }
+
+
+            /* QUICK ACTIONS */
+
+            .admin-actions-card {
+                padding: 26px;
+                margin-bottom: 24px;
+                border-radius: 18px;
+            }
+
+            .admin-section-heading,
+            .admin-card-heading {
+                display: flex;
+                align-items: flex-start;
+                justify-content: space-between;
+                gap: 18px;
+            }
+
+            .admin-section-heading {
+                margin-bottom: 20px;
+            }
+
+            .admin-section-label {
+                display: block;
+                margin-bottom: 5px;
+                color: var(--primary);
+                font-size: 10px;
+                font-weight: 800;
+                letter-spacing: 0.14em;
+            }
+
+            .admin-section-heading h3,
+            .admin-card-heading h3 {
+                margin: 0;
+                color: #111827;
+                font-size: 19px;
+                font-weight: 700;
+                letter-spacing: -0.02em;
+            }
+
+            .admin-section-description,
+            .admin-period-label {
+                color: #94a3b8;
+                font-size: 12px;
+                font-weight: 600;
+            }
+
+            .admin-actions-grid {
+                display: grid;
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+                gap: 14px;
+            }
+
+            .admin-action-card {
+                position: relative;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                min-width: 0;
+                padding: 17px;
+                border: 1px solid #e8edf2;
+                border-radius: 14px;
+                background: #ffffff;
+                color: #1f2937;
+                text-decoration: none;
+                transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+            }
+
+                .admin-action-card:hover {
+                    transform: translateY(-2px);
+                    border-color: rgba(15, 118, 110, 0.2);
+                    background: #f8fffe;
+                    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.06);
+                    color: #1f2937;
+                }
+
+            .admin-action-icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex: 0 0 auto;
+                width: 40px;
+                height: 40px;
+                border-radius: 11px;
+                background: #f0fdfa;
+                color: var(--primary);
+                font-size: 16px;
+            }
+
+            .admin-action-content {
+                display: flex;
+                flex-direction: column;
+                min-width: 0;
+            }
+
+                .admin-action-content strong {
+                    color: #1f2937;
+                    font-size: 13px;
+                    font-weight: 750;
+                }
+
+                .admin-action-content small {
+                    margin-top: 2px;
+                    color: #94a3b8;
+                    font-size: 10px;
+                    line-height: 1.4;
+                }
+
+            .admin-action-arrow {
+                margin-left: auto;
+                color: #cbd5e1;
+                font-size: 13px;
+                transition: transform 0.2s ease, color 0.2s ease;
+            }
+
+            .admin-action-card:hover .admin-action-arrow {
+                color: var(--primary);
+                transform: translateX(2px);
+            }
+
+
+            /* CONTENT */
+
+            .admin-content-layout {
+                display: grid;
+                grid-template-columns: minmax(0, 1.65fr) minmax(280px, 0.75fr);
+                gap: 24px;
+                align-items: start;
+            }
+
+            .admin-main-column,
+            .admin-sidebar {
+                min-width: 0;
+            }
+
+            .admin-main-column,
+            .admin-sidebar {
+                display: flex;
+                flex-direction: column;
+                gap: 24px;
+            }
+
+            .admin-data-card,
+            .admin-sidebar-card {
+                padding: 26px;
+                border-radius: 18px;
+            }
+
+            .admin-card-heading {
+                padding-bottom: 18px;
+                margin-bottom: 20px;
+                border-bottom: 1px solid #eef2f7;
+            }
+
+
+            /* EMPTY STATES */
+
+            .admin-empty-state {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 32px 22px;
+                border: 1px dashed #dbe4ea;
+                border-radius: 14px;
+                background: #fafcfd;
+                text-align: center;
+            }
+
+            .admin-empty-icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 46px;
+                height: 46px;
+                margin-bottom: 13px;
+                border-radius: 12px;
+                background: #f0fdfa;
+                color: var(--primary);
+                font-size: 18px;
+            }
+
+            .admin-empty-state h4,
+            .admin-status-empty h4 {
+                margin: 0 0 5px;
+                color: #334155;
+                font-size: 15px;
+                font-weight: 700;
+            }
+
+            .admin-empty-state p,
+            .admin-status-empty p {
+                max-width: 500px;
+                margin: 0;
+                color: #94a3b8;
+                font-size: 13px;
+                line-height: 1.6;
+            }
+
+            .admin-service-empty {
+                display: flex;
+                align-items: center;
+                gap: 16px;
+                padding: 22px;
+                border: 1px dashed #dbe4ea;
+                border-radius: 14px;
+                background: #fafcfd;
+            }
+
+                .admin-service-empty .admin-empty-icon {
+                    margin: 0;
+                }
+
+                .admin-service-empty h4 {
+                    margin: 0 0 4px;
+                    color: #334155;
+                    font-size: 14px;
+                    font-weight: 700;
+                }
+
+                .admin-service-empty p {
+                    margin: 0;
+                    color: #94a3b8;
+                    font-size: 12px;
+                    line-height: 1.5;
+                }
+
+            .admin-status-empty {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 10px 10px;
+                text-align: center;
+            }
+
+
+            /* RESPONSIVE */
+
+            @@media (max-width: 1100px) {
+
+                .admin-stat-grid {
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                }
+
+                .admin-actions-grid {
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                }
+            }
+
+
+            @@media (max-width: 991.98px) {
+
+                .admin-content-layout {
+                    grid-template-columns: 1fr;
+                }
+
+                .admin-sidebar {
+                    display: grid;
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                    align-items: start;
+                }
+            }
+
+
+            @@media (max-width: 767.98px) {
+
+                .admin-dashboard-page {
+                    padding-bottom: 32px;
+                }
+
+                .admin-dashboard-header {
+                    display: block;
+                    margin-bottom: 24px;
+                }
+
+                .admin-header-button {
+                    display: inline-flex;
+                    margin-top: 18px;
+                }
+
+                .admin-stat-grid,
+                .admin-actions-grid {
+                    grid-template-columns: 1fr;
+                }
+
+                .admin-sidebar {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .admin-actions-card,
+                .admin-data-card,
+                .admin-sidebar-card {
+                    padding: 21px;
+                }
+
+                .admin-section-heading,
+                .admin-card-heading {
+                    display: block;
+                }
+
+                .admin-section-description,
+                .admin-period-label {
+                    display: block;
+                    margin-top: 8px;
+                }
+            }
+
+
+            @@media (max-width: 575.98px) {
+
+                .admin-stat-card {
+                    padding: 18px;
+                }
+
+                .admin-action-card {
+                    padding: 15px;
+                }
+
+                .admin-service-empty {
+                    align-items: flex-start;
+                }
+            }
+
+    </style>
 
 </section>
