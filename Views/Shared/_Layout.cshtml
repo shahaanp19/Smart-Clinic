@@ -2,7 +2,7 @@
     var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
     var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
 
-    bool IsActive(string controller, string? action = null)
+bool IsActive(string controller, string? action = null)
     {
         if (!string.Equals(currentController, controller, StringComparison.OrdinalIgnoreCase))
         {
@@ -12,22 +12,24 @@
         return action == null ||
                string.Equals(currentAction, action, StringComparison.OrdinalIgnoreCase);
     }
+
 }
 
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    ```
     <meta name="description"
           content="Doringkloof Medical Centre Smart Clinic Management System" />
 
-    <meta name="theme-color" content="#0F4C81" />
+    <meta name="theme-color"
+          content="#0F4C81" />
 
-    <title>
-        @ViewData["Title"] - Doringkloof Medical Centre
-    </title>
+    <title>@ViewData["Title"] - Doringkloof Medical Centre</title>
 
     <link rel="icon"
           type="image/png"
@@ -45,11 +47,15 @@
     <link rel="stylesheet"
           href="~/css/site.css"
           asp-append-version="true" />
+
+    @await RenderSectionAsync("Styles", required: false)
+    ```
+
 </head>
 
 <body>
 
-    <!-- Accessibility: keyboard users can bypass navigation -->
+    ```
     <a class="skip-link"
            href="#main-content">
         Skip to main content
@@ -61,7 +67,6 @@
 
             <div class="container">
 
-                <!-- Brand -->
                 <a class="navbar-brand clinic-brand d-flex align-items-center"
                        asp-controller="Home"
                        asp-action="Index"
@@ -70,8 +75,8 @@
                     <img src="~/images/Logo.png"
                          alt=""
                          class="clinic-logo"
-                         width="70"
-                         height="70" />
+                         width="62"
+                         height="62" />
 
                     <span class="clinic-brand-copy">
                         <span class="clinic-brand-title">
@@ -85,7 +90,6 @@
 
                 </a>
 
-                <!-- Mobile navigation toggle -->
                 <button class="navbar-toggler"
                         type="button"
                         data-bs-toggle="collapse"
@@ -95,7 +99,6 @@
                         aria-label="Toggle navigation">
 
                     <span class="navbar-toggler-icon"></span>
-
                 </button>
 
                 <div class="collapse navbar-collapse"
@@ -141,7 +144,6 @@
                             </a>
                         </li>
 
-                        <!-- Portal navigation -->
                         <li class="nav-item dropdown ms-lg-3 mt-3 mt-lg-0">
 
                             <button class="btn smart-login-btn dropdown-toggle"
@@ -153,7 +155,6 @@
                                    aria-hidden="true"></i>
 
                                 Portal Login
-
                             </button>
 
                             <ul class="dropdown-menu dropdown-menu-end portal-dropdown">
@@ -174,9 +175,8 @@
 
                                         <span>
                                             <strong>Patient Portal</strong>
-                                            <small>Appointments & medical information</small>
+                                            <small>Appointments &amp; medical information</small>
                                         </span>
-
                                     </a>
                                 </li>
 
@@ -192,7 +192,6 @@
                                             <strong>Doctor Login</strong>
                                             <small>Clinical management</small>
                                         </span>
-
                                     </a>
                                 </li>
 
@@ -208,7 +207,6 @@
                                             <strong>Reception</strong>
                                             <small>Front-desk management</small>
                                         </span>
-
                                     </a>
                                 </li>
 
@@ -224,24 +222,18 @@
                                             <strong>Administrator</strong>
                                             <small>System administration</small>
                                         </span>
-
                                     </a>
                                 </li>
 
                             </ul>
-
                         </li>
 
                     </ul>
-
                 </div>
-
             </div>
         </nav>
     </header>
 
-
-    <!-- Main application content -->
     <main id="main-content"
           role="main"
           tabindex="-1">
@@ -250,8 +242,6 @@
 
     </main>
 
-
-    <!-- Global footer -->
     <footer class="smart-footer">
 
         <div class="container">
@@ -305,16 +295,14 @@
 
     </footer>
 
-
-    <!-- Bootstrap JavaScript -->
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
             asp-append-version="true"></script>
 
-    <!-- Application JavaScript -->
     <script src="~/js/site.js"
             asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
+    ```
 
 </body>
 </html>

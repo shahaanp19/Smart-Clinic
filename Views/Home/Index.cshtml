@@ -6,8 +6,9 @@
 
     ```
     <!-- HERO -->
-    <section class="home-hero">
+    <section class="home-hero-section">
         <div class="container">
+
             <div class="home-hero-card">
 
                 <div class="home-hero-content">
@@ -18,361 +19,578 @@
                              class="home-logo" />
                     </div>
 
-                    <div class="home-label">
+                    <div class="home-eyebrow">
                         <i class="bi bi-heart-pulse-fill"></i>
-                        Doringkloof Medical Centre
+                        Smart Healthcare
                     </div>
 
-                    <h1>
+                    <h1 class="home-hero-title">
                         Healthcare that
                         <span>puts you first.</span>
                     </h1>
 
-                    <p>
-                        Quality healthcare services, convenient patient
-                        access and a connected clinic experience.
+                    <p class="home-hero-text">
+                        A simple digital experience for accessing healthcare
+                        services, managing appointments and staying connected
+                        with your clinic.
                     </p>
 
                     <div class="home-hero-actions">
+
                         <a asp-controller="Patient"
                                asp-action="Dashboard"
-                               class="home-btn home-btn-primary">
+                               class="home-primary-button">
+
                             <i class="bi bi-person-circle"></i>
+
                             Patient Portal
+
+                            <i class="bi bi-arrow-right"></i>
+
                         </a>
 
                         <a asp-controller="Home"
                                asp-action="Divisions"
-                               class="home-btn home-btn-white">
-                            Our Services
-                            <i class="bi bi-arrow-right"></i>
+                               class="home-secondary-button">
+
+                            Explore Services
+
+                            <i class="bi bi-arrow-up-right"></i>
+
                         </a>
-                    </div>
 
-                    <div class="home-hero-meta">
-                        <div>
-                            <i class="bi bi-shield-check"></i>
-                            <span>Patient-focused care</span>
-                        </div>
-
-                        <div>
-                            <i class="bi bi-hospital"></i>
-                            <span>Multiple healthcare services</span>
-                        </div>
                     </div>
 
                 </div>
 
                 <div class="home-hero-image">
+
                     <img src="~/images/Consult 3.jpg"
                          alt="Doctor consulting with a patient" />
 
-                    <div class="home-image-card">
-                        <div class="home-image-card-icon">
-                            <i class="bi bi-calendar2-check-fill"></i>
+                    <div class="home-hero-status">
+
+                        <div class="home-status-icon">
+                            <i class="bi bi-check-lg"></i>
                         </div>
 
                         <div>
-                            <small>Smart Clinic</small>
+                            <span>Smart Clinic</span>
                             <strong>Your care, connected.</strong>
                         </div>
+
                     </div>
+
                 </div>
 
             </div>
+
         </div>
     </section>
 
 
     <!-- QUICK ACCESS -->
     <section class="home-section">
+
         <div class="container">
 
-            <div class="home-section-heading">
+            <div class="home-section-header">
+
                 <div>
-                    <span class="home-kicker">QUICK ACCESS</span>
-                    <h2>Everything you need.</h2>
+                    <span class="home-section-label">
+                        Quick Access
+                    </span>
+
+                    <h2>
+                        Your healthcare at a glance.
+                    </h2>
                 </div>
 
                 <p>
-                    Access important clinic services quickly and easily.
+                    Access the services and information you use most.
                 </p>
-            </div>
-
-            <div class="home-card-grid home-card-grid-4">
-
-                <a asp-controller="Patient"
-                       asp-action="Dashboard"
-                       class="smart-home-card">
-
-                    <div class="smart-card-top">
-                        <div class="smart-card-icon">
-                            <i class="bi bi-calendar2-check"></i>
-                        </div>
-
-                        <span>01</span>
-                    </div>
-
-                    <h3>Appointments</h3>
-
-                    <p>
-                        View and manage your upcoming healthcare visits.
-                    </p>
-
-                    <div class="smart-card-link">
-                        Open portal
-                        <i class="bi bi-arrow-up-right"></i>
-                    </div>
-                </a>
-
-
-                <a asp-controller="Patient"
-                       asp-action="Dashboard"
-                       class="smart-home-card">
-
-                    <div class="smart-card-top">
-                        <div class="smart-card-icon">
-                            <i class="bi bi-file-earmark-medical"></i>
-                        </div>
-
-                        <span>02</span>
-                    </div>
-
-                    <h3>Medical Records</h3>
-
-                    <p>
-                        Keep important healthcare information organised.
-                    </p>
-
-                    <div class="smart-card-link">
-                        Patient portal
-                        <i class="bi bi-arrow-up-right"></i>
-                    </div>
-                </a>
-
-
-                <a asp-controller="Home"
-                       asp-action="Divisions"
-                       class="smart-home-card">
-
-                    <div class="smart-card-top">
-                        <div class="smart-card-icon">
-                            <i class="bi bi-grid-1x2"></i>
-                        </div>
-
-                        <span>03</span>
-                    </div>
-
-                    <h3>Medical Services</h3>
-
-                    <p>
-                        Explore the healthcare services available to patients.
-                    </p>
-
-                    <div class="smart-card-link">
-                        View services
-                        <i class="bi bi-arrow-up-right"></i>
-                    </div>
-                </a>
-
-
-                <a asp-controller="Home"
-                       asp-action="Contact"
-                       class="smart-home-card">
-
-                    <div class="smart-card-top">
-                        <div class="smart-card-icon">
-                            <i class="bi bi-chat-square-text"></i>
-                        </div>
-
-                        <span>04</span>
-                    </div>
-
-                    <h3>Contact Us</h3>
-
-                    <p>
-                        Find our location or get in touch with the practice.
-                    </p>
-
-                    <div class="smart-card-link">
-                        Contact practice
-                        <i class="bi bi-arrow-up-right"></i>
-                    </div>
-                </a>
 
             </div>
+
+
+            <div class="row g-4">
+
+                <!-- APPOINTMENTS -->
+                <div class="col-md-6 col-xl-3">
+
+                    <a asp-controller="Patient"
+                           asp-action="Dashboard"
+                           class="home-smart-card">
+
+                        <div class="home-card-top">
+
+                            <div class="home-card-icon">
+                                <i class="bi bi-calendar2-check"></i>
+                            </div>
+
+                            <span class="home-card-number">
+                                01
+                            </span>
+
+                        </div>
+
+                        <div class="home-card-body">
+
+                            <h3>
+                                Appointments
+                            </h3>
+
+                            <p>
+                                View and manage your healthcare appointments.
+                            </p>
+
+                        </div>
+
+                        <div class="home-card-footer">
+
+                            <span>
+                                Patient Portal
+                            </span>
+
+                            <i class="bi bi-arrow-up-right"></i>
+
+                        </div>
+
+                    </a>
+
+                </div>
+
+
+                <!-- MEDICAL RECORDS -->
+                <div class="col-md-6 col-xl-3">
+
+                    <a asp-controller="Patient"
+                           asp-action="Dashboard"
+                           class="home-smart-card">
+
+                        <div class="home-card-top">
+
+                            <div class="home-card-icon">
+                                <i class="bi bi-file-earmark-medical"></i>
+                            </div>
+
+                            <span class="home-card-number">
+                                02
+                            </span>
+
+                        </div>
+
+                        <div class="home-card-body">
+
+                            <h3>
+                                Medical Records
+                            </h3>
+
+                            <p>
+                                Access your healthcare information in one place.
+                            </p>
+
+                        </div>
+
+                        <div class="home-card-footer">
+
+                            <span>
+                                Patient Portal
+                            </span>
+
+                            <i class="bi bi-arrow-up-right"></i>
+
+                        </div>
+
+                    </a>
+
+                </div>
+
+
+                <!-- SERVICES -->
+                <div class="col-md-6 col-xl-3">
+
+                    <a asp-controller="Home"
+                           asp-action="Divisions"
+                           class="home-smart-card">
+
+                        <div class="home-card-top">
+
+                            <div class="home-card-icon">
+                                <i class="bi bi-grid-1x2"></i>
+                            </div>
+
+                            <span class="home-card-number">
+                                03
+                            </span>
+
+                        </div>
+
+                        <div class="home-card-body">
+
+                            <h3>
+                                Medical Services
+                            </h3>
+
+                            <p>
+                                Explore the healthcare services available.
+                            </p>
+
+                        </div>
+
+                        <div class="home-card-footer">
+
+                            <span>
+                                Explore Services
+                            </span>
+
+                            <i class="bi bi-arrow-up-right"></i>
+
+                        </div>
+
+                    </a>
+
+                </div>
+
+
+                <!-- CONTACT -->
+                <div class="col-md-6 col-xl-3">
+
+                    <a asp-controller="Home"
+                           asp-action="Contact"
+                           class="home-smart-card">
+
+                        <div class="home-card-top">
+
+                            <div class="home-card-icon">
+                                <i class="bi bi-chat-square-text"></i>
+                            </div>
+
+                            <span class="home-card-number">
+                                04
+                            </span>
+
+                        </div>
+
+                        <div class="home-card-body">
+
+                            <h3>
+                                Contact Us
+                            </h3>
+
+                            <p>
+                                Get in touch with the medical centre.
+                            </p>
+
+                        </div>
+
+                        <div class="home-card-footer">
+
+                            <span>
+                                Contact Practice
+                            </span>
+
+                            <i class="bi bi-arrow-up-right"></i>
+
+                        </div>
+
+                    </a>
+
+                </div>
+
+            </div>
+
         </div>
+
     </section>
 
 
     <!-- SERVICES -->
     <section class="home-section home-services">
+
         <div class="container">
 
-            <div class="home-section-heading">
+            <div class="home-section-header">
+
                 <div>
-                    <span class="home-kicker">HEALTHCARE SERVICES</span>
-                    <h2>Care under one roof.</h2>
+
+                    <span class="home-section-label">
+                        Healthcare Services
+                    </span>
+
+                    <h2>
+                        Comprehensive care.
+                    </h2>
+
                 </div>
 
                 <a asp-controller="Home"
                        asp-action="Divisions"
-                       class="home-view-link">
+                       class="home-section-link">
+
                     View all services
+
                     <i class="bi bi-arrow-right"></i>
+
                 </a>
+
             </div>
 
 
-            <div class="home-service-grid">
+            <div class="row g-4">
 
-                <div class="home-service-card">
-                    <div class="home-service-icon">
-                        <i class="bi bi-heart-pulse"></i>
-                    </div>
+                <!-- DOCTORS -->
+                <div class="col-md-6 col-lg-4">
 
-                    <div class="home-service-content">
-                        <span>MEDICAL CARE</span>
-                        <h3>Doctors</h3>
+                    <div class="home-service-card">
+
+                        <div class="home-service-header">
+
+                            <div class="home-service-icon">
+                                <i class="bi bi-heart-pulse"></i>
+                            </div>
+
+                            <span>01</span>
+
+                        </div>
+
+                        <h3>
+                            Doctors
+                        </h3>
+
                         <p>
                             General and family healthcare for everyday
                             medical needs.
                         </p>
+
+                        <a asp-controller="Home"
+                               asp-action="Divisions"
+                               class="home-service-link">
+
+                            Learn more
+
+                            <i class="bi bi-arrow-right"></i>
+
+                        </a>
+
                     </div>
 
-                    <a asp-controller="Home"
-                           asp-action="Divisions"
-                           class="home-service-arrow"
-                           aria-label="View Doctors">
-                        <i class="bi bi-arrow-up-right"></i>
-                    </a>
                 </div>
 
 
-                <div class="home-service-card">
-                    <div class="home-service-icon">
-                        <i class="bi bi-emoji-smile"></i>
-                    </div>
+                <!-- DENTISTRY -->
+                <div class="col-md-6 col-lg-4">
 
-                    <div class="home-service-content">
-                        <span>DENTAL CARE</span>
-                        <h3>Dentistry</h3>
+                    <div class="home-service-card">
+
+                        <div class="home-service-header">
+
+                            <div class="home-service-icon">
+                                <i class="bi bi-emoji-smile"></i>
+                            </div>
+
+                            <span>02</span>
+
+                        </div>
+
+                        <h3>
+                            Dentistry
+                        </h3>
+
                         <p>
-                            Preventive, cosmetic and paediatric dental care.
+                            Preventive, cosmetic and paediatric
+                            dental care.
                         </p>
+
+                        <a asp-controller="Home"
+                               asp-action="Divisions"
+                               class="home-service-link">
+
+                            Learn more
+
+                            <i class="bi bi-arrow-right"></i>
+
+                        </a>
+
                     </div>
 
-                    <a asp-controller="Home"
-                           asp-action="Divisions"
-                           class="home-service-arrow"
-                           aria-label="View Dentistry">
-                        <i class="bi bi-arrow-up-right"></i>
-                    </a>
                 </div>
 
 
-                <div class="home-service-card">
-                    <div class="home-service-icon">
-                        <i class="bi bi-apple"></i>
-                    </div>
+                <!-- DIETETICS -->
+                <div class="col-md-6 col-lg-4">
 
-                    <div class="home-service-content">
-                        <span>NUTRITION</span>
-                        <h3>Dietetics</h3>
+                    <div class="home-service-card">
+
+                        <div class="home-service-header">
+
+                            <div class="home-service-icon">
+                                <i class="bi bi-apple"></i>
+                            </div>
+
+                            <span>03</span>
+
+                        </div>
+
+                        <h3>
+                            Dietetics
+                        </h3>
+
                         <p>
-                            Nutrition guidance and personalised lifestyle
-                            support.
+                            Nutrition guidance and personalised
+                            lifestyle support.
                         </p>
+
+                        <a asp-controller="Home"
+                               asp-action="Divisions"
+                               class="home-service-link">
+
+                            Learn more
+
+                            <i class="bi bi-arrow-right"></i>
+
+                        </a>
+
                     </div>
 
-                    <a asp-controller="Home"
-                           asp-action="Divisions"
-                           class="home-service-arrow"
-                           aria-label="View Dietetics">
-                        <i class="bi bi-arrow-up-right"></i>
-                    </a>
                 </div>
 
 
-                <div class="home-service-card">
-                    <div class="home-service-icon">
-                        <i class="bi bi-person-standing"></i>
-                    </div>
+                <!-- ORTHOTICS -->
+                <div class="col-md-6 col-lg-4">
 
-                    <div class="home-service-content">
-                        <span>REHABILITATION</span>
-                        <h3>Orthotics & Prosthetics</h3>
+                    <div class="home-service-card">
+
+                        <div class="home-service-header">
+
+                            <div class="home-service-icon">
+                                <i class="bi bi-person-standing"></i>
+                            </div>
+
+                            <span>04</span>
+
+                        </div>
+
+                        <h3>
+                            Orthotics & Prosthetics
+                        </h3>
+
                         <p>
-                            Support for mobility, rehabilitation and
-                            improved function.
+                            Support for mobility, rehabilitation
+                            and improved function.
                         </p>
+
+                        <a asp-controller="Home"
+                               asp-action="Divisions"
+                               class="home-service-link">
+
+                            Learn more
+
+                            <i class="bi bi-arrow-right"></i>
+
+                        </a>
+
                     </div>
 
-                    <a asp-controller="Home"
-                           asp-action="Divisions"
-                           class="home-service-arrow"
-                           aria-label="View Orthotics and Prosthetics">
-                        <i class="bi bi-arrow-up-right"></i>
-                    </a>
                 </div>
 
 
-                <div class="home-service-card">
-                    <div class="home-service-icon">
-                        <i class="bi bi-activity"></i>
-                    </div>
+                <!-- PHYSIOTHERAPY -->
+                <div class="col-md-6 col-lg-4">
 
-                    <div class="home-service-content">
-                        <span>REHABILITATION</span>
-                        <h3>Physiotherapy</h3>
+                    <div class="home-service-card">
+
+                        <div class="home-service-header">
+
+                            <div class="home-service-icon">
+                                <i class="bi bi-activity"></i>
+                            </div>
+
+                            <span>05</span>
+
+                        </div>
+
+                        <h3>
+                            Physiotherapy
+                        </h3>
+
                         <p>
-                            Movement, recovery and rehabilitation-focused care.
+                            Rehabilitation and movement-focused
+                            healthcare.
                         </p>
+
+                        <a asp-controller="Home"
+                               asp-action="Divisions"
+                               class="home-service-link">
+
+                            Learn more
+
+                            <i class="bi bi-arrow-right"></i>
+
+                        </a>
+
                     </div>
 
-                    <a asp-controller="Home"
-                           asp-action="Divisions"
-                           class="home-service-arrow"
-                           aria-label="View Physiotherapy">
-                        <i class="bi bi-arrow-up-right"></i>
-                    </a>
                 </div>
 
 
-                <div class="home-service-card">
-                    <div class="home-service-icon">
-                        <i class="bi bi-person-walking"></i>
-                    </div>
+                <!-- PODIATRY -->
+                <div class="col-md-6 col-lg-4">
 
-                    <div class="home-service-content">
-                        <span>FOOT CARE</span>
-                        <h3>Podiatry</h3>
+                    <div class="home-service-card">
+
+                        <div class="home-service-header">
+
+                            <div class="home-service-icon">
+                                <i class="bi bi-person-walking"></i>
+                            </div>
+
+                            <span>06</span>
+
+                        </div>
+
+                        <h3>
+                            Podiatry
+                        </h3>
+
                         <p>
-                            Foot, ankle and lower-limb healthcare and treatment.
+                            Foot, ankle and lower-limb healthcare
+                            and treatment.
                         </p>
+
+                        <a asp-controller="Home"
+                               asp-action="Divisions"
+                               class="home-service-link">
+
+                            Learn more
+
+                            <i class="bi bi-arrow-right"></i>
+
+                        </a>
+
                     </div>
 
-                    <a asp-controller="Home"
-                           asp-action="Divisions"
-                           class="home-service-arrow"
-                           aria-label="View Podiatry">
-                        <i class="bi bi-arrow-up-right"></i>
-                    </a>
                 </div>
 
             </div>
+
         </div>
+
     </section>
 
 
     <!-- PATIENT PORTAL -->
     <section class="home-section">
+
         <div class="container">
 
-            <div class="portal-card">
+            <div class="home-patient-card">
 
-                <div class="portal-main">
-                    <span class="home-kicker">PATIENT PORTAL</span>
+                <div class="home-patient-content">
+
+                    <span class="home-section-label">
+                        Patient Portal
+                    </span>
 
                     <h2>
                         Your healthcare,
@@ -380,23 +598,29 @@
                     </h2>
 
                     <p>
-                        Access your patient dashboard and stay connected
-                        with your healthcare information.
+                        Access your patient dashboard and manage your
+                        healthcare experience through one convenient
+                        digital portal.
                     </p>
 
                     <a asp-controller="Patient"
                            asp-action="Dashboard"
-                           class="home-btn home-btn-primary">
+                           class="home-primary-button">
+
                         Open Patient Portal
+
                         <i class="bi bi-arrow-right"></i>
+
                     </a>
+
                 </div>
 
 
-                <div class="portal-options">
+                <div class="home-patient-features">
 
-                    <div class="portal-option">
-                        <div class="portal-option-icon">
+                    <div class="home-patient-feature">
+
+                        <div class="home-mini-icon">
                             <i class="bi bi-calendar-check"></i>
                         </div>
 
@@ -404,11 +628,13 @@
                             <strong>Appointments</strong>
                             <span>Manage your visits</span>
                         </div>
+
                     </div>
 
 
-                    <div class="portal-option">
-                        <div class="portal-option-icon">
+                    <div class="home-patient-feature">
+
+                        <div class="home-mini-icon">
                             <i class="bi bi-file-medical"></i>
                         </div>
 
@@ -416,18 +642,21 @@
                             <strong>Medical Records</strong>
                             <span>Access your information</span>
                         </div>
+
                     </div>
 
 
-                    <div class="portal-option">
-                        <div class="portal-option-icon">
-                            <i class="bi bi-person-vcard"></i>
+                    <div class="home-patient-feature">
+
+                        <div class="home-mini-icon">
+                            <i class="bi bi-person-check"></i>
                         </div>
 
                         <div>
-                            <strong>Patient Profile</strong>
+                            <strong>Profile</strong>
                             <span>Manage your details</span>
                         </div>
+
                     </div>
 
                 </div>
@@ -435,143 +664,21 @@
             </div>
 
         </div>
-    </section>
 
-
-    <!-- INFORMATION -->
-    <section class="home-section home-information">
-        <div class="container">
-
-            <div class="home-section-heading">
-                <div>
-                    <span class="home-kicker">THE PRACTICE</span>
-                    <h2>Good healthcare starts here.</h2>
-                </div>
-            </div>
-
-
-            <div class="home-info-grid">
-
-                <!-- ABOUT -->
-                <div class="home-info-card home-info-image-card">
-
-                    <img src="~/images/Doctor.jpg"
-                         alt="Doctor at Doringkloof Medical Centre" />
-
-                    <div class="home-info-image-content">
-                        <span>ABOUT US</span>
-
-                        <h3>
-                            Patient-focused care
-                            in a professional environment.
-                        </h3>
-
-                        <a asp-controller="Home"
-                               asp-action="About">
-                            About the practice
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
-                    </div>
-
-                </div>
-
-
-                <!-- LOCATION -->
-                <div class="home-info-card">
-
-                    <div class="home-info-card-icon">
-                        <i class="bi bi-geo-alt-fill"></i>
-                    </div>
-
-                    <span class="home-info-label">LOCATION</span>
-
-                    <h3>Doringkloof Medical Centre</h3>
-
-                    <p>
-                        Doringkloof Mall<br />
-                        6 Aster Avenue<br />
-                        Doringkloof<br />
-                        Centurion
-                    </p>
-
-                    <a asp-controller="Home"
-                           asp-action="Contact"
-                           class="home-info-link">
-                        Contact & location
-                        <i class="bi bi-arrow-right"></i>
-                    </a>
-
-                </div>
-
-
-                <!-- CONTACT -->
-                <div class="home-info-card">
-
-                    <div class="home-info-card-icon">
-                        <i class="bi bi-headset"></i>
-                    </div>
-
-                    <span class="home-info-label">ASSISTANCE</span>
-
-                    <h3>Need help?</h3>
-
-                    <p>
-                        Have a question about our services or need
-                        assistance before your visit?
-                    </p>
-
-                    <a asp-controller="Home"
-                           asp-action="Contact"
-                           class="home-info-link">
-                        Contact the practice
-                        <i class="bi bi-arrow-right"></i>
-                    </a>
-
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-
-    <!-- BOTTOM CTA -->
-    <section class="home-cta-section">
-        <div class="container">
-
-            <div class="home-cta-card">
-
-                <div class="home-cta-icon">
-                    <i class="bi bi-heart-pulse-fill"></i>
-                </div>
-
-                <div class="home-cta-content">
-                    <span>DORINGKLOOF MEDICAL CENTRE</span>
-                    <h2>Healthcare made simpler.</h2>
-                    <p>
-                        Explore our services or get in touch with our team.
-                    </p>
-                </div>
-
-                <a asp-controller="Home"
-                       asp-action="Contact"
-                       class="home-btn home-btn-primary">
-                    Contact Us
-                    <i class="bi bi-arrow-right"></i>
-                </a>
-
-            </div>
-
-        </div>
     </section>
 
 
     <!-- CHATBOT -->
     <div class="home-chatbot">
+
         <a asp-controller="Home"
                asp-action="Chatbot"
                aria-label="Open healthcare assistant">
+
             <i class="bi bi-chat-dots-fill"></i>
+
         </a>
+
     </div>
     ```
 
