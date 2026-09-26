@@ -1,6 +1,18 @@
-﻿namespace SmartClinicManagementSystem.Services.Interfaces
+﻿using SmartClinicManagementSystem.Models;
+
+namespace SmartClinicManagementSystem.Services.Interfaces;
+
+public interface IDoctorService
 {
-    public class IDoctorService
-    {
-    }
+    Task<Doctor?> GetByIdAsync(int id);
+
+    Task<Doctor?> GetByEmployeeNumberAsync(string employeeNumber);
+
+    Task<IReadOnlyList<Doctor>> GetAllAsync();
+
+    Task<Doctor> CreateAsync(Doctor doctor);
+
+    Task UpdateAsync(Doctor doctor);
+
+    Task<bool> DeactivateAsync(int id);
 }
