@@ -23,11 +23,22 @@ public class PatientService : IPatientService
 
     public async Task<Patient?> GetByPatientNumberAsync(string patientNumber)
     {
-        var normalizedNumber = patientNumber.Trim();
+        var normalizedNumber = patientNumber.Trim().ToUpperInvariant();
 
         return await _context.Patients
             .AsNoTracking()
             .FirstOrDefaultAsync(p => p.PatientNumber == normalizedNumber);
+    }
+
+    public async Task<Patient?> GetByEmailAsync(string email)
+    {
+        var normalizedEmail = email.Trim().ToLowerInvariant();
+
+        return await _context.Patients
+            .AsNoTracking()
+            .FirstOrDefaultAsync(p =>
+                p.Email != null &&
+                p.Email.ToLower() == normalizedEmail);
     }
 
     public async Task<IReadOnlyList<Patient>> GetAllAsync()
@@ -45,6 +56,7 @@ public class PatientService : IPatientService
         patient.PhoneNumber = patient.PhoneNumber.Trim();
         patient.Email = patient.Email?.Trim().ToLowerInvariant();
         patient.IdNumber = patient.IdNumber.Trim();
+        patient.Gender = patient.Gender?.Trim();
         patient.Address = patient.Address?.Trim();
         patient.CreatedAtUtc = DateTime.UtcNow;
         patient.UpdatedAtUtc = null;
@@ -62,6 +74,7 @@ public class PatientService : IPatientService
         patient.PhoneNumber = patient.PhoneNumber.Trim();
         patient.Email = patient.Email?.Trim().ToLowerInvariant();
         patient.IdNumber = patient.IdNumber.Trim();
+        patient.Gender = patient.Gender?.Trim();
         patient.Address = patient.Address?.Trim();
         patient.UpdatedAtUtc = DateTime.UtcNow;
 

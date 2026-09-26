@@ -8,6 +8,8 @@ public interface IPatientService
 
     Task<Patient?> GetByPatientNumberAsync(string patientNumber);
 
+    Task<Patient?> GetByEmailAsync(string email);
+
     Task<IReadOnlyList<Patient>> GetAllAsync();
 
     Task<Patient> CreateAsync(Patient patient);
