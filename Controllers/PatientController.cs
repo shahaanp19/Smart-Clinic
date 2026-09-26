@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SmartClinicManagementSystem.DTOs;
 using SmartClinicManagementSystem.Services.Interfaces;
 using SmartClinicManagementSystem.Services.Mappers;
 
 namespace SmartClinicManagementSystem.Controllers;
 
+[Authorize(Policy = "PatientOnly")]
 public class PatientController : Controller
 {
     private readonly IPatientService _patientService;
@@ -22,9 +25,10 @@ public class PatientController : Controller
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public IActionResult Login()
     {
-        return View();
+        return RedirectToAction("Login", "Account");
     }
 
     [HttpGet]
@@ -34,7 +38,8 @@ public class PatientController : Controller
 
         if (patient is null)
         {
-            return RedirectToAction(nameof(Login));
+            await SignOutInvalidPatientSessionAsync();
+            return RedirectToAction("Login", "Account");
         }
 
         return View(DtoMapper.ToDto(patient));
@@ -47,27 +52,11 @@ public class PatientController : Controller
 
         if (patient is null)
         {
-            return RedirectToAction(nameof(Login));
+            await SignOutInvalidPatientSessionAsync();
+            return RedirectToAction("Login", "Account");
         }
 
-        var fromUtc = DateTime.UtcNow;
-        var toUtc = fromUtc.AddMonths(3);
-
-        var appointments = await _appointmentService.GetByPatientAsync(
-            patient.Id,
-            fromUtc,
-            toUtc);
-
-        var doctors = await _doctorService.GetAllAsync();
-
-        ViewBag.Appointments = appointments
-            .Select(DtoMapper.ToDto)
-            .ToList();
-
-        ViewBag.Doctors = doctors
-            .Where(d => d.IsActive)
-            .Select(DtoMapper.ToDto)
-            .ToList();
+        await PopulateAppointmentViewDataAsync(patient.Id);
 
         return View();
     }
@@ -80,7 +69,8 @@ public class PatientController : Controller
 
         if (patient is null)
         {
-            return RedirectToAction(nameof(Login));
+            await SignOutInvalidPatientSessionAsync();
+            return RedirectToAction("Login", "Account");
         }
 
         if (dto.DoctorId <= 0)
@@ -143,6 +133,7 @@ public class PatientController : Controller
                 ex.Message);
 
             await PopulateAppointmentViewDataAsync(patient.Id);
+
             return View(dto);
         }
     }
@@ -155,12 +146,14 @@ public class PatientController : Controller
 
         if (patient is null)
         {
-            return RedirectToAction(nameof(Login));
+            await SignOutInvalidPatientSessionAsync();
+            return RedirectToAction("Login", "Account");
         }
 
         var appointment = await _appointmentService.GetByIdAsync(id);
 
-        if (appointment is null || appointment.PatientId != patient.Id)
+        if (appointment is null ||
+            appointment.PatientId != patient.Id)
         {
             TempData["ErrorMessage"] =
                 "The selected appointment could not be found.";
@@ -178,7 +171,8 @@ public class PatientController : Controller
             return RedirectToAction(nameof(BookAppointment));
         }
 
-        var cancelled = await _appointmentService.CancelAsync(id);
+        var cancelled =
+            await _appointmentService.CancelAsync(id);
 
         TempData[cancelled ? "SuccessMessage" : "ErrorMessage"] =
             cancelled
@@ -191,11 +185,9 @@ public class PatientController : Controller
     [HttpGet]
     public async Task<IActionResult> MedicalHistory()
     {
-        var patient = await GetCurrentPatientAsync();
-
-        if (patient is null)
+        if (!await EnsureCurrentPatientAsync())
         {
-            return RedirectToAction(nameof(Login));
+            return RedirectToAction("Login", "Account");
         }
 
         return View();
@@ -204,11 +196,9 @@ public class PatientController : Controller
     [HttpGet]
     public async Task<IActionResult> Notifications()
     {
-        var patient = await GetCurrentPatientAsync();
-
-        if (patient is null)
+        if (!await EnsureCurrentPatientAsync())
         {
-            return RedirectToAction(nameof(Login));
+            return RedirectToAction("Login", "Account");
         }
 
         return View();
@@ -221,7 +211,8 @@ public class PatientController : Controller
 
         if (patient is null)
         {
-            return RedirectToAction(nameof(Login));
+            await SignOutInvalidPatientSessionAsync();
+            return RedirectToAction("Login", "Account");
         }
 
         return View(DtoMapper.ToDto(patient));
@@ -234,7 +225,8 @@ public class PatientController : Controller
 
         if (patient is null)
         {
-            return RedirectToAction(nameof(Login));
+            await SignOutInvalidPatientSessionAsync();
+            return RedirectToAction("Login", "Account");
         }
 
         return View(DtoMapper.ToDto(patient));
@@ -247,7 +239,8 @@ public class PatientController : Controller
 
         if (patient is null)
         {
-            return RedirectToAction(nameof(Login));
+            await SignOutInvalidPatientSessionAsync();
+            return RedirectToAction("Login", "Account");
         }
 
         return View(DtoMapper.ToDto(patient));
@@ -262,7 +255,27 @@ public class PatientController : Controller
             return null;
         }
 
-        return await _patientService.GetByEmailAsync(email);
+        var patient = await _patientService.GetByEmailAsync(email);
+
+        if (patient is null || !patient.IsActive)
+        {
+            return null;
+        }
+
+        return patient;
+    }
+
+    private async Task<bool> EnsureCurrentPatientAsync()
+    {
+        var patient = await GetCurrentPatientAsync();
+
+        if (patient is not null)
+        {
+            return true;
+        }
+
+        await SignOutInvalidPatientSessionAsync();
+        return false;
     }
 
     private async Task PopulateAppointmentViewDataAsync(int patientId)
@@ -270,12 +283,14 @@ public class PatientController : Controller
         var fromUtc = DateTime.UtcNow;
         var toUtc = fromUtc.AddMonths(3);
 
-        var appointments = await _appointmentService.GetByPatientAsync(
-            patientId,
-            fromUtc,
-            toUtc);
+        var appointments =
+            await _appointmentService.GetByPatientAsync(
+                patientId,
+                fromUtc,
+                toUtc);
 
-        var doctors = await _doctorService.GetAllAsync();
+        var doctors =
+            await _doctorService.GetAllAsync();
 
         ViewBag.Appointments = appointments
             .Select(DtoMapper.ToDto)
@@ -285,5 +300,12 @@ public class PatientController : Controller
             .Where(d => d.IsActive)
             .Select(DtoMapper.ToDto)
             .ToList();
+    }
+
+    private async Task SignOutInvalidPatientSessionAsync()
+    {
+        await HttpContext.SignOutAsync(
+            Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults
+                .AuthenticationScheme);
     }
 }
