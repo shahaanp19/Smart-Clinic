@@ -1,482 +1,485 @@
-﻿@{
-    ViewData["Title"] = "Patient Consultation";
+﻿@using SmartClinicManagementSystem.DTOs
+@model object
+
+@{
+    ViewData["Title"] = "Consultations";
+
+    var patients =
+        ViewBag.Patients as List<PatientDto>
+        ?? new List<PatientDto>();
+
+    var appointments =
+        ViewBag.Appointments as List<AppointmentDto>
+        ?? new List<AppointmentDto>();
+
+    var consultations =
+        ViewBag.Consultations as List<ConsultationDto>
+        ?? new List<ConsultationDto>();
 }
 
-<section class="page-section">
-    <div class="container">
+<div class="container-fluid px-0">
 
-        <div class="smart-card consultation-header mb-4">
-
-            <div>
-                <span class="smart-badge">
-                    Doctor Dashboard
-                </span>
-
-                <h1 class="dashboard-title mt-3">
-                    Patient Consultation
-                </h1>
-
-                <p class="text-muted mb-0">
-                    Complete consultation notes and manage treatment information.
-                </p>
+    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+        <div>
+            <div class="text-uppercase small fw-semibold text-primary mb-1">
+                Clinical Workspace
             </div>
 
-            <div class="consultation-header-status">
-                <span class="status-badge">
-                    Appointment Status
-                </span>
+            <h1 class="h2 fw-bold mb-1">
+                Consultations
+            </h1>
 
-                <strong>Not Selected</strong>
+            <p class="text-muted mb-0">
+                Record and review patient consultations securely.
+            </p>
+        </div>
 
-                <small>
-                    Select an appointment to begin.
-                </small>
+        <span class="badge rounded-pill text-bg-primary px-3 py-2">
+            <i class="bi bi-shield-check me-1" aria-hidden="true"></i>
+            Clinical Record
+        </span>
+    </div>
+
+    @if (TempData["SuccessMessage"] is string successMessage)
+    {
+        <div class="alert alert-success alert-dismissible fade show shadow-sm"
+             role="alert">
+            <i class="bi bi-check-circle-fill me-2" aria-hidden="true"></i>
+            @successMessage
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
+                    aria-label="Dismiss notification"></button>
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] is string errorMessage)
+    {
+        <div class="alert alert-danger alert-dismissible fade show shadow-sm"
+             role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"
+               aria-hidden="true"></i>
+            @errorMessage
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
+                    aria-label="Dismiss notification"></button>
+        </div>
+    }
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger shadow-sm"
+             role="alert">
+            <div class="d-flex gap-3">
+                <i class="bi bi-exclamation-circle-fill fs-5"
+                   aria-hidden="true"></i>
+
+                <div>
+                    <div class="fw-semibold mb-1">
+                        Please review the highlighted information.
+                    </div>
+
+                    <div asp-validation-summary="ModelOnly"></div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="row g-4">
+
+        <div class="col-12 col-xl-5">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-header bg-white border-0 p-4 pb-2">
+                    <h2 class="h5 fw-bold mb-1">
+                        Record Consultation
+                    </h2>
+
+                    <p class="text-muted small mb-0">
+                        Complete the clinical record for an attended appointment.
+                    </p>
+                </div>
+
+                <div class="card-body p-4">
+
+                    @if (appointments.Count == 0)
+                    {
+                        <div class="alert alert-info"
+                             role="status">
+                            <i class="bi bi-info-circle me-2"
+                               aria-hidden="true"></i>
+                            There are currently no eligible appointments available for consultation.
+                        </div>
+                    }
+                    else
+                    {
+                        <form asp-controller="Doctor"
+                              asp-action="Consultation"
+                              method="post"
+                              novalidate>
+
+                            @Html.AntiForgeryToken()
+
+                            <div class="mb-3">
+                                <label for="patientId"
+                                       class="form-label fw-semibold">
+                                    Patient
+                                </label>
+
+                                <select id="patientId"
+                                        name="patientId"
+                                        class="form-select"
+                                        required>
+                                    <option value="">
+                                        Select patient
+                                    </option>
+
+                                    @foreach (var patient in patients)
+                                    {
+                                        <option value="@patient.Id">
+                                            @patient.FullName — @patient.PatientNumber
+                                        </option>
+                                    }
+                                </select>
+
+                                <div class="form-text">
+                                    Select the patient associated with the appointment.
+                                </div>
+
+                                <span class="text-danger small"
+                                      data-valmsg-for="patientId"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="appointmentId"
+                                       class="form-label fw-semibold">
+                                    Appointment
+                                </label>
+
+                                <select id="appointmentId"
+                                        name="appointmentId"
+                                        class="form-select"
+                                        required>
+                                    <option value="">
+                                        Select appointment
+                                    </option>
+
+                                    @foreach (var appointment in appointments)
+                                    {
+                                        <option value="@appointment.Id"
+                                                data-patient-id="@appointment.PatientId">
+                                            @appointment.AppointmentDateTime.ToLocalTime().ToString("dd MMM yyyy, HH:mm")
+                                            — @(appointment.PatientName ?? $"Patient #{appointment.PatientId}")
+                                        </option>
+                                    }
+                                </select>
+
+                                <div class="form-text">
+                                    Only appointments assigned to your account are available.
+                                </div>
+
+                                <span class="text-danger small"
+                                      data-valmsg-for="appointmentId"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="symptoms"
+                                       class="form-label fw-semibold">
+                                    Symptoms
+                                </label>
+
+                                <textarea id="symptoms"
+                                          name="symptoms"
+                                          class="form-control"
+                                          rows="4"
+                                          maxlength="4000"
+                                          required
+                                          placeholder="Document the patient's reported symptoms..."></textarea>
+
+                                <div class="form-text text-end">
+                                    <span id="symptoms-count">0</span>/4000
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="diagnosis"
+                                       class="form-label fw-semibold">
+                                    Diagnosis
+                                </label>
+
+                                <textarea id="diagnosis"
+                                          name="diagnosis"
+                                          class="form-control"
+                                          rows="4"
+                                          maxlength="4000"
+                                          required
+                                          placeholder="Enter the clinical diagnosis..."></textarea>
+
+                                <div class="form-text text-end">
+                                    <span id="diagnosis-count">0</span>/4000
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="treatmentPlan"
+                                       class="form-label fw-semibold">
+                                    Treatment Plan
+                                </label>
+
+                                <textarea id="treatmentPlan"
+                                          name="treatmentPlan"
+                                          class="form-control"
+                                          rows="3"
+                                          maxlength="4000"
+                                          placeholder="Document the recommended treatment plan..."></textarea>
+
+                                <div class="form-text text-end">
+                                    <span id="treatment-count">0</span>/4000
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="clinicalNotes"
+                                       class="form-label fw-semibold">
+                                    Clinical Notes
+                                </label>
+
+                                <textarea id="clinicalNotes"
+                                          name="clinicalNotes"
+                                          class="form-control"
+                                          rows="4"
+                                          maxlength="6000"
+                                          placeholder="Add additional clinical observations or notes..."></textarea>
+
+                                <div class="form-text text-end">
+                                    <span id="notes-count">0</span>/6000
+                                </div>
+                            </div>
+
+                            <button type="submit"
+                                    class="btn btn-primary w-100"
+                                @(appointments.Count == 0 ? "disabled" : null)>
+                                <i class="bi bi-clipboard2-pulse me-2"
+                                   aria-hidden="true"></i>
+                                Record Consultation
+                            </button>
+
+                        </form>
+                    }
+
+                </div>
             </div>
 
         </div>
 
-        <div class="consultation-layout">
+        <div class="col-12 col-xl-7">
 
-            <aside class="consultation-sidebar">
+            <div class="card border-0 shadow-sm">
 
-                <div class="smart-card">
-
-                    <div class="section-header mb-3">
+                <div class="card-header bg-white border-0 p-4">
+                    <div class="d-flex justify-content-between align-items-center gap-3">
                         <div>
-                            <h4 class="mb-1">Patient Overview</h4>
-                            <p class="text-muted mb-0">
-                                Patient information will appear here.
+                            <h2 class="h5 fw-bold mb-1">
+                                Consultation History
+                            </h2>
+
+                            <p class="text-muted small mb-0">
+                                Your recorded clinical consultations.
                             </p>
                         </div>
-                    </div>
 
-                    <div class="patient-overview-empty">
-
-                        <div class="consultation-empty-icon">
-                            <i class="bi bi-person-vcard"></i>
-                        </div>
-
-                        <h5>No patient selected</h5>
-
-                        <p>
-                            Select a patient appointment to view the relevant clinical information.
-                        </p>
-
-                    </div>
-
-                    <div class="patient-detail-list">
-
-                        <div class="patient-detail">
-                            <span>Patient Name</span>
-                            <strong>Not available</strong>
-                        </div>
-
-                        <div class="patient-detail">
-                            <span>Appointment Type</span>
-                            <strong>Not available</strong>
-                        </div>
-
-                        <div class="patient-detail">
-                            <span>Consultation Time</span>
-                            <strong>Not available</strong>
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="smart-card">
-
-                    <div class="section-header mb-3">
-                        <div>
-                            <h4 class="mb-1">Medical Alerts</h4>
-                            <p class="text-muted mb-0">
-                                Relevant alerts will be shown when patient data is available.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="alert-empty-state">
-                        <i class="bi bi-shield-check"></i>
-
-                        <div>
-                            <strong>No alerts available</strong>
-                            <p class="mb-0">
-                                No medical alerts are currently available for the selected patient.
-                            </p>
-                        </div>
-                    </div>
-
-                </div>
-
-            </aside>
-
-            <main class="consultation-main">
-
-                <div class="smart-card">
-
-                    <div class="section-header mb-4">
-                        <div>
-                            <h4 class="mb-1">Consultation Notes</h4>
-                            <p class="text-muted mb-0">
-                                Record the clinical findings and treatment plan.
-                            </p>
-                        </div>
-                    </div>
-
-                    <form>
-
-                        <div class="mb-4">
-                            <label for="symptoms" class="smart-label">
-                                Symptoms
-                            </label>
-
-                            <textarea id="symptoms"
-                                      class="form-control smart-input"
-                                      rows="4"
-                                      placeholder="Record the patient's reported symptoms..."></textarea>
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="diagnosis" class="smart-label">
-                                Diagnosis
-                            </label>
-
-                            <input id="diagnosis"
-                                   class="form-control smart-input"
-                                   placeholder="Enter diagnosis..." />
-                        </div>
-
-                        <div>
-                            <label for="treatmentNotes" class="smart-label">
-                                Treatment Notes
-                            </label>
-
-                            <textarea id="treatmentNotes"
-                                      class="form-control smart-input"
-                                      rows="5"
-                                      placeholder="Record treatment, clinical observations and follow-up instructions..."></textarea>
-                        </div>
-
-                    </form>
-
-                </div>
-
-                <div class="smart-card">
-
-                    <div class="section-header mb-4">
-                        <div>
-                            <h4 class="mb-1">Prescription</h4>
-                            <p class="text-muted mb-0">
-                                Add medication instructions when a prescription is required.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="row g-3">
-
-                        <div class="col-md-6">
-                            <label for="medication" class="smart-label">
-                                Medication
-                            </label>
-
-                            <input id="medication"
-                                   class="form-control smart-input"
-                                   placeholder="Medication name" />
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="dosage" class="smart-label">
-                                Dosage
-                            </label>
-
-                            <input id="dosage"
-                                   class="form-control smart-input"
-                                   placeholder="e.g. 500 mg" />
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="duration" class="smart-label">
-                                Duration
-                            </label>
-
-                            <input id="duration"
-                                   class="form-control smart-input"
-                                   placeholder="e.g. 5 days" />
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="instructions" class="smart-label">
-                                Instructions
-                            </label>
-
-                            <input id="instructions"
-                                   class="form-control smart-input"
-                                   placeholder="e.g. Take after meals" />
-                        </div>
-
-                    </div>
-
-                    <div class="prescription-note mt-4">
-                        <i class="bi bi-info-circle"></i>
-
-                        <span>
-                            Prescription details should be completed only after reviewing the patient's clinical information.
+                        <span class="badge rounded-pill text-bg-light border">
+                            @consultations.Count record@(consultations.Count == 1 ? "" : "s")
                         </span>
                     </div>
-
                 </div>
 
-                <div class="consultation-actions">
+                <div class="card-body p-0">
 
-                    <button type="button"
-                            class="smart-btn-primary"
-                            disabled>
-                        <i class="bi bi-save me-2"></i>
-                        Save Consultation
-                    </button>
+                    @if (consultations.Count == 0)
+                    {
+                        <div class="text-center py-5 px-4">
+                            <div class="rounded-circle bg-primary-subtle text-primary d-inline-flex p-3 mb-3">
+                                <i class="bi bi-clipboard2-pulse fs-3"
+                                   aria-hidden="true"></i>
+                            </div>
 
-                    <button type="button"
-                            class="smart-btn-accent"
-                            disabled>
-                        <i class="bi bi-capsule me-2"></i>
-                        Generate Prescription
-                    </button>
+                            <h3 class="h5 fw-bold">
+                                No consultations recorded
+                            </h3>
 
-                    <a asp-controller="Doctor"
-                           asp-action="Dashboard"
-                           class="btn btn-outline-secondary rounded-3 text-decoration-none">
-                        Back to Dashboard
-                    </a>
+                            <p class="text-muted mb-0">
+                                Completed consultation records will appear here.
+                            </p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="list-group list-group-flush">
+
+                            @foreach (var consultation in consultations
+                                .OrderByDescending(c => c.ConsultationDateUtc))
+                            {
+                                <div class="list-group-item p-4">
+
+                                    <div class="d-flex flex-column flex-md-row justify-content-between gap-3 mb-3">
+                                        <div>
+                                            <div class="fw-bold">
+                                                @(consultation.PatientName ?? $"Patient #{consultation.PatientId}")
+                                            </div>
+
+                                            <div class="small text-muted">
+                                                Consultation
+                                                ·
+                                                @consultation.ConsultationDateUtc.ToLocalTime().ToString("dd MMM yyyy, HH:mm")
+                                            </div>
+                                        </div>
+
+                                        <span class="badge rounded-pill text-bg-success align-self-start">
+                                            <i class="bi bi-check-circle me-1"
+                                               aria-hidden="true"></i>
+                                            Recorded
+                                        </span>
+                                    </div>
+
+                                    <div class="row g-3">
+
+                                        <div class="col-12">
+                                            <div class="small text-uppercase fw-semibold text-muted mb-1">
+                                                Symptoms
+                                            </div>
+
+                                            <div class="bg-light rounded-3 p-3">
+                                                @consultation.Symptoms
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="small text-uppercase fw-semibold text-muted mb-1">
+                                                Diagnosis
+                                            </div>
+
+                                            <div class="bg-light rounded-3 p-3">
+                                                @consultation.Diagnosis
+                                            </div>
+                                        </div>
+
+                                        @if (!string.IsNullOrWhiteSpace(consultation.TreatmentPlan))
+                                        {
+                                            <div class="col-12">
+                                                <div class="small text-uppercase fw-semibold text-muted mb-1">
+                                                    Treatment Plan
+                                                </div>
+
+                                                <div class="bg-light rounded-3 p-3">
+                                                    @consultation.TreatmentPlan
+                                                </div>
+                                            </div>
+                                        }
+
+                                        @if (!string.IsNullOrWhiteSpace(consultation.ClinicalNotes))
+                                        {
+                                            <div class="col-12">
+                                                <div class="small text-uppercase fw-semibold text-muted mb-1">
+                                                    Clinical Notes
+                                                </div>
+
+                                                <div class="bg-light rounded-3 p-3">
+                                                    @consultation.ClinicalNotes
+                                                </div>
+                                            </div>
+                                        }
+
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                    }
 
                 </div>
-
-            </main>
+            </div>
 
         </div>
 
     </div>
-</section>
+</div>
 
-<style>
-    .consultation-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 2rem;
-        padding: 1.75rem 2rem;
-    }
+@section Scripts {
+    <script>
+        (() => {
+            const patientSelect =
+                document.getElementById('patientId');
 
-    .consultation-header-status {
-        flex: 0 0 220px;
-        padding: 1rem 1.1rem;
-        border: 1px solid #e2e9ed;
-        border-radius: 14px;
-        background: #f8fafb;
-    }
+            const appointmentSelect =
+                document.getElementById('appointmentId');
 
-        .consultation-header-status .status-badge {
-            display: inline-block;
-            margin-bottom: 0.45rem;
-            color: #6c757d;
-            background: #edf1f3;
-        }
+            if (patientSelect && appointmentSelect) {
+                const appointmentOptions =
+                    Array.from(
+                        appointmentSelect.options
+                    ).slice(1);
 
-        .consultation-header-status strong {
-            display: block;
-            color: #243447;
-            margin-bottom: 0.2rem;
-        }
+                const filterAppointments = () => {
+                    const patientId =
+                        patientSelect.value;
 
-        .consultation-header-status small {
-            display: block;
-            color: #7a8793;
-            line-height: 1.4;
-        }
+                    appointmentOptions.forEach(option => {
+                        const matches =
+                            !patientId ||
+                            option.dataset.patientId === patientId;
 
-    .consultation-layout {
-        display: grid;
-        grid-template-columns: minmax(280px, 0.78fr) minmax(0, 1.7fr);
-        gap: 1.5rem;
-        align-items: start;
-    }
+                        option.hidden = !matches;
+                    });
 
-    .consultation-sidebar {
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-    }
+                    const selected =
+                        appointmentSelect.selectedOptions[0];
 
-    .consultation-main {
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-    }
+                    if (selected?.hidden) {
+                        appointmentSelect.value = '';
+                    }
+                };
 
-    .patient-overview-empty {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        padding: 1.5rem 1rem;
-        border: 1px dashed #d5dde5;
-        border-radius: 14px;
-        background: #fafcfd;
-    }
+                patientSelect.addEventListener(
+                    'change',
+                    filterAppointments);
 
-    .consultation-empty-icon {
-        width: 56px;
-        height: 56px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 0.9rem;
-        border-radius: 14px;
-        background: #e7f5f3;
-        color: var(--primary);
-        font-size: 1.4rem;
-    }
-
-    .patient-overview-empty h5 {
-        margin-bottom: 0.4rem;
-        color: #243447;
-    }
-
-    .patient-overview-empty p {
-        margin: 0;
-        color: #6c757d;
-        font-size: 0.88rem;
-        line-height: 1.5;
-    }
-
-    .patient-detail-list {
-        margin-top: 1rem;
-    }
-
-    .patient-detail {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 1rem;
-        padding: 0.8rem 0;
-        border-bottom: 1px solid #edf1f3;
-    }
-
-        .patient-detail:last-child {
-            border-bottom: 0;
-        }
-
-        .patient-detail span {
-            color: #7a8793;
-            font-size: 0.82rem;
-        }
-
-        .patient-detail strong {
-            color: #243447;
-            font-size: 0.85rem;
-            text-align: right;
-        }
-
-    .alert-empty-state {
-        display: flex;
-        align-items: flex-start;
-        gap: 0.8rem;
-        padding: 1rem;
-        border-radius: 13px;
-        background: #f8fafb;
-    }
-
-        .alert-empty-state > i {
-            color: var(--primary);
-            font-size: 1.2rem;
-            margin-top: 0.1rem;
-        }
-
-        .alert-empty-state strong {
-            display: block;
-            color: #243447;
-            font-size: 0.88rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .alert-empty-state p {
-            color: #6c757d;
-            font-size: 0.8rem;
-            line-height: 1.45;
-        }
-
-    .consultation-main .smart-card {
-        padding: 1.75rem;
-    }
-
-    .prescription-note {
-        display: flex;
-        align-items: flex-start;
-        gap: 0.7rem;
-        padding: 0.9rem 1rem;
-        border-radius: 12px;
-        background: #f8fafb;
-        color: #6c757d;
-        font-size: 0.82rem;
-        line-height: 1.5;
-    }
-
-        .prescription-note i {
-            color: var(--primary);
-            font-size: 1rem;
-            margin-top: 0.1rem;
-        }
-
-    .consultation-actions {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.75rem;
-    }
-
-        .consultation-actions .smart-btn-primary:disabled,
-        .consultation-actions .smart-btn-accent:disabled {
-            cursor: not-allowed;
-            opacity: 0.6;
-        }
-
-    @@media (max-width: 991.98px) {
-        .consultation-layout {
-            grid-template-columns: 1fr;
-        }
-
-        .consultation-sidebar {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            align-items: start;
-        }
-    }
-
-    @@media (max-width: 767.98px) {
-        .consultation-header {
-            flex-direction: column;
-            align-items: flex-start;
-            padding: 1.25rem;
-        }
-
-        .consultation-header-status {
-            width: 100%;
-        }
-
-        .consultation-sidebar {
-            display: flex;
-        }
-
-        .consultation-main .smart-card {
-            padding: 1.25rem;
-        }
-
-        .consultation-actions {
-            flex-direction: column;
-        }
-
-            .consultation-actions > * {
-                width: 100%;
-                text-align: center;
+                filterAppointments();
             }
-    }
-</style>
+
+            const counters = [
+                ['symptoms', 'symptoms-count'],
+                ['diagnosis', 'diagnosis-count'],
+                ['treatmentPlan', 'treatment-count'],
+                ['clinicalNotes', 'notes-count']
+            ];
+
+            counters.forEach(([inputId, counterId]) => {
+                const input =
+                    document.getElementById(inputId);
+
+                const counter =
+                    document.getElementById(counterId);
+
+                if (!input || !counter) {
+                    return;
+                }
+
+                const updateCounter = () => {
+                    counter.textContent =
+                        input.value.length;
+                };
+
+                input.addEventListener(
+                    'input',
+                    updateCounter);
+
+                updateCounter();
+            });
+        })();
+    </script>
+}

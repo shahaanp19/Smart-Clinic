@@ -1,207 +1,564 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Concurrent;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using SmartClinicManagementSystem.DTOs;
+using SmartClinicManagementSystem.Services.Interfaces;
+using SmartClinicManagementSystem.Services.Mappers;
 
-namespace SmartClinicManagementSystem.Controllers
+namespace SmartClinicManagementSystem.Controllers;
+
+[Authorize(Policy = "DoctorOnly")]
+public class DoctorController : Controller
 {
-    public class DoctorController : Controller
+    private readonly IDoctorService _doctorService;
+    private readonly IPatientService _patientService;
+    private readonly IAppointmentService _appointmentService;
+    private readonly IConsultationService _consultationService;
+    private readonly IPrescriptionService _prescriptionService;
+
+    public DoctorController(
+        IDoctorService doctorService,
+        IPatientService patientService,
+        IAppointmentService appointmentService,
+        IConsultationService consultationService,
+        IPrescriptionService prescriptionService)
     {
-        private static readonly ConcurrentDictionary<int, ConsultationRecord> Consultations = new();
-        private static readonly ConcurrentDictionary<int, PrescriptionRecord> Prescriptions = new();
+        _doctorService = doctorService;
+        _patientService = patientService;
+        _appointmentService = appointmentService;
+        _consultationService = consultationService;
+        _prescriptionService = prescriptionService;
+    }
 
-        private static int _nextConsultationId = 1000;
-        private static int _nextPrescriptionId = 2000;
+    [HttpGet]
+    [AllowAnonymous]
+    public IActionResult Login()
+    {
+        return RedirectToAction("Login", "Account");
+    }
 
-        public IActionResult Login()
+    [HttpGet]
+    public async Task<IActionResult> Dashboard()
+    {
+        var doctor = await GetCurrentDoctorAsync();
+
+        if (doctor is null)
         {
+            return RedirectToAction("Login", "Account");
+        }
+
+        var fromUtc = DateTime.UtcNow;
+        var toUtc = fromUtc.AddMonths(3);
+
+        var appointments =
+            await _appointmentService.GetByDoctorAsync(
+                doctor.Id,
+                fromUtc,
+                toUtc);
+
+        var consultations =
+            await _consultationService.GetByDoctorAsync(
+                doctor.Id);
+
+        ViewBag.Doctor = DtoMapper.ToDto(doctor);
+        ViewBag.TotalConsultations = consultations.Count;
+
+        ViewBag.CompletedConsultations =
+            consultations.Count;
+
+        ViewBag.PendingConsultations =
+            appointments.Count(a =>
+                string.Equals(
+                    a.Status,
+                    "Scheduled",
+                    StringComparison.OrdinalIgnoreCase));
+
+        ViewBag.TodayAppointments =
+            appointments.Count(a =>
+                a.AppointmentDateTime.ToLocalTime().Date ==
+                DateTime.Now.Date &&
+                !string.Equals(
+                    a.Status,
+                    "Cancelled",
+                    StringComparison.OrdinalIgnoreCase));
+
+        return View();
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Schedule()
+    {
+        var doctor = await GetCurrentDoctorAsync();
+
+        if (doctor is null)
+        {
+            return RedirectToAction("Login", "Account");
+        }
+
+        var appointments =
+            await _appointmentService.GetByDoctorAsync(
+                doctor.Id,
+                DateTime.UtcNow,
+                DateTime.UtcNow.AddMonths(3));
+
+        ViewBag.Appointments = appointments
+            .Select(DtoMapper.ToDto)
+            .ToList();
+
+        return View();
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Consultation()
+    {
+        var doctor = await GetCurrentDoctorAsync();
+
+        if (doctor is null)
+        {
+            return RedirectToAction("Login", "Account");
+        }
+
+        await PopulateConsultationDataAsync(doctor.Id);
+
+        return View();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Consultation(
+        int patientId,
+        int appointmentId,
+        string symptoms,
+        string diagnosis,
+        string treatmentPlan,
+        string clinicalNotes)
+    {
+        var doctor = await GetCurrentDoctorAsync();
+
+        if (doctor is null)
+        {
+            return RedirectToAction("Login", "Account");
+        }
+
+        if (patientId <= 0)
+        {
+            ModelState.AddModelError(
+                nameof(patientId),
+                "A valid patient is required.");
+        }
+
+        if (appointmentId <= 0)
+        {
+            ModelState.AddModelError(
+                nameof(appointmentId),
+                "A valid appointment is required.");
+        }
+
+        if (string.IsNullOrWhiteSpace(symptoms))
+        {
+            ModelState.AddModelError(
+                nameof(symptoms),
+                "Symptoms are required.");
+        }
+
+        if (string.IsNullOrWhiteSpace(diagnosis))
+        {
+            ModelState.AddModelError(
+                nameof(diagnosis),
+                "Diagnosis is required.");
+        }
+
+        if (!ModelState.IsValid)
+        {
+            await PopulateConsultationDataAsync(doctor.Id);
             return View();
         }
 
-        public IActionResult Dashboard()
-        {
-            ViewBag.TotalConsultations = Consultations.Count;
-            ViewBag.CompletedConsultations =
-                Consultations.Values.Count(c => c.Status == "Completed");
-            ViewBag.PendingConsultations =
-                Consultations.Values.Count(c => c.Status == "Pending");
+        var appointment =
+            await _appointmentService.GetByIdAsync(
+                appointmentId);
 
+        if (appointment is null)
+        {
+            ModelState.AddModelError(
+                nameof(appointmentId),
+                "The selected appointment could not be found.");
+
+            await PopulateConsultationDataAsync(doctor.Id);
             return View();
         }
 
-        public IActionResult Schedule()
+        if (appointment.DoctorId != doctor.Id)
         {
-            ViewBag.Consultations = Consultations.Values
-                .OrderBy(c => c.AppointmentDate)
-                .ThenBy(c => c.AppointmentTime)
-                .ToList();
+            ModelState.AddModelError(
+                nameof(appointmentId),
+                "You are not authorised to use this appointment.");
 
+            await PopulateConsultationDataAsync(doctor.Id);
             return View();
         }
 
-        [HttpGet]
-        public IActionResult Consultation()
+        if (appointment.PatientId != patientId)
         {
-            ViewBag.Consultations = Consultations.Values
-                .OrderByDescending(c => c.AppointmentDate)
-                .ToList();
+            ModelState.AddModelError(
+                nameof(patientId),
+                "The selected patient does not match the appointment.");
 
+            await PopulateConsultationDataAsync(doctor.Id);
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Consultation(
-            string patientName,
-            DateTime appointmentDate,
-            string appointmentTime,
-            string notes,
-            string diagnosis)
+        if (string.Equals(
+            appointment.Status,
+            "Cancelled",
+            StringComparison.OrdinalIgnoreCase))
         {
-            if (string.IsNullOrWhiteSpace(patientName))
-                ModelState.AddModelError("patientName", "Patient name is required.");
+            ModelState.AddModelError(
+                nameof(appointmentId),
+                "Cancelled appointments cannot be used for consultations.");
 
-            if (appointmentDate.Date < DateTime.Today)
-                ModelState.AddModelError(
-                    "appointmentDate",
-                    "Consultation date cannot be in the past.");
+            await PopulateConsultationDataAsync(doctor.Id);
+            return View();
+        }
 
-            if (string.IsNullOrWhiteSpace(appointmentTime))
-                ModelState.AddModelError(
-                    "appointmentTime",
-                    "Appointment time is required.");
+        var existingConsultation =
+            await _consultationService.GetByAppointmentIdAsync(
+                appointmentId);
 
-            if (string.IsNullOrWhiteSpace(notes))
-                ModelState.AddModelError(
-                    "notes",
-                    "Consultation notes are required.");
+        if (existingConsultation is not null)
+        {
+            ModelState.AddModelError(
+                nameof(appointmentId),
+                "A consultation has already been recorded for this appointment.");
 
-            if (!ModelState.IsValid)
-            {
-                ViewBag.Consultations = Consultations.Values
-                    .OrderByDescending(c => c.AppointmentDate)
-                    .ToList();
+            await PopulateConsultationDataAsync(doctor.Id);
+            return View();
+        }
 
-                return View();
-            }
+        var consultation = new Models.Consultation
+        {
+            AppointmentId = appointmentId,
+            PatientId = patientId,
+            DoctorId = doctor.Id,
+            Symptoms = symptoms.Trim(),
+            Diagnosis = diagnosis.Trim(),
+            TreatmentPlan =
+                string.IsNullOrWhiteSpace(treatmentPlan)
+                    ? null
+                    : treatmentPlan.Trim(),
+            ClinicalNotes =
+                string.IsNullOrWhiteSpace(clinicalNotes)
+                    ? null
+                    : clinicalNotes.Trim(),
+            ConsultationDateUtc = DateTime.UtcNow
+        };
 
-            int id = Interlocked.Increment(ref _nextConsultationId);
-
-            Consultations.TryAdd(id, new ConsultationRecord
-            {
-                ConsultationId = id,
-                PatientName = patientName.Trim(),
-                AppointmentDate = appointmentDate,
-                AppointmentTime = appointmentTime,
-                Notes = notes.Trim(),
-                Diagnosis = diagnosis?.Trim() ?? string.Empty,
-                Status = "Completed",
-                CreatedAt = DateTime.UtcNow
-            });
+        try
+        {
+            await _consultationService.CreateAsync(
+                consultation);
 
             TempData["SuccessMessage"] =
-                $"Consultation #{id} has been recorded successfully.";
+                "Consultation has been recorded successfully.";
 
             return RedirectToAction(nameof(Consultation));
         }
-
-        [HttpGet]
-        public IActionResult GeneratePrescription()
+        catch (InvalidOperationException ex)
         {
-            ViewBag.Prescriptions = Prescriptions.Values
-                .OrderByDescending(p => p.CreatedAt)
-                .ToList();
+            ModelState.AddModelError(
+                string.Empty,
+                ex.Message);
+
+            await PopulateConsultationDataAsync(
+                doctor.Id);
+
+            return View();
+        }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GeneratePrescription()
+    {
+        var doctor = await GetCurrentDoctorAsync();
+
+        if (doctor is null)
+        {
+            return RedirectToAction("Login", "Account");
+        }
+
+        await PopulatePrescriptionDataAsync(
+            doctor.Id);
+
+        return View();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> GeneratePrescription(
+        int patientId,
+        int consultationId,
+        string medicationName,
+        string dosage,
+        string frequency,
+        string duration,
+        string instructions)
+    {
+        var doctor = await GetCurrentDoctorAsync();
+
+        if (doctor is null)
+        {
+            return RedirectToAction("Login", "Account");
+        }
+
+        if (patientId <= 0)
+        {
+            ModelState.AddModelError(
+                nameof(patientId),
+                "A valid patient is required.");
+        }
+
+        if (consultationId <= 0)
+        {
+            ModelState.AddModelError(
+                nameof(consultationId),
+                "A valid consultation is required.");
+        }
+
+        if (string.IsNullOrWhiteSpace(medicationName))
+        {
+            ModelState.AddModelError(
+                nameof(medicationName),
+                "Medication is required.");
+        }
+
+        if (string.IsNullOrWhiteSpace(dosage))
+        {
+            ModelState.AddModelError(
+                nameof(dosage),
+                "Dosage is required.");
+        }
+
+        if (string.IsNullOrWhiteSpace(frequency))
+        {
+            ModelState.AddModelError(
+                nameof(frequency),
+                "Frequency is required.");
+        }
+
+        if (string.IsNullOrWhiteSpace(duration))
+        {
+            ModelState.AddModelError(
+                nameof(duration),
+                "Duration is required.");
+        }
+
+        if (!ModelState.IsValid)
+        {
+            await PopulatePrescriptionDataAsync(
+                doctor.Id);
 
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult GeneratePrescription(
-            string patientName,
-            string medication,
-            string dosage,
-            string frequency,
-            string duration,
-            string instructions)
+        var consultation =
+            await _consultationService.GetByIdAsync(
+                consultationId);
+
+        if (consultation is null)
         {
-            if (string.IsNullOrWhiteSpace(patientName))
-                ModelState.AddModelError("patientName", "Patient name is required.");
+            ModelState.AddModelError(
+                nameof(consultationId),
+                "The selected consultation could not be found.");
 
-            if (string.IsNullOrWhiteSpace(medication))
-                ModelState.AddModelError("medication", "Medication is required.");
+            await PopulatePrescriptionDataAsync(
+                doctor.Id);
 
-            if (string.IsNullOrWhiteSpace(dosage))
-                ModelState.AddModelError("dosage", "Dosage is required.");
+            return View();
+        }
 
-            if (string.IsNullOrWhiteSpace(frequency))
-                ModelState.AddModelError("frequency", "Frequency is required.");
+        if (consultation.DoctorId != doctor.Id)
+        {
+            ModelState.AddModelError(
+                nameof(consultationId),
+                "You are not authorised to use this consultation.");
 
-            if (string.IsNullOrWhiteSpace(duration))
-                ModelState.AddModelError("duration", "Duration is required.");
+            await PopulatePrescriptionDataAsync(
+                doctor.Id);
 
-            if (!ModelState.IsValid)
-            {
-                ViewBag.Prescriptions = Prescriptions.Values
-                    .OrderByDescending(p => p.CreatedAt)
-                    .ToList();
+            return View();
+        }
 
-                return View();
-            }
+        if (consultation.PatientId != patientId)
+        {
+            ModelState.AddModelError(
+                nameof(patientId),
+                "The selected patient does not match the consultation.");
 
-            int id = Interlocked.Increment(ref _nextPrescriptionId);
+            await PopulatePrescriptionDataAsync(
+                doctor.Id);
 
-            Prescriptions.TryAdd(id, new PrescriptionRecord
-            {
-                PrescriptionId = id,
-                PatientName = patientName.Trim(),
-                Medication = medication.Trim(),
-                Dosage = dosage.Trim(),
-                Frequency = frequency.Trim(),
-                Duration = duration.Trim(),
-                Instructions = instructions?.Trim() ?? string.Empty,
-                CreatedAt = DateTime.UtcNow
-            });
+            return View();
+        }
+
+        var prescription = new Models.Prescription
+        {
+            ConsultationId = consultationId,
+            PatientId = patientId,
+            DoctorId = doctor.Id,
+            MedicationName = medicationName.Trim(),
+            Dosage = dosage.Trim(),
+            Frequency = frequency.Trim(),
+            Duration = duration.Trim(),
+            Instructions =
+                string.IsNullOrWhiteSpace(instructions)
+                    ? null
+                    : instructions.Trim(),
+            PrescribedAtUtc = DateTime.UtcNow
+        };
+
+        try
+        {
+            await _prescriptionService.CreateAsync(
+                prescription);
 
             TempData["SuccessMessage"] =
-                $"Prescription #{id} has been generated successfully.";
+                "Prescription has been generated successfully.";
 
-            return RedirectToAction(nameof(GeneratePrescription));
+            return RedirectToAction(
+                nameof(GeneratePrescription));
         }
-
-        public IActionResult MedicalRecords()
+        catch (InvalidOperationException ex)
         {
-            ViewBag.Consultations = Consultations.Values
-                .OrderByDescending(c => c.AppointmentDate)
-                .ToList();
+            ModelState.AddModelError(
+                string.Empty,
+                ex.Message);
 
-            ViewBag.Prescriptions = Prescriptions.Values
-                .OrderByDescending(p => p.CreatedAt)
-                .ToList();
+            await PopulatePrescriptionDataAsync(
+                doctor.Id);
 
             return View();
         }
+    }
 
-        public class ConsultationRecord
+    [HttpGet]
+    public async Task<IActionResult> MedicalRecords()
+    {
+        var doctor = await GetCurrentDoctorAsync();
+
+        if (doctor is null)
         {
-            public int ConsultationId { get; set; }
-            public string PatientName { get; set; } = string.Empty;
-            public DateTime AppointmentDate { get; set; }
-            public string AppointmentTime { get; set; } = string.Empty;
-            public string Notes { get; set; } = string.Empty;
-            public string Diagnosis { get; set; } = string.Empty;
-            public string Status { get; set; } = "Pending";
-            public DateTime CreatedAt { get; set; }
+            return RedirectToAction("Login", "Account");
         }
 
-        public class PrescriptionRecord
+        var consultations =
+            await _consultationService.GetByDoctorAsync(
+                doctor.Id);
+
+        var prescriptions =
+            await _prescriptionService.GetByDoctorAsync(
+                doctor.Id);
+
+        ViewBag.Consultations = consultations
+            .Select(DtoMapper.ToDto)
+            .ToList();
+
+        ViewBag.Prescriptions = prescriptions
+            .Select(DtoMapper.ToDto)
+            .ToList();
+
+        return View();
+    }
+
+    private async Task<Models.Doctor?> GetCurrentDoctorAsync()
+    {
+        var email = User.Identity?.Name;
+
+        if (string.IsNullOrWhiteSpace(email))
         {
-            public int PrescriptionId { get; set; }
-            public string PatientName { get; set; } = string.Empty;
-            public string Medication { get; set; } = string.Empty;
-            public string Dosage { get; set; } = string.Empty;
-            public string Frequency { get; set; } = string.Empty;
-            public string Duration { get; set; } = string.Empty;
-            public string Instructions { get; set; } = string.Empty;
-            public DateTime CreatedAt { get; set; }
+            return null;
         }
+
+        var doctor =
+            await _doctorService.GetByEmailAsync(email);
+
+        if (doctor is null || !doctor.IsActive)
+        {
+            return null;
+        }
+
+        return doctor;
+    }
+
+    private async Task PopulateConsultationDataAsync(
+        int doctorId)
+    {
+        var appointments =
+            await _appointmentService.GetByDoctorAsync(
+                doctorId,
+                DateTime.UtcNow.AddDays(-1),
+                DateTime.UtcNow.AddMonths(3));
+
+        var consultations =
+            await _consultationService.GetByDoctorAsync(
+                doctorId);
+
+        var patients =
+            await _patientService.GetAllAsync();
+
+        var completedAppointmentIds =
+            consultations
+                .Select(c => c.AppointmentId)
+                .ToHashSet();
+
+        ViewBag.Patients = patients
+            .Where(p => p.IsActive)
+            .OrderBy(p => p.FullName)
+            .Select(DtoMapper.ToDto)
+            .ToList();
+
+        ViewBag.Appointments = appointments
+            .Where(a =>
+                !string.Equals(
+                    a.Status,
+                    "Cancelled",
+                    StringComparison.OrdinalIgnoreCase) &&
+                !completedAppointmentIds.Contains(a.Id))
+            .OrderBy(a => a.AppointmentDateTime)
+            .Select(DtoMapper.ToDto)
+            .ToList();
+
+        ViewBag.Consultations = consultations
+            .Select(DtoMapper.ToDto)
+            .ToList();
+    }
+
+    private async Task PopulatePrescriptionDataAsync(
+        int doctorId)
+    {
+        var consultations =
+            await _consultationService.GetByDoctorAsync(
+                doctorId);
+
+        var patients =
+            await _patientService.GetAllAsync();
+
+        var prescriptions =
+            await _prescriptionService.GetByDoctorAsync(
+                doctorId);
+
+        ViewBag.Patients = patients
+            .Where(p => p.IsActive)
+            .OrderBy(p => p.FullName)
+            .Select(DtoMapper.ToDto)
+            .ToList();
+
+        ViewBag.Consultations = consultations
+            .OrderByDescending(
+                c => c.ConsultationDateUtc)
+            .Select(DtoMapper.ToDto)
+            .ToList();
+
+        ViewBag.Prescriptions = prescriptions
+            .Select(DtoMapper.ToDto)
+            .ToList();
     }
 }

@@ -1,32 +1,51 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using SmartClinicManagementSystem.Models;
 
 namespace SmartClinicManagementSystem.Data;
 
 public static class DbSeeder
 {
+    private const string DefaultAdminEmail = "admin@smartclinic.local";
+    private const string DefaultAdminPassword = "Admin@12345";
+
     public static async Task SeedAsync(ApplicationDbContext context)
     {
         await context.Database.MigrateAsync();
 
-        if (await context.Users.AnyAsync())
+        var passwordHasher = new PasswordHasher<User>();
+
+        var existingAdmin = await context.Users
+            .FirstOrDefaultAsync(u => u.Email == DefaultAdminEmail);
+
+        if (existingAdmin is null)
         {
+            var admin = new User
+            {
+                FullName = "System Administrator",
+                Email = DefaultAdminEmail,
+                Role = "Administrator",
+                PhoneNumber = null,
+                IsActive = true,
+                CreatedAtUtc = DateTime.UtcNow,
+                UpdatedAtUtc = null
+            };
+
+            admin.PasswordHash = passwordHasher.HashPassword(
+                admin,
+                DefaultAdminPassword);
+
+            await context.Users.AddAsync(admin);
+            await context.SaveChangesAsync();
+
             return;
         }
 
-        var users = new[]
+        if (!existingAdmin.IsActive)
         {
-            new User
-            {
-                FullName = "System Administrator",
-                Email = "admin@smartclinic.local",
-                PasswordHash = "CHANGE_ME",
-                Role = "Administrator",
-                IsActive = true
-            }
-        };
-
-        await context.Users.AddRangeAsync(users);
-        await context.SaveChangesAsync();
+            existingAdmin.IsActive = true;
+            existingAdmin.UpdatedAtUtc = DateTime.UtcNow;
+            await context.SaveChangesAsync();
+        }
     }
 }

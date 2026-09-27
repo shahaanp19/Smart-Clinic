@@ -1,224 +1,468 @@
 ﻿@{
     ViewData["Title"] = "Reception Dashboard";
+
+    var totalPatients = ViewBag.TotalPatients is int patients
+        ? patients
+        : 0;
+
+    var totalAppointments = ViewBag.TotalAppointments is int appointments
+        ? appointments
+        : 0;
+
+    var todayAppointments = ViewBag.TodayAppointments is int today
+        ? today
+        : 0;
+
+    var pendingAppointments = ViewBag.PendingAppointments is int pending
+        ? pending
+        : 0;
 }
 
-<section class="page-section">
-    <div class="container">
+<div class="container-fluid py-4">
 
-        <div class="smart-card reception-welcome mb-4">
-            <div class="reception-welcome-content">
+    <!-- Header -->
+    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
 
-                <div>
-                    <span class="smart-badge">Reception Dashboard</span>
+        <div>
+            <span class="badge rounded-pill text-bg-primary px-3 py-2 mb-2">
+                <i class="bi bi-headset me-1" aria-hidden="true"></i>
+                Reception Workspace
+            </span>
 
-                    <h1 class="dashboard-title mt-3">
-                        Front Desk Operations
-                    </h1>
+            <h1 class="h3 fw-bold mb-1">
+                Reception Dashboard
+            </h1>
 
-                    <p class="text-muted mb-4">
-                        Manage patient arrivals, appointments, queue status and daily clinic operations.
-                    </p>
-
-                    <a asp-controller="Reception"
-                           asp-action="CheckIn"
-                           class="smart-btn-primary text-decoration-none">
-                        <i class="bi bi-person-check me-2"></i>
-                        Check In Patient
-                    </a>
-                </div>
-
-                <div class="reception-welcome-icon">
-                    <i class="bi bi-headset"></i>
-                </div>
-
-            </div>
+            <p class="text-muted mb-0">
+                Manage patients, appointments and front-desk workflows.
+            </p>
         </div>
 
-        <div class="row g-4 mb-4">
+        <div class="d-flex flex-column flex-sm-row gap-2">
 
-            <div class="col-md-3">
-                <div class="smart-card stat-panel">
-                    <i class="bi bi-calendar-event"></i>
-                    <h3>—</h3>
-                    <p class="mb-1">Appointments Today</p>
-                    <small>No data available</small>
-                </div>
-            </div>
+            <a asp-controller="Reception"
+                   asp-action="RegisterPatient"
+                   class="btn btn-outline-primary">
+                <i class="bi bi-person-plus me-2"
+                   aria-hidden="true"></i>
+                Register Patient
+            </a>
 
-            <div class="col-md-3">
-                <div class="smart-card stat-panel">
-                    <i class="bi bi-person-check"></i>
-                    <h3>—</h3>
-                    <p class="mb-1">Patients Checked In</p>
-                    <small>No data available</small>
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="smart-card stat-panel">
-                    <i class="bi bi-hourglass-split"></i>
-                    <h3>—</h3>
-                    <p class="mb-1">Waiting in Queue</p>
-                    <small>No data available</small>
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="smart-card stat-panel">
-                    <i class="bi bi-calendar-x"></i>
-                    <h3>—</h3>
-                    <p class="mb-1">Cancellations</p>
-                    <small>No data available</small>
-                </div>
-            </div>
+            <a asp-controller="Reception"
+                   asp-action="BookAppointment"
+                   class="btn btn-primary">
+                <i class="bi bi-calendar-plus me-2"
+                   aria-hidden="true"></i>
+                Book Appointment
+            </a>
 
         </div>
 
-        <div class="smart-card mb-4">
+    </div>
 
-            <div class="section-header mb-3">
-                <div>
-                    <h4 class="mb-1">Quick Actions</h4>
-                    <p class="text-muted mb-0">
-                        Access the main reception tasks.
-                    </p>
-                </div>
-            </div>
+    <!-- Metrics -->
+    <div class="row g-4 mb-4">
 
-            <div class="row g-3">
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4">
 
-                <div class="col-md-3">
-                    <a asp-controller="Reception"
-                           asp-action="CheckIn"
-                           class="portal-card reception-action-card text-center">
-                        <i class="bi bi-person-check"></i>
-                        <h5>Check In</h5>
-                        <p>Register a patient's arrival.</p>
-                    </a>
-                </div>
+                    <div class="d-flex justify-content-between align-items-start">
 
-                <div class="col-md-3">
-                    <a asp-controller="Reception"
-                           asp-action="Queue"
-                           class="portal-card reception-action-card text-center">
-                        <i class="bi bi-people"></i>
-                        <h5>Manage Queue</h5>
-                        <p>Monitor active queue entries.</p>
-                    </a>
-                </div>
-
-                <div class="col-md-3">
-                    <a asp-controller="Patient"
-                           asp-action="BookAppointment"
-                           class="portal-card reception-action-card text-center">
-                        <i class="bi bi-calendar-plus"></i>
-                        <h5>Appointment</h5>
-                        <p>Access appointment booking.</p>
-                    </a>
-                </div>
-
-                <div class="col-md-3">
-                    <a href="#"
-                           class="portal-card reception-action-card text-center">
-                        <i class="bi bi-person-vcard"></i>
-                        <h5>Patient Records</h5>
-                        <p>Access patient information.</p>
-                    </a>
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="reception-content-grid">
-
-            <div class="smart-card">
-
-                <div class="section-header">
-
-                    <div>
-                        <h4 class="mb-1">Today's Appointments</h4>
-                        <p class="text-muted mb-0">
-                            Scheduled appointments will appear here when available.
-                        </p>
-                    </div>
-
-                    <a asp-controller="Reception"
-                           asp-action="CheckIn"
-                           class="text-decoration-none">
-                        Process Check-In
-                    </a>
-
-                </div>
-
-                <div class="appointment-empty-state">
-
-                    <div class="reception-empty-icon">
-                        <i class="bi bi-calendar2-week"></i>
-                    </div>
-
-                    <h5>No appointments available</h5>
-
-                    <p>
-                        There are currently no appointment records to display for today.
-                    </p>
-
-                </div>
-
-            </div>
-
-            <div class="reception-sidebar">
-
-                <div class="smart-card">
-
-                    <div class="section-header mb-3">
                         <div>
-                            <h4 class="mb-1">Current Queue</h4>
-                            <p class="text-muted mb-0">
-                                Active queue information will appear here.
+                            <div class="text-muted small fw-semibold">
+                                Active Patients
+                            </div>
+
+                            <div class="display-6 fw-bold mt-2">
+                                @totalPatients
+                            </div>
+
+                            <div class="small text-success mt-2">
+                                <i class="bi bi-person-check me-1"
+                                   aria-hidden="true"></i>
+                                Registered in clinic
+                            </div>
+                        </div>
+
+                        <span class="rounded-circle bg-primary-subtle text-primary d-inline-flex align-items-center justify-content-center"
+                              style="width:54px;height:54px;">
+                            <i class="bi bi-people fs-4"
+                               aria-hidden="true"></i>
+                        </span>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between align-items-start">
+
+                        <div>
+                            <div class="text-muted small fw-semibold">
+                                Total Appointments
+                            </div>
+
+                            <div class="display-6 fw-bold mt-2">
+                                @totalAppointments
+                            </div>
+
+                            <div class="small text-muted mt-2">
+                                <i class="bi bi-calendar3 me-1"
+                                   aria-hidden="true"></i>
+                                Current scheduling data
+                            </div>
+                        </div>
+
+                        <span class="rounded-circle bg-info-subtle text-info d-inline-flex align-items-center justify-content-center"
+                              style="width:54px;height:54px;">
+                            <i class="bi bi-calendar2-week fs-4"
+                               aria-hidden="true"></i>
+                        </span>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between align-items-start">
+
+                        <div>
+                            <div class="text-muted small fw-semibold">
+                                Today's Appointments
+                            </div>
+
+                            <div class="display-6 fw-bold mt-2">
+                                @todayAppointments
+                            </div>
+
+                            <div class="small text-primary mt-2">
+                                <i class="bi bi-calendar-day me-1"
+                                   aria-hidden="true"></i>
+                                Scheduled today
+                            </div>
+                        </div>
+
+                        <span class="rounded-circle bg-success-subtle text-success d-inline-flex align-items-center justify-content-center"
+                              style="width:54px;height:54px;">
+                            <i class="bi bi-calendar-check fs-4"
+                               aria-hidden="true"></i>
+                        </span>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between align-items-start">
+
+                        <div>
+                            <div class="text-muted small fw-semibold">
+                                Pending
+                            </div>
+
+                            <div class="display-6 fw-bold mt-2">
+                                @pendingAppointments
+                            </div>
+
+                            <div class="small text-warning mt-2">
+                                <i class="bi bi-clock me-1"
+                                   aria-hidden="true"></i>
+                                Awaiting appointment completion
+                            </div>
+                        </div>
+
+                        <span class="rounded-circle bg-warning-subtle text-warning d-inline-flex align-items-center justify-content-center"
+                              style="width:54px;height:54px;">
+                            <i class="bi bi-hourglass-split fs-4"
+                               aria-hidden="true"></i>
+                        </span>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Main workspace -->
+    <div class="row g-4">
+
+        <div class="col-12 col-lg-8">
+
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                <div class="card-header bg-transparent border-0 px-4 pt-4">
+                    <h2 class="h5 fw-bold mb-1">
+                        Reception Workflows
+                    </h2>
+
+                    <p class="text-muted small mb-0">
+                        Common front-desk tasks and patient management operations.
+                    </p>
+                </div>
+
+                <div class="card-body p-4">
+
+                    <div class="row g-3">
+
+                        <div class="col-12 col-md-6">
+
+                            <a asp-controller="Reception"
+                                   asp-action="Patients"
+                                   class="text-decoration-none">
+
+                                <div class="border rounded-4 p-4 h-100 dashboard-action">
+
+                                    <div class="d-flex align-items-start gap-3">
+
+                                        <span class="rounded-3 bg-primary-subtle text-primary d-inline-flex align-items-center justify-content-center flex-shrink-0"
+                                              style="width:48px;height:48px;">
+                                            <i class="bi bi-people fs-5"
+                                               aria-hidden="true"></i>
+                                        </span>
+
+                                        <div>
+                                            <h3 class="h6 fw-bold text-body mb-1">
+                                                Patient Directory
+                                            </h3>
+
+                                            <p class="small text-muted mb-2">
+                                                View and search active patient records.
+                                            </p>
+
+                                            <span class="small fw-semibold text-primary">
+                                                Open directory
+                                                <i class="bi bi-arrow-right ms-1"
+                                                   aria-hidden="true"></i>
+                                            </span>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </a>
+
+                        </div>
+
+                        <div class="col-12 col-md-6">
+
+                            <a asp-controller="Reception"
+                                   asp-action="RegisterPatient"
+                                   class="text-decoration-none">
+
+                                <div class="border rounded-4 p-4 h-100 dashboard-action">
+
+                                    <div class="d-flex align-items-start gap-3">
+
+                                        <span class="rounded-3 bg-success-subtle text-success d-inline-flex align-items-center justify-content-center flex-shrink-0"
+                                              style="width:48px;height:48px;">
+                                            <i class="bi bi-person-plus fs-5"
+                                               aria-hidden="true"></i>
+                                        </span>
+
+                                        <div>
+                                            <h3 class="h6 fw-bold text-body mb-1">
+                                                Register Patient
+                                            </h3>
+
+                                            <p class="small text-muted mb-2">
+                                                Create a new patient profile.
+                                            </p>
+
+                                            <span class="small fw-semibold text-success">
+                                                Start registration
+                                                <i class="bi bi-arrow-right ms-1"
+                                                   aria-hidden="true"></i>
+                                            </span>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </a>
+
+                        </div>
+
+                        <div class="col-12 col-md-6">
+
+                            <a asp-controller="Reception"
+                                   asp-action="Appointments"
+                                   class="text-decoration-none">
+
+                                <div class="border rounded-4 p-4 h-100 dashboard-action">
+
+                                    <div class="d-flex align-items-start gap-3">
+
+                                        <span class="rounded-3 bg-info-subtle text-info d-inline-flex align-items-center justify-content-center flex-shrink-0"
+                                              style="width:48px;height:48px;">
+                                            <i class="bi bi-calendar2-week fs-5"
+                                               aria-hidden="true"></i>
+                                        </span>
+
+                                        <div>
+                                            <h3 class="h6 fw-bold text-body mb-1">
+                                                Appointment Schedule
+                                            </h3>
+
+                                            <p class="small text-muted mb-2">
+                                                Review, monitor and cancel appointments.
+                                            </p>
+
+                                            <span class="small fw-semibold text-info">
+                                                Open schedule
+                                                <i class="bi bi-arrow-right ms-1"
+                                                   aria-hidden="true"></i>
+                                            </span>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </a>
+
+                        </div>
+
+                        <div class="col-12 col-md-6">
+
+                            <a asp-controller="Reception"
+                                   asp-action="BookAppointment"
+                                   class="text-decoration-none">
+
+                                <div class="border rounded-4 p-4 h-100 dashboard-action">
+
+                                    <div class="d-flex align-items-start gap-3">
+
+                                        <span class="rounded-3 bg-warning-subtle text-warning d-inline-flex align-items-center justify-content-center flex-shrink-0"
+                                              style="width:48px;height:48px;">
+                                            <i class="bi bi-calendar-plus fs-5"
+                                               aria-hidden="true"></i>
+                                        </span>
+
+                                        <div>
+                                            <h3 class="h6 fw-bold text-body mb-1">
+                                                Book Appointment
+                                            </h3>
+
+                                            <p class="small text-muted mb-2">
+                                                Schedule a patient with an available doctor.
+                                            </p>
+
+                                            <span class="small fw-semibold text-warning">
+                                                Create booking
+                                                <i class="bi bi-arrow-right ms-1"
+                                                   aria-hidden="true"></i>
+                                            </span>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-12 col-lg-4">
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex align-items-start gap-3">
+
+                        <span class="rounded-circle bg-success-subtle text-success d-inline-flex align-items-center justify-content-center flex-shrink-0"
+                              style="width:48px;height:48px;">
+                            <i class="bi bi-shield-check fs-5"
+                               aria-hidden="true"></i>
+                        </span>
+
+                        <div>
+                            <h2 class="h6 fw-bold mb-1">
+                                Secure Workspace
+                            </h2>
+
+                            <p class="small text-muted mb-0">
+                                Reception functions are protected by role-based
+                                authentication and anti-forgery controls.
                             </p>
                         </div>
-                    </div>
-
-                    <div class="queue-empty-state">
-
-                        <div class="reception-empty-icon">
-                            <i class="bi bi-list-check"></i>
-                        </div>
-
-                        <h5>No active queue</h5>
-
-                        <p>
-                            No patients are currently waiting for consultation.
-                        </p>
-
-                        <a asp-controller="Reception"
-                               asp-action="Queue"
-                               class="btn btn-outline-primary w-100 rounded-3 text-decoration-none">
-                            View Full Queue
-                        </a>
 
                     </div>
 
                 </div>
 
-                <div class="smart-card">
+            </div>
 
-                    <div class="section-header mb-3">
-                        <div>
-                            <h4 class="mb-1">Today's Operations</h4>
-                            <p class="text-muted mb-0">
-                                Daily operational figures will appear here.
-                            </p>
-                        </div>
+            <div class="card border-0 shadow-sm rounded-4">
+
+                <div class="card-header bg-transparent border-0 px-4 pt-4">
+                    <h2 class="h6 fw-bold mb-1">
+                        Quick Status
+                    </h2>
+
+                    <p class="text-muted small mb-0">
+                        Current reception workload.
+                    </p>
+                </div>
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                        <span class="small text-muted">
+                            Active patient records
+                        </span>
+
+                        <span class="fw-semibold">
+                            @totalPatients
+                        </span>
                     </div>
 
-                    <div class="operations-empty-state">
-                        <i class="bi bi-bar-chart-line"></i>
+                    <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                        <span class="small text-muted">
+                            Today's appointments
+                        </span>
 
-                        <p class="mb-0">
-                            Operational statistics are not available yet.
-                        </p>
+                        <span class="fw-semibold">
+                            @todayAppointments
+                        </span>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center py-2">
+                        <span class="small text-muted">
+                            Pending appointments
+                        </span>
+
+                        <span class="badge rounded-pill text-bg-warning">
+                            @pendingAppointments
+                        </span>
                     </div>
 
                 </div>
@@ -228,192 +472,22 @@
         </div>
 
     </div>
-</section>
+
+</div>
 
 <style>
-    .reception-welcome {
-        padding: 2rem;
+    .dashboard-action {
+        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     }
 
-    .reception-welcome-content {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 2rem;
-    }
-
-    .reception-welcome-icon {
-        flex: 0 0 auto;
-        width: 86px;
-        height: 86px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 20px;
-        background: #e7f5f3;
-        color: var(--primary);
-        font-size: 2.5rem;
-    }
-
-    .stat-panel {
-        height: auto;
-    }
-
-        .stat-panel small {
-            display: block;
-            color: #7a8793;
-            font-size: 0.82rem;
+        .dashboard-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08);
+            border-color: rgba(var(--bs-primary-rgb), 0.35) !important;
         }
 
-    .reception-action-card {
-        display: block;
-        height: 100%;
-        padding: 1.4rem 1rem;
-        text-decoration: none;
-    }
-
-        .reception-action-card i {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 46px;
-            height: 46px;
-            margin-bottom: 0.8rem;
-            border-radius: 12px;
-            background: #e7f5f3;
-            color: var(--primary);
-            font-size: 1.35rem;
+        .dashboard-action:focus-within {
+            outline: 3px solid rgba(var(--bs-primary-rgb), 0.2);
+            outline-offset: 2px;
         }
-
-        .reception-action-card h5 {
-            margin-bottom: 0.4rem;
-        }
-
-        .reception-action-card p {
-            margin: 0;
-            color: #6c757d;
-            font-size: 0.88rem;
-            line-height: 1.45;
-        }
-
-    .reception-content-grid {
-        display: grid;
-        grid-template-columns: minmax(0, 1.75fr) minmax(280px, 0.85fr);
-        gap: 1.5rem;
-        align-items: start;
-    }
-
-    .reception-sidebar {
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-    }
-
-    .appointment-empty-state,
-    .queue-empty-state {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        padding: 2.5rem 1.25rem;
-        margin-top: 1.25rem;
-        border: 1px dashed #d5dde5;
-        border-radius: 16px;
-        background: #fafcfd;
-    }
-
-    .reception-empty-icon {
-        width: 60px;
-        height: 60px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 1rem;
-        border-radius: 15px;
-        background: #e7f5f3;
-        color: var(--primary);
-        font-size: 1.5rem;
-    }
-
-    .appointment-empty-state h5,
-    .queue-empty-state h5 {
-        margin-bottom: 0.45rem;
-        color: #243447;
-    }
-
-    .appointment-empty-state p,
-    .queue-empty-state p {
-        max-width: 480px;
-        margin: 0;
-        color: #6c757d;
-        line-height: 1.55;
-    }
-
-    .queue-empty-state {
-        padding: 1.75rem 1rem;
-    }
-
-        .queue-empty-state p {
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
-        }
-
-    .operations-empty-state {
-        display: flex;
-        align-items: center;
-        gap: 0.8rem;
-        padding: 1rem;
-        border-radius: 12px;
-        background: #f7f9fa;
-        color: #6c757d;
-    }
-
-        .operations-empty-state i {
-            color: var(--primary);
-            font-size: 1.2rem;
-        }
-
-    @@media (max-width: 991.98px) {
-        .reception-content-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .reception-sidebar {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-        }
-    }
-
-    @@media (max-width: 767.98px) {
-        .reception-welcome {
-            padding: 1.5rem;
-        }
-
-        .reception-welcome-content {
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .reception-welcome-icon {
-            display: none;
-        }
-
-        .reception-welcome .smart-btn-primary {
-            width: 100%;
-        }
-
-        .reception-sidebar {
-            display: flex;
-        }
-
-        .section-header {
-            gap: 1rem;
-            align-items: flex-start;
-        }
-
-            .section-header > a {
-                white-space: nowrap;
-            }
-    }
 </style>

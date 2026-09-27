@@ -9,7 +9,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddProblemDetails();
+builder.Services.AddProblemDetails(options =>
+{
+    options.CustomizeProblemDetails = context =>
+    {
+        context.ProblemDetails.Instance =
+            context.HttpContext.Request.Path;
+
+        context.ProblemDetails.Extensions["traceId"] =
+            context.HttpContext.TraceIdentifier;
+    };
+});
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(
@@ -38,8 +48,31 @@ builder.Services
 
         options.LoginPath = "/Account/Login";
         options.AccessDeniedPath = "/Account/AccessDenied";
-
         options.ReturnUrlParameter = "returnUrl";
+
+        options.Events.OnRedirectToLogin = context =>
+        {
+            if (context.Request.Path.StartsWithSegments("/api"))
+            {
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                return Task.CompletedTask;
+            }
+
+            context.Response.Redirect(context.RedirectUri);
+            return Task.CompletedTask;
+        };
+
+        options.Events.OnRedirectToAccessDenied = context =>
+        {
+            if (context.Request.Path.StartsWithSegments("/api"))
+            {
+                context.Response.StatusCode = StatusCodes.Status403Forbidden;
+                return Task.CompletedTask;
+            }
+
+            context.Response.Redirect(context.RedirectUri);
+            return Task.CompletedTask;
+        };
     });
 
 builder.Services.AddAuthorization(options =>
@@ -62,7 +95,9 @@ builder.Services.AddAuthorization(options =>
 
     options.AddPolicy(
         "ClinicalStaff",
-        policy => policy.RequireRole("Doctor", "Receptionist"));
+        policy => policy.RequireRole(
+            "Doctor",
+            "Receptionist"));
 
     options.AddPolicy(
         "StaffOnly",
@@ -85,19 +120,49 @@ else
 }
 
 app.UseHttpsRedirection();
+
 app.UseStaticFiles();
 
 app.UseRouting();
 
 app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+await InitializeDatabaseAsync(app);
+
 app.Run();
 
-public partial class Program
+static async Task InitializeDatabaseAsync(WebApplication app)
 {
+    using var scope = app.Services.CreateScope();
+
+    var context = scope.ServiceProvider
+        .GetRequiredService<ApplicationDbContext>();
+
+    var logger = scope.ServiceProvider
+        .GetRequiredService<ILoggerFactory>()
+        .CreateLogger("DatabaseInitialization");
+
+    try
+    {
+        await DbSeeder.SeedAsync(context);
+
+        logger.LogInformation(
+            "SmartClinic database migration and seeding completed successfully.");
+    }
+    catch (Exception exception)
+    {
+        logger.LogCritical(
+            exception,
+            "SmartClinic database initialization failed.");
+
+        throw;
+    }
 }
+
+public partial class Program { }
