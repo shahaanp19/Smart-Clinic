@@ -27,6 +27,7 @@ public class AdminController : Controller
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public IActionResult Login()
     {
         return View();

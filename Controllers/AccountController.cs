@@ -18,6 +18,10 @@ public class AccountController : Controller
 
     [HttpGet]
     [AllowAnonymous]
+    [ResponseCache(
+        Duration = 0,
+        Location = ResponseCacheLocation.None,
+        NoStore = true)]
     public IActionResult Login(string? returnUrl = null)
     {
         if (User.Identity?.IsAuthenticated == true)
@@ -41,12 +45,16 @@ public class AccountController : Controller
 
         if (string.IsNullOrWhiteSpace(email))
         {
-            ModelState.AddModelError(nameof(email), "Email address is required.");
+            ModelState.AddModelError(
+                nameof(email),
+                "Email address is required.");
         }
 
         if (string.IsNullOrWhiteSpace(password))
         {
-            ModelState.AddModelError(nameof(password), "Password is required.");
+            ModelState.AddModelError(
+                nameof(password),
+                "Password is required.");
         }
 
         if (!ModelState.IsValid)
@@ -56,7 +64,9 @@ public class AccountController : Controller
         }
 
         var validCredentials =
-            await _authService.ValidateCredentialsAsync(email, password);
+            await _authService.ValidateCredentialsAsync(
+                email,
+                password);
 
         if (!validCredentials)
         {
@@ -68,7 +78,8 @@ public class AccountController : Controller
             return View();
         }
 
-        var role = await _authService.GetUserRoleAsync(email);
+        var role =
+            await _authService.GetUserRoleAsync(email);
 
         if (string.IsNullOrWhiteSpace(role))
         {
@@ -93,11 +104,12 @@ public class AccountController : Controller
 
         var principal = new ClaimsPrincipal(identity);
 
-        var authenticationProperties = new AuthenticationProperties
-        {
-            IsPersistent = false,
-            AllowRefresh = true
-        };
+        var authenticationProperties =
+            new AuthenticationProperties
+            {
+                IsPersistent = false,
+                AllowRefresh = true
+            };
 
         await HttpContext.SignInAsync(
             CookieAuthenticationDefaults.AuthenticationScheme,
@@ -121,40 +133,56 @@ public class AccountController : Controller
         await HttpContext.SignOutAsync(
             CookieAuthenticationDefaults.AuthenticationScheme);
 
-        TempData["SuccessMessage"] = "You have been signed out successfully.";
+        TempData["SuccessMessage"] =
+            "You have been signed out successfully.";
 
         return RedirectToAction(nameof(Login));
     }
 
     [HttpGet]
     [AllowAnonymous]
+    [ResponseCache(
+        Duration = 0,
+        Location = ResponseCacheLocation.None,
+        NoStore = true)]
     public IActionResult AccessDenied()
     {
         return View();
     }
 
-    private IActionResult RedirectToRoleDashboard(ClaimsPrincipal principal)
+    private IActionResult RedirectToRoleDashboard(
+        ClaimsPrincipal principal)
     {
         if (principal.IsInRole("Administrator"))
         {
-            return RedirectToAction("Dashboard", "Admin");
+            return RedirectToAction(
+                "Dashboard",
+                "Admin");
         }
 
         if (principal.IsInRole("Doctor"))
         {
-            return RedirectToAction("Dashboard", "Doctor");
+            return RedirectToAction(
+                "Dashboard",
+                "Doctor");
         }
 
         if (principal.IsInRole("Receptionist"))
         {
-            return RedirectToAction("Dashboard", "Reception");
+            return RedirectToAction(
+                "Dashboard",
+                "Reception");
         }
 
         if (principal.IsInRole("Patient"))
         {
-            return RedirectToAction("Dashboard", "Patient");
+            return RedirectToAction(
+                "Dashboard",
+                "Patient");
         }
 
-        return RedirectToAction("Index", "Home");
+        return RedirectToAction(
+            "Index",
+            "Home");
     }
 }
