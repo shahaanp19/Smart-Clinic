@@ -7,6 +7,12 @@ namespace SmartClinicManagementSystem.Services;
 
 public class AppointmentService : IAppointmentService
 {
+    private static readonly string[] ConflictingStatuses =
+    {
+        "Scheduled",
+        "Confirmed"
+    };
+
     private readonly ApplicationDbContext _context;
 
     public AppointmentService(ApplicationDbContext context)
@@ -16,6 +22,11 @@ public class AppointmentService : IAppointmentService
 
     public async Task<Appointment?> GetByIdAsync(int id)
     {
+        if (id <= 0)
+        {
+            return null;
+        }
+
         return await _context.Appointments
             .AsNoTracking()
             .Include(a => a.Patient)
@@ -38,9 +49,7 @@ public class AppointmentService : IAppointmentService
         DateTime fromUtc,
         DateTime toUtc)
     {
-        if (fromUtc > toUtc)
-            throw new ArgumentException(
-                "The start date must be earlier than the end date.");
+        ValidateDateRange(doctorId, fromUtc, toUtc);
 
         return await _context.Appointments
             .AsNoTracking()
@@ -59,9 +68,7 @@ public class AppointmentService : IAppointmentService
         DateTime fromUtc,
         DateTime toUtc)
     {
-        if (fromUtc > toUtc)
-            throw new ArgumentException(
-                "The start date must be earlier than the end date.");
+        ValidateDateRange(patientId, fromUtc, toUtc);
 
         return await _context.Appointments
             .AsNoTracking()
@@ -80,18 +87,17 @@ public class AppointmentService : IAppointmentService
         DateTime appointmentDateTimeUtc,
         int? excludeAppointmentId = null)
     {
-        var conflictingStatuses = new[]
+        if (doctorId <= 0)
         {
-            "Scheduled",
-            "Confirmed"
-        };
+            return false;
+        }
 
         var query = _context.Appointments
             .AsNoTracking()
             .Where(a =>
                 a.DoctorId == doctorId &&
                 a.AppointmentDateTime == appointmentDateTimeUtc &&
-                conflictingStatuses.Contains(a.Status));
+                ConflictingStatuses.Contains(a.Status));
 
         if (excludeAppointmentId.HasValue)
         {
@@ -102,54 +108,36 @@ public class AppointmentService : IAppointmentService
         return !await query.AnyAsync();
     }
 
-    public async Task<Appointment> CreateAsync(Appointment appointment)
+    public async Task<Appointment> CreateAsync(
+        Appointment appointment)
     {
         ArgumentNullException.ThrowIfNull(appointment);
 
-        if (appointment.PatientId <= 0)
-            throw new ArgumentException(
-                "A valid patient is required.");
+        ValidateReferences(appointment);
 
-        if (appointment.DoctorId <= 0)
-            throw new ArgumentException(
-                "A valid doctor is required.");
-
-        if (appointment.AppointmentDateTime.Kind == DateTimeKind.Unspecified)
-        {
-            appointment.AppointmentDateTime =
-                DateTime.SpecifyKind(
-                    appointment.AppointmentDateTime,
-                    DateTimeKind.Utc);
-        }
-        else
-        {
-            appointment.AppointmentDateTime =
-                appointment.AppointmentDateTime.ToUniversalTime();
-        }
+        appointment.AppointmentDateTime =
+            NormalizeDateTime(appointment.AppointmentDateTime);
 
         if (appointment.AppointmentDateTime <= DateTime.UtcNow)
+        {
             throw new InvalidOperationException(
                 "Appointments must be scheduled for a future date and time.");
+        }
 
-        var patientExists = await _context.Patients
-            .AsNoTracking()
-            .AnyAsync(p =>
-                p.Id == appointment.PatientId &&
-                p.IsActive);
+        appointment.Status =
+            NormalizeStatus(appointment.Status);
 
-        if (!patientExists)
-            throw new InvalidOperationException(
-                "The selected patient does not exist or is inactive.");
+        appointment.Reason =
+            NormalizeOptionalText(appointment.Reason);
 
-        var doctorExists = await _context.Doctors
-            .AsNoTracking()
-            .AnyAsync(d =>
-                d.Id == appointment.DoctorId &&
-                d.IsActive);
+        appointment.Notes =
+            NormalizeOptionalText(appointment.Notes);
 
-        if (!doctorExists)
-            throw new InvalidOperationException(
-                "The selected doctor does not exist or is inactive.");
+        await ValidateActivePatientAsync(
+            appointment.PatientId);
+
+        await ValidateActiveDoctorAsync(
+            appointment.DoctorId);
 
         if (!await IsSlotAvailableAsync(
                 appointment.DoctorId,
@@ -159,9 +147,6 @@ public class AppointmentService : IAppointmentService
                 "The selected appointment slot is already booked.");
         }
 
-        appointment.Status = NormalizeStatus(appointment.Status);
-        appointment.Reason = NormalizeOptionalText(appointment.Reason);
-        appointment.Notes = NormalizeOptionalText(appointment.Notes);
         appointment.CreatedAtUtc = DateTime.UtcNow;
         appointment.UpdatedAtUtc = null;
 
@@ -175,64 +160,39 @@ public class AppointmentService : IAppointmentService
     {
         ArgumentNullException.ThrowIfNull(appointment);
 
+        if (appointment.Id <= 0)
+        {
+            throw new ArgumentException(
+                "A valid appointment ID is required.",
+                nameof(appointment));
+        }
+
         var existing = await _context.Appointments
             .FirstOrDefaultAsync(a => a.Id == appointment.Id);
 
         if (existing is null)
+        {
             throw new KeyNotFoundException(
                 "The appointment could not be found.");
-
-        if (appointment.PatientId <= 0 ||
-            appointment.DoctorId <= 0)
-        {
-            throw new ArgumentException(
-                "A valid patient and doctor are required.");
         }
 
-        var patientExists = await _context.Patients
-            .AsNoTracking()
-            .AnyAsync(p =>
-                p.Id == appointment.PatientId &&
-                p.IsActive);
+        ValidateReferences(appointment);
 
-        if (!patientExists)
-            throw new InvalidOperationException(
-                "The selected patient does not exist or is inactive.");
+        var appointmentDateTime =
+            NormalizeDateTime(
+                appointment.AppointmentDateTime);
 
-        var doctorExists = await _context.Doctors
-            .AsNoTracking()
-            .AnyAsync(d =>
-                d.Id == appointment.DoctorId &&
-                d.IsActive);
+        var status =
+            NormalizeStatus(appointment.Status);
 
-        if (!doctorExists)
-            throw new InvalidOperationException(
-                "The selected doctor does not exist or is inactive.");
+        await ValidateActivePatientAsync(
+            appointment.PatientId);
 
-        var appointmentDateTime = appointment.AppointmentDateTime;
-
-        if (appointmentDateTime.Kind == DateTimeKind.Unspecified)
-        {
-            appointmentDateTime =
-                DateTime.SpecifyKind(
-                    appointmentDateTime,
-                    DateTimeKind.Utc);
-        }
-        else
-        {
-            appointmentDateTime =
-                appointmentDateTime.ToUniversalTime();
-        }
+        await ValidateActiveDoctorAsync(
+            appointment.DoctorId);
 
         if (appointmentDateTime <= DateTime.UtcNow &&
-            !string.Equals(
-                appointment.Status,
-                "Completed",
-                StringComparison.OrdinalIgnoreCase) &&
-            !string.Equals(
-                appointment.Status,
-                "Cancelled",
-                StringComparison.OrdinalIgnoreCase))
+            status is not "Completed" and not "Cancelled")
         {
             throw new InvalidOperationException(
                 "An active appointment must be scheduled for a future date and time.");
@@ -250,9 +210,11 @@ public class AppointmentService : IAppointmentService
         existing.PatientId = appointment.PatientId;
         existing.DoctorId = appointment.DoctorId;
         existing.AppointmentDateTime = appointmentDateTime;
-        existing.Status = NormalizeStatus(appointment.Status);
-        existing.Reason = NormalizeOptionalText(appointment.Reason);
-        existing.Notes = NormalizeOptionalText(appointment.Notes);
+        existing.Status = status;
+        existing.Reason =
+            NormalizeOptionalText(appointment.Reason);
+        existing.Notes =
+            NormalizeOptionalText(appointment.Notes);
         existing.UpdatedAtUtc = DateTime.UtcNow;
 
         await _context.SaveChangesAsync();
@@ -260,11 +222,18 @@ public class AppointmentService : IAppointmentService
 
     public async Task<bool> CancelAsync(int id)
     {
+        if (id <= 0)
+        {
+            return false;
+        }
+
         var appointment = await _context.Appointments
             .FirstOrDefaultAsync(a => a.Id == id);
 
         if (appointment is null)
+        {
             return false;
+        }
 
         if (string.Equals(
                 appointment.Status,
@@ -291,14 +260,94 @@ public class AppointmentService : IAppointmentService
         return true;
     }
 
+    private async Task ValidateActivePatientAsync(int patientId)
+    {
+        var exists = await _context.Patients
+            .AsNoTracking()
+            .AnyAsync(p =>
+                p.Id == patientId &&
+                p.IsActive);
+
+        if (!exists)
+        {
+            throw new InvalidOperationException(
+                "The selected patient does not exist or is inactive.");
+        }
+    }
+
+    private async Task ValidateActiveDoctorAsync(int doctorId)
+    {
+        var exists = await _context.Doctors
+            .AsNoTracking()
+            .AnyAsync(d =>
+                d.Id == doctorId &&
+                d.IsActive);
+
+        if (!exists)
+        {
+            throw new InvalidOperationException(
+                "The selected doctor does not exist or is inactive.");
+        }
+    }
+
+    private static void ValidateReferences(
+        Appointment appointment)
+    {
+        if (appointment.PatientId <= 0)
+        {
+            throw new ArgumentException(
+                "A valid patient is required.",
+                nameof(appointment.PatientId));
+        }
+
+        if (appointment.DoctorId <= 0)
+        {
+            throw new ArgumentException(
+                "A valid doctor is required.",
+                nameof(appointment.DoctorId));
+        }
+    }
+
+    private static void ValidateDateRange(
+        int entityId,
+        DateTime fromUtc,
+        DateTime toUtc)
+    {
+        if (entityId <= 0)
+        {
+            throw new ArgumentException(
+                "A valid record ID is required.",
+                nameof(entityId));
+        }
+
+        if (fromUtc > toUtc)
+        {
+            throw new ArgumentException(
+                "The start date must be earlier than or equal to the end date.");
+        }
+    }
+
+    private static DateTime NormalizeDateTime(
+        DateTime value)
+    {
+        if (value.Kind == DateTimeKind.Unspecified)
+        {
+            return DateTime.SpecifyKind(
+                value,
+                DateTimeKind.Utc);
+        }
+
+        return value.ToUniversalTime();
+    }
+
     private static string NormalizeStatus(string? status)
     {
         if (string.IsNullOrWhiteSpace(status))
+        {
             return "Scheduled";
+        }
 
-        var normalized = status.Trim();
-
-        return normalized.ToLowerInvariant() switch
+        return status.Trim().ToLowerInvariant() switch
         {
             "scheduled" => "Scheduled",
             "confirmed" => "Confirmed",
@@ -307,15 +356,16 @@ public class AppointmentService : IAppointmentService
             "no-show" => "No-Show",
             "no show" => "No-Show",
             _ => throw new ArgumentException(
-                "The appointment status is invalid.")
+                "The appointment status is invalid.",
+                nameof(status))
         };
     }
 
-    private static string? NormalizeOptionalText(string? value)
+    private static string? NormalizeOptionalText(
+        string? value)
     {
-        if (string.IsNullOrWhiteSpace(value))
-            return null;
-
-        return value.Trim();
+        return string.IsNullOrWhiteSpace(value)
+            ? null
+            : value.Trim();
     }
 }

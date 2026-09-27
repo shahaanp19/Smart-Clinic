@@ -40,6 +40,7 @@ public class ConsultationService : IConsultationService
 
         return await _context.Consultations
             .AsNoTracking()
+            .Include(c => c.Appointment)
             .Include(c => c.Patient)
             .Include(c => c.Doctor)
             .Include(c => c.Prescriptions)
@@ -88,40 +89,12 @@ public class ConsultationService : IConsultationService
     {
         ArgumentNullException.ThrowIfNull(consultation);
 
-        if (consultation.AppointmentId <= 0)
-        {
-            throw new InvalidOperationException(
-                "A valid appointment is required.");
-        }
+        ValidateRequiredReferences(consultation);
+        ValidateRequiredClinicalFields(consultation);
 
-        if (consultation.PatientId <= 0)
-        {
-            throw new InvalidOperationException(
-                "A valid patient is required.");
-        }
-
-        if (consultation.DoctorId <= 0)
-        {
-            throw new InvalidOperationException(
-                "A valid doctor is required.");
-        }
-
-        if (string.IsNullOrWhiteSpace(consultation.Symptoms))
-        {
-            throw new InvalidOperationException(
-                "Symptoms are required.");
-        }
-
-        if (string.IsNullOrWhiteSpace(consultation.Diagnosis))
-        {
-            throw new InvalidOperationException(
-                "Diagnosis is required.");
-        }
-
-        var appointment =
-            await _context.Appointments
-                .FirstOrDefaultAsync(
-                    a => a.Id == consultation.AppointmentId);
+        var appointment = await _context.Appointments
+            .FirstOrDefaultAsync(
+                a => a.Id == consultation.AppointmentId);
 
         if (appointment is null)
         {
@@ -142,39 +115,37 @@ public class ConsultationService : IConsultationService
         }
 
         if (string.Equals(
-            appointment.Status,
-            "Cancelled",
-            StringComparison.OrdinalIgnoreCase))
+                appointment.Status,
+                "Cancelled",
+                StringComparison.OrdinalIgnoreCase))
         {
             throw new InvalidOperationException(
                 "A consultation cannot be recorded for a cancelled appointment.");
         }
 
-        var doctorIsActive =
-            await _context.Doctors
-                .AsNoTracking()
-                .AnyAsync(d =>
-                    d.Id == consultation.DoctorId &&
-                    d.IsActive);
-
-        if (!doctorIsActive)
+        if (string.Equals(
+                appointment.Status,
+                "Completed",
+                StringComparison.OrdinalIgnoreCase))
         {
             throw new InvalidOperationException(
-                "The selected doctor is not active.");
+                "A consultation has already been completed for this appointment.");
         }
 
-        var patientIsActive =
-            await _context.Patients
-                .AsNoTracking()
-                .AnyAsync(p =>
-                    p.Id == consultation.PatientId &&
-                    p.IsActive);
-
-        if (!patientIsActive)
+        if (string.Equals(
+                appointment.Status,
+                "No-Show",
+                StringComparison.OrdinalIgnoreCase))
         {
             throw new InvalidOperationException(
-                "The selected patient is not active.");
+                "A consultation cannot be recorded for a no-show appointment.");
         }
+
+        await ValidateActivePatientAsync(
+            consultation.PatientId);
+
+        await ValidateActiveDoctorAsync(
+            consultation.DoctorId);
 
         var existingConsultation =
             await _context.Consultations
@@ -189,28 +160,7 @@ public class ConsultationService : IConsultationService
                 "A consultation has already been recorded for this appointment.");
         }
 
-        consultation.Symptoms =
-            consultation.Symptoms.Trim();
-
-        consultation.Diagnosis =
-            consultation.Diagnosis.Trim();
-
-        consultation.TreatmentPlan =
-            string.IsNullOrWhiteSpace(consultation.TreatmentPlan)
-                ? null
-                : consultation.TreatmentPlan.Trim();
-
-        consultation.ClinicalNotes =
-            string.IsNullOrWhiteSpace(consultation.ClinicalNotes)
-                ? null
-                : consultation.ClinicalNotes.Trim();
-
-        consultation.ConsultationDateUtc =
-            consultation.ConsultationDateUtc == default
-                ? DateTime.UtcNow
-                : consultation.ConsultationDateUtc;
-
-        consultation.UpdatedAtUtc = null;
+        NormalizeConsultation(consultation);
 
         _context.Consultations.Add(consultation);
 
@@ -227,17 +177,129 @@ public class ConsultationService : IConsultationService
     {
         ArgumentNullException.ThrowIfNull(consultation);
 
-        var existing =
-            await _context.Consultations
-                .FirstOrDefaultAsync(
-                    c => c.Id == consultation.Id);
+        if (consultation.Id <= 0)
+        {
+            throw new ArgumentException(
+                "A valid consultation ID is required.",
+                nameof(consultation));
+        }
+
+        var existing = await _context.Consultations
+            .FirstOrDefaultAsync(
+                c => c.Id == consultation.Id);
 
         if (existing is null)
         {
-            throw new InvalidOperationException(
+            throw new KeyNotFoundException(
                 "The consultation could not be found.");
         }
 
+        ValidateRequiredClinicalFields(consultation);
+
+        if (ReferenceEquals(existing, consultation))
+        {
+            var originalValues =
+                _context.Entry(existing).OriginalValues;
+
+            var originalPatientId =
+                originalValues.GetValue<int>(
+                    nameof(Consultation.PatientId));
+
+            var originalDoctorId =
+                originalValues.GetValue<int>(
+                    nameof(Consultation.DoctorId));
+
+            var originalAppointmentId =
+                originalValues.GetValue<int>(
+                    nameof(Consultation.AppointmentId));
+
+            if (originalPatientId != consultation.PatientId ||
+                originalDoctorId != consultation.DoctorId ||
+                originalAppointmentId != consultation.AppointmentId)
+            {
+                throw new InvalidOperationException(
+                    "The consultation relationships cannot be changed.");
+            }
+        }
+        else if (existing.PatientId != consultation.PatientId ||
+                 existing.DoctorId != consultation.DoctorId ||
+                 existing.AppointmentId != consultation.AppointmentId)
+        {
+            throw new InvalidOperationException(
+                "The consultation relationships cannot be changed.");
+        }
+
+        NormalizeClinicalFields(consultation);
+
+        existing.Symptoms = consultation.Symptoms;
+        existing.Diagnosis = consultation.Diagnosis;
+        existing.TreatmentPlan = consultation.TreatmentPlan;
+        existing.ClinicalNotes = consultation.ClinicalNotes;
+        existing.UpdatedAtUtc = DateTime.UtcNow;
+
+        await _context.SaveChangesAsync();
+    }
+
+    private async Task ValidateActivePatientAsync(
+        int patientId)
+    {
+        var exists = await _context.Patients
+            .AsNoTracking()
+            .AnyAsync(p =>
+                p.Id == patientId &&
+                p.IsActive);
+
+        if (!exists)
+        {
+            throw new InvalidOperationException(
+                "The selected patient does not exist or is inactive.");
+        }
+    }
+
+    private async Task ValidateActiveDoctorAsync(
+        int doctorId)
+    {
+        var exists = await _context.Doctors
+            .AsNoTracking()
+            .AnyAsync(d =>
+                d.Id == doctorId &&
+                d.IsActive);
+
+        if (!exists)
+        {
+            throw new InvalidOperationException(
+                "The selected doctor does not exist or is inactive.");
+        }
+    }
+
+    private static void ValidateRequiredReferences(
+        Consultation consultation)
+    {
+        if (consultation.AppointmentId <= 0)
+        {
+            throw new ArgumentException(
+                "A valid appointment is required.",
+                nameof(consultation.AppointmentId));
+        }
+
+        if (consultation.PatientId <= 0)
+        {
+            throw new ArgumentException(
+                "A valid patient is required.",
+                nameof(consultation.PatientId));
+        }
+
+        if (consultation.DoctorId <= 0)
+        {
+            throw new ArgumentException(
+                "A valid doctor is required.",
+                nameof(consultation.DoctorId));
+        }
+    }
+
+    private static void ValidateRequiredClinicalFields(
+        Consultation consultation)
+    {
         if (string.IsNullOrWhiteSpace(consultation.Symptoms))
         {
             throw new InvalidOperationException(
@@ -249,34 +311,57 @@ public class ConsultationService : IConsultationService
             throw new InvalidOperationException(
                 "Diagnosis is required.");
         }
+    }
 
-        if (existing.PatientId != consultation.PatientId ||
-            existing.DoctorId != consultation.DoctorId ||
-            existing.AppointmentId != consultation.AppointmentId)
-        {
-            throw new InvalidOperationException(
-                "The consultation relationships cannot be changed.");
-        }
+    private static void NormalizeConsultation(
+        Consultation consultation)
+    {
+        NormalizeClinicalFields(consultation);
 
-        existing.Symptoms =
+        consultation.ConsultationDateUtc =
+            consultation.ConsultationDateUtc == default
+                ? DateTime.UtcNow
+                : NormalizeUtc(
+                    consultation.ConsultationDateUtc);
+
+        consultation.UpdatedAtUtc = null;
+    }
+
+    private static void NormalizeClinicalFields(
+        Consultation consultation)
+    {
+        consultation.Symptoms =
             consultation.Symptoms.Trim();
 
-        existing.Diagnosis =
+        consultation.Diagnosis =
             consultation.Diagnosis.Trim();
 
-        existing.TreatmentPlan =
-            string.IsNullOrWhiteSpace(consultation.TreatmentPlan)
-                ? null
-                : consultation.TreatmentPlan.Trim();
+        consultation.TreatmentPlan =
+            NormalizeOptionalText(
+                consultation.TreatmentPlan);
 
-        existing.ClinicalNotes =
-            string.IsNullOrWhiteSpace(consultation.ClinicalNotes)
-                ? null
-                : consultation.ClinicalNotes.Trim();
+        consultation.ClinicalNotes =
+            NormalizeOptionalText(
+                consultation.ClinicalNotes);
+    }
 
-        existing.UpdatedAtUtc =
-            DateTime.UtcNow;
+    private static string? NormalizeOptionalText(
+        string? value)
+    {
+        return string.IsNullOrWhiteSpace(value)
+            ? null
+            : value.Trim();
+    }
 
-        await _context.SaveChangesAsync();
+    private static DateTime NormalizeUtc(DateTime value)
+    {
+        return value.Kind switch
+        {
+            DateTimeKind.Utc => value,
+            DateTimeKind.Local => value.ToUniversalTime(),
+            _ => DateTime.SpecifyKind(
+                value,
+                DateTimeKind.Utc)
+        };
     }
 }

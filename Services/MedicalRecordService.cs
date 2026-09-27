@@ -69,47 +69,13 @@ public class MedicalRecordService : IMedicalRecordService
 
         ValidateRecord(record);
 
-        var patientExists =
-            await _context.Patients
-                .AsNoTracking()
-                .AnyAsync(p =>
-                    p.Id == record.PatientId &&
-                    p.IsActive);
+        await ValidateActivePatientAsync(
+            record.PatientId);
 
-        if (!patientExists)
-        {
-            throw new InvalidOperationException(
-                "The selected patient does not exist or is inactive.");
-        }
+        await ValidateActiveDoctorAsync(
+            record.DoctorId);
 
-        var doctorExists =
-            await _context.Doctors
-                .AsNoTracking()
-                .AnyAsync(d =>
-                    d.Id == record.DoctorId &&
-                    d.IsActive);
-
-        if (!doctorExists)
-        {
-            throw new InvalidOperationException(
-                "The selected doctor does not exist or is inactive.");
-        }
-
-        record.RecordType =
-            record.RecordType.Trim();
-
-        record.Description =
-            record.Description.Trim();
-
-        record.ClinicalNotes =
-            string.IsNullOrWhiteSpace(record.ClinicalNotes)
-                ? null
-                : record.ClinicalNotes.Trim();
-
-        record.RecordedAtUtc =
-            record.RecordedAtUtc == default
-                ? DateTime.UtcNow
-                : record.RecordedAtUtc;
+        NormalizeRecord(record);
 
         _context.MedicalRecords.Add(record);
 
@@ -125,8 +91,9 @@ public class MedicalRecordService : IMedicalRecordService
 
         if (record.Id <= 0)
         {
-            throw new InvalidOperationException(
-                "A valid medical record is required.");
+            throw new ArgumentException(
+                "A valid medical record ID is required.",
+                nameof(record));
         }
 
         var existing =
@@ -136,41 +103,85 @@ public class MedicalRecordService : IMedicalRecordService
 
         if (existing is null)
         {
-            throw new InvalidOperationException(
+            throw new KeyNotFoundException(
                 "The medical record could not be found.");
         }
 
-        if (existing.PatientId != record.PatientId ||
-            existing.DoctorId != record.DoctorId)
+        ValidateRecordContent(record);
+
+        if (ReferenceEquals(existing, record))
+        {
+            var originalValues =
+                _context.Entry(existing).OriginalValues;
+
+            var originalPatientId =
+                originalValues.GetValue<int>(
+                    nameof(MedicalRecord.PatientId));
+
+            var originalDoctorId =
+                originalValues.GetValue<int>(
+                    nameof(MedicalRecord.DoctorId));
+
+            if (originalPatientId != record.PatientId ||
+                originalDoctorId != record.DoctorId)
+            {
+                throw new InvalidOperationException(
+                    "The patient and doctor relationships cannot be changed.");
+            }
+        }
+        else if (existing.PatientId != record.PatientId ||
+                 existing.DoctorId != record.DoctorId)
         {
             throw new InvalidOperationException(
                 "The patient and doctor relationships cannot be changed.");
         }
 
-        if (string.IsNullOrWhiteSpace(record.RecordType))
-        {
-            throw new InvalidOperationException(
-                "Record type is required.");
-        }
-
-        if (string.IsNullOrWhiteSpace(record.Description))
-        {
-            throw new InvalidOperationException(
-                "Record description is required.");
-        }
+        NormalizeRecordContent(record);
 
         existing.RecordType =
-            record.RecordType.Trim();
+            record.RecordType;
 
         existing.Description =
-            record.Description.Trim();
+            record.Description;
 
         existing.ClinicalNotes =
-            string.IsNullOrWhiteSpace(record.ClinicalNotes)
-                ? null
-                : record.ClinicalNotes.Trim();
+            record.ClinicalNotes;
 
         await _context.SaveChangesAsync();
+    }
+
+    private async Task ValidateActivePatientAsync(
+        int patientId)
+    {
+        var exists =
+            await _context.Patients
+                .AsNoTracking()
+                .AnyAsync(p =>
+                    p.Id == patientId &&
+                    p.IsActive);
+
+        if (!exists)
+        {
+            throw new InvalidOperationException(
+                "The selected patient does not exist or is inactive.");
+        }
+    }
+
+    private async Task ValidateActiveDoctorAsync(
+        int doctorId)
+    {
+        var exists =
+            await _context.Doctors
+                .AsNoTracking()
+                .AnyAsync(d =>
+                    d.Id == doctorId &&
+                    d.IsActive);
+
+        if (!exists)
+        {
+            throw new InvalidOperationException(
+                "The selected doctor does not exist or is inactive.");
+        }
     }
 
     private static void ValidateRecord(
@@ -178,16 +189,24 @@ public class MedicalRecordService : IMedicalRecordService
     {
         if (record.PatientId <= 0)
         {
-            throw new InvalidOperationException(
-                "A valid patient is required.");
+            throw new ArgumentException(
+                "A valid patient is required.",
+                nameof(record.PatientId));
         }
 
         if (record.DoctorId <= 0)
         {
-            throw new InvalidOperationException(
-                "A valid doctor is required.");
+            throw new ArgumentException(
+                "A valid doctor is required.",
+                nameof(record.DoctorId));
         }
 
+        ValidateRecordContent(record);
+    }
+
+    private static void ValidateRecordContent(
+        MedicalRecord record)
+    {
         if (string.IsNullOrWhiteSpace(record.RecordType))
         {
             throw new InvalidOperationException(
@@ -199,5 +218,44 @@ public class MedicalRecordService : IMedicalRecordService
             throw new InvalidOperationException(
                 "Record description is required.");
         }
+    }
+
+    private static void NormalizeRecord(
+        MedicalRecord record)
+    {
+        NormalizeRecordContent(record);
+
+        record.RecordedAtUtc =
+            record.RecordedAtUtc == default
+                ? DateTime.UtcNow
+                : NormalizeUtc(record.RecordedAtUtc);
+    }
+
+    private static void NormalizeRecordContent(
+        MedicalRecord record)
+    {
+        record.RecordType =
+            record.RecordType.Trim();
+
+        record.Description =
+            record.Description.Trim();
+
+        record.ClinicalNotes =
+            string.IsNullOrWhiteSpace(record.ClinicalNotes)
+                ? null
+                : record.ClinicalNotes.Trim();
+    }
+
+    private static DateTime NormalizeUtc(
+        DateTime value)
+    {
+        return value.Kind switch
+        {
+            DateTimeKind.Utc => value,
+            DateTimeKind.Local => value.ToUniversalTime(),
+            _ => DateTime.SpecifyKind(
+                value,
+                DateTimeKind.Utc)
+        };
     }
 }

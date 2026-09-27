@@ -61,7 +61,7 @@ public class UserService : IUserService
         ArgumentNullException.ThrowIfNull(user);
 
         NormalizeUser(user);
-        ValidateUser(user);
+        ValidateUser(user, requirePasswordHash: true);
 
         var emailExists = await _context.Users
             .AsNoTracking()
@@ -90,21 +90,28 @@ public class UserService : IUserService
 
         if (user.Id <= 0)
         {
-            throw new InvalidOperationException(
-                "A valid user is required.");
+            throw new ArgumentException(
+                "A valid user ID is required.",
+                nameof(user));
+        }
+
+        /*
+         * Always read the persisted state independently from the
+         * caller's entity. This prevents EF Core tracking from
+         * confusing requested changes with the existing database state.
+         */
+        var persistedUser = await _context.Users
+            .AsNoTracking()
+            .FirstOrDefaultAsync(u => u.Id == user.Id);
+
+        if (persistedUser is null)
+        {
+            throw new KeyNotFoundException(
+                "The user could not be found.");
         }
 
         NormalizeUser(user);
-        ValidateUser(user);
-
-        var existing = await _context.Users
-            .FirstOrDefaultAsync(u => u.Id == user.Id);
-
-        if (existing is null)
-        {
-            throw new InvalidOperationException(
-                "The user could not be found.");
-        }
+        ValidateUser(user, requirePasswordHash: false);
 
         var emailExists = await _context.Users
             .AsNoTracking()
@@ -119,43 +126,48 @@ public class UserService : IUserService
         }
 
         /*
-         * Do not allow the last active administrator
-         * to be deactivated.
+         * Protect the final active administrator using the persisted
+         * role/status rather than potentially mutated caller values.
          */
-        if (existing.IsActive &&
+        if (persistedUser.IsActive &&
             !user.IsActive &&
-            IsAdministrator(existing.Role))
+            IsAdministrator(persistedUser.Role))
         {
-            var activeAdministrators = await _context.Users
-                .CountAsync(u =>
-                    u.IsActive &&
-                    u.Role == "Administrator");
+            await EnsureAnotherActiveAdministratorExistsAsync(
+                persistedUser.Id);
+        }
 
-            if (activeAdministrators <= 1)
-            {
-                throw new InvalidOperationException(
-                    "The last active administrator cannot be deactivated.");
-            }
+        if (persistedUser.IsActive &&
+            IsAdministrator(persistedUser.Role) &&
+            !IsAdministrator(user.Role))
+        {
+            await EnsureAnotherActiveAdministratorExistsAsync(
+                persistedUser.Id);
         }
 
         /*
-         * Do not allow the last active administrator
-         * to be changed to another role.
+         * Reuse an already tracked entity when one exists.
+         * Otherwise attach a new entity containing the persisted state.
          */
-        if (existing.IsActive &&
-            IsAdministrator(existing.Role) &&
-            !IsAdministrator(user.Role))
-        {
-            var activeAdministrators = await _context.Users
-                .CountAsync(u =>
-                    u.IsActive &&
-                    u.Role == "Administrator");
+        var existing = _context.Users.Local
+            .FirstOrDefault(u => u.Id == user.Id);
 
-            if (activeAdministrators <= 1)
+        if (existing is null)
+        {
+            existing = new User
             {
-                throw new InvalidOperationException(
-                    "The last active administrator cannot be assigned another role.");
-            }
+                Id = persistedUser.Id,
+                FullName = persistedUser.FullName,
+                Email = persistedUser.Email,
+                PasswordHash = persistedUser.PasswordHash,
+                Role = persistedUser.Role,
+                PhoneNumber = persistedUser.PhoneNumber,
+                IsActive = persistedUser.IsActive,
+                CreatedAtUtc = persistedUser.CreatedAtUtc,
+                UpdatedAtUtc = persistedUser.UpdatedAtUtc
+            };
+
+            _context.Users.Attach(existing);
         }
 
         existing.FullName = user.FullName;
@@ -166,13 +178,13 @@ public class UserService : IUserService
         existing.UpdatedAtUtc = DateTime.UtcNow;
 
         /*
-         * Only replace the password hash when a new hash
-         * has explicitly been supplied.
+         * An empty password hash means that the existing password
+         * must be retained. A supplied hash replaces it.
          */
-        if (!string.IsNullOrWhiteSpace(user.PasswordHash))
-        {
-            existing.PasswordHash = user.PasswordHash;
-        }
+        existing.PasswordHash =
+            string.IsNullOrWhiteSpace(user.PasswordHash)
+                ? persistedUser.PasswordHash
+                : user.PasswordHash;
 
         await _context.SaveChangesAsync();
     }
@@ -197,22 +209,10 @@ public class UserService : IUserService
             return true;
         }
 
-        /*
-         * The final active administrator must remain active
-         * so the clinic cannot be left without administrative access.
-         */
         if (IsAdministrator(user.Role))
         {
-            var activeAdministrators = await _context.Users
-                .CountAsync(u =>
-                    u.IsActive &&
-                    u.Role == "Administrator");
-
-            if (activeAdministrators <= 1)
-            {
-                throw new InvalidOperationException(
-                    "The last active administrator cannot be deactivated.");
-            }
+            await EnsureAnotherActiveAdministratorExistsAsync(
+                user.Id);
         }
 
         user.IsActive = false;
@@ -221,6 +221,24 @@ public class UserService : IUserService
         await _context.SaveChangesAsync();
 
         return true;
+    }
+
+    private async Task EnsureAnotherActiveAdministratorExistsAsync(
+        int excludedUserId)
+    {
+        var anotherActiveAdministratorExists =
+            await _context.Users
+                .AsNoTracking()
+                .AnyAsync(u =>
+                    u.Id != excludedUserId &&
+                    u.IsActive &&
+                    u.Role == "Administrator");
+
+        if (!anotherActiveAdministratorExists)
+        {
+            throw new InvalidOperationException(
+                "The last active administrator cannot be deactivated or reassigned.");
+        }
     }
 
     private static void NormalizeUser(User user)
@@ -272,7 +290,9 @@ public class UserService : IUserService
             StringComparison.OrdinalIgnoreCase);
     }
 
-    private static void ValidateUser(User user)
+    private static void ValidateUser(
+        User user,
+        bool requirePasswordHash)
     {
         if (string.IsNullOrWhiteSpace(user.FullName))
         {
@@ -308,7 +328,8 @@ public class UserService : IUserService
                 "The selected user role is invalid.");
         }
 
-        if (string.IsNullOrWhiteSpace(user.PasswordHash))
+        if (requirePasswordHash &&
+            string.IsNullOrWhiteSpace(user.PasswordHash))
         {
             throw new InvalidOperationException(
                 "A password hash is required.");
@@ -319,7 +340,8 @@ public class UserService : IUserService
     {
         try
         {
-            var address = new System.Net.Mail.MailAddress(email);
+            var address =
+                new System.Net.Mail.MailAddress(email);
 
             return string.Equals(
                 address.Address,

@@ -34,8 +34,7 @@ public class PatientService : IPatientService
             return null;
         }
 
-        var normalizedNumber =
-            patientNumber.Trim().ToUpperInvariant();
+        var normalizedNumber = NormalizePatientNumber(patientNumber);
 
         return await _context.Patients
             .AsNoTracking()
@@ -51,8 +50,7 @@ public class PatientService : IPatientService
             return null;
         }
 
-        var normalizedIdNumber =
-            idNumber.Trim();
+        var normalizedIdNumber = idNumber.Trim();
 
         return await _context.Patients
             .AsNoTracking()
@@ -68,8 +66,7 @@ public class PatientService : IPatientService
             return null;
         }
 
-        var normalizedEmail =
-            email.Trim().ToLowerInvariant();
+        var normalizedEmail = NormalizeEmail(email);
 
         return await _context.Patients
             .AsNoTracking()
@@ -86,43 +83,13 @@ public class PatientService : IPatientService
             .ToListAsync();
     }
 
-    public async Task<Patient> CreateAsync(
-        Patient patient)
+    public async Task<Patient> CreateAsync(Patient patient)
     {
         ArgumentNullException.ThrowIfNull(patient);
 
-        patient.FullName =
-            patient.FullName.Trim();
+        NormalizePatient(patient);
 
-        patient.PatientNumber =
-            patient.PatientNumber
-                .Trim()
-                .ToUpperInvariant();
-
-        patient.PhoneNumber =
-            patient.PhoneNumber.Trim();
-
-        patient.Email =
-            string.IsNullOrWhiteSpace(patient.Email)
-                ? null
-                : patient.Email.Trim().ToLowerInvariant();
-
-        patient.IdNumber =
-            patient.IdNumber.Trim();
-
-        patient.Gender =
-            string.IsNullOrWhiteSpace(patient.Gender)
-                ? null
-                : patient.Gender.Trim();
-
-        patient.Address =
-            string.IsNullOrWhiteSpace(patient.Address)
-                ? null
-                : patient.Address.Trim();
-
-        patient.CreatedAtUtc =
-            DateTime.UtcNow;
-
+        patient.CreatedAtUtc = DateTime.UtcNow;
         patient.UpdatedAtUtc = null;
         patient.IsActive = true;
 
@@ -133,44 +100,38 @@ public class PatientService : IPatientService
         return patient;
     }
 
-    public async Task UpdateAsync(
-        Patient patient)
+    public async Task UpdateAsync(Patient patient)
     {
         ArgumentNullException.ThrowIfNull(patient);
 
-        patient.FullName =
-            patient.FullName.Trim();
+        if (patient.Id <= 0)
+        {
+            throw new ArgumentException(
+                "A valid patient ID is required.",
+                nameof(patient));
+        }
 
-        patient.PatientNumber =
-            patient.PatientNumber
-                .Trim()
-                .ToUpperInvariant();
+        NormalizePatient(patient);
 
-        patient.PhoneNumber =
-            patient.PhoneNumber.Trim();
+        var existingPatient = await _context.Patients
+            .FirstOrDefaultAsync(p => p.Id == patient.Id);
 
-        patient.Email =
-            string.IsNullOrWhiteSpace(patient.Email)
-                ? null
-                : patient.Email.Trim().ToLowerInvariant();
+        if (existingPatient is null)
+        {
+            throw new KeyNotFoundException(
+                "The patient could not be found.");
+        }
 
-        patient.IdNumber =
-            patient.IdNumber.Trim();
-
-        patient.Gender =
-            string.IsNullOrWhiteSpace(patient.Gender)
-                ? null
-                : patient.Gender.Trim();
-
-        patient.Address =
-            string.IsNullOrWhiteSpace(patient.Address)
-                ? null
-                : patient.Address.Trim();
-
-        patient.UpdatedAtUtc =
-            DateTime.UtcNow;
-
-        _context.Patients.Update(patient);
+        existingPatient.FullName = patient.FullName;
+        existingPatient.PatientNumber = patient.PatientNumber;
+        existingPatient.PhoneNumber = patient.PhoneNumber;
+        existingPatient.Email = patient.Email;
+        existingPatient.IdNumber = patient.IdNumber;
+        existingPatient.DateOfBirth = patient.DateOfBirth;
+        existingPatient.Gender = patient.Gender;
+        existingPatient.Address = patient.Address;
+        existingPatient.IsActive = patient.IsActive;
+        existingPatient.UpdatedAtUtc = DateTime.UtcNow;
 
         await _context.SaveChangesAsync();
     }
@@ -182,13 +143,17 @@ public class PatientService : IPatientService
             return false;
         }
 
-        var patient =
-            await _context.Patients
-                .FirstOrDefaultAsync(p => p.Id == id);
+        var patient = await _context.Patients
+            .FirstOrDefaultAsync(p => p.Id == id);
 
         if (patient is null)
         {
             return false;
+        }
+
+        if (!patient.IsActive)
+        {
+            return true;
         }
 
         patient.IsActive = false;
@@ -198,4 +163,45 @@ public class PatientService : IPatientService
 
         return true;
     }
+
+    private static void NormalizePatient(Patient patient)
+    {
+        patient.FullName = patient.FullName.Trim();
+
+        patient.PatientNumber =
+            NormalizePatientNumber(patient.PatientNumber);
+
+        patient.PhoneNumber =
+            patient.PhoneNumber.Trim();
+
+        patient.Email =
+            string.IsNullOrWhiteSpace(patient.Email)
+                ? null
+                : NormalizeEmail(patient.Email);
+
+        patient.IdNumber =
+            patient.IdNumber.Trim();
+
+        patient.Gender =
+            string.IsNullOrWhiteSpace(patient.Gender)
+                ? null
+                : patient.Gender.Trim();
+
+        patient.Address =
+            string.IsNullOrWhiteSpace(patient.Address)
+                ? null
+                : patient.Address.Trim();
+    }
+
+    private static string NormalizePatientNumber(
+        string patientNumber)
+    {
+        return patientNumber.Trim().ToUpperInvariant();
+    }
+
+    private static string NormalizeEmail(string email)
+    {
+        return email.Trim().ToLowerInvariant();
+    }
 }
+

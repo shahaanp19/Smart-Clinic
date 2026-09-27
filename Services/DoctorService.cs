@@ -68,13 +68,88 @@ public class DoctorService : IDoctorService
             .ToListAsync();
     }
 
-    public async Task<Doctor> CreateAsync(
-        Doctor doctor)
+    public async Task<Doctor> CreateAsync(Doctor doctor)
     {
         ArgumentNullException.ThrowIfNull(doctor);
 
-        doctor.FullName =
-            doctor.FullName.Trim();
+        NormalizeDoctor(doctor);
+
+        doctor.CreatedAtUtc = DateTime.UtcNow;
+        doctor.UpdatedAtUtc = null;
+        doctor.IsActive = true;
+
+        _context.Doctors.Add(doctor);
+
+        await _context.SaveChangesAsync();
+
+        return doctor;
+    }
+
+    public async Task UpdateAsync(Doctor doctor)
+    {
+        ArgumentNullException.ThrowIfNull(doctor);
+
+        if (doctor.Id <= 0)
+        {
+            throw new ArgumentException(
+                "A valid doctor ID is required.",
+                nameof(doctor));
+        }
+
+        NormalizeDoctor(doctor);
+
+        var existing = await _context.Doctors
+            .FirstOrDefaultAsync(d => d.Id == doctor.Id);
+
+        if (existing is null)
+        {
+            throw new KeyNotFoundException(
+                "The doctor could not be found.");
+        }
+
+        existing.FullName = doctor.FullName;
+        existing.EmployeeNumber = doctor.EmployeeNumber;
+        existing.Specialisation = doctor.Specialisation;
+        existing.Email = doctor.Email;
+        existing.PhoneNumber = doctor.PhoneNumber;
+        existing.Qualifications = doctor.Qualifications;
+        existing.IsActive = doctor.IsActive;
+        existing.UpdatedAtUtc = DateTime.UtcNow;
+
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<bool> DeactivateAsync(int id)
+    {
+        if (id <= 0)
+        {
+            return false;
+        }
+
+        var doctor = await _context.Doctors
+            .FirstOrDefaultAsync(d => d.Id == id);
+
+        if (doctor is null)
+        {
+            return false;
+        }
+
+        if (!doctor.IsActive)
+        {
+            return true;
+        }
+
+        doctor.IsActive = false;
+        doctor.UpdatedAtUtc = DateTime.UtcNow;
+
+        await _context.SaveChangesAsync();
+
+        return true;
+    }
+
+    private static void NormalizeDoctor(Doctor doctor)
+    {
+        doctor.FullName = doctor.FullName.Trim();
 
         doctor.EmployeeNumber =
             doctor.EmployeeNumber
@@ -94,87 +169,5 @@ public class DoctorService : IDoctorService
             string.IsNullOrWhiteSpace(doctor.Qualifications)
                 ? null
                 : doctor.Qualifications.Trim();
-
-        doctor.CreatedAtUtc =
-            DateTime.UtcNow;
-
-        doctor.UpdatedAtUtc = null;
-        doctor.IsActive = true;
-
-        _context.Doctors.Add(doctor);
-
-        await _context.SaveChangesAsync();
-
-        return doctor;
-    }
-
-    public async Task UpdateAsync(
-        Doctor doctor)
-    {
-        ArgumentNullException.ThrowIfNull(doctor);
-
-        var existing =
-            await _context.Doctors
-                .FirstOrDefaultAsync(d => d.Id == doctor.Id);
-
-        if (existing is null)
-        {
-            throw new InvalidOperationException(
-                "The doctor could not be found.");
-        }
-
-        existing.FullName =
-            doctor.FullName.Trim();
-
-        existing.EmployeeNumber =
-            doctor.EmployeeNumber
-                .Trim()
-                .ToUpperInvariant();
-
-        existing.Specialisation =
-            doctor.Specialisation.Trim();
-
-        existing.Email =
-            doctor.Email.Trim().ToLowerInvariant();
-
-        existing.PhoneNumber =
-            doctor.PhoneNumber.Trim();
-
-        existing.Qualifications =
-            string.IsNullOrWhiteSpace(doctor.Qualifications)
-                ? null
-                : doctor.Qualifications.Trim();
-
-        existing.IsActive =
-            doctor.IsActive;
-
-        existing.UpdatedAtUtc =
-            DateTime.UtcNow;
-
-        await _context.SaveChangesAsync();
-    }
-
-    public async Task<bool> DeactivateAsync(int id)
-    {
-        if (id <= 0)
-        {
-            return false;
-        }
-
-        var doctor =
-            await _context.Doctors
-                .FirstOrDefaultAsync(d => d.Id == id);
-
-        if (doctor is null)
-        {
-            return false;
-        }
-
-        doctor.IsActive = false;
-        doctor.UpdatedAtUtc = DateTime.UtcNow;
-
-        await _context.SaveChangesAsync();
-
-        return true;
     }
 }
