@@ -33,46 +33,38 @@ public class AuthService : IAuthService
             .FirstOrDefaultAsync(u => u.Email == normalizedEmail);
 
         if (user is null || !user.IsActive)
-            return false;
-
-        var result = _passwordHasher.VerifyHashedPassword(
-            user,
-            user.PasswordHash,
-            password);
-
-        if (result == PasswordVerificationResult.SuccessRehashNeeded)
         {
-            user.PasswordHash = _passwordHasher.HashPassword(
+            return false;
+        }
+
+        var verificationResult =
+            _passwordHasher.VerifyHashedPassword(
                 user,
+                user.PasswordHash,
                 password);
+
+        if (verificationResult ==
+            PasswordVerificationResult.SuccessRehashNeeded)
+        {
+            user.PasswordHash =
+                _passwordHasher.HashPassword(user, password);
 
             user.UpdatedAtUtc = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
         }
 
-        return result == PasswordVerificationResult.Success ||
-               result == PasswordVerificationResult.SuccessRehashNeeded;
-    }
-
-    public async Task<bool> IsUserActiveAsync(string email)
-    {
-        if (string.IsNullOrWhiteSpace(email))
-            return false;
-
-        var normalizedEmail = NormalizeEmail(email);
-
-        return await _context.Users
-            .AsNoTracking()
-            .AnyAsync(u =>
-                u.Email == normalizedEmail &&
-                u.IsActive);
+        return verificationResult == PasswordVerificationResult.Success ||
+               verificationResult ==
+               PasswordVerificationResult.SuccessRehashNeeded;
     }
 
     public async Task<string?> GetUserRoleAsync(string email)
     {
         if (string.IsNullOrWhiteSpace(email))
+        {
             return null;
+        }
 
         var normalizedEmail = NormalizeEmail(email);
 
@@ -83,6 +75,40 @@ public class AuthService : IAuthService
                 u.IsActive)
             .Select(u => u.Role)
             .FirstOrDefaultAsync();
+    }
+
+    public async Task<int?> GetUserIdAsync(string email)
+    {
+        if (string.IsNullOrWhiteSpace(email))
+        {
+            return null;
+        }
+
+        var normalizedEmail = NormalizeEmail(email);
+
+        return await _context.Users
+            .AsNoTracking()
+            .Where(u =>
+                u.Email == normalizedEmail &&
+                u.IsActive)
+            .Select(u => (int?)u.Id)
+            .FirstOrDefaultAsync();
+    }
+
+    public async Task<bool> IsUserActiveAsync(string email)
+    {
+        if (string.IsNullOrWhiteSpace(email))
+        {
+            return false;
+        }
+
+        var normalizedEmail = NormalizeEmail(email);
+
+        return await _context.Users
+            .AsNoTracking()
+            .AnyAsync(u =>
+                u.Email == normalizedEmail &&
+                u.IsActive);
     }
 
     private static string NormalizeEmail(string email)

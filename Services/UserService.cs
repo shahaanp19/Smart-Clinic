@@ -45,8 +45,7 @@ public class UserService : IUserService
 
         return await _context.Users
             .AsNoTracking()
-            .FirstOrDefaultAsync(u =>
-                u.Email.ToLower() == normalizedEmail);
+            .FirstOrDefaultAsync(u => u.Email == normalizedEmail);
     }
 
     public async Task<IReadOnlyList<User>> GetAllAsync()
@@ -66,8 +65,7 @@ public class UserService : IUserService
 
         var emailExists = await _context.Users
             .AsNoTracking()
-            .AnyAsync(u =>
-                u.Email.ToLower() == user.Email);
+            .AnyAsync(u => u.Email == user.Email);
 
         if (emailExists)
         {
@@ -112,7 +110,7 @@ public class UserService : IUserService
             .AsNoTracking()
             .AnyAsync(u =>
                 u.Id != user.Id &&
-                u.Email.ToLower() == user.Email);
+                u.Email == user.Email);
 
         if (emailExists)
         {
@@ -121,7 +119,8 @@ public class UserService : IUserService
         }
 
         /*
-         * Do not allow an update to deactivate the last administrator.
+         * Do not allow the last active administrator
+         * to be deactivated.
          */
         if (existing.IsActive &&
             !user.IsActive &&
@@ -140,8 +139,8 @@ public class UserService : IUserService
         }
 
         /*
-         * Do not allow the last administrator to have their role changed
-         * to a non-administrator role.
+         * Do not allow the last active administrator
+         * to be changed to another role.
          */
         if (existing.IsActive &&
             IsAdministrator(existing.Role) &&
@@ -167,9 +166,8 @@ public class UserService : IUserService
         existing.UpdatedAtUtc = DateTime.UtcNow;
 
         /*
-         * PasswordHash is only replaced when a new hash was supplied.
-         * This prevents ordinary profile/status updates from erasing a
-         * user's existing password.
+         * Only replace the password hash when a new hash
+         * has explicitly been supplied.
          */
         if (!string.IsNullOrWhiteSpace(user.PasswordHash))
         {
@@ -199,6 +197,10 @@ public class UserService : IUserService
             return true;
         }
 
+        /*
+         * The final active administrator must remain active
+         * so the clinic cannot be left without administrative access.
+         */
         if (IsAdministrator(user.Role))
         {
             var activeAdministrators = await _context.Users

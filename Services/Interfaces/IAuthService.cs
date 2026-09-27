@@ -6,7 +6,9 @@ public interface IAuthService
         string email,
         string password);
 
-    Task<bool> IsUserActiveAsync(string email);
-
     Task<string?> GetUserRoleAsync(string email);
+
+    Task<int?> GetUserIdAsync(string email);
+
+    Task<bool> IsUserActiveAsync(string email);
 }

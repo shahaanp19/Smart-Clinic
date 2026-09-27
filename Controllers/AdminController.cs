@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SmartClinicManagementSystem.Models;
 using SmartClinicManagementSystem.Services.Interfaces;
 
 namespace SmartClinicManagementSystem.Controllers;
 
+[Authorize(Policy = "AdministratorOnly")]
 public class AdminController : Controller
 {
     private readonly IUserService _userService;
@@ -36,17 +38,30 @@ public class AdminController : Controller
         var users = await _userService.GetAllAsync();
 
         ViewBag.TotalUsers = users.Count;
+
         ViewBag.TotalDoctors = users.Count(u =>
-            string.Equals(u.Role, "Doctor", StringComparison.OrdinalIgnoreCase));
+            string.Equals(
+                u.Role,
+                "Doctor",
+                StringComparison.OrdinalIgnoreCase));
 
         ViewBag.TotalReceptionists = users.Count(u =>
-            string.Equals(u.Role, "Receptionist", StringComparison.OrdinalIgnoreCase));
+            string.Equals(
+                u.Role,
+                "Receptionist",
+                StringComparison.OrdinalIgnoreCase));
 
         ViewBag.TotalPatients = users.Count(u =>
-            string.Equals(u.Role, "Patient", StringComparison.OrdinalIgnoreCase));
+            string.Equals(
+                u.Role,
+                "Patient",
+                StringComparison.OrdinalIgnoreCase));
 
         ViewBag.TotalAdministrators = users.Count(u =>
-            string.Equals(u.Role, "Administrator", StringComparison.OrdinalIgnoreCase));
+            string.Equals(
+                u.Role,
+                "Administrator",
+                StringComparison.OrdinalIgnoreCase));
 
         ViewBag.ActiveUsers = users.Count(u => u.IsActive);
 
@@ -62,16 +77,28 @@ public class AdminController : Controller
         ViewBag.ActiveUsers = users.Count(u => u.IsActive);
 
         ViewBag.Doctors = users.Count(u =>
-            string.Equals(u.Role, "Doctor", StringComparison.OrdinalIgnoreCase));
+            string.Equals(
+                u.Role,
+                "Doctor",
+                StringComparison.OrdinalIgnoreCase));
 
         ViewBag.Receptionists = users.Count(u =>
-            string.Equals(u.Role, "Receptionist", StringComparison.OrdinalIgnoreCase));
+            string.Equals(
+                u.Role,
+                "Receptionist",
+                StringComparison.OrdinalIgnoreCase));
 
         ViewBag.Patients = users.Count(u =>
-            string.Equals(u.Role, "Patient", StringComparison.OrdinalIgnoreCase));
+            string.Equals(
+                u.Role,
+                "Patient",
+                StringComparison.OrdinalIgnoreCase));
 
         ViewBag.Administrators = users.Count(u =>
-            string.Equals(u.Role, "Administrator", StringComparison.OrdinalIgnoreCase));
+            string.Equals(
+                u.Role,
+                "Administrator",
+                StringComparison.OrdinalIgnoreCase));
 
         return View();
     }
@@ -108,9 +135,13 @@ public class AdminController : Controller
         role = role.Trim();
 
         if (!AllowedRoles.Any(r =>
-                string.Equals(r, role, StringComparison.OrdinalIgnoreCase)))
+                string.Equals(
+                    r,
+                    role,
+                    StringComparison.OrdinalIgnoreCase)))
         {
-            TempData["ErrorMessage"] = "The selected user role is invalid.";
+            TempData["ErrorMessage"] =
+                "The selected user role is invalid.";
 
             return RedirectToAction(nameof(UserManagement));
         }
@@ -159,7 +190,8 @@ public class AdminController : Controller
     {
         if (id <= 0)
         {
-            TempData["ErrorMessage"] = "Invalid user account.";
+            TempData["ErrorMessage"] =
+                "Invalid user account.";
 
             return RedirectToAction(nameof(UserManagement));
         }
@@ -216,7 +248,8 @@ public class AdminController : Controller
     {
         if (id <= 0)
         {
-            TempData["ErrorMessage"] = "Invalid user account.";
+            TempData["ErrorMessage"] =
+                "Invalid user account.";
 
             return RedirectToAction(nameof(UserManagement));
         }
@@ -234,8 +267,9 @@ public class AdminController : Controller
         try
         {
             /*
-             * We intentionally deactivate rather than physically deleting
-             * the account. This preserves the user record and its audit data.
+             * User accounts are intentionally deactivated rather than
+             * physically deleted. This preserves the account record and
+             * associated audit information.
              */
             var deactivated =
                 await _userService.DeactivateAsync(id);
@@ -255,7 +289,9 @@ public class AdminController : Controller
     private static string NormalizeRole(string role)
     {
         return AllowedRoles.First(r =>
-            string.Equals(r, role, StringComparison.OrdinalIgnoreCase));
+            string.Equals(
+                r,
+                role,
+                StringComparison.OrdinalIgnoreCase));
     }
 }
-
