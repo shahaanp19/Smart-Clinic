@@ -11,13 +11,6 @@ public class ControllerTestFactory : WebApplicationFactory<Program>
     private readonly string _databaseName =
         $"SmartClinicManagementSystemIntegrationTests_{Guid.NewGuid():N}";
 
-    private string ConnectionString =>
-        $"Server=(localdb)\\MSSQLLocalDB;" +
-        $"Database={_databaseName};" +
-        "Trusted_Connection=True;" +
-        "MultipleActiveResultSets=true;" +
-        "TrustServerCertificate=True";
-
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseEnvironment("Testing");
@@ -48,44 +41,7 @@ public class ControllerTestFactory : WebApplicationFactory<Program>
 
             services.AddDbContext<ApplicationDbContext>(
                 options =>
-                    options.UseSqlServer(ConnectionString));
-
-            using var serviceProvider =
-                services.BuildServiceProvider();
-
-            using var scope =
-                serviceProvider.CreateScope();
-
-            var context =
-                scope.ServiceProvider
-                    .GetRequiredService<ApplicationDbContext>();
-
-            context.Database.EnsureCreated();
+                    options.UseInMemoryDatabase(_databaseName));
         });
-    }
-
-    protected override void Dispose(bool disposing)
-    {
-        if (disposing)
-        {
-            try
-            {
-                var options =
-                    new DbContextOptionsBuilder<ApplicationDbContext>()
-                        .UseSqlServer(ConnectionString)
-                        .Options;
-
-                using var context =
-                    new ApplicationDbContext(options);
-
-                context.Database.EnsureDeleted();
-            }
-            catch
-            {
-                // Test cleanup must never hide the actual test result.
-            }
-        }
-
-        base.Dispose(disposing);
     }
 }
