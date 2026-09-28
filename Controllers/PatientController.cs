@@ -309,3 +309,5 @@ public class PatientController : Controller
                 .AuthenticationScheme);
     }
 }
+
+//References
