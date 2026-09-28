@@ -11,7 +11,14 @@ public static class DbSeeder
 
     public static async Task SeedAsync(ApplicationDbContext context)
     {
-        await context.Database.MigrateAsync();
+        if (context.Database.IsRelational())
+        {
+            await context.Database.MigrateAsync();
+        }
+        else
+        {
+            await context.Database.EnsureCreatedAsync();
+        }
 
         var passwordHasher = new PasswordHasher<User>();
 
