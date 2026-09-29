@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SmartClinicManagementSystem\SmartClinicManagementSystem.csproj" />
+    <ProjectReference Include="..\SmartClinicManagementSystem.csproj" />
   </ItemGroup>
 
   <ItemGroup>
