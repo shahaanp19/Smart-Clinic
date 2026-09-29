@@ -76,7 +76,8 @@ public class ReceptionController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> RegisterPatient(PatientDto dto)
+    public async Task<IActionResult> RegisterPatient(
+        PatientDto dto)
     {
         ValidatePatient(dto);
 
@@ -114,7 +115,8 @@ public class ReceptionController : Controller
         if (!string.IsNullOrWhiteSpace(dto.Email))
         {
             var existingEmail =
-                await _patientService.GetByEmailAsync(dto.Email);
+                await _patientService.GetByEmailAsync(
+                    dto.Email);
 
             if (existingEmail is not null)
             {
@@ -298,41 +300,29 @@ public class ReceptionController : Controller
     }
 
     [HttpGet]
+    [Produces("application/json")]
     public async Task<IActionResult> SearchPatients(
         string? search)
     {
-        var patients =
-            await _patientService.GetAllAsync();
-
-        var activePatients = patients
-            .Where(p => p.IsActive);
-
-        if (!string.IsNullOrWhiteSpace(search))
+        if (search?.Length > 100)
         {
-            var normalizedSearch =
-                search.Trim();
-
-            activePatients = activePatients.Where(p =>
-                p.FullName.Contains(
-                    normalizedSearch,
-                    StringComparison.OrdinalIgnoreCase) ||
-                p.PatientNumber.Contains(
-                    normalizedSearch,
-                    StringComparison.OrdinalIgnoreCase) ||
-                p.IdNumber.Contains(
-                    normalizedSearch,
-                    StringComparison.OrdinalIgnoreCase) ||
-                (!string.IsNullOrWhiteSpace(p.Email) &&
-                 p.Email.Contains(
-                     normalizedSearch,
-                     StringComparison.OrdinalIgnoreCase)));
+            return BadRequest(new ProblemDetails
+            {
+                Title = "Invalid search request",
+                Detail = "The search term cannot exceed 100 characters.",
+                Status = StatusCodes.Status400BadRequest,
+                Instance = HttpContext.Request.Path
+            });
         }
 
-        return Json(
-            activePatients
-                .OrderBy(p => p.FullName)
-                .Select(DtoMapper.ToDto)
-                .ToList());
+        var patients =
+            await _patientService.SearchAsync(search);
+
+        var results = patients
+            .Select(DtoMapper.ToSearchDto)
+            .ToList();
+
+        return Ok(results);
     }
 
     private async Task PopulateAppointmentDataAsync()
@@ -356,7 +346,8 @@ public class ReceptionController : Controller
             .ToList();
     }
 
-    private void ValidatePatient(PatientDto dto)
+    private void ValidatePatient(
+        PatientDto dto)
     {
         if (string.IsNullOrWhiteSpace(dto.FullName))
         {

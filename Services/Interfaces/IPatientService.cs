@@ -11,6 +11,8 @@ public interface IPatientService
 
     Task<IReadOnlyList<Patient>> GetAllAsync();
 
+    Task<IReadOnlyList<Patient>> SearchAsync(string? search);
+
     Task<Patient> CreateAsync(Patient patient);
     Task UpdateAsync(Patient patient);
     Task<bool> DeactivateAsync(int id);

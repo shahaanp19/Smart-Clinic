@@ -34,7 +34,8 @@ public class PatientService : IPatientService
             return null;
         }
 
-        var normalizedNumber = NormalizePatientNumber(patientNumber);
+        var normalizedNumber =
+            NormalizePatientNumber(patientNumber);
 
         return await _context.Patients
             .AsNoTracking()
@@ -66,7 +67,8 @@ public class PatientService : IPatientService
             return null;
         }
 
-        var normalizedEmail = NormalizeEmail(email);
+        var normalizedEmail =
+            NormalizeEmail(email);
 
         return await _context.Patients
             .AsNoTracking()
@@ -79,6 +81,34 @@ public class PatientService : IPatientService
     {
         return await _context.Patients
             .AsNoTracking()
+            .OrderBy(p => p.FullName)
+            .ToListAsync();
+    }
+
+    public async Task<IReadOnlyList<Patient>> SearchAsync(
+        string? search)
+    {
+        var query = _context.Patients
+            .AsNoTracking()
+            .Where(p => p.IsActive);
+
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            var normalizedSearch = search.Trim();
+
+            query = query.Where(p =>
+                p.FullName.Contains(
+                    normalizedSearch) ||
+                p.PatientNumber.Contains(
+                    normalizedSearch) ||
+                p.IdNumber.Contains(
+                    normalizedSearch) ||
+                (p.Email != null &&
+                 p.Email.Contains(
+                     normalizedSearch)));
+        }
+
+        return await query
             .OrderBy(p => p.FullName)
             .ToListAsync();
     }
@@ -113,8 +143,10 @@ public class PatientService : IPatientService
 
         NormalizePatient(patient);
 
-        var existingPatient = await _context.Patients
-            .FirstOrDefaultAsync(p => p.Id == patient.Id);
+        var existingPatient =
+            await _context.Patients
+                .FirstOrDefaultAsync(
+                    p => p.Id == patient.Id);
 
         if (existingPatient is null)
         {
@@ -122,16 +154,35 @@ public class PatientService : IPatientService
                 "The patient could not be found.");
         }
 
-        existingPatient.FullName = patient.FullName;
-        existingPatient.PatientNumber = patient.PatientNumber;
-        existingPatient.PhoneNumber = patient.PhoneNumber;
-        existingPatient.Email = patient.Email;
-        existingPatient.IdNumber = patient.IdNumber;
-        existingPatient.DateOfBirth = patient.DateOfBirth;
-        existingPatient.Gender = patient.Gender;
-        existingPatient.Address = patient.Address;
-        existingPatient.IsActive = patient.IsActive;
-        existingPatient.UpdatedAtUtc = DateTime.UtcNow;
+        existingPatient.FullName =
+            patient.FullName;
+
+        existingPatient.PatientNumber =
+            patient.PatientNumber;
+
+        existingPatient.PhoneNumber =
+            patient.PhoneNumber;
+
+        existingPatient.Email =
+            patient.Email;
+
+        existingPatient.IdNumber =
+            patient.IdNumber;
+
+        existingPatient.DateOfBirth =
+            patient.DateOfBirth;
+
+        existingPatient.Gender =
+            patient.Gender;
+
+        existingPatient.Address =
+            patient.Address;
+
+        existingPatient.IsActive =
+            patient.IsActive;
+
+        existingPatient.UpdatedAtUtc =
+            DateTime.UtcNow;
 
         await _context.SaveChangesAsync();
     }
@@ -143,8 +194,10 @@ public class PatientService : IPatientService
             return false;
         }
 
-        var patient = await _context.Patients
-            .FirstOrDefaultAsync(p => p.Id == id);
+        var patient =
+            await _context.Patients
+                .FirstOrDefaultAsync(
+                    p => p.Id == id);
 
         if (patient is null)
         {
@@ -164,12 +217,15 @@ public class PatientService : IPatientService
         return true;
     }
 
-    private static void NormalizePatient(Patient patient)
+    private static void NormalizePatient(
+        Patient patient)
     {
-        patient.FullName = patient.FullName.Trim();
+        patient.FullName =
+            patient.FullName.Trim();
 
         patient.PatientNumber =
-            NormalizePatientNumber(patient.PatientNumber);
+            NormalizePatientNumber(
+                patient.PatientNumber);
 
         patient.PhoneNumber =
             patient.PhoneNumber.Trim();
@@ -196,12 +252,16 @@ public class PatientService : IPatientService
     private static string NormalizePatientNumber(
         string patientNumber)
     {
-        return patientNumber.Trim().ToUpperInvariant();
+        return patientNumber
+            .Trim()
+            .ToUpperInvariant();
     }
 
-    private static string NormalizeEmail(string email)
+    private static string NormalizeEmail(
+        string email)
     {
-        return email.Trim().ToLowerInvariant();
+        return email
+            .Trim()
+            .ToLowerInvariant();
     }
 }
-

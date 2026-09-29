@@ -54,11 +54,14 @@ builder.Services
         {
             if (context.Request.Path.StartsWithSegments("/api"))
             {
-                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                context.Response.StatusCode =
+                    StatusCodes.Status401Unauthorized;
+
                 return Task.CompletedTask;
             }
 
             context.Response.Redirect(context.RedirectUri);
+
             return Task.CompletedTask;
         };
 
@@ -66,11 +69,14 @@ builder.Services
         {
             if (context.Request.Path.StartsWithSegments("/api"))
             {
-                context.Response.StatusCode = StatusCodes.Status403Forbidden;
+                context.Response.StatusCode =
+                    StatusCodes.Status403Forbidden;
+
                 return Task.CompletedTask;
             }
 
             context.Response.Redirect(context.RedirectUri);
+
             return Task.CompletedTask;
         };
     });
@@ -111,7 +117,35 @@ var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
+    app.UseExceptionHandler(exceptionHandlerApp =>
+    {
+        exceptionHandlerApp.Run(async context =>
+        {
+            if (context.Request.Path.StartsWithSegments("/api"))
+            {
+                context.Response.StatusCode =
+                    StatusCodes.Status500InternalServerError;
+
+                context.Response.ContentType =
+                    "application/problem+json";
+
+                var problemDetailsService =
+                    context.RequestServices
+                        .GetRequiredService<IProblemDetailsService>();
+
+                await problemDetailsService.WriteAsync(
+                    new ProblemDetailsContext
+                    {
+                        HttpContext = context
+                    });
+
+                return;
+            }
+
+            context.Response.Redirect("/Home/Error");
+        });
+    });
+
     app.UseHsts();
 }
 else

@@ -35,6 +35,16 @@ public static class DtoMapper
         };
     }
 
+    public static PatientSearchDto ToSearchDto(Patient patient)
+    {
+        return new PatientSearchDto
+        {
+            Id = patient.Id,
+            FullName = patient.FullName,
+            PatientNumber = patient.PatientNumber
+        };
+    }
+
     public static DoctorDto ToDto(Doctor doctor)
     {
         return new DoctorDto
