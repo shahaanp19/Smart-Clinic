@@ -37,6 +37,11 @@ public class AuthService : IAuthService
             return false;
         }
 
+        if (string.IsNullOrWhiteSpace(user.PasswordHash))
+        {
+            return false;
+        }
+
         var verificationResult =
             _passwordHasher.VerifyHashedPassword(
                 user,
@@ -109,6 +114,93 @@ public class AuthService : IAuthService
             .AnyAsync(u =>
                 u.Email == normalizedEmail &&
                 u.IsActive);
+    }
+
+    public async Task<(int Id, string Role, DateTime UpdatedAtUtc)?>
+        GetAuthenticationStateAsync(string email)
+    {
+        if (string.IsNullOrWhiteSpace(email))
+        {
+            return null;
+        }
+
+        var normalizedEmail = NormalizeEmail(email);
+
+        var user = await _context.Users
+            .AsNoTracking()
+            .Where(u =>
+                u.Email == normalizedEmail &&
+                u.IsActive)
+            .Select(u => new
+            {
+                u.Id,
+                u.Role,
+                u.UpdatedAtUtc
+            })
+            .FirstOrDefaultAsync();
+
+        if (user is null)
+        {
+            return null;
+        }
+
+        /*
+         * UpdatedAtUtc may be null for older records.
+         * Use DateTime.MinValue as the stable fallback value.
+         */
+        return (
+            user.Id,
+            user.Role,
+            user.UpdatedAtUtc ?? DateTime.MinValue);
+    }
+
+    public async Task<bool> IsAuthenticationStateValidAsync(
+        int userId,
+        string role,
+        string updatedAtUtc)
+    {
+        if (userId <= 0 ||
+            string.IsNullOrWhiteSpace(role) ||
+            string.IsNullOrWhiteSpace(updatedAtUtc))
+        {
+            return false;
+        }
+
+        if (!DateTime.TryParse(
+                updatedAtUtc,
+                null,
+                System.Globalization.DateTimeStyles.RoundtripKind,
+                out var cookieUpdatedAtUtc))
+        {
+            return false;
+        }
+
+        var user = await _context.Users
+            .AsNoTracking()
+            .Where(u =>
+                u.Id == userId &&
+                u.IsActive)
+            .Select(u => new
+            {
+                u.Role,
+                u.UpdatedAtUtc
+            })
+            .FirstOrDefaultAsync();
+
+        if (user is null)
+        {
+            return false;
+        }
+
+        var databaseUpdatedAtUtc =
+            user.UpdatedAtUtc ?? DateTime.MinValue;
+
+        return string.Equals(
+                   user.Role,
+                   role,
+                   StringComparison.OrdinalIgnoreCase)
+               &&
+               databaseUpdatedAtUtc == cookieUpdatedAtUtc;
     }
 
     private static string NormalizeEmail(string email)

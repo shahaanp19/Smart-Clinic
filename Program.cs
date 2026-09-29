@@ -195,13 +195,18 @@ static async Task InitializeDatabaseAsync(WebApplication app)
     var context = scope.ServiceProvider
         .GetRequiredService<ApplicationDbContext>();
 
+    var configuration = scope.ServiceProvider
+        .GetRequiredService<IConfiguration>();
+
     var logger = scope.ServiceProvider
         .GetRequiredService<ILoggerFactory>()
         .CreateLogger("DatabaseInitialization");
 
     try
     {
-        await DbSeeder.SeedAsync(context);
+        await DbSeeder.SeedAsync(
+            context,
+            configuration);
 
         logger.LogInformation(
             "SmartClinic database migration and seeding completed successfully.");

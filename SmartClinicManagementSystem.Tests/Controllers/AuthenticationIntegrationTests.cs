@@ -14,7 +14,7 @@ public class AuthenticationIntegrationTests
     : IClassFixture<ControllerTestFactory>
 {
     private const string AdminEmail = "admin@smartclinic.local";
-    private const string AdminPassword = "Admin@12345";
+    private const string AdminPassword = "Password123";
 
     private readonly ControllerTestFactory _factory;
 

@@ -107,6 +107,10 @@ public class AdminController : Controller
     [HttpGet]
     public async Task<IActionResult> UserManagement()
     {
+        /*
+         * GetAllAsync intentionally returns a safe administrative
+         * projection with PasswordHash excluded.
+         */
         ViewBag.Users = await _userService.GetAllAsync();
 
         return View();

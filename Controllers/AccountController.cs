@@ -78,10 +78,10 @@ public class AccountController : Controller
             return View();
         }
 
-        var role =
-            await _authService.GetUserRoleAsync(email);
+        var authenticationState =
+            await _authService.GetAuthenticationStateAsync(email);
 
-        if (string.IsNullOrWhiteSpace(role))
+        if (authenticationState is null)
         {
             ModelState.AddModelError(
                 string.Empty,
@@ -91,11 +91,19 @@ public class AccountController : Controller
             return View();
         }
 
+        var userId = authenticationState.Value.Id;
+        var role = authenticationState.Value.Role;
+        var updatedAtUtc = authenticationState.Value.UpdatedAtUtc;
+
         var claims = new List<Claim>
         {
             new(ClaimTypes.Name, email),
             new(ClaimTypes.Email, email),
-            new(ClaimTypes.Role, role)
+            new(ClaimTypes.NameIdentifier, userId.ToString()),
+            new(ClaimTypes.Role, role),
+            new(
+                "AccountUpdatedAtUtc",
+                updatedAtUtc.ToString("O"))
         };
 
         var identity = new ClaimsIdentity(
