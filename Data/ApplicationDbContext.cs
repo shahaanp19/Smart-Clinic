@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SmartClinicManagementSystem.Models;
 
 namespace SmartClinicManagementSystem.Data;
@@ -39,13 +39,23 @@ public class ApplicationDbContext : DbContext
             .IsUnique();
 
         modelBuilder.Entity<Appointment>()
-            .HasIndex(a => new { a.DoctorId, a.AppointmentDateTime })
+            .HasIndex(a => new
+            {
+                a.DoctorId,
+                a.AppointmentDateTime
+            })
             .IsUnique()
-            .HasDatabaseName("UX_Appointments_DoctorId_AppointmentDateTime_Active")
-            .HasFilter("[Status] IN ('Scheduled', 'Confirmed')");
+            .HasDatabaseName(
+                "UX_Appointments_DoctorId_AppointmentDateTime_Active")
+            .HasFilter(
+                "[Status] IN ('Scheduled', 'Confirmed')");
 
         modelBuilder.Entity<Appointment>()
-            .HasIndex(a => new { a.PatientId, a.AppointmentDateTime });
+            .HasIndex(a => new
+            {
+                a.PatientId,
+                a.AppointmentDateTime
+            });
 
         modelBuilder.Entity<Consultation>()
             .HasIndex(c => c.AppointmentId)
@@ -55,7 +65,11 @@ public class ApplicationDbContext : DbContext
             .HasIndex(p => p.ConsultationId);
 
         modelBuilder.Entity<MedicalRecord>()
-            .HasIndex(m => new { m.PatientId, m.RecordedAtUtc });
+            .HasIndex(m => new
+            {
+                m.PatientId,
+                m.RecordedAtUtc
+            });
 
         modelBuilder.Entity<Appointment>()
             .HasOne(a => a.Patient)
