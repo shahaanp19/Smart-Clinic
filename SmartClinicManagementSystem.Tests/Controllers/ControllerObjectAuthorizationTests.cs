@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.DependencyInjection;
 using SmartClinicManagementSystem.Controllers;
-using SmartClinicManagementSystem.Data;
 using SmartClinicManagementSystem.Models;
 using SmartClinicManagementSystem.Services.Interfaces;
 using Xunit;
@@ -68,6 +67,8 @@ public class ControllerObjectAuthorizationTests
             FullName = "Authorization Doctor",
             Email = $"auth.doctor.{Guid.NewGuid():N}@test.local",
             EmployeeNumber = $"AUTH-D-{Guid.NewGuid():N}",
+            Specialisation = "General Practice",
+            PhoneNumber = "0110000011",
             IsActive = true,
             CreatedAtUtc = DateTime.UtcNow
         };
@@ -172,6 +173,8 @@ public class ControllerObjectAuthorizationTests
             FullName = "Consultation Doctor A",
             Email = $"auth.consultation.doctor.a.{Guid.NewGuid():N}@test.local",
             EmployeeNumber = $"AUTH-C-A-{Guid.NewGuid():N}",
+            Specialisation = "General Practice",
+            PhoneNumber = "0110000011",
             IsActive = true,
             CreatedAtUtc = DateTime.UtcNow
         };
@@ -181,6 +184,8 @@ public class ControllerObjectAuthorizationTests
             FullName = "Consultation Doctor B",
             Email = $"auth.consultation.doctor.b.{Guid.NewGuid():N}@test.local",
             EmployeeNumber = $"AUTH-C-B-{Guid.NewGuid():N}",
+            Specialisation = "Cardiology",
+            PhoneNumber = "0110000012",
             IsActive = true,
             CreatedAtUtc = DateTime.UtcNow
         };
@@ -283,6 +288,8 @@ public class ControllerObjectAuthorizationTests
             FullName = "Prescription Doctor A",
             Email = $"auth.prescription.doctor.a.{Guid.NewGuid():N}@test.local",
             EmployeeNumber = $"AUTH-R-A-{Guid.NewGuid():N}",
+            Specialisation = "General Practice",
+            PhoneNumber = "0110000021",
             IsActive = true,
             CreatedAtUtc = DateTime.UtcNow
         };
@@ -292,6 +299,8 @@ public class ControllerObjectAuthorizationTests
             FullName = "Prescription Doctor B",
             Email = $"auth.prescription.doctor.b.{Guid.NewGuid():N}@test.local",
             EmployeeNumber = $"AUTH-R-B-{Guid.NewGuid():N}",
+            Specialisation = "Dermatology",
+            PhoneNumber = "0110000022",
             IsActive = true,
             CreatedAtUtc = DateTime.UtcNow
         };
@@ -427,6 +436,8 @@ public class ControllerObjectAuthorizationTests
             FullName = "Matching Doctor",
             Email = $"auth.match.doctor.{Guid.NewGuid():N}@test.local",
             EmployeeNumber = $"AUTH-M-D-{Guid.NewGuid():N}",
+            Specialisation = "General Practice",
+            PhoneNumber = "0110000032",
             IsActive = true,
             CreatedAtUtc = DateTime.UtcNow
         };
