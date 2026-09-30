@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SmartClinicManagementSystem.Data;
 using SmartClinicManagementSystem.Services;
@@ -7,7 +8,11 @@ using SmartClinicManagementSystem.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add(
+        new AutoValidateAntiforgeryTokenAttribute());
+});
 
 builder.Services.AddProblemDetails(options =>
 {
