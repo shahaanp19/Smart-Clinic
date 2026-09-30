@@ -43,8 +43,7 @@ public class DoctorService : IDoctorService
                 d => d.EmployeeNumber == normalizedNumber);
     }
 
-    public async Task<Doctor?> GetByEmailAsync(
-        string email)
+    public async Task<Doctor?> GetByEmailAsync(string email)
     {
         if (string.IsNullOrWhiteSpace(email))
         {
@@ -72,8 +71,36 @@ public class DoctorService : IDoctorService
     {
         ArgumentNullException.ThrowIfNull(doctor);
 
+        ValidateDoctor(doctor);
         NormalizeDoctor(doctor);
 
+        var duplicateEmployeeNumber =
+            await _context.Doctors
+                .AsNoTracking()
+                .AnyAsync(d =>
+                    d.EmployeeNumber ==
+                    doctor.EmployeeNumber);
+
+        if (duplicateEmployeeNumber)
+        {
+            throw new InvalidOperationException(
+                "A doctor with this employee number already exists.");
+        }
+
+        var duplicateEmail =
+            await _context.Doctors
+                .AsNoTracking()
+                .AnyAsync(d =>
+                    d.Email.ToLower() ==
+                    doctor.Email);
+
+        if (duplicateEmail)
+        {
+            throw new InvalidOperationException(
+                "A doctor with this email address already exists.");
+        }
+
+        doctor.Id = 0;
         doctor.CreatedAtUtc = DateTime.UtcNow;
         doctor.UpdatedAtUtc = null;
         doctor.IsActive = true;
@@ -96,6 +123,7 @@ public class DoctorService : IDoctorService
                 nameof(doctor));
         }
 
+        ValidateDoctor(doctor);
         NormalizeDoctor(doctor);
 
         var existing = await _context.Doctors
@@ -105,6 +133,34 @@ public class DoctorService : IDoctorService
         {
             throw new KeyNotFoundException(
                 "The doctor could not be found.");
+        }
+
+        var duplicateEmployeeNumber =
+            await _context.Doctors
+                .AsNoTracking()
+                .AnyAsync(d =>
+                    d.Id != doctor.Id &&
+                    d.EmployeeNumber ==
+                    doctor.EmployeeNumber);
+
+        if (duplicateEmployeeNumber)
+        {
+            throw new InvalidOperationException(
+                "A doctor with this employee number already exists.");
+        }
+
+        var duplicateEmail =
+            await _context.Doctors
+                .AsNoTracking()
+                .AnyAsync(d =>
+                    d.Id != doctor.Id &&
+                    d.Email.ToLower() ==
+                    doctor.Email);
+
+        if (duplicateEmail)
+        {
+            throw new InvalidOperationException(
+                "A doctor with this email address already exists.");
         }
 
         existing.FullName = doctor.FullName;
@@ -147,6 +203,46 @@ public class DoctorService : IDoctorService
         return true;
     }
 
+    private static void ValidateDoctor(Doctor doctor)
+    {
+        if (string.IsNullOrWhiteSpace(doctor.FullName))
+        {
+            throw new InvalidOperationException(
+                "Full name is required.");
+        }
+
+        if (string.IsNullOrWhiteSpace(doctor.EmployeeNumber))
+        {
+            throw new InvalidOperationException(
+                "Employee number is required.");
+        }
+
+        if (string.IsNullOrWhiteSpace(doctor.Specialisation))
+        {
+            throw new InvalidOperationException(
+                "Specialisation is required.");
+        }
+
+        if (string.IsNullOrWhiteSpace(doctor.Email))
+        {
+            throw new InvalidOperationException(
+                "Email address is required.");
+        }
+
+        if (string.IsNullOrWhiteSpace(doctor.PhoneNumber))
+        {
+            throw new InvalidOperationException(
+                "Phone number is required.");
+        }
+
+        if (doctor.Qualifications is not null &&
+            doctor.Qualifications.Length > 1000)
+        {
+            throw new InvalidOperationException(
+                "Qualifications cannot exceed 1000 characters.");
+        }
+    }
+
     private static void NormalizeDoctor(Doctor doctor)
     {
         doctor.FullName = doctor.FullName.Trim();
@@ -160,7 +256,9 @@ public class DoctorService : IDoctorService
             doctor.Specialisation.Trim();
 
         doctor.Email =
-            doctor.Email.Trim().ToLowerInvariant();
+            doctor.Email
+                .Trim()
+                .ToLowerInvariant();
 
         doctor.PhoneNumber =
             doctor.PhoneNumber.Trim();

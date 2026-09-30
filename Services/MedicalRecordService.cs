@@ -68,6 +68,7 @@ public class MedicalRecordService : IMedicalRecordService
         ArgumentNullException.ThrowIfNull(record);
 
         ValidateRecord(record);
+        NormalizeRecord(record);
 
         await ValidateActivePatientAsync(
             record.PatientId);
@@ -75,7 +76,7 @@ public class MedicalRecordService : IMedicalRecordService
         await ValidateActiveDoctorAsync(
             record.DoctorId);
 
-        NormalizeRecord(record);
+        record.Id = 0;
 
         _context.MedicalRecords.Add(record);
 
@@ -109,32 +110,18 @@ public class MedicalRecordService : IMedicalRecordService
 
         ValidateRecordContent(record);
 
-        if (ReferenceEquals(existing, record))
-        {
-            var originalValues =
-                _context.Entry(existing).OriginalValues;
-
-            var originalPatientId =
-                originalValues.GetValue<int>(
-                    nameof(MedicalRecord.PatientId));
-
-            var originalDoctorId =
-                originalValues.GetValue<int>(
-                    nameof(MedicalRecord.DoctorId));
-
-            if (originalPatientId != record.PatientId ||
-                originalDoctorId != record.DoctorId)
-            {
-                throw new InvalidOperationException(
-                    "The patient and doctor relationships cannot be changed.");
-            }
-        }
-        else if (existing.PatientId != record.PatientId ||
-                 existing.DoctorId != record.DoctorId)
+        if (existing.PatientId != record.PatientId ||
+            existing.DoctorId != record.DoctorId)
         {
             throw new InvalidOperationException(
                 "The patient and doctor relationships cannot be changed.");
         }
+
+        await ValidateActivePatientAsync(
+            existing.PatientId);
+
+        await ValidateActiveDoctorAsync(
+            existing.DoctorId);
 
         NormalizeRecordContent(record);
 
@@ -213,10 +200,29 @@ public class MedicalRecordService : IMedicalRecordService
                 "Record type is required.");
         }
 
+        if (record.RecordType.Trim().Length > 2000)
+        {
+            throw new InvalidOperationException(
+                "Record type cannot exceed 2000 characters.");
+        }
+
         if (string.IsNullOrWhiteSpace(record.Description))
         {
             throw new InvalidOperationException(
                 "Record description is required.");
+        }
+
+        if (record.Description.Trim().Length > 4000)
+        {
+            throw new InvalidOperationException(
+                "Record description cannot exceed 4000 characters.");
+        }
+
+        if (record.ClinicalNotes is not null &&
+            record.ClinicalNotes.Length > 2000)
+        {
+            throw new InvalidOperationException(
+                "Clinical notes cannot exceed 2000 characters.");
         }
     }
 
@@ -229,6 +235,12 @@ public class MedicalRecordService : IMedicalRecordService
             record.RecordedAtUtc == default
                 ? DateTime.UtcNow
                 : NormalizeUtc(record.RecordedAtUtc);
+
+        if (record.RecordedAtUtc > DateTime.UtcNow)
+        {
+            throw new InvalidOperationException(
+                "A medical record cannot be dated in the future.");
+        }
     }
 
     private static void NormalizeRecordContent(

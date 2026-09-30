@@ -2,12 +2,21 @@
 using Microsoft.EntityFrameworkCore;
 using SmartClinicManagementSystem.Data;
 using SmartClinicManagementSystem.Models;
+using SmartClinicManagementSystem.Models.ViewModels;
 using SmartClinicManagementSystem.Services.Interfaces;
 
 namespace SmartClinicManagementSystem.Services;
 
 public class UserService : IUserService
 {
+    private static readonly string[] AllowedRoles =
+    {
+        "Administrator",
+        "Doctor",
+        "Patient",
+        "Receptionist"
+    };
+
     private readonly ApplicationDbContext _context;
     private readonly PasswordHasher<User> _passwordHasher;
 
@@ -36,10 +45,12 @@ public class UserService : IUserService
             return null;
         }
 
-        var normalizedEmail = email.Trim();
+        var normalizedEmail = NormalizeEmail(email);
 
         return await _context.Users
-            .FirstOrDefaultAsync(u => u.Email == normalizedEmail);
+            .AsNoTracking()
+            .FirstOrDefaultAsync(
+                u => u.Email.ToLower() == normalizedEmail);
     }
 
     public async Task<IReadOnlyList<User>> GetAllAsync()
@@ -66,32 +77,44 @@ public class UserService : IUserService
     {
         ArgumentNullException.ThrowIfNull(user);
 
-        user.Email = user.Email.Trim();
+        ValidateUser(user);
+        NormalizeUser(user);
 
-        var existingUser = await _context.Users
+        var emailExists = await _context.Users
             .AsNoTracking()
-            .AnyAsync(u => u.Email == user.Email);
+            .AnyAsync(u =>
+                u.Email.ToLower() == user.Email);
 
-        if (existingUser)
+        if (emailExists)
         {
             throw new InvalidOperationException(
                 "A user with this email address already exists.");
         }
 
-        var now = DateTime.UtcNow;
-
-        user.Id = 0;
-        user.CreatedAtUtc = now;
-        user.UpdatedAtUtc = now;
-
-        if (!string.IsNullOrWhiteSpace(user.PasswordHash))
+        if (string.IsNullOrWhiteSpace(user.PasswordHash))
         {
-            user.PasswordHash = _passwordHasher.HashPassword(
-                user,
-                user.PasswordHash);
+            throw new InvalidOperationException(
+                "A password is required.");
         }
 
-        await _context.Users.AddAsync(user);
+        var plainTextPassword = user.PasswordHash;
+
+        if (plainTextPassword.Length < 8)
+        {
+            throw new InvalidOperationException(
+                "The password must contain at least 8 characters.");
+        }
+
+        user.PasswordHash = _passwordHasher.HashPassword(
+            user,
+            plainTextPassword);
+
+        user.IsActive = true;
+        user.CreatedAtUtc = DateTime.UtcNow;
+        user.UpdatedAtUtc = DateTime.UtcNow;
+
+        _context.Users.Add(user);
+
         await _context.SaveChangesAsync();
 
         return user;
@@ -108,83 +131,71 @@ public class UserService : IUserService
                 nameof(user));
         }
 
-        var existingUser = await _context.Users
+        ValidateUser(user);
+        NormalizeUser(user);
+
+        var existing = await _context.Users
             .FirstOrDefaultAsync(u => u.Id == user.Id);
 
-        if (existingUser is null)
+        if (existing is null)
         {
             throw new KeyNotFoundException(
-                $"User with ID {user.Id} was not found.");
+                "The user could not be found.");
         }
 
-        var normalizedEmail = user.Email.Trim();
-
-        var emailAlreadyExists = await _context.Users
+        var duplicateEmail = await _context.Users
             .AsNoTracking()
             .AnyAsync(u =>
                 u.Id != user.Id &&
-                u.Email == normalizedEmail);
+                u.Email.ToLower() == user.Email);
 
-        if (emailAlreadyExists)
+        if (duplicateEmail)
         {
             throw new InvalidOperationException(
                 "A user with this email address already exists.");
         }
 
-        if (existingUser.Role == "Administrator" &&
-            existingUser.IsActive &&
-            !user.IsActive)
-        {
-            var activeAdministratorCount = await _context.Users
-                .CountAsync(u =>
-                    u.Role == "Administrator" &&
-                    u.IsActive &&
-                    u.Id != user.Id);
-
-            if (activeAdministratorCount == 0)
-            {
-                throw new InvalidOperationException(
-                    "The last active Administrator cannot be deactivated.");
-            }
-        }
-
-        if (existingUser.Role == "Administrator" &&
-            existingUser.IsActive &&
+        if (existing.Role == "Administrator" &&
+            existing.IsActive &&
             !string.Equals(
                 user.Role,
                 "Administrator",
                 StringComparison.OrdinalIgnoreCase))
         {
-            var activeAdministratorCount = await _context.Users
-                .CountAsync(u =>
+            var activeAdministratorCount =
+                await _context.Users.CountAsync(u =>
                     u.Role == "Administrator" &&
-                    u.IsActive &&
-                    u.Id != user.Id);
+                    u.IsActive);
 
-            if (activeAdministratorCount == 0)
+            if (activeAdministratorCount <= 1)
             {
                 throw new InvalidOperationException(
-                    "The last active Administrator cannot be changed to another role.");
+                    "The last active administrator cannot be assigned another role.");
             }
         }
 
-        existingUser.FullName = user.FullName.Trim();
-        existingUser.Email = normalizedEmail;
-        existingUser.Role = user.Role.Trim();
-        existingUser.PhoneNumber =
-            string.IsNullOrWhiteSpace(user.PhoneNumber)
-                ? null
-                : user.PhoneNumber.Trim();
-        existingUser.IsActive = user.IsActive;
-        existingUser.UpdatedAtUtc = DateTime.UtcNow;
-
-        if (!string.IsNullOrWhiteSpace(user.PasswordHash))
+        if (existing.Role == "Administrator" &&
+            existing.IsActive &&
+            !user.IsActive)
         {
-            existingUser.PasswordHash =
-                _passwordHasher.HashPassword(
-                    existingUser,
-                    user.PasswordHash);
+            var activeAdministratorCount =
+                await _context.Users.CountAsync(u =>
+                    u.Role == "Administrator" &&
+                    u.IsActive);
+
+            if (activeAdministratorCount <= 1)
+            {
+                throw new InvalidOperationException(
+                    "The last active administrator cannot be deactivated.");
+            }
         }
+
+        existing.FullName = user.FullName;
+        existing.Email = user.Email;
+        existing.Role = user.Role;
+        existing.PhoneNumber = user.PhoneNumber;
+        existing.IsActive = user.IsActive;
+        existing.UpdatedAtUtc = DateTime.UtcNow;
 
         await _context.SaveChangesAsync();
     }
@@ -211,16 +222,15 @@ public class UserService : IUserService
 
         if (user.Role == "Administrator")
         {
-            var activeAdministratorCount = await _context.Users
-                .CountAsync(u =>
+            var activeAdministratorCount =
+                await _context.Users.CountAsync(u =>
                     u.Role == "Administrator" &&
-                    u.IsActive &&
-                    u.Id != id);
+                    u.IsActive);
 
-            if (activeAdministratorCount == 0)
+            if (activeAdministratorCount <= 1)
             {
                 throw new InvalidOperationException(
-                    "The last active Administrator cannot be deactivated.");
+                    "The last active administrator cannot be deactivated.");
             }
         }
 
@@ -230,5 +240,76 @@ public class UserService : IUserService
         await _context.SaveChangesAsync();
 
         return true;
+    }
+
+    private static void ValidateUser(User user)
+    {
+        if (string.IsNullOrWhiteSpace(user.FullName))
+        {
+            throw new InvalidOperationException(
+                "Full name is required.");
+        }
+
+        if (user.FullName.Trim().Length > 100)
+        {
+            throw new InvalidOperationException(
+                "Full name cannot exceed 100 characters.");
+        }
+
+        if (string.IsNullOrWhiteSpace(user.Email))
+        {
+            throw new InvalidOperationException(
+                "Email address is required.");
+        }
+
+        if (user.Email.Trim().Length > 255)
+        {
+            throw new InvalidOperationException(
+                "Email address cannot exceed 255 characters.");
+        }
+
+        if (string.IsNullOrWhiteSpace(user.Role))
+        {
+            throw new InvalidOperationException(
+                "Role is required.");
+        }
+
+        if (!AllowedRoles.Contains(
+                user.Role.Trim(),
+                StringComparer.OrdinalIgnoreCase))
+        {
+            throw new InvalidOperationException(
+                "The selected role is invalid.");
+        }
+
+        if (user.PhoneNumber is not null &&
+            user.PhoneNumber.Trim().Length > 20)
+        {
+            throw new InvalidOperationException(
+                "Phone number cannot exceed 20 characters.");
+        }
+    }
+
+    private static void NormalizeUser(User user)
+    {
+        user.FullName = user.FullName.Trim();
+
+        user.Email = NormalizeEmail(user.Email);
+
+        user.Role = AllowedRoles.First(
+            role => string.Equals(
+                role,
+                user.Role.Trim(),
+                StringComparison.OrdinalIgnoreCase));
+
+        user.PhoneNumber =
+            string.IsNullOrWhiteSpace(user.PhoneNumber)
+                ? null
+                : user.PhoneNumber.Trim();
+    }
+
+    private static string NormalizeEmail(string email)
+    {
+        return email.Trim().ToLowerInvariant();
     }
 }

@@ -13,6 +13,9 @@ public class AppointmentService : IAppointmentService
         "Confirmed"
     };
 
+    private const int MaxReasonLength = 500;
+    private const int MaxNotesLength = 1000;
+
     private readonly ApplicationDbContext _context;
 
     public AppointmentService(ApplicationDbContext context)
@@ -51,6 +54,9 @@ public class AppointmentService : IAppointmentService
     {
         ValidateDateRange(doctorId, fromUtc, toUtc);
 
+        fromUtc = NormalizeDateTime(fromUtc);
+        toUtc = NormalizeDateTime(toUtc);
+
         return await _context.Appointments
             .AsNoTracking()
             .Include(a => a.Patient)
@@ -70,6 +76,9 @@ public class AppointmentService : IAppointmentService
     {
         ValidateDateRange(patientId, fromUtc, toUtc);
 
+        fromUtc = NormalizeDateTime(fromUtc);
+        toUtc = NormalizeDateTime(toUtc);
+
         return await _context.Appointments
             .AsNoTracking()
             .Include(a => a.Patient)
@@ -88,6 +97,15 @@ public class AppointmentService : IAppointmentService
         int? excludeAppointmentId = null)
     {
         if (doctorId <= 0)
+        {
+            return false;
+        }
+
+        appointmentDateTimeUtc =
+            NormalizeDateTime(appointmentDateTimeUtc);
+
+        if (excludeAppointmentId.HasValue &&
+            excludeAppointmentId.Value <= 0)
         {
             return false;
         }
@@ -116,7 +134,15 @@ public class AppointmentService : IAppointmentService
         ValidateReferences(appointment);
 
         appointment.AppointmentDateTime =
-            NormalizeDateTime(appointment.AppointmentDateTime);
+            NormalizeDateTime(
+                appointment.AppointmentDateTime);
+
+        if (appointment.AppointmentDateTime == default)
+        {
+            throw new ArgumentException(
+                "A valid appointment date and time is required.",
+                nameof(appointment));
+        }
 
         if (appointment.AppointmentDateTime <= DateTime.UtcNow)
         {
@@ -128,10 +154,14 @@ public class AppointmentService : IAppointmentService
             NormalizeStatus(appointment.Status);
 
         appointment.Reason =
-            NormalizeOptionalText(appointment.Reason);
+            NormalizeOptionalText(
+                appointment.Reason);
 
         appointment.Notes =
-            NormalizeOptionalText(appointment.Notes);
+            NormalizeOptionalText(
+                appointment.Notes);
+
+        ValidateTextLengths(appointment);
 
         await ValidateActivePatientAsync(
             appointment.PatientId);
@@ -147,6 +177,7 @@ public class AppointmentService : IAppointmentService
                 "The selected appointment slot is already booked.");
         }
 
+        appointment.Id = 0;
         appointment.CreatedAtUtc = DateTime.UtcNow;
         appointment.UpdatedAtUtc = null;
 
@@ -168,7 +199,8 @@ public class AppointmentService : IAppointmentService
         }
 
         var existing = await _context.Appointments
-            .FirstOrDefaultAsync(a => a.Id == appointment.Id);
+            .FirstOrDefaultAsync(
+                a => a.Id == appointment.Id);
 
         if (existing is null)
         {
@@ -182,8 +214,25 @@ public class AppointmentService : IAppointmentService
             NormalizeDateTime(
                 appointment.AppointmentDateTime);
 
+        if (appointmentDateTime == default)
+        {
+            throw new ArgumentException(
+                "A valid appointment date and time is required.",
+                nameof(appointment));
+        }
+
         var status =
             NormalizeStatus(appointment.Status);
+
+        appointment.Reason =
+            NormalizeOptionalText(
+                appointment.Reason);
+
+        appointment.Notes =
+            NormalizeOptionalText(
+                appointment.Notes);
+
+        ValidateTextLengths(appointment);
 
         await ValidateActivePatientAsync(
             appointment.PatientId);
@@ -207,15 +256,26 @@ public class AppointmentService : IAppointmentService
                 "The selected appointment slot is already booked.");
         }
 
-        existing.PatientId = appointment.PatientId;
-        existing.DoctorId = appointment.DoctorId;
-        existing.AppointmentDateTime = appointmentDateTime;
-        existing.Status = status;
+        existing.PatientId =
+            appointment.PatientId;
+
+        existing.DoctorId =
+            appointment.DoctorId;
+
+        existing.AppointmentDateTime =
+            appointmentDateTime;
+
+        existing.Status =
+            status;
+
         existing.Reason =
-            NormalizeOptionalText(appointment.Reason);
+            appointment.Reason;
+
         existing.Notes =
-            NormalizeOptionalText(appointment.Notes);
-        existing.UpdatedAtUtc = DateTime.UtcNow;
+            appointment.Notes;
+
+        existing.UpdatedAtUtc =
+            DateTime.UtcNow;
 
         await _context.SaveChangesAsync();
     }
@@ -228,7 +288,8 @@ public class AppointmentService : IAppointmentService
         }
 
         var appointment = await _context.Appointments
-            .FirstOrDefaultAsync(a => a.Id == id);
+            .FirstOrDefaultAsync(
+                a => a.Id == id);
 
         if (appointment is null)
         {
@@ -260,7 +321,8 @@ public class AppointmentService : IAppointmentService
         return true;
     }
 
-    private async Task ValidateActivePatientAsync(int patientId)
+    private async Task ValidateActivePatientAsync(
+        int patientId)
     {
         var exists = await _context.Patients
             .AsNoTracking()
@@ -275,7 +337,8 @@ public class AppointmentService : IAppointmentService
         }
     }
 
-    private async Task ValidateActiveDoctorAsync(int doctorId)
+    private async Task ValidateActiveDoctorAsync(
+        int doctorId)
     {
         var exists = await _context.Doctors
             .AsNoTracking()
@@ -320,6 +383,16 @@ public class AppointmentService : IAppointmentService
                 nameof(entityId));
         }
 
+        if (fromUtc == default ||
+            toUtc == default)
+        {
+            throw new ArgumentException(
+                "A valid date range is required.");
+        }
+
+        fromUtc = NormalizeDateTime(fromUtc);
+        toUtc = NormalizeDateTime(toUtc);
+
         if (fromUtc > toUtc)
         {
             throw new ArgumentException(
@@ -327,9 +400,34 @@ public class AppointmentService : IAppointmentService
         }
     }
 
+    private static void ValidateTextLengths(
+        Appointment appointment)
+    {
+        if (appointment.Reason is not null &&
+            appointment.Reason.Length > MaxReasonLength)
+        {
+            throw new ArgumentException(
+                $"The appointment reason cannot exceed {MaxReasonLength} characters.",
+                nameof(appointment.Reason));
+        }
+
+        if (appointment.Notes is not null &&
+            appointment.Notes.Length > MaxNotesLength)
+        {
+            throw new ArgumentException(
+                $"Appointment notes cannot exceed {MaxNotesLength} characters.",
+                nameof(appointment.Notes));
+        }
+    }
+
     private static DateTime NormalizeDateTime(
         DateTime value)
     {
+        if (value == default)
+        {
+            return default;
+        }
+
         if (value.Kind == DateTimeKind.Unspecified)
         {
             return DateTime.SpecifyKind(
@@ -340,7 +438,8 @@ public class AppointmentService : IAppointmentService
         return value.ToUniversalTime();
     }
 
-    private static string NormalizeStatus(string? status)
+    private static string NormalizeStatus(
+        string? status)
     {
         if (string.IsNullOrWhiteSpace(status))
         {
@@ -355,6 +454,7 @@ public class AppointmentService : IAppointmentService
             "cancelled" => "Cancelled",
             "no-show" => "No-Show",
             "no show" => "No-Show",
+
             _ => throw new ArgumentException(
                 "The appointment status is invalid.",
                 nameof(status))

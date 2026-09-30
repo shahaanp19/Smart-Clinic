@@ -7,6 +7,11 @@ namespace SmartClinicManagementSystem.Services;
 
 public class ConsultationService : IConsultationService
 {
+    private const int MaxSymptomsLength = 2000;
+    private const int MaxDiagnosisLength = 2000;
+    private const int MaxTreatmentPlanLength = 2000;
+    private const int MaxClinicalNotesLength = 2000;
+
     private readonly ApplicationDbContext _context;
 
     public ConsultationService(ApplicationDbContext context)
@@ -92,6 +97,9 @@ public class ConsultationService : IConsultationService
         ValidateRequiredReferences(consultation);
         ValidateRequiredClinicalFields(consultation);
 
+        NormalizeClinicalFields(consultation);
+        ValidateClinicalFieldLengths(consultation);
+
         var appointment = await _context.Appointments
             .FirstOrDefaultAsync(
                 a => a.Id == consultation.AppointmentId);
@@ -160,7 +168,26 @@ public class ConsultationService : IConsultationService
                 "A consultation has already been recorded for this appointment.");
         }
 
-        NormalizeConsultation(consultation);
+        consultation.Id = 0;
+
+        consultation.ConsultationDateUtc =
+            NormalizeDateTime(
+                consultation.ConsultationDateUtc);
+
+        if (consultation.ConsultationDateUtc == default)
+        {
+            consultation.ConsultationDateUtc =
+                DateTime.UtcNow;
+        }
+
+        if (consultation.ConsultationDateUtc >
+            DateTime.UtcNow)
+        {
+            throw new InvalidOperationException(
+                "A consultation cannot be recorded for a future date and time.");
+        }
+
+        consultation.UpdatedAtUtc = null;
 
         _context.Consultations.Add(consultation);
 
@@ -194,7 +221,11 @@ public class ConsultationService : IConsultationService
                 "The consultation could not be found.");
         }
 
+        ValidateRequiredReferences(consultation);
         ValidateRequiredClinicalFields(consultation);
+
+        NormalizeClinicalFields(consultation);
+        ValidateClinicalFieldLengths(consultation);
 
         if (ReferenceEquals(existing, consultation))
         {
@@ -229,13 +260,26 @@ public class ConsultationService : IConsultationService
                 "The consultation relationships cannot be changed.");
         }
 
-        NormalizeClinicalFields(consultation);
+        await ValidateActivePatientAsync(
+            existing.PatientId);
 
-        existing.Symptoms = consultation.Symptoms;
-        existing.Diagnosis = consultation.Diagnosis;
-        existing.TreatmentPlan = consultation.TreatmentPlan;
-        existing.ClinicalNotes = consultation.ClinicalNotes;
-        existing.UpdatedAtUtc = DateTime.UtcNow;
+        await ValidateActiveDoctorAsync(
+            existing.DoctorId);
+
+        existing.Symptoms =
+            consultation.Symptoms;
+
+        existing.Diagnosis =
+            consultation.Diagnosis;
+
+        existing.TreatmentPlan =
+            consultation.TreatmentPlan;
+
+        existing.ClinicalNotes =
+            consultation.ClinicalNotes;
+
+        existing.UpdatedAtUtc =
+            DateTime.UtcNow;
 
         await _context.SaveChangesAsync();
     }
@@ -300,31 +344,57 @@ public class ConsultationService : IConsultationService
     private static void ValidateRequiredClinicalFields(
         Consultation consultation)
     {
-        if (string.IsNullOrWhiteSpace(consultation.Symptoms))
+        if (string.IsNullOrWhiteSpace(
+                consultation.Symptoms))
         {
             throw new InvalidOperationException(
                 "Symptoms are required.");
         }
 
-        if (string.IsNullOrWhiteSpace(consultation.Diagnosis))
+        if (string.IsNullOrWhiteSpace(
+                consultation.Diagnosis))
         {
             throw new InvalidOperationException(
                 "Diagnosis is required.");
         }
     }
 
-    private static void NormalizeConsultation(
+    private static void ValidateClinicalFieldLengths(
         Consultation consultation)
     {
-        NormalizeClinicalFields(consultation);
+        if (consultation.Symptoms.Length >
+            MaxSymptomsLength)
+        {
+            throw new ArgumentException(
+                $"Symptoms cannot exceed {MaxSymptomsLength} characters.",
+                nameof(consultation.Symptoms));
+        }
 
-        consultation.ConsultationDateUtc =
-            consultation.ConsultationDateUtc == default
-                ? DateTime.UtcNow
-                : NormalizeUtc(
-                    consultation.ConsultationDateUtc);
+        if (consultation.Diagnosis.Length >
+            MaxDiagnosisLength)
+        {
+            throw new ArgumentException(
+                $"Diagnosis cannot exceed {MaxDiagnosisLength} characters.",
+                nameof(consultation.Diagnosis));
+        }
 
-        consultation.UpdatedAtUtc = null;
+        if (consultation.TreatmentPlan is not null &&
+            consultation.TreatmentPlan.Length >
+            MaxTreatmentPlanLength)
+        {
+            throw new ArgumentException(
+                $"Treatment plan cannot exceed {MaxTreatmentPlanLength} characters.",
+                nameof(consultation.TreatmentPlan));
+        }
+
+        if (consultation.ClinicalNotes is not null &&
+            consultation.ClinicalNotes.Length >
+            MaxClinicalNotesLength)
+        {
+            throw new ArgumentException(
+                $"Clinical notes cannot exceed {MaxClinicalNotesLength} characters.",
+                nameof(consultation.ClinicalNotes));
+        }
     }
 
     private static void NormalizeClinicalFields(
@@ -353,12 +423,21 @@ public class ConsultationService : IConsultationService
             : value.Trim();
     }
 
-    private static DateTime NormalizeUtc(DateTime value)
+    private static DateTime NormalizeDateTime(
+        DateTime value)
     {
+        if (value == default)
+        {
+            return default;
+        }
+
         return value.Kind switch
         {
             DateTimeKind.Utc => value,
-            DateTimeKind.Local => value.ToUniversalTime(),
+
+            DateTimeKind.Local =>
+                value.ToUniversalTime(),
+
             _ => DateTime.SpecifyKind(
                 value,
                 DateTimeKind.Utc)

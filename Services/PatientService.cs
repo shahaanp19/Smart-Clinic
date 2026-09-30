@@ -59,16 +59,14 @@ public class PatientService : IPatientService
                 p => p.IdNumber == normalizedIdNumber);
     }
 
-    public async Task<Patient?> GetByEmailAsync(
-        string email)
+    public async Task<Patient?> GetByEmailAsync(string email)
     {
         if (string.IsNullOrWhiteSpace(email))
         {
             return null;
         }
 
-        var normalizedEmail =
-            NormalizeEmail(email);
+        var normalizedEmail = NormalizeEmail(email);
 
         return await _context.Patients
             .AsNoTracking()
@@ -97,15 +95,11 @@ public class PatientService : IPatientService
             var normalizedSearch = search.Trim();
 
             query = query.Where(p =>
-                p.FullName.Contains(
-                    normalizedSearch) ||
-                p.PatientNumber.Contains(
-                    normalizedSearch) ||
-                p.IdNumber.Contains(
-                    normalizedSearch) ||
+                p.FullName.Contains(normalizedSearch) ||
+                p.PatientNumber.Contains(normalizedSearch) ||
+                p.IdNumber.Contains(normalizedSearch) ||
                 (p.Email != null &&
-                 p.Email.Contains(
-                     normalizedSearch)));
+                 p.Email.Contains(normalizedSearch)));
         }
 
         return await query
@@ -117,8 +111,12 @@ public class PatientService : IPatientService
     {
         ArgumentNullException.ThrowIfNull(patient);
 
+        ValidatePatient(patient);
         NormalizePatient(patient);
 
+        await ValidateUniquePatientFieldsAsync(patient);
+
+        patient.Id = 0;
         patient.CreatedAtUtc = DateTime.UtcNow;
         patient.UpdatedAtUtc = null;
         patient.IsActive = true;
@@ -141,6 +139,7 @@ public class PatientService : IPatientService
                 nameof(patient));
         }
 
+        ValidatePatient(patient);
         NormalizePatient(patient);
 
         var existingPatient =
@@ -153,6 +152,10 @@ public class PatientService : IPatientService
             throw new KeyNotFoundException(
                 "The patient could not be found.");
         }
+
+        await ValidateUniquePatientFieldsAsync(
+            patient,
+            patient.Id);
 
         existingPatient.FullName =
             patient.FullName;
@@ -217,8 +220,100 @@ public class PatientService : IPatientService
         return true;
     }
 
-    private static void NormalizePatient(
-        Patient patient)
+    private async Task ValidateUniquePatientFieldsAsync(
+        Patient patient,
+        int? excludedId = null)
+    {
+        var duplicatePatientNumber =
+            await _context.Patients
+                .AsNoTracking()
+                .AnyAsync(p =>
+                    (!excludedId.HasValue ||
+                     p.Id != excludedId.Value) &&
+                    p.PatientNumber ==
+                    patient.PatientNumber);
+
+        if (duplicatePatientNumber)
+        {
+            throw new InvalidOperationException(
+                "A patient with this patient number already exists.");
+        }
+
+        var duplicateIdNumber =
+            await _context.Patients
+                .AsNoTracking()
+                .AnyAsync(p =>
+                    (!excludedId.HasValue ||
+                     p.Id != excludedId.Value) &&
+                    p.IdNumber ==
+                    patient.IdNumber);
+
+        if (duplicateIdNumber)
+        {
+            throw new InvalidOperationException(
+                "A patient with this ID number already exists.");
+        }
+
+        if (!string.IsNullOrWhiteSpace(patient.Email))
+        {
+            var duplicateEmail =
+                await _context.Patients
+                    .AsNoTracking()
+                    .AnyAsync(p =>
+                        (!excludedId.HasValue ||
+                         p.Id != excludedId.Value) &&
+                        p.Email != null &&
+                        p.Email.ToLower() ==
+                        patient.Email);
+
+            if (duplicateEmail)
+            {
+                throw new InvalidOperationException(
+                    "A patient with this email address already exists.");
+            }
+        }
+    }
+
+    private static void ValidatePatient(Patient patient)
+    {
+        if (string.IsNullOrWhiteSpace(patient.FullName))
+        {
+            throw new InvalidOperationException(
+                "Full name is required.");
+        }
+
+        if (string.IsNullOrWhiteSpace(patient.PatientNumber))
+        {
+            throw new InvalidOperationException(
+                "Patient number is required.");
+        }
+
+        if (string.IsNullOrWhiteSpace(patient.PhoneNumber))
+        {
+            throw new InvalidOperationException(
+                "Phone number is required.");
+        }
+
+        if (string.IsNullOrWhiteSpace(patient.IdNumber))
+        {
+            throw new InvalidOperationException(
+                "ID number is required.");
+        }
+
+        if (patient.DateOfBirth == default)
+        {
+            throw new InvalidOperationException(
+                "Date of birth is required.");
+        }
+
+        if (patient.DateOfBirth.Date > DateTime.UtcNow.Date)
+        {
+            throw new InvalidOperationException(
+                "Date of birth cannot be in the future.");
+        }
+    }
+
+    private static void NormalizePatient(Patient patient)
     {
         patient.FullName =
             patient.FullName.Trim();
@@ -247,6 +342,9 @@ public class PatientService : IPatientService
             string.IsNullOrWhiteSpace(patient.Address)
                 ? null
                 : patient.Address.Trim();
+
+        patient.DateOfBirth =
+            patient.DateOfBirth.Date;
     }
 
     private static string NormalizePatientNumber(
@@ -257,8 +355,7 @@ public class PatientService : IPatientService
             .ToUpperInvariant();
     }
 
-    private static string NormalizeEmail(
-        string email)
+    private static string NormalizeEmail(string email)
     {
         return email
             .Trim()
