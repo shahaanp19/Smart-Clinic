@@ -100,7 +100,8 @@ public class PatientController : Controller
             return View(dto);
         }
 
-        var doctor = await _doctorService.GetByIdAsync(dto.DoctorId);
+        var doctor =
+            await _doctorService.GetByIdAsync(dto.DoctorId);
 
         if (doctor is null || !doctor.IsActive)
         {
@@ -126,10 +127,20 @@ public class PatientController : Controller
 
             return RedirectToAction(nameof(BookAppointment));
         }
+        catch (ArgumentException ex)
+        {
+            ModelState.AddModelError(
+                string.Empty,
+                ex.Message);
+
+            await PopulateAppointmentViewDataAsync(patient.Id);
+
+            return View(dto);
+        }
         catch (InvalidOperationException ex)
         {
             ModelState.AddModelError(
-                nameof(dto.AppointmentDateTime),
+                string.Empty,
                 ex.Message);
 
             await PopulateAppointmentViewDataAsync(patient.Id);
@@ -150,7 +161,16 @@ public class PatientController : Controller
             return RedirectToAction("Login", "Account");
         }
 
-        var appointment = await _appointmentService.GetByIdAsync(id);
+        if (id <= 0)
+        {
+            TempData["ErrorMessage"] =
+                "The selected appointment could not be found.";
+
+            return RedirectToAction(nameof(BookAppointment));
+        }
+
+        var appointment =
+            await _appointmentService.GetByIdAsync(id);
 
         if (appointment is null ||
             appointment.PatientId != patient.Id)
@@ -171,13 +191,26 @@ public class PatientController : Controller
             return RedirectToAction(nameof(BookAppointment));
         }
 
-        var cancelled =
-            await _appointmentService.CancelAsync(id);
+        try
+        {
+            var cancelled =
+                await _appointmentService.CancelAsync(id);
 
-        TempData[cancelled ? "SuccessMessage" : "ErrorMessage"] =
-            cancelled
-                ? "Your appointment has been cancelled successfully."
-                : "The appointment could not be cancelled.";
+            TempData[cancelled
+                ? "SuccessMessage"
+                : "ErrorMessage"] =
+                cancelled
+                    ? "Your appointment has been cancelled successfully."
+                    : "The appointment could not be cancelled.";
+        }
+        catch (ArgumentException ex)
+        {
+            TempData["ErrorMessage"] = ex.Message;
+        }
+        catch (InvalidOperationException ex)
+        {
+            TempData["ErrorMessage"] = ex.Message;
+        }
 
         return RedirectToAction(nameof(BookAppointment));
     }
@@ -255,7 +288,8 @@ public class PatientController : Controller
             return null;
         }
 
-        var patient = await _patientService.GetByEmailAsync(email);
+        var patient =
+            await _patientService.GetByEmailAsync(email);
 
         if (patient is null || !patient.IsActive)
         {
@@ -278,7 +312,8 @@ public class PatientController : Controller
         return false;
     }
 
-    private async Task PopulateAppointmentViewDataAsync(int patientId)
+    private async Task PopulateAppointmentViewDataAsync(
+        int patientId)
     {
         var fromUtc = DateTime.UtcNow;
         var toUtc = fromUtc.AddMonths(3);
@@ -309,5 +344,3 @@ public class PatientController : Controller
                 .AuthenticationScheme);
     }
 }
-
-//References

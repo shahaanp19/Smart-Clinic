@@ -34,14 +34,15 @@ public class ReceptionController : Controller
     public async Task<IActionResult> Dashboard()
     {
         var patients = await _patientService.GetAllAsync();
+
         var appointments = await _appointmentService.GetAllAsync();
 
-        ViewBag.TotalPatients = patients.Count(p => p.IsActive);
-
+        ViewBag.TotalPatients = patients.Count;
         ViewBag.TotalAppointments = appointments.Count;
 
         ViewBag.TodayAppointments = appointments.Count(a =>
-            a.AppointmentDateTime.ToLocalTime().Date == DateTime.Now.Date &&
+            a.AppointmentDateTime.ToLocalTime().Date ==
+            DateTime.Now.Date &&
             !string.Equals(
                 a.Status,
                 "Cancelled",
@@ -61,23 +62,24 @@ public class ReceptionController : Controller
     {
         var patients = await _patientService.GetAllAsync();
 
-        return View(
-            patients
-                .Where(p => p.IsActive)
-                .Select(DtoMapper.ToDto)
-                .ToList());
+        ViewBag.Patients = patients
+            .Where(p => p.IsActive)
+            .OrderBy(p => p.FullName)
+            .Select(DtoMapper.ToDto)
+            .ToList();
+
+        return View();
     }
 
     [HttpGet]
     public IActionResult RegisterPatient()
     {
-        return View(new PatientDto());
+        return View();
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> RegisterPatient(
-        PatientDto dto)
+    public async Task<IActionResult> RegisterPatient(PatientDto dto)
     {
         ValidatePatient(dto);
 
@@ -86,11 +88,11 @@ public class ReceptionController : Controller
             return View(dto);
         }
 
-        var existingPatientNumber =
+        var existingByPatientNumber =
             await _patientService.GetByPatientNumberAsync(
                 dto.PatientNumber);
 
-        if (existingPatientNumber is not null)
+        if (existingByPatientNumber is not null)
         {
             ModelState.AddModelError(
                 nameof(dto.PatientNumber),
@@ -99,26 +101,29 @@ public class ReceptionController : Controller
             return View(dto);
         }
 
-        var existingIdNumber =
-            await _patientService.GetByIdNumberAsync(
-                dto.IdNumber);
-
-        if (existingIdNumber is not null)
+        if (!string.IsNullOrWhiteSpace(dto.IdNumber))
         {
-            ModelState.AddModelError(
-                nameof(dto.IdNumber),
-                "A patient with this ID number already exists.");
+            var existingByIdNumber =
+                await _patientService.GetByIdNumberAsync(
+                    dto.IdNumber);
 
-            return View(dto);
+            if (existingByIdNumber is not null)
+            {
+                ModelState.AddModelError(
+                    nameof(dto.IdNumber),
+                    "A patient with this ID number already exists.");
+
+                return View(dto);
+            }
         }
 
         if (!string.IsNullOrWhiteSpace(dto.Email))
         {
-            var existingEmail =
+            var existingByEmail =
                 await _patientService.GetByEmailAsync(
                     dto.Email);
 
-            if (existingEmail is not null)
+            if (existingByEmail is not null)
             {
                 ModelState.AddModelError(
                     nameof(dto.Email),
@@ -128,16 +133,24 @@ public class ReceptionController : Controller
             }
         }
 
+        var patient = DtoMapper.ToEntity(dto);
+
         try
         {
-            var patient = DtoMapper.ToEntity(dto);
-
             await _patientService.CreateAsync(patient);
 
             TempData["SuccessMessage"] =
-                $"Patient {patient.PatientNumber} has been registered successfully.";
+                "Patient registered successfully.";
 
             return RedirectToAction(nameof(Patients));
+        }
+        catch (ArgumentException ex)
+        {
+            ModelState.AddModelError(
+                string.Empty,
+                ex.Message);
+
+            return View(dto);
         }
         catch (InvalidOperationException ex)
         {
@@ -158,7 +171,7 @@ public class ReceptionController : Controller
         var appointments =
             await _appointmentService.GetAllAsync();
 
-        var filteredAppointments = appointments
+        ViewBag.Appointments = appointments
             .Where(a =>
                 a.AppointmentDateTime >= fromUtc &&
                 a.AppointmentDateTime <= toUtc)
@@ -166,18 +179,15 @@ public class ReceptionController : Controller
             .Select(DtoMapper.ToDto)
             .ToList();
 
-        return View(filteredAppointments);
+        return View();
     }
 
     [HttpGet]
     public async Task<IActionResult> BookAppointment()
     {
-        await PopulateAppointmentDataAsync();
+        await PopulateAppointmentViewDataAsync();
 
-        return View(new AppointmentDto
-        {
-            Status = "Scheduled"
-        });
+        return View();
     }
 
     [HttpPost]
@@ -189,7 +199,7 @@ public class ReceptionController : Controller
 
         if (!ModelState.IsValid)
         {
-            await PopulateAppointmentDataAsync();
+            await PopulateAppointmentViewDataAsync();
             return View(dto);
         }
 
@@ -200,9 +210,9 @@ public class ReceptionController : Controller
         {
             ModelState.AddModelError(
                 nameof(dto.PatientId),
-                "The selected patient does not exist or is inactive.");
+                "The selected patient is not available.");
 
-            await PopulateAppointmentDataAsync();
+            await PopulateAppointmentViewDataAsync();
             return View(dto);
         }
 
@@ -213,34 +223,43 @@ public class ReceptionController : Controller
         {
             ModelState.AddModelError(
                 nameof(dto.DoctorId),
-                "The selected doctor does not exist or is inactive.");
+                "The selected doctor is not available.");
 
-            await PopulateAppointmentDataAsync();
+            await PopulateAppointmentViewDataAsync();
             return View(dto);
         }
 
+        var appointment = DtoMapper.ToEntity(dto);
+
+        appointment.PatientId = patient.Id;
+        appointment.DoctorId = doctor.Id;
+        appointment.Status = "Scheduled";
+
         try
         {
-            var appointment = DtoMapper.ToEntity(dto);
-
-            appointment.PatientId = patient.Id;
-            appointment.DoctorId = doctor.Id;
-            appointment.Status = "Scheduled";
-
             await _appointmentService.CreateAsync(appointment);
 
             TempData["SuccessMessage"] =
-                "Appointment has been booked successfully.";
+                "Appointment booked successfully.";
 
             return RedirectToAction(nameof(Appointments));
+        }
+        catch (ArgumentException ex)
+        {
+            ModelState.AddModelError(
+                string.Empty,
+                ex.Message);
+
+            await PopulateAppointmentViewDataAsync();
+            return View(dto);
         }
         catch (InvalidOperationException ex)
         {
             ModelState.AddModelError(
-                nameof(dto.AppointmentDateTime),
+                string.Empty,
                 ex.Message);
 
-            await PopulateAppointmentDataAsync();
+            await PopulateAppointmentViewDataAsync();
             return View(dto);
         }
     }
@@ -252,7 +271,7 @@ public class ReceptionController : Controller
         if (id <= 0)
         {
             TempData["ErrorMessage"] =
-                "The selected appointment is invalid.";
+                "The selected appointment could not be found.";
 
             return RedirectToAction(nameof(Appointments));
         }
@@ -291,6 +310,10 @@ public class ReceptionController : Controller
                     ? "Appointment cancelled successfully."
                     : "The appointment could not be cancelled.";
         }
+        catch (ArgumentException ex)
+        {
+            TempData["ErrorMessage"] = ex.Message;
+        }
         catch (InvalidOperationException ex)
         {
             TempData["ErrorMessage"] = ex.Message;
@@ -304,14 +327,13 @@ public class ReceptionController : Controller
     public async Task<IActionResult> SearchPatients(
         string? search)
     {
-        if (search?.Length > 100)
+        search = search?.Trim();
+
+        if (search is not null && search.Length > 100)
         {
-            return BadRequest(new ProblemDetails
+            return BadRequest(new
             {
-                Title = "Invalid search request",
-                Detail = "The search term cannot exceed 100 characters.",
-                Status = StatusCodes.Status400BadRequest,
-                Instance = HttpContext.Request.Path
+                message = "Search text cannot exceed 100 characters."
             });
         }
 
@@ -319,13 +341,14 @@ public class ReceptionController : Controller
             await _patientService.SearchAsync(search);
 
         var results = patients
+            .Where(p => p.IsActive)
             .Select(DtoMapper.ToSearchDto)
             .ToList();
 
         return Ok(results);
     }
 
-    private async Task PopulateAppointmentDataAsync()
+    private async Task PopulateAppointmentViewDataAsync()
     {
         var patients =
             await _patientService.GetAllAsync();
@@ -346,75 +369,50 @@ public class ReceptionController : Controller
             .ToList();
     }
 
-    private void ValidatePatient(
-        PatientDto dto)
+    private static void ValidatePatient(PatientDto dto)
     {
         if (string.IsNullOrWhiteSpace(dto.FullName))
         {
-            ModelState.AddModelError(
-                nameof(dto.FullName),
-                "Patient name is required.");
+            throw new ArgumentException(
+                "Patient full name is required.");
         }
 
         if (string.IsNullOrWhiteSpace(dto.PatientNumber))
         {
-            ModelState.AddModelError(
-                nameof(dto.PatientNumber),
+            throw new ArgumentException(
                 "Patient number is required.");
         }
 
         if (string.IsNullOrWhiteSpace(dto.IdNumber))
         {
-            ModelState.AddModelError(
-                nameof(dto.IdNumber),
+            throw new ArgumentException(
                 "ID number is required.");
         }
 
-        if (string.IsNullOrWhiteSpace(dto.PhoneNumber))
+        if (dto.DateOfBirth > DateTime.UtcNow.Date)
         {
-            ModelState.AddModelError(
-                nameof(dto.PhoneNumber),
-                "Phone number is required.");
-        }
-
-        if (dto.DateOfBirth == default)
-        {
-            ModelState.AddModelError(
-                nameof(dto.DateOfBirth),
-                "Date of birth is required.");
-        }
-        else if (dto.DateOfBirth.Date > DateTime.Today)
-        {
-            ModelState.AddModelError(
-                nameof(dto.DateOfBirth),
+            throw new ArgumentException(
                 "Date of birth cannot be in the future.");
         }
     }
 
-    private void ValidateAppointment(
-        AppointmentDto dto)
+    private void ValidateAppointment(AppointmentDto dto)
     {
         if (dto.PatientId <= 0)
         {
             ModelState.AddModelError(
                 nameof(dto.PatientId),
-                "Please select a patient.");
+                "Please select a valid patient.");
         }
 
         if (dto.DoctorId <= 0)
         {
             ModelState.AddModelError(
                 nameof(dto.DoctorId),
-                "Please select a doctor.");
+                "Please select a valid doctor.");
         }
 
-        if (dto.AppointmentDateTime == default)
-        {
-            ModelState.AddModelError(
-                nameof(dto.AppointmentDateTime),
-                "Please select an appointment date and time.");
-        }
-        else if (dto.AppointmentDateTime <= DateTime.UtcNow)
+        if (dto.AppointmentDateTime <= DateTime.UtcNow)
         {
             ModelState.AddModelError(
                 nameof(dto.AppointmentDateTime),
@@ -425,7 +423,7 @@ public class ReceptionController : Controller
         {
             ModelState.AddModelError(
                 nameof(dto.Reason),
-                "Please provide a reason for the appointment.");
+                "Appointment reason is required.");
         }
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SmartClinicManagementSystem.Models;
+using SmartClinicManagementSystem.Models.ViewModels;
 using SmartClinicManagementSystem.Services.Interfaces;
 
 namespace SmartClinicManagementSystem.Controllers;
@@ -107,11 +108,20 @@ public class AdminController : Controller
     [HttpGet]
     public async Task<IActionResult> UserManagement()
     {
-        /*
-         * GetAllAsync intentionally returns a safe administrative
-         * projection with PasswordHash excluded.
-         */
-        ViewBag.Users = await _userService.GetAllAsync();
+        var users = await _userService.GetAllAsync();
+
+        ViewBag.Users = users
+            .Select(user => new UserManagementViewModel
+            {
+                Id = user.Id,
+                FullName = user.FullName,
+                Email = user.Email,
+                Role = user.Role,
+                PhoneNumber = user.PhoneNumber,
+                IsActive = user.IsActive,
+                CreatedAtUtc = user.CreatedAtUtc
+            })
+            .ToList();
 
         return View();
     }

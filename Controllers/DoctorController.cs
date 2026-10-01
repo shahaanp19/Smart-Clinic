@@ -262,6 +262,17 @@ public class DoctorController : Controller
 
             return RedirectToAction(nameof(Consultation));
         }
+        catch (ArgumentException ex)
+        {
+            ModelState.AddModelError(
+                string.Empty,
+                ex.Message);
+
+            await PopulateConsultationDataAsync(
+                doctor.Id);
+
+            return View();
+        }
         catch (InvalidOperationException ex)
         {
             ModelState.AddModelError(
@@ -425,6 +436,17 @@ public class DoctorController : Controller
 
             return RedirectToAction(
                 nameof(GeneratePrescription));
+        }
+        catch (ArgumentException ex)
+        {
+            ModelState.AddModelError(
+                string.Empty,
+                ex.Message);
+
+            await PopulatePrescriptionDataAsync(
+                doctor.Id);
+
+            return View();
         }
         catch (InvalidOperationException ex)
         {
