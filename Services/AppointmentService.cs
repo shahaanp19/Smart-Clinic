@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using SmartClinicManagementSystem.Data;
 using SmartClinicManagementSystem.Models;
 using SmartClinicManagementSystem.Services.Interfaces;
@@ -182,7 +183,18 @@ public class AppointmentService : IAppointmentService
         appointment.UpdatedAtUtc = null;
 
         await _context.Appointments.AddAsync(appointment);
-        await _context.SaveChangesAsync();
+
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateException ex)
+            when (IsAppointmentSlotConstraintViolation(ex))
+        {
+            throw new InvalidOperationException(
+                "The selected appointment slot is already booked.",
+                ex);
+        }
 
         return appointment;
     }
@@ -277,7 +289,17 @@ public class AppointmentService : IAppointmentService
         existing.UpdatedAtUtc =
             DateTime.UtcNow;
 
-        await _context.SaveChangesAsync();
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateException ex)
+            when (IsAppointmentSlotConstraintViolation(ex))
+        {
+            throw new InvalidOperationException(
+                "The selected appointment slot is already booked.",
+                ex);
+        }
     }
 
     public async Task<bool> CancelAsync(int id)
@@ -467,5 +489,24 @@ public class AppointmentService : IAppointmentService
         return string.IsNullOrWhiteSpace(value)
             ? null
             : value.Trim();
+    }
+
+    private static bool IsAppointmentSlotConstraintViolation(
+        DbUpdateException exception)
+    {
+        var sqlException = exception
+            .InnerException?
+            .InnerException as SqlException
+            ?? exception.InnerException as SqlException;
+
+        if (sqlException is null)
+        {
+            return false;
+        }
+
+        return sqlException.Number is 2601 or 2627 &&
+               sqlException.Message.Contains(
+                   "UX_Appointments_DoctorId_AppointmentDateTime_Active",
+                   StringComparison.OrdinalIgnoreCase);
     }
 }
