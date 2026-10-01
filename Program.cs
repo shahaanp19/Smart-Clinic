@@ -218,10 +218,9 @@ static async Task InitializeDatabaseAsync(WebApplication app)
         logger.LogInformation(
             "SmartClinic database migration and seeding completed successfully.");
     }
-    catch (Exception exception)
+    catch (Exception)
     {
         logger.LogCritical(
-            exception,
             "SmartClinic database initialization failed.");
 
         throw;

@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using SmartClinicManagementSystem.Data;
 using SmartClinicManagementSystem.Models;
-using SmartClinicManagementSystem.Models.ViewModels;
 using SmartClinicManagementSystem.Services.Interfaces;
 
 namespace SmartClinicManagementSystem.Services;
@@ -35,6 +34,18 @@ public class UserService : IUserService
 
         return await _context.Users
             .AsNoTracking()
+            .Select(u => new User
+            {
+                Id = u.Id,
+                FullName = u.FullName,
+                Email = u.Email,
+                PasswordHash = string.Empty,
+                Role = u.Role,
+                PhoneNumber = u.PhoneNumber,
+                IsActive = u.IsActive,
+                CreatedAtUtc = u.CreatedAtUtc,
+                UpdatedAtUtc = u.UpdatedAtUtc
+            })
             .FirstOrDefaultAsync(u => u.Id == id);
     }
 
@@ -49,8 +60,20 @@ public class UserService : IUserService
 
         return await _context.Users
             .AsNoTracking()
-            .FirstOrDefaultAsync(
-                u => u.Email.ToLower() == normalizedEmail);
+            .Where(u => u.Email == normalizedEmail)
+            .Select(u => new User
+            {
+                Id = u.Id,
+                FullName = u.FullName,
+                Email = u.Email,
+                PasswordHash = string.Empty,
+                Role = u.Role,
+                PhoneNumber = u.PhoneNumber,
+                IsActive = u.IsActive,
+                CreatedAtUtc = u.CreatedAtUtc,
+                UpdatedAtUtc = u.UpdatedAtUtc
+            })
+            .FirstOrDefaultAsync();
     }
 
     public async Task<IReadOnlyList<User>> GetAllAsync()
@@ -82,8 +105,7 @@ public class UserService : IUserService
 
         var emailExists = await _context.Users
             .AsNoTracking()
-            .AnyAsync(u =>
-                u.Email.ToLower() == user.Email);
+            .AnyAsync(u => u.Email == user.Email);
 
         if (emailExists)
         {
@@ -147,7 +169,7 @@ public class UserService : IUserService
             .AsNoTracking()
             .AnyAsync(u =>
                 u.Id != user.Id &&
-                u.Email.ToLower() == user.Email);
+                u.Email == user.Email);
 
         if (duplicateEmail)
         {
