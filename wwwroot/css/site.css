@@ -496,52 +496,95 @@ p {
    CARD SYSTEM
    ============================================================ */
 
-.smart-card,
-.surface-card {
-    height: 100%;
-    background: var(--surface-card);
-    border: 1px solid var(--border);
+/* =========================================================
+   ABOUT + CONTACT CARD REFINEMENT
+   ========================================================= */
+
+.about-content,
+.contact-info-panel,
+.contact-form-card {
+    background: linear-gradient( 145deg, #f4f9fd 0%, #edf6fc 100% );
+    border: 1px solid #d8e8f3;
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-sm);
 }
 
-.smart-card {
-    padding: 26px;
+/* About service cards */
+
+.service-card {
+    background: linear-gradient( 145deg, #f5faff 0%, #edf6fc 100% );
+    border: 1px solid #d9e8f2;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
     transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal);
 }
 
-    .smart-card:hover {
-        transform: translateY(-3px);
-        border-color: #c5d6e5;
+    .service-card:hover {
+        transform: translateY(-4px);
         box-shadow: var(--shadow-md);
+        border-color: #c5ddea;
     }
 
-.smart-card-accent {
-    border-top: 4px solid var(--primary);
+    /* Keep service icons integrated rather than looking like
+   separate decorative blocks */
+
+    .service-card .service-icon {
+        width: 48px;
+        height: 48px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        background: rgba(15, 76, 129, 0.08);
+        color: var(--primary);
+        font-size: 1.35rem;
+    }
+
+/* Contact information rows */
+
+.contact-detail {
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(15, 76, 129, 0.10);
 }
 
-.dashboard-card {
-    height: 100%;
-    padding: 26px;
-    background: var(--surface-card);
-    border: 1px solid var(--border);
-    border-left: 4px solid var(--primary);
+    .contact-detail:last-child {
+        border-bottom: 0;
+    }
+
+.contact-detail-icon {
+    background: rgba(15, 76, 129, 0.08);
+    color: var(--primary);
+    border: 1px solid rgba(15, 76, 129, 0.10);
+}
+
+/* Contact form */
+
+.contact-form-card {
+    background: linear-gradient( 145deg, #f7fbfe 0%, #eef7fc 100% );
+}
+
+    .contact-form-card .smart-input {
+        background: #ffffff;
+        border-color: #d5e3ec;
+    }
+
+        .contact-form-card .smart-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.2rem rgba(15, 76, 129, 0.10);
+        }
+
+/* Location / CTA cards */
+
+.location-banner {
+    background: linear-gradient( 145deg, #f1f8fd 0%, #e8f3fa 100% );
+    border: 1px solid #d5e6f1;
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-sm);
-    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
 }
 
-    .dashboard-card:hover {
-        transform: translateY(-3px);
-        box-shadow: var(--shadow-md);
-    }
-
-    .dashboard-card h3 {
-        margin-bottom: 5px;
-        color: var(--primary);
-        font-size: 2.15rem;
-        font-weight: 800;
-    }
+.contact-banner {
+    border-top: 1px solid #d8e8f3;
+}
 
 
 /* ============================================================
