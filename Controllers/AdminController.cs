@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SmartClinicManagementSystem.Models;
 using SmartClinicManagementSystem.Models.ViewModels;
@@ -11,7 +10,6 @@ namespace SmartClinicManagementSystem.Controllers;
 public class AdminController : Controller
 {
     private readonly IUserService _userService;
-    private readonly PasswordHasher<User> _passwordHasher;
 
     private static readonly string[] AllowedRoles =
     {
@@ -24,14 +22,13 @@ public class AdminController : Controller
     public AdminController(IUserService userService)
     {
         _userService = userService;
-        _passwordHasher = new PasswordHasher<User>();
     }
 
     [HttpGet]
     [AllowAnonymous]
     public IActionResult Login()
     {
-        return View();
+        return RedirectToAction("Login", "Account");
     }
 
     [HttpGet]
@@ -176,11 +173,14 @@ public class AdminController : Controller
             FullName = fullName,
             Email = email.Trim().ToLowerInvariant(),
             Role = NormalizeRole(role),
+
+            // IMPORTANT:
+            // UserService.CreateAsync() is responsible for hashing
+            // the password. Do not hash it here.
+            PasswordHash = password,
+
             IsActive = true
         };
-
-        user.PasswordHash =
-            _passwordHasher.HashPassword(user, password);
 
         try
         {
@@ -281,11 +281,6 @@ public class AdminController : Controller
 
         try
         {
-            /*
-             * User accounts are intentionally deactivated rather than
-             * physically deleted. This preserves the account record and
-             * associated audit information.
-             */
             var deactivated =
                 await _userService.DeactivateAsync(id);
 

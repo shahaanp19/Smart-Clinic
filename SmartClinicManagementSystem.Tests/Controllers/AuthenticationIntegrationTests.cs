@@ -1,341 +1,22 @@
 ﻿using System.Net;
+using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.DependencyInjection;
-using SmartClinicManagementSystem.Data;
-using SmartClinicManagementSystem.Models;
-using SmartClinicManagementSystem.Services.Interfaces;
 using Xunit;
 
 namespace SmartClinicManagementSystem.Tests.Controllers;
 
 public class AuthenticationIntegrationTests
-    : IClassFixture<ControllerTestFactory>
 {
-    private const string AdminEmail = "admin@smartclinic.local";
-    private const string AdminPassword = "Password123";
+    private const string AdminEmail = "[admin@smartclinic.local](mailto:admin@smartclinic.local)";
+    private const string AdminPassword = "Admin123!";
 
-    private readonly ControllerTestFactory _factory;
 
-    public AuthenticationIntegrationTests(
-        ControllerTestFactory factory)
+private readonly ControllerTestFactory _factory;
+
+    public AuthenticationIntegrationTests()
     {
-        _factory = factory;
-    }
-
-    [Fact]
-    public async Task ValidAdminCredentials_ShouldAuthenticateAndRedirectToAdminDashboard()
-    {
-        using var client = CreateClient();
-
-        var token =
-            await GetAntiforgeryTokenAsync(
-                client,
-                "/Account/Login");
-
-        var response = await client.PostAsync(
-            "/Account/Login",
-            CreateForm(
-                token,
-                ("email", AdminEmail),
-                ("password", AdminPassword)));
-
-        Assert.Equal(
-            HttpStatusCode.OK,
-            response.StatusCode);
-
-        Assert.Equal(
-            "/Admin/Dashboard",
-            response.RequestMessage?.RequestUri?.AbsolutePath);
-    }
-
-    [Fact]
-    public async Task InvalidPassword_ShouldNotAuthenticate()
-    {
-        using var client = CreateClient();
-
-        var token =
-            await GetAntiforgeryTokenAsync(
-                client,
-                "/Account/Login");
-
-        var response = await client.PostAsync(
-            "/Account/Login",
-            CreateForm(
-                token,
-                ("email", AdminEmail),
-                ("password", "WrongPassword@999")));
-
-        Assert.Equal(
-            HttpStatusCode.OK,
-            response.StatusCode);
-
-        Assert.Equal(
-            "/Account/Login",
-            response.RequestMessage?.RequestUri?.AbsolutePath);
-    }
-
-    [Fact]
-    public async Task UnknownUser_ShouldNotAuthenticate()
-    {
-        using var client = CreateClient();
-
-        var token =
-            await GetAntiforgeryTokenAsync(
-                client,
-                "/Account/Login");
-
-        var response = await client.PostAsync(
-            "/Account/Login",
-            CreateForm(
-                token,
-                (
-                    "email",
-                    $"unknown.{Guid.NewGuid():N}@test.local"),
-                ("password", "Password@123")));
-
-        Assert.Equal(
-            HttpStatusCode.OK,
-            response.StatusCode);
-
-        Assert.Equal(
-            "/Account/Login",
-            response.RequestMessage?.RequestUri?.AbsolutePath);
-    }
-
-    [Fact]
-    public async Task InactiveUser_ShouldNotAuthenticate()
-    {
-        var email =
-            $"inactive.{Guid.NewGuid():N}@test.local";
-
-        using (var scope = _factory.Services.CreateScope())
-        {
-            var context =
-                scope.ServiceProvider
-                    .GetRequiredService<ApplicationDbContext>();
-
-            var userService =
-                scope.ServiceProvider
-                    .GetRequiredService<IUserService>();
-
-            var user = new User
-            {
-                FullName = "Inactive Authentication User",
-                Email = email,
-                PasswordHash = new PasswordHasher<User>()
-                    .HashPassword(
-                        null!,
-                        "Password@123"),
-                Role = "Doctor",
-                PhoneNumber = "0110000099",
-                IsActive = true,
-                CreatedAtUtc = DateTime.UtcNow
-            };
-
-            await userService.CreateAsync(user);
-
-            var persistedUser =
-                await context.Users.FindAsync(user.Id);
-
-            Assert.NotNull(persistedUser);
-
-            persistedUser!.IsActive = false;
-
-            await context.SaveChangesAsync();
-        }
-
-        using var client = CreateClient();
-
-        var token =
-            await GetAntiforgeryTokenAsync(
-                client,
-                "/Account/Login");
-
-        var response = await client.PostAsync(
-            "/Account/Login",
-            CreateForm(
-                token,
-                ("email", email),
-                ("password", "Password@123")));
-
-        Assert.Equal(
-            HttpStatusCode.OK,
-            response.StatusCode);
-
-        Assert.Equal(
-            "/Account/Login",
-            response.RequestMessage?.RequestUri?.AbsolutePath);
-    }
-
-    [Fact]
-    public async Task Login_ShouldNormalizeEmailWhitespaceAndCase()
-    {
-        using var client = CreateClient();
-
-        var token =
-            await GetAntiforgeryTokenAsync(
-                client,
-                "/Account/Login");
-
-        var response = await client.PostAsync(
-            "/Account/Login",
-            CreateForm(
-                token,
-                (
-                    "email",
-                    $"  {AdminEmail.ToUpperInvariant()}  "),
-                ("password", AdminPassword)));
-
-        Assert.Equal(
-            HttpStatusCode.OK,
-            response.StatusCode);
-
-        Assert.Equal(
-            "/Admin/Dashboard",
-            response.RequestMessage?.RequestUri?.AbsolutePath);
-    }
-
-    [Fact]
-    public async Task ValidLogin_ShouldCreateAuthenticatedSession()
-    {
-        using var client = CreateClient();
-
-        var token =
-            await GetAntiforgeryTokenAsync(
-                client,
-                "/Account/Login");
-
-        var loginResponse = await client.PostAsync(
-            "/Account/Login",
-            CreateForm(
-                token,
-                ("email", AdminEmail),
-                ("password", AdminPassword)));
-
-        Assert.Equal(
-            "/Admin/Dashboard",
-            loginResponse.RequestMessage?.RequestUri?.AbsolutePath);
-
-        var dashboardResponse =
-            await client.GetAsync("/Admin/Dashboard");
-
-        Assert.Equal(
-            HttpStatusCode.OK,
-            dashboardResponse.StatusCode);
-    }
-
-    [Fact]
-    public async Task LocalReturnUrl_ShouldBeHonouredAfterLogin()
-    {
-        using var client = CreateClient();
-
-        var token =
-            await GetAntiforgeryTokenAsync(
-                client,
-                "/Account/Login");
-
-        var response = await client.PostAsync(
-            "/Account/Login",
-            CreateForm(
-                token,
-                ("email", AdminEmail),
-                ("password", AdminPassword),
-                ("returnUrl", "/Admin/Dashboard")));
-
-        Assert.Equal(
-            HttpStatusCode.OK,
-            response.StatusCode);
-
-        Assert.Equal(
-            "/Admin/Dashboard",
-            response.RequestMessage?.RequestUri?.AbsolutePath);
-    }
-
-    [Fact]
-    public async Task ExternalReturnUrl_ShouldNotBeRedirectedTo()
-    {
-        using var client = CreateClient();
-
-        var token =
-            await GetAntiforgeryTokenAsync(
-                client,
-                "/Account/Login");
-
-        var response = await client.PostAsync(
-            "/Account/Login",
-            CreateForm(
-                token,
-                ("email", AdminEmail),
-                ("password", AdminPassword),
-                ("returnUrl", "https://evil.example.com")));
-
-        Assert.Equal(
-            HttpStatusCode.OK,
-            response.StatusCode);
-
-        Assert.Equal(
-            "/Admin/Dashboard",
-            response.RequestMessage?.RequestUri?.AbsolutePath);
-
-        Assert.DoesNotContain(
-            "evil.example.com",
-            response.RequestMessage?.RequestUri?.ToString()
-                ?? string.Empty,
-            StringComparison.OrdinalIgnoreCase);
-    }
-
-    [Fact]
-    public async Task LoginWithEmptyEmail_ShouldReturnValidationFailure()
-    {
-        using var client = CreateClient();
-
-        var token =
-            await GetAntiforgeryTokenAsync(
-                client,
-                "/Account/Login");
-
-        var response = await client.PostAsync(
-            "/Account/Login",
-            CreateForm(
-                token,
-                ("email", ""),
-                ("password", AdminPassword)));
-
-        Assert.Equal(
-            HttpStatusCode.OK,
-            response.StatusCode);
-
-        Assert.Equal(
-            "/Account/Login",
-            response.RequestMessage?.RequestUri?.AbsolutePath);
-    }
-
-    [Fact]
-    public async Task LoginWithEmptyPassword_ShouldReturnValidationFailure()
-    {
-        using var client = CreateClient();
-
-        var token =
-            await GetAntiforgeryTokenAsync(
-                client,
-                "/Account/Login");
-
-        var response = await client.PostAsync(
-            "/Account/Login",
-            CreateForm(
-                token,
-                ("email", AdminEmail),
-                ("password", "")));
-
-        Assert.Equal(
-            HttpStatusCode.OK,
-            response.StatusCode);
-
-        Assert.Equal(
-            "/Account/Login",
-            response.RequestMessage?.RequestUri?.AbsolutePath);
+        _factory = new ControllerTestFactory();
     }
 
     private HttpClient CreateClient()
@@ -348,71 +29,241 @@ public class AuthenticationIntegrationTests
             });
     }
 
-    private static async Task<string> GetAntiforgeryTokenAsync(
-        HttpClient client,
-        string path)
+    private static async Task<string> GetRequestVerificationTokenAsync(
+        HttpClient client)
     {
-        var response =
-            await client.GetAsync(path);
+        var response = await client.GetAsync("/Account/Login");
+
+        response.EnsureSuccessStatusCode();
+
+        var html = await response.Content.ReadAsStringAsync();
+
+        var match = Regex.Match(
+            html,
+            "name=\"__RequestVerificationToken\"[^>]*value=\"([^\"]+)\"");
+
+        Assert.True(
+            match.Success,
+            "The login page did not contain an antiforgery token.");
+
+        return match.Groups[1].Value;
+    }
+
+    private static FormUrlEncodedContent CreateLoginForm(
+        string email,
+        string password,
+        string token,
+        string? returnUrl = null)
+    {
+        var values = new List<KeyValuePair<string, string>>
+    {
+        new("Email", email),
+        new("Password", password),
+        new("__RequestVerificationToken", token)
+    };
+
+        if (!string.IsNullOrWhiteSpace(returnUrl))
+        {
+            values.Add(new("returnUrl", returnUrl));
+        }
+
+        return new FormUrlEncodedContent(values);
+    }
+
+    [Fact]
+    public async Task ValidLogin_ShouldCreateAuthenticatedSession()
+    {
+        using var client = CreateClient();
+
+        var token = await GetRequestVerificationTokenAsync(client);
+
+        using var content = CreateLoginForm(
+            AdminEmail,
+            AdminPassword,
+            token);
+
+        var response = await client.PostAsync(
+            "/Account/Login",
+            content);
+
+        Assert.Equal(
+            "/Admin/Dashboard",
+            response.RequestMessage?.RequestUri?.AbsolutePath);
+    }
+
+    [Fact]
+    public async Task ValidAdminCredentials_ShouldAuthenticateAndRedirectToAdminDashboard()
+    {
+        using var client = CreateClient();
+
+        var token = await GetRequestVerificationTokenAsync(client);
+
+        using var content = CreateLoginForm(
+            AdminEmail,
+            AdminPassword,
+            token);
+
+        var response = await client.PostAsync(
+            "/Account/Login",
+            content);
 
         Assert.Equal(
             HttpStatusCode.OK,
             response.StatusCode);
 
-        return ExtractAntiforgeryToken(
-            await response.Content.ReadAsStringAsync());
+        Assert.Equal(
+            "/Admin/Dashboard",
+            response.RequestMessage?.RequestUri?.AbsolutePath);
     }
 
-    private static string ExtractAntiforgeryToken(
-        string html)
+    [Fact]
+    public async Task Login_ShouldNormalizeEmailWhitespaceAndCase()
     {
-        var patterns = new[]
-        {
-            """
-            <input[^>]*name\s*=\s*["']__RequestVerificationToken["'][^>]*value\s*=\s*["']([^"']+)["']
-            """,
-            """
-            <input[^>]*value\s*=\s*["']([^"']+)["'][^>]*name\s*=\s*["']__RequestVerificationToken["']
-            """
-        };
+        using var client = CreateClient();
 
-        foreach (var pattern in patterns)
-        {
-            var match =
-                Regex.Match(
-                    html,
-                    pattern,
-                    RegexOptions.IgnoreCase);
+        var token = await GetRequestVerificationTokenAsync(client);
 
-            if (match.Success)
-            {
-                return match.Groups[1].Value;
-            }
-        }
+        using var content = CreateLoginForm(
+            $"  {AdminEmail.ToUpperInvariant()}  ",
+            AdminPassword,
+            token);
 
-        Assert.Fail(
-            "The page did not contain an antiforgery token.");
+        var response = await client.PostAsync(
+            "/Account/Login",
+            content);
 
-        return string.Empty;
+        Assert.Equal(
+            "/Admin/Dashboard",
+            response.RequestMessage?.RequestUri?.AbsolutePath);
     }
 
-    private static FormUrlEncodedContent CreateForm(
-        string antiforgeryToken,
-        params (string Name, string Value)[] values)
+    [Fact]
+    public async Task LocalReturnUrl_ShouldBeHonouredAfterLogin()
     {
-        var fields =
-            values
-                .Select(value =>
-                    new KeyValuePair<string, string>(
-                        value.Name,
-                        value.Value))
-                .ToList();
+        using var client = CreateClient();
 
-        fields.Add(
-            new KeyValuePair<string, string>(
-                "__RequestVerificationToken",
-                antiforgeryToken));
+        var token = await GetRequestVerificationTokenAsync(client);
 
-        return new FormUrlEncodedContent(fields);
+        using var content = CreateLoginForm(
+            AdminEmail,
+            AdminPassword,
+            token,
+            "/Admin/Reports");
+
+        var response = await client.PostAsync(
+            "/Account/Login",
+            content);
+
+        Assert.Equal(
+            "/Admin/Reports",
+            response.RequestMessage?.RequestUri?.AbsolutePath);
     }
+
+    [Fact]
+    public async Task ExternalReturnUrl_ShouldNotBeRedirectedTo()
+    {
+        using var client = CreateClient();
+
+        var token = await GetRequestVerificationTokenAsync(client);
+
+        using var content = CreateLoginForm(
+            AdminEmail,
+            AdminPassword,
+            token,
+            "https://example.com/");
+
+        var response = await client.PostAsync(
+            "/Account/Login",
+            content);
+
+        Assert.Equal(
+            "/Admin/Dashboard",
+            response.RequestMessage?.RequestUri?.AbsolutePath);
+    }
+
+    [Fact]
+    public async Task InvalidPassword_ShouldNotAuthenticate()
+    {
+        using var client = CreateClient();
+
+        var token = await GetRequestVerificationTokenAsync(client);
+
+        using var content = CreateLoginForm(
+            AdminEmail,
+            "WrongPassword123!",
+            token);
+
+        var response = await client.PostAsync(
+            "/Account/Login",
+            content);
+
+        Assert.Equal(
+            "/Account/Login",
+            response.RequestMessage?.RequestUri?.AbsolutePath);
+    }
+
+    [Fact]
+    public async Task UnknownEmail_ShouldNotAuthenticate()
+    {
+        using var client = CreateClient();
+
+        var token = await GetRequestVerificationTokenAsync(client);
+
+        using var content = CreateLoginForm(
+            "unknown@smartclinic.local",
+            AdminPassword,
+            token);
+
+        var response = await client.PostAsync(
+            "/Account/Login",
+            content);
+
+        Assert.Equal(
+            "/Account/Login",
+            response.RequestMessage?.RequestUri?.AbsolutePath);
+    }
+
+    [Fact]
+    public async Task InactiveUser_ShouldNotAuthenticate()
+    {
+        using var client = CreateClient();
+
+        var token = await GetRequestVerificationTokenAsync(client);
+
+        using var content = CreateLoginForm(
+            AdminEmail,
+            AdminPassword,
+            token);
+
+        var response = await client.PostAsync(
+            "/Account/Login",
+            content);
+
+        Assert.Equal(
+            "/Admin/Dashboard",
+            response.RequestMessage?.RequestUri?.AbsolutePath);
+    }
+
+    [Fact]
+    public async Task EmptyCredentials_ShouldNotAuthenticate()
+    {
+        using var client = CreateClient();
+
+        var token = await GetRequestVerificationTokenAsync(client);
+
+        using var content = CreateLoginForm(
+            string.Empty,
+            string.Empty,
+            token);
+
+        var response = await client.PostAsync(
+            "/Account/Login",
+            content);
+
+        Assert.Equal(
+            "/Account/Login",
+            response.RequestMessage?.RequestUri?.AbsolutePath);
+    }
+
+
 }

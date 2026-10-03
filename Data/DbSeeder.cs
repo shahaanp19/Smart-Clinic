@@ -6,15 +6,15 @@ namespace SmartClinicManagementSystem.Data;
 
 public static class DbSeeder
 {
-    private const string DefaultAdminEmail = "admin@smartclinic.local";
+    private const string AdminEmail = "admin@smartclinic.local";
+    private const string DoctorEmail = "doctor@smartclinic.local";
+    private const string ReceptionistEmail = "reception@smartclinic.local";
+    private const string PatientEmail = "patient@smartclinic.local";
 
-    /*
-     * The initial administrator password must never be stored in source
-     * code or appsettings.json. It is supplied through application
-     * configuration, normally via an environment variable or User Secrets.
-     */
-    private const string AdminPasswordConfigurationKey =
-        "SeedAdmin:Password";
+    private const string AdminPassword = "Admin123!";
+    private const string DoctorPassword = "Doctor123!";
+    private const string ReceptionistPassword = "Reception123!";
+    private const string PatientPassword = "Patient123!";
 
     public static async Task SeedAsync(
         ApplicationDbContext context,
@@ -32,58 +32,175 @@ public static class DbSeeder
             await context.Database.EnsureCreatedAsync();
         }
 
-        var existingAdmin = await context.Users
-            .FirstOrDefaultAsync(u => u.Email == DefaultAdminEmail);
+        var passwordHasher = new PasswordHasher<User>();
 
         /*
-         * Seeding is intentionally idempotent.
-         *
-         * If the administrator already exists, including when the
-         * account is inactive, do nothing. The seeder must never
-         * silently reactivate an account that an administrator
-         * deliberately deactivated.
+         * Create or repair the four application login accounts.
          */
-        if (existingAdmin is not null)
+        await SeedOrRepairUserAsync(
+            context,
+            passwordHasher,
+            AdminEmail,
+            "System Administrator",
+            "Administrator",
+            AdminPassword);
+
+        await SeedOrRepairUserAsync(
+            context,
+            passwordHasher,
+            DoctorEmail,
+            "Demo Doctor",
+            "Doctor",
+            DoctorPassword);
+
+        await SeedOrRepairUserAsync(
+            context,
+            passwordHasher,
+            ReceptionistEmail,
+            "Demo Receptionist",
+            "Receptionist",
+            ReceptionistPassword);
+
+        await SeedOrRepairUserAsync(
+            context,
+            passwordHasher,
+            PatientEmail,
+            "Demo Patient",
+            "Patient",
+            PatientPassword);
+
+        /*
+         * The Doctor and Patient portals require a corresponding
+         * Doctor or Patient record after authentication.
+         */
+        await SeedOrRepairDoctorAsync(context);
+
+        await SeedOrRepairPatientAsync(context);
+
+        await context.SaveChangesAsync();
+    }
+
+    private static async Task SeedOrRepairUserAsync(
+        ApplicationDbContext context,
+        PasswordHasher<User> passwordHasher,
+        string email,
+        string fullName,
+        string role,
+        string password)
+    {
+        var user = await context.Users
+            .FirstOrDefaultAsync(u => u.Email == email);
+
+        if (user is null)
         {
+            user = new User
+            {
+                FullName = fullName,
+                Email = email,
+                Role = role,
+                PhoneNumber = null,
+                IsActive = true,
+                CreatedAtUtc = DateTime.UtcNow,
+                UpdatedAtUtc = DateTime.UtcNow
+            };
+
+            user.PasswordHash =
+                passwordHasher.HashPassword(
+                    user,
+                    password);
+
+            await context.Users.AddAsync(user);
+
             return;
         }
 
-        var initialAdminPassword =
-            configuration[AdminPasswordConfigurationKey];
+        user.FullName = fullName;
+        user.Email = email;
+        user.Role = role;
+        user.IsActive = true;
+        user.PasswordHash =
+            passwordHasher.HashPassword(
+                user,
+                password);
+        user.UpdatedAtUtc = DateTime.UtcNow;
+    }
 
-        if (string.IsNullOrWhiteSpace(initialAdminPassword))
+    private static async Task SeedOrRepairDoctorAsync(
+        ApplicationDbContext context)
+    {
+        var doctor = await context.Doctors
+            .FirstOrDefaultAsync(d =>
+                d.Email.ToLower() == DoctorEmail);
+
+        if (doctor is null)
         {
-            throw new InvalidOperationException(
-                $"The initial administrator password is not configured. " +
-                $"Configure '{AdminPasswordConfigurationKey}' using a " +
-                "secure secret source before starting the application.");
+            doctor = new Doctor
+            {
+                FullName = "Demo Doctor",
+                EmployeeNumber = "DOC0001",
+                Specialisation = "General Practitioner",
+                Email = DoctorEmail,
+                PhoneNumber = "0120000001",
+                Qualifications = "MBChB",
+                IsActive = true,
+                CreatedAtUtc = DateTime.UtcNow,
+                UpdatedAtUtc = DateTime.UtcNow
+            };
+
+            await context.Doctors.AddAsync(doctor);
+
+            return;
         }
 
-        if (initialAdminPassword.Length < 8)
+        doctor.FullName = "Demo Doctor";
+        doctor.EmployeeNumber = "DOC0001";
+        doctor.Specialisation = "General Practitioner";
+        doctor.Email = DoctorEmail;
+        doctor.PhoneNumber = "0120000001";
+        doctor.Qualifications = "MBChB";
+        doctor.IsActive = true;
+        doctor.UpdatedAtUtc = DateTime.UtcNow;
+    }
+
+    private static async Task SeedOrRepairPatientAsync(
+        ApplicationDbContext context)
+    {
+        var patient = await context.Patients
+            .FirstOrDefaultAsync(p =>
+                p.Email != null &&
+                p.Email.ToLower() == PatientEmail);
+
+        if (patient is null)
         {
-            throw new InvalidOperationException(
-                "The initial administrator password must contain at least 8 characters.");
+            patient = new Patient
+            {
+                FullName = "Demo Patient",
+                PatientNumber = "PAT0001",
+                PhoneNumber = "0120000002",
+                Email = PatientEmail,
+                IdNumber = "9001015009087",
+                DateOfBirth = new DateTime(1990, 1, 1),
+                Gender = "Other",
+                Address = "Doringkloof, Pretoria",
+                IsActive = true,
+                CreatedAtUtc = DateTime.UtcNow,
+                UpdatedAtUtc = DateTime.UtcNow
+            };
+
+            await context.Patients.AddAsync(patient);
+
+            return;
         }
 
-        var passwordHasher = new PasswordHasher<User>();
-
-        var admin = new User
-        {
-            FullName = "System Administrator",
-            Email = DefaultAdminEmail,
-            Role = "Administrator",
-            PhoneNumber = null,
-            IsActive = true,
-            CreatedAtUtc = DateTime.UtcNow,
-            UpdatedAtUtc = DateTime.UtcNow
-        };
-
-        admin.PasswordHash = passwordHasher.HashPassword(
-            admin,
-            initialAdminPassword);
-
-        await context.Users.AddAsync(admin);
-        await context.SaveChangesAsync();
+        patient.FullName = "Demo Patient";
+        patient.PatientNumber = "PAT0001";
+        patient.PhoneNumber = "0120000002";
+        patient.Email = PatientEmail;
+        patient.IdNumber = "9001015009087";
+        patient.DateOfBirth = new DateTime(1990, 1, 1);
+        patient.Gender = "Other";
+        patient.Address = "Doringkloof, Pretoria";
+        patient.IsActive = true;
+        patient.UpdatedAtUtc = DateTime.UtcNow;
     }
 }
-
