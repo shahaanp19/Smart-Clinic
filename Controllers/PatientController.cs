@@ -1,171 +1,346 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Concurrent;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using SmartClinicManagementSystem.DTOs;
+using SmartClinicManagementSystem.Services.Interfaces;
+using SmartClinicManagementSystem.Services.Mappers;
 
-namespace SmartClinicManagementSystem.Controllers
+namespace SmartClinicManagementSystem.Controllers;
+
+[Authorize(Policy = "PatientOnly")]
+public class PatientController : Controller
 {
-    public class PatientController : Controller
+    private readonly IPatientService _patientService;
+    private readonly IAppointmentService _appointmentService;
+    private readonly IDoctorService _doctorService;
+
+    public PatientController(
+        IPatientService patientService,
+        IAppointmentService appointmentService,
+        IDoctorService doctorService)
     {
-        private static readonly ConcurrentDictionary<int, AppointmentRecord> Appointments = new();
-        private static int _nextAppointmentId = 1;
+        _patientService = patientService;
+        _appointmentService = appointmentService;
+        _doctorService = doctorService;
+    }
 
-        public IActionResult Login()
+    [HttpGet]
+    [AllowAnonymous]
+    public IActionResult Login()
+    {
+        return RedirectToAction("Login", "Account");
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Dashboard()
+    {
+        var patient = await GetCurrentPatientAsync();
+
+        if (patient is null)
         {
-            return View();
+            await SignOutInvalidPatientSessionAsync();
+            return RedirectToAction("Login", "Account");
         }
 
-        public IActionResult Dashboard()
+        return View(DtoMapper.ToDto(patient));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> BookAppointment()
+    {
+        var patient = await GetCurrentPatientAsync();
+
+        if (patient is null)
         {
-            return View();
+            await SignOutInvalidPatientSessionAsync();
+            return RedirectToAction("Login", "Account");
         }
 
-        [HttpGet]
-        public IActionResult BookAppointment()
-        {
-            ViewBag.Appointments = Appointments.Values
-                .OrderByDescending(a => a.AppointmentDate)
-                .ToList();
+        await PopulateAppointmentViewDataAsync(patient.Id);
 
-            return View();
+        return View();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> BookAppointment(AppointmentDto dto)
+    {
+        var patient = await GetCurrentPatientAsync();
+
+        if (patient is null)
+        {
+            await SignOutInvalidPatientSessionAsync();
+            return RedirectToAction("Login", "Account");
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult BookAppointment(
-            string doctor,
-            string medicalDivision,
-            DateTime appointmentDate,
-            string appointmentTime,
-            string reason)
+        if (dto.DoctorId <= 0)
         {
-            if (string.IsNullOrWhiteSpace(doctor))
-                ModelState.AddModelError("doctor", "Please select a doctor.");
+            ModelState.AddModelError(
+                nameof(dto.DoctorId),
+                "Please select a doctor.");
+        }
 
-            if (string.IsNullOrWhiteSpace(medicalDivision))
-                ModelState.AddModelError("medicalDivision", "Please select a medical division.");
+        if (dto.AppointmentDateTime <= DateTime.UtcNow)
+        {
+            ModelState.AddModelError(
+                nameof(dto.AppointmentDateTime),
+                "Appointment date and time must be in the future.");
+        }
 
-            if (appointmentDate.Date < DateTime.Today)
-                ModelState.AddModelError("appointmentDate", "Appointment date cannot be in the past.");
+        if (string.IsNullOrWhiteSpace(dto.Reason))
+        {
+            ModelState.AddModelError(
+                nameof(dto.Reason),
+                "Please provide a reason for the appointment.");
+        }
 
-            if (string.IsNullOrWhiteSpace(appointmentTime))
-                ModelState.AddModelError("appointmentTime", "Please select an appointment time.");
+        if (!ModelState.IsValid)
+        {
+            await PopulateAppointmentViewDataAsync(patient.Id);
+            return View(dto);
+        }
 
-            if (string.IsNullOrWhiteSpace(reason))
-                ModelState.AddModelError("reason", "Please provide a reason for the appointment.");
+        var doctor =
+            await _doctorService.GetByIdAsync(dto.DoctorId);
 
-            if (!ModelState.IsValid)
-            {
-                ViewBag.Appointments = Appointments.Values
-                    .OrderByDescending(a => a.AppointmentDate)
-                    .ToList();
+        if (doctor is null || !doctor.IsActive)
+        {
+            ModelState.AddModelError(
+                nameof(dto.DoctorId),
+                "The selected doctor is not available.");
 
-                return View();
-            }
+            await PopulateAppointmentViewDataAsync(patient.Id);
+            return View(dto);
+        }
 
-            bool slotTaken = Appointments.Values.Any(a =>
-                a.Doctor.Equals(doctor, StringComparison.OrdinalIgnoreCase) &&
-                a.AppointmentDate.Date == appointmentDate.Date &&
-                a.AppointmentTime.Equals(appointmentTime, StringComparison.OrdinalIgnoreCase) &&
-                a.Status != "Cancelled");
+        var appointment = DtoMapper.ToEntity(dto);
 
-            if (slotTaken)
-            {
-                ModelState.AddModelError(
-                    "appointmentTime",
-                    "The selected appointment slot is no longer available.");
+        appointment.PatientId = patient.Id;
+        appointment.Status = "Scheduled";
 
-                ViewBag.Appointments = Appointments.Values
-                    .OrderByDescending(a => a.AppointmentDate)
-                    .ToList();
-
-                return View();
-            }
-
-            int appointmentId = Interlocked.Increment(ref _nextAppointmentId);
-
-            var appointment = new AppointmentRecord
-            {
-                AppointmentId = appointmentId,
-                PatientName = User.Identity?.Name ?? "Current Patient",
-                Doctor = doctor,
-                MedicalDivision = medicalDivision,
-                AppointmentDate = appointmentDate,
-                AppointmentTime = appointmentTime,
-                Reason = reason,
-                Status = "Confirmed",
-                CreatedAt = DateTime.UtcNow
-            };
-
-            Appointments.TryAdd(appointmentId, appointment);
+        try
+        {
+            await _appointmentService.CreateAsync(appointment);
 
             TempData["SuccessMessage"] =
-                $"Appointment #{appointmentId} has been successfully booked.";
+                "Your appointment has been successfully booked.";
+
+            return RedirectToAction(nameof(BookAppointment));
+        }
+        catch (ArgumentException ex)
+        {
+            ModelState.AddModelError(
+                string.Empty,
+                ex.Message);
+
+            await PopulateAppointmentViewDataAsync(patient.Id);
+
+            return View(dto);
+        }
+        catch (InvalidOperationException ex)
+        {
+            ModelState.AddModelError(
+                string.Empty,
+                ex.Message);
+
+            await PopulateAppointmentViewDataAsync(patient.Id);
+
+            return View(dto);
+        }
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> CancelAppointment(int id)
+    {
+        var patient = await GetCurrentPatientAsync();
+
+        if (patient is null)
+        {
+            await SignOutInvalidPatientSessionAsync();
+            return RedirectToAction("Login", "Account");
+        }
+
+        if (id <= 0)
+        {
+            TempData["ErrorMessage"] =
+                "The selected appointment could not be found.";
 
             return RedirectToAction(nameof(BookAppointment));
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult CancelAppointment(int id)
+        var appointment =
+            await _appointmentService.GetByIdAsync(id);
+
+        if (appointment is null ||
+            appointment.PatientId != patient.Id)
         {
-            if (Appointments.TryGetValue(id, out var appointment))
-            {
-                appointment.Status = "Cancelled";
-                TempData["SuccessMessage"] =
-                    $"Appointment #{id} has been cancelled successfully.";
-            }
-            else
-            {
-                TempData["ErrorMessage"] =
-                    "The selected appointment could not be found.";
-            }
+            TempData["ErrorMessage"] =
+                "The selected appointment could not be found.";
 
             return RedirectToAction(nameof(BookAppointment));
         }
 
-        public IActionResult MedicalHistory()
+        if (appointment.Status.Equals(
+                "Cancelled",
+                StringComparison.OrdinalIgnoreCase))
         {
-            return View();
+            TempData["ErrorMessage"] =
+                "This appointment has already been cancelled.";
+
+            return RedirectToAction(nameof(BookAppointment));
         }
 
-        public IActionResult Notifications()
+        try
         {
-            return View();
+            var cancelled =
+                await _appointmentService.CancelAsync(id);
+
+            TempData[cancelled
+                ? "SuccessMessage"
+                : "ErrorMessage"] =
+                cancelled
+                    ? "Your appointment has been cancelled successfully."
+                    : "The appointment could not be cancelled.";
+        }
+        catch (ArgumentException ex)
+        {
+            TempData["ErrorMessage"] = ex.Message;
+        }
+        catch (InvalidOperationException ex)
+        {
+            TempData["ErrorMessage"] = ex.Message;
         }
 
-        public IActionResult PatientIntakeForm()
+        return RedirectToAction(nameof(BookAppointment));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> MedicalHistory()
+    {
+        if (!await EnsureCurrentPatientAsync())
         {
-            return View();
+            return RedirectToAction("Login", "Account");
         }
 
-        public IActionResult Profile()
+        return View();
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Notifications()
+    {
+        if (!await EnsureCurrentPatientAsync())
         {
-            return View();
+            return RedirectToAction("Login", "Account");
         }
 
-        public IActionResult Settings()
+        return View();
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> PatientIntakeForm()
+    {
+        var patient = await GetCurrentPatientAsync();
+
+        if (patient is null)
         {
-            return View();
+            await SignOutInvalidPatientSessionAsync();
+            return RedirectToAction("Login", "Account");
         }
 
-        public class AppointmentRecord
+        return View(DtoMapper.ToDto(patient));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Profile()
+    {
+        var patient = await GetCurrentPatientAsync();
+
+        if (patient is null)
         {
-            public int AppointmentId { get; set; }
-
-            public string PatientName { get; set; } = string.Empty;
-
-            public string Doctor { get; set; } = string.Empty;
-
-            public string MedicalDivision { get; set; } = string.Empty;
-
-            public DateTime AppointmentDate { get; set; }
-
-            public string AppointmentTime { get; set; } = string.Empty;
-
-            public string Reason { get; set; } = string.Empty;
-
-            public string Status { get; set; } = "Confirmed";
-
-            public DateTime CreatedAt { get; set; }
+            await SignOutInvalidPatientSessionAsync();
+            return RedirectToAction("Login", "Account");
         }
+
+        return View(DtoMapper.ToDto(patient));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Settings()
+    {
+        var patient = await GetCurrentPatientAsync();
+
+        if (patient is null)
+        {
+            await SignOutInvalidPatientSessionAsync();
+            return RedirectToAction("Login", "Account");
+        }
+
+        return View(DtoMapper.ToDto(patient));
+    }
+
+    private async Task<Models.Patient?> GetCurrentPatientAsync()
+    {
+        var email = User.Identity?.Name;
+
+        if (string.IsNullOrWhiteSpace(email))
+        {
+            return null;
+        }
+
+        var patient =
+            await _patientService.GetByEmailAsync(email);
+
+        if (patient is null || !patient.IsActive)
+        {
+            return null;
+        }
+
+        return patient;
+    }
+
+    private async Task<bool> EnsureCurrentPatientAsync()
+    {
+        var patient = await GetCurrentPatientAsync();
+
+        if (patient is not null)
+        {
+            return true;
+        }
+
+        await SignOutInvalidPatientSessionAsync();
+        return false;
+    }
+
+    private async Task PopulateAppointmentViewDataAsync(
+        int patientId)
+    {
+        var fromUtc = DateTime.UtcNow;
+        var toUtc = fromUtc.AddMonths(3);
+
+        var appointments =
+            await _appointmentService.GetByPatientAsync(
+                patientId,
+                fromUtc,
+                toUtc);
+
+        var doctors =
+            await _doctorService.GetAllAsync();
+
+        ViewBag.Appointments = appointments
+            .Select(DtoMapper.ToDto)
+            .ToList();
+
+        ViewBag.Doctors = doctors
+            .Where(d => d.IsActive)
+            .Select(DtoMapper.ToDto)
+            .ToList();
+    }
+
+    private async Task SignOutInvalidPatientSessionAsync()
+    {
+        await HttpContext.SignOutAsync(
+            Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults
+                .AuthenticationScheme);
     }
 }

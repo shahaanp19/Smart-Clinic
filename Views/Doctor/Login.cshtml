@@ -1,41 +1,101 @@
-﻿@{
+﻿```cshtml
+@{
     ViewData["Title"] = "Doctor Login";
 }
 
 <section class="login-section">
     <div class="container">
         <div class="row justify-content-center align-items-center min-vh-75">
-            <div class="col-lg-5">
+            <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
+
                 <div class="smart-card login-card">
-                    <div class="text-center mb-4">
-                        <i class="bi bi-clipboard2-pulse login-icon"></i>
-                        <h1 class="dashboard-title mt-3">Doctor Login</h1>
-                        <p class="text-muted">Access your clinical dashboard.</p>
+
+                    <div class="text-center login-header">
+                        <div class="login-icon-wrapper">
+                            <i class="bi bi-clipboard2-pulse login-icon"></i>
+                        </div>
+
+                        <h1 class="login-title">
+                            Doctor Login
+                        </h1>
+
+                        <p class="login-subtitle">
+                            Sign in to your clinical portal.
+                        </p>
                     </div>
 
-                    <form>
-                        <div class="mb-3">
-                            <label class="form-label smart-label">Email Address</label>
-                            <input type="email" class="form-control smart-input" value="doctor@smartclinic.co.za" />
+                    <form class="login-form">
+
+                        <div class="login-field">
+                            <label for="doctorEmail" class="form-label smart-label">
+                                Email Address
+                            </label>
+
+                            <div class="login-input-wrapper">
+                                <i class="bi bi-envelope login-input-icon"></i>
+
+                                <input id="doctorEmail"
+                                       type="email"
+                                       class="form-control smart-input login-input"
+                                       placeholder="doctor@smartclinic.co.za"
+                                       value="doctor@smartclinic.co.za"
+                                       readonly />
+                            </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label smart-label">Password</label>
-                            <input type="password" class="form-control smart-input" value="password123" />
+                        <div class="login-field">
+                            <label for="doctorPassword" class="form-label smart-label">
+                                Password
+                            </label>
+
+                            <div class="login-input-wrapper">
+                                <i class="bi bi-lock login-input-icon"></i>
+
+                                <input id="doctorPassword"
+                                       type="password"
+                                       class="form-control smart-input login-input"
+                                       value="password123"
+                                       readonly />
+                            </div>
                         </div>
 
-                        <div class="d-grid mt-4">
-                            <a asp-controller="Doctor" asp-action="Dashboard" class="smart-btn-primary text-decoration-none text-center">
-                                Login as Doctor
+                        <div class="d-grid login-action">
+                            <a asp-controller="Doctor"
+                                   asp-action="Dashboard"
+                                   class="smart-btn-primary login-button text-decoration-none text-center">
+                                Login
                             </a>
                         </div>
+
                     </form>
 
-                    <div class="text-center mt-4">
-                        <p class="text-muted mb-0">Prototype only — dummy login interface</p>
+                    <div class="prototype-login-details">
+                        <div class="prototype-login-title">
+                            <i class="bi bi-info-circle me-2"></i>
+                            Prototype Login
+                        </div>
+
+                        <div class="prototype-login-row">
+                            <span>Email</span>
+                            <strong>doctor@smartclinic.co.za</strong>
+                        </div>
+
+                        <div class="prototype-login-row">
+                            <span>Password</span>
+                            <strong>password123</strong>
+                        </div>
                     </div>
+
+                    <div class="login-footer text-center">
+                        <span>
+                            Smart Clinic Clinical Portal
+                        </span>
+                    </div>
+
                 </div>
+
             </div>
         </div>
     </div>
 </section>
+```

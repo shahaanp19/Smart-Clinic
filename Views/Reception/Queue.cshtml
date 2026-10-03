@@ -4,148 +4,335 @@
 
 <section class="page-section">
     <div class="container">
+
         <div class="dashboard-header mb-4">
             <div>
                 <span class="smart-badge">Reception Dashboard</span>
-                <h1 class="dashboard-title mt-3">Queue Management</h1>
-                <p class="text-muted">Monitor patient waiting status and consultation progression.</p>
+
+                <h1 class="dashboard-title mt-3">
+                    Queue Management
+                </h1>
+
+                <p class="text-muted mb-0">
+                    Monitor patient waiting status and consultation progression.
+                </p>
             </div>
 
-            <a asp-controller="Reception" asp-action="CheckIn" class="smart-btn-primary text-decoration-none">
+            <a asp-controller="Reception"
+                   asp-action="CheckIn"
+                   class="smart-btn-primary text-decoration-none">
                 <i class="bi bi-person-check me-2"></i>
                 Check In Patient
             </a>
         </div>
 
         <div class="row g-4 mb-4">
+
             <div class="col-md-3">
                 <div class="smart-card stat-panel">
                     <i class="bi bi-hourglass-split"></i>
-                    <h3>7</h3>
-                    <p>Waiting</p>
+                    <h3>—</h3>
+                    <p class="mb-1">Waiting</p>
+                    <small>No data available</small>
                 </div>
             </div>
 
             <div class="col-md-3">
                 <div class="smart-card stat-panel">
                     <i class="bi bi-clipboard2-pulse"></i>
-                    <h3>3</h3>
-                    <p>In Consultation</p>
+                    <h3>—</h3>
+                    <p class="mb-1">In Consultation</p>
+                    <small>No data available</small>
                 </div>
             </div>
 
             <div class="col-md-3">
                 <div class="smart-card stat-panel">
                     <i class="bi bi-check-circle"></i>
-                    <h3>11</h3>
-                    <p>Completed</p>
+                    <h3>—</h3>
+                    <p class="mb-1">Completed</p>
+                    <small>No data available</small>
                 </div>
             </div>
 
             <div class="col-md-3">
                 <div class="smart-card stat-panel">
                     <i class="bi bi-clock-history"></i>
-                    <h3>18m</h3>
-                    <p>Average Wait</p>
+                    <h3>—</h3>
+                    <p class="mb-1">Average Wait</p>
+                    <small>No data available</small>
                 </div>
             </div>
+
         </div>
 
-        <div class="smart-card">
+        <div class="smart-card mb-4">
+
             <div class="section-header">
-                <h4>Active Clinic Queue</h4>
-                <span class="text-muted">Dummy operational queue data</span>
+                <div>
+                    <h4 class="mb-1">Active Clinic Queue</h4>
+                    <p class="text-muted mb-0">
+                        Current patient queue entries will appear here when available.
+                    </p>
+                </div>
+
+                <span class="queue-status">
+                    <i class="bi bi-circle-fill me-2"></i>
+                    Live Queue
+                </span>
             </div>
 
-            <div class="table-responsive">
-                <table class="table align-middle smart-table">
-                    <thead>
-                        <tr>
-                            <th>Queue No.</th>
-                            <th>Patient</th>
-                            <th>Doctor</th>
-                            <th>Service</th>
-                            <th>Check-In Time</th>
-                            <th>Status</th>
-                            <th>Priority</th>
-                        </tr>
-                    </thead>
+            <div class="queue-empty-state">
+                <div class="queue-empty-icon">
+                    <i class="bi bi-list-check"></i>
+                </div>
 
-                    <tbody>
-                        <tr>
-                            <td><strong>Q001</strong></td>
-                            <td>Sarah Jacobs</td>
-                            <td>Dr Esme Cilliers</td>
-                            <td>General Consultation</td>
-                            <td>08:45</td>
-                            <td><span class="status-badge confirmed">In Consultation</span></td>
-                            <td>Normal</td>
-                        </tr>
+                <h5>No patients in the queue</h5>
 
-                        <tr>
-                            <td><strong>Q002</strong></td>
-                            <td>Michael Brown</td>
-                            <td>Dr Esme Cilliers</td>
-                            <td>Follow-Up</td>
-                            <td>09:05</td>
-                            <td><span class="status-badge pending">Waiting</span></td>
-                            <td>Normal</td>
-                        </tr>
+                <p>
+                    There are currently no active queue entries.
+                    Patients will appear here after they have been checked in.
+                </p>
 
-                        <tr>
-                            <td><strong>Q003</strong></td>
-                            <td>Lisa Adams</td>
-                            <td>Dr Naidoo</td>
-                            <td>Medical Review</td>
-                            <td>09:12</td>
-                            <td><span class="status-badge pending">Waiting</span></td>
-                            <td>High</td>
-                        </tr>
-
-                        <tr>
-                            <td><strong>Q004</strong></td>
-                            <td>James Wilson</td>
-                            <td>Dr Petersen</td>
-                            <td>General Consultation</td>
-                            <td>09:20</td>
-                            <td><span class="status-badge confirmed">Checked In</span></td>
-                            <td>Normal</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <a asp-controller="Reception"
+                       asp-action="CheckIn"
+                       class="smart-btn-primary text-decoration-none">
+                    <i class="bi bi-person-check me-2"></i>
+                    Check In Patient
+                </a>
             </div>
+
         </div>
 
-        <div class="row g-4 mt-1">
+        <div class="row g-4">
+
             <div class="col-md-6">
-                <div class="smart-card">
-                    <h4 class="mb-3">Queue Actions</h4>
+                <div class="smart-card h-100">
+
+                    <div class="section-header mb-3">
+                        <div>
+                            <h4 class="mb-1">Queue Actions</h4>
+                            <p class="text-muted mb-0">
+                                Actions become available when an active queue is present.
+                            </p>
+                        </div>
+                    </div>
 
                     <div class="d-grid gap-3">
-                        <button type="button" class="btn btn-outline-primary rounded-3">
+
+                        <button type="button"
+                                class="btn btn-outline-primary rounded-3"
+                                disabled>
+                            <i class="bi bi-megaphone me-2"></i>
                             Call Next Patient
                         </button>
 
-                        <button type="button" class="btn btn-outline-primary rounded-3">
+                        <button type="button"
+                                class="btn btn-outline-primary rounded-3"
+                                disabled>
+                            <i class="bi bi-arrow-repeat me-2"></i>
                             Update Queue Status
                         </button>
 
-                        <button type="button" class="btn btn-outline-primary rounded-3">
+                        <button type="button"
+                                class="btn btn-outline-primary rounded-3"
+                                disabled>
+                            <i class="bi bi-bell me-2"></i>
                             Notify Doctor
                         </button>
+
                     </div>
+
                 </div>
             </div>
 
             <div class="col-md-6">
-                <div class="smart-card">
-                    <h4 class="mb-3">Information Flow</h4>
-                    <p class="text-muted mb-0">
-                        Once a patient is checked in, the queue entry becomes visible to reception staff and doctors.
-                        Status updates help staff monitor patient movement from waiting to consultation completion.
-                    </p>
+                <div class="smart-card h-100">
+
+                    <div class="section-header mb-3">
+                        <div>
+                            <h4 class="mb-1">Information Flow</h4>
+                            <p class="text-muted mb-0">
+                                How queue information moves through the clinic.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="queue-flow">
+
+                        <div class="queue-flow-item">
+                            <div class="queue-flow-number">1</div>
+                            <div>
+                                <strong>Patient Check-In</strong>
+                                <p>
+                                    Reception records the patient's arrival and creates a queue entry.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="queue-flow-item">
+                            <div class="queue-flow-number">2</div>
+                            <div>
+                                <strong>Waiting</strong>
+                                <p>
+                                    The patient remains visible to reception and the relevant clinical staff.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="queue-flow-item">
+                            <div class="queue-flow-number">3</div>
+                            <div>
+                                <strong>Consultation</strong>
+                                <p>
+                                    The queue status can be updated as the patient moves into consultation.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="queue-flow-item">
+                            <div class="queue-flow-number">4</div>
+                            <div>
+                                <strong>Completion</strong>
+                                <p class="mb-0">
+                                    The entry can be marked complete when the consultation has finished.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+
                 </div>
             </div>
+
         </div>
+
     </div>
 </section>
+
+<style>
+    .queue-status {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.45rem 0.8rem;
+        border-radius: 999px;
+        background: #f1f5f7;
+        color: #64748b;
+        font-size: 0.82rem;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+        .queue-status i {
+            font-size: 0.45rem;
+        }
+
+    .queue-empty-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 2.5rem 1.5rem;
+        margin-top: 1.25rem;
+        border: 1px dashed #d5dde5;
+        border-radius: 16px;
+        background: #fafcfd;
+    }
+
+    .queue-empty-icon {
+        width: 64px;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+        border-radius: 16px;
+        background: #e7f5f3;
+        color: #0f766e;
+        font-size: 1.7rem;
+    }
+
+    .queue-empty-state h5 {
+        margin-bottom: 0.5rem;
+        color: #243447;
+    }
+
+    .queue-empty-state p {
+        max-width: 540px;
+        margin: 0 auto 1.25rem;
+        color: #6c757d;
+        line-height: 1.6;
+    }
+
+    .stat-panel {
+        height: auto;
+    }
+
+        .stat-panel small {
+            display: block;
+            color: #7a8793;
+            font-size: 0.82rem;
+        }
+
+    .queue-flow {
+        display: flex;
+        flex-direction: column;
+        gap: 1.1rem;
+    }
+
+    .queue-flow-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.9rem;
+    }
+
+    .queue-flow-number {
+        flex: 0 0 34px;
+        width: 34px;
+        height: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #e7f5f3;
+        color: #0f766e;
+        font-size: 0.85rem;
+        font-weight: 700;
+    }
+
+    .queue-flow-item strong {
+        display: block;
+        margin-bottom: 0.2rem;
+        color: #243447;
+    }
+
+    .queue-flow-item p {
+        margin: 0;
+        color: #6c757d;
+        line-height: 1.5;
+        font-size: 0.92rem;
+    }
+
+    .btn:disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+
+    @@media (max-width: 767.98px) {
+        .dashboard-header {
+            gap: 1rem;
+        }
+
+            .dashboard-header .smart-btn-primary {
+                width: 100%;
+            }
+
+        .queue-status {
+            margin-top: 0.5rem;
+        }
+
+        .queue-empty-state {
+            padding: 2rem 1rem;
+        }
+    }
+</style>

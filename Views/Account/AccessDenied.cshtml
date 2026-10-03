@@ -1,0 +1,50 @@
+﻿@{
+    ViewData["Title"] = "Access Denied";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="card border-0 shadow-sm rounded-4 text-center">
+                <div class="card-body p-5">
+
+                    <div class="mb-4">
+                        <span class="d-inline-flex align-items-center justify-content-center rounded-circle bg-danger-subtle text-danger"
+                              style="width:72px;height:72px;">
+                            <i class="bi bi-shield-lock-fill fs-2"
+                               aria-hidden="true"></i>
+                        </span>
+                    </div>
+
+                    <h1 class="h3 fw-bold mb-3">
+                        Access Denied
+                    </h1>
+
+                    <p class="text-muted mb-4">
+                        You do not have permission to access this area of Smart Clinic.
+                        If you believe you should have access, please contact an administrator.
+                    </p>
+
+                    <div class="d-flex flex-column flex-sm-row justify-content-center gap-2">
+                        <a asp-controller="Home"
+                               asp-action="Index"
+                               class="btn btn-primary">
+                            <i class="bi bi-house-door me-2"
+                               aria-hidden="true"></i>
+                            Return Home
+                        </a>
+
+                        <a asp-controller="Account"
+                               asp-action="Login"
+                               class="btn btn-outline-secondary">
+                            <i class="bi bi-box-arrow-in-right me-2"
+                               aria-hidden="true"></i>
+                            Sign In
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

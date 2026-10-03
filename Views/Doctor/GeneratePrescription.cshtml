@@ -1,200 +1,481 @@
-﻿@{
-    ViewData["Title"] = "Generate Prescription";
+﻿@using SmartClinicManagementSystem.DTOs
+@model object
+
+@{
+    ViewData["Title"] = "Prescriptions";
+
+    var patients =
+        ViewBag.Patients as List<PatientDto>
+        ?? new List<PatientDto>();
+
+    var consultations =
+        ViewBag.Consultations as List<ConsultationDto>
+        ?? new List<ConsultationDto>();
+
+    var prescriptions =
+        ViewBag.Prescriptions as List<PrescriptionDto>
+        ?? new List<PrescriptionDto>();
 }
 
-<section class="page-section">
-    <div class="container">
+<div class="container-fluid px-0">
 
-        <!-- Header -->
+    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+        <div>
+            <div class="text-uppercase small fw-semibold text-primary mb-1">
+                Clinical Workspace
+            </div>
 
-        <div class="smart-card mb-5">
-
-            <span class="smart-badge">
-                Doctor Portal
-            </span>
-
-            <h1 class="dashboard-title mt-3">
-                Generate Prescription
+            <h1 class="h2 fw-bold mb-1">
+                Prescriptions
             </h1>
 
             <p class="text-muted mb-0">
-                Create and issue prescriptions for patients.
+                Generate and review prescriptions linked to clinical consultations.
             </p>
+        </div>
+
+        <span class="badge rounded-pill text-bg-primary px-3 py-2">
+            <i class="bi bi-shield-check me-1" aria-hidden="true"></i>
+            Secure Clinical Record
+        </span>
+    </div>
+
+    @if (TempData["SuccessMessage"] is string successMessage)
+    {
+        <div class="alert alert-success alert-dismissible fade show shadow-sm"
+             role="alert">
+            <i class="bi bi-check-circle-fill me-2" aria-hidden="true"></i>
+            @successMessage
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
+                    aria-label="Dismiss notification"></button>
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] is string errorMessage)
+    {
+        <div class="alert alert-danger alert-dismissible fade show shadow-sm"
+             role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"
+               aria-hidden="true"></i>
+            @errorMessage
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
+                    aria-label="Dismiss notification"></button>
+        </div>
+    }
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger shadow-sm"
+             role="alert">
+            <div class="d-flex gap-3">
+                <i class="bi bi-exclamation-circle-fill fs-5"
+                   aria-hidden="true"></i>
+
+                <div>
+                    <div class="fw-semibold mb-1">
+                        Please review the highlighted information.
+                    </div>
+
+                    <div asp-validation-summary="ModelOnly"></div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="row g-4">
+
+        <div class="col-12 col-xl-5">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-header bg-white border-0 p-4 pb-2">
+                    <h2 class="h5 fw-bold mb-1">
+                        Generate Prescription
+                    </h2>
+
+                    <p class="text-muted small mb-0">
+                        Prescriptions must be linked to one of your recorded consultations.
+                    </p>
+                </div>
+
+                <div class="card-body p-4">
+
+                    @if (consultations.Count == 0)
+                    {
+                        <div class="alert alert-info"
+                             role="status">
+                            <i class="bi bi-info-circle me-2"
+                               aria-hidden="true"></i>
+                            Record a consultation before generating a prescription.
+                        </div>
+                    }
+                    else
+                    {
+                        <form asp-controller="Doctor"
+                              asp-action="GeneratePrescription"
+                              method="post"
+                              novalidate>
+
+                            @Html.AntiForgeryToken()
+
+                            <div class="mb-3">
+                                <label for="patientId"
+                                       class="form-label fw-semibold">
+                                    Patient
+                                </label>
+
+                                <select id="patientId"
+                                        name="patientId"
+                                        class="form-select"
+                                        required>
+                                    <option value="">
+                                        Select patient
+                                    </option>
+
+                                    @foreach (var patient in patients)
+                                    {
+                                        <option value="@patient.Id">
+                                            @patient.FullName — @patient.PatientNumber
+                                        </option>
+                                    }
+                                </select>
+
+                                <div class="form-text">
+                                    Select the patient associated with the consultation.
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="consultationId"
+                                       class="form-label fw-semibold">
+                                    Consultation
+                                </label>
+
+                                <select id="consultationId"
+                                        name="consultationId"
+                                        class="form-select"
+                                        required>
+                                    <option value="">
+                                        Select consultation
+                                    </option>
+
+                                    @foreach (var consultation in consultations
+                                        .OrderByDescending(c => c.ConsultationDateUtc))
+                                    {
+                                        <option value="@consultation.Id"
+                                                data-patient-id="@consultation.PatientId">
+                                            @consultation.ConsultationDateUtc.ToLocalTime().ToString("dd MMM yyyy, HH:mm")
+                                            — @(consultation.PatientName ?? $"Patient #{consultation.PatientId}")
+                                        </option>
+                                    }
+                                </select>
+
+                                <div class="form-text">
+                                    Only consultations belonging to your account are supplied.
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="medicationName"
+                                       class="form-label fw-semibold">
+                                    Medication
+                                </label>
+
+                                <input id="medicationName"
+                                       name="medicationName"
+                                       class="form-control"
+                                       maxlength="500"
+                                       required
+                                       autocomplete="off"
+                                       placeholder="e.g. Amoxicillin 500 mg" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="dosage"
+                                       class="form-label fw-semibold">
+                                    Dosage
+                                </label>
+
+                                <input id="dosage"
+                                       name="dosage"
+                                       class="form-control"
+                                       maxlength="250"
+                                       required
+                                       placeholder="e.g. 500 mg" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="frequency"
+                                       class="form-label fw-semibold">
+                                    Frequency
+                                </label>
+
+                                <input id="frequency"
+                                       name="frequency"
+                                       class="form-control"
+                                       maxlength="250"
+                                       required
+                                       placeholder="e.g. Three times daily" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="duration"
+                                       class="form-label fw-semibold">
+                                    Duration
+                                </label>
+
+                                <input id="duration"
+                                       name="duration"
+                                       class="form-control"
+                                       maxlength="250"
+                                       required
+                                       placeholder="e.g. 7 days" />
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="instructions"
+                                       class="form-label fw-semibold">
+                                    Instructions
+                                </label>
+
+                                <textarea id="instructions"
+                                          name="instructions"
+                                          class="form-control"
+                                          rows="4"
+                                          maxlength="3000"
+                                          placeholder="Add patient-specific instructions..."></textarea>
+
+                                <div class="form-text text-end">
+                                    <span id="instructions-count">0</span>/3000
+                                </div>
+                            </div>
+
+                            <button type="submit"
+                                    class="btn btn-primary w-100"
+                                @(consultations.Count == 0 ? "disabled" : null)>
+                                <i class="bi bi-prescription2 me-2"
+                                   aria-hidden="true"></i>
+                                Generate Prescription
+                            </button>
+
+                        </form>
+                    }
+
+                </div>
+            </div>
 
         </div>
 
-        <div class="row g-4">
+        <div class="col-12 col-xl-7">
 
-            <!-- Left Side -->
+            <div class="card border-0 shadow-sm">
 
-            <div class="col-lg-8">
+                <div class="card-header bg-white border-0 p-4">
+                    <div class="d-flex justify-content-between align-items-center gap-3">
+                        <div>
+                            <h2 class="h5 fw-bold mb-1">
+                                Prescription History
+                            </h2>
 
-                <!-- Patient Information -->
+                            <p class="text-muted small mb-0">
+                                Prescriptions issued from your clinical workspace.
+                            </p>
+                        </div>
 
-                <div class="smart-card mb-4">
-
-                    <div class="section-header">
-                        <h4>Patient Information</h4>
+                        <span class="badge rounded-pill text-bg-light border">
+                            @prescriptions.Count record@(prescriptions.Count == 1 ? "" : "s")
+                        </span>
                     </div>
-
-                    <div class="row g-3">
-
-                        <div class="col-md-6">
-                            <label class="smart-label">Patient Name</label>
-                            <input class="form-control smart-input"
-                                   value="Sarah Jacobs" />
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="smart-label">Patient ID</label>
-                            <input class="form-control smart-input"
-                                   value="PT-10024" />
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="smart-label">Date of Birth</label>
-                            <input class="form-control smart-input"
-                                   value="14 March 1992" />
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="smart-label">Doctor</label>
-                            <input class="form-control smart-input"
-                                   value="Dr Esmé Cilliers" />
-                        </div>
-
-                    </div>
-
                 </div>
 
-                <!-- Prescription Details -->
+                <div class="card-body p-0">
 
-                <div class="smart-card">
+                    @if (prescriptions.Count == 0)
+                    {
+                        <div class="text-center py-5 px-4">
+                            <div class="rounded-circle bg-primary-subtle text-primary d-inline-flex p-3 mb-3">
+                                <i class="bi bi-prescription2 fs-3"
+                                   aria-hidden="true"></i>
+                            </div>
 
-                    <div class="section-header">
-                        <h4>Prescription Details</h4>
-                    </div>
+                            <h3 class="h5 fw-bold">
+                                No prescriptions recorded
+                            </h3>
 
-                    <div class="row g-3">
-
-                        <div class="col-md-6">
-                            <label class="smart-label">Medication Name</label>
-                            <input class="form-control smart-input"
-                                   placeholder="Enter medication" />
+                            <p class="text-muted mb-0">
+                                Generated prescriptions will appear here.
+                            </p>
                         </div>
+                    }
+                    else
+                    {
+                        <div class="table-responsive">
 
-                        <div class="col-md-6">
-                            <label class="smart-label">Dosage</label>
-                            <input class="form-control smart-input"
-                                   placeholder="500mg" />
+                            <table class="table table-hover align-middle mb-0">
+                                <caption class="visually-hidden">
+                                    Prescription history
+                                </caption>
+
+                                <thead class="table-light">
+                                    <tr>
+                                        <th scope="col"
+                                            class="ps-4">
+                                            Patient
+                                        </th>
+
+                                        <th scope="col">
+                                            Medication
+                                        </th>
+
+                                        <th scope="col">
+                                            Dosage
+                                        </th>
+
+                                        <th scope="col">
+                                            Frequency
+                                        </th>
+
+                                        <th scope="col">
+                                            Duration
+                                        </th>
+
+                                        <th scope="col"
+                                            class="pe-4">
+                                            Date
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @foreach (var prescription in prescriptions
+                                        .OrderByDescending(p => p.PrescribedAtUtc))
+                                    {
+                                        <tr>
+
+                                            <td class="ps-4">
+                                                <div class="fw-semibold">
+                                                    @(prescription.PatientName ?? $"Patient #{prescription.PatientId}")
+                                                </div>
+
+                                                <div class="small text-muted">
+                                                    Consultation #@prescription.ConsultationId
+                                                </div>
+                                            </td>
+
+                                            <td>
+                                                <span class="fw-semibold">
+                                                    @prescription.MedicationName
+                                                </span>
+                                            </td>
+
+                                            <td>
+                                                @prescription.Dosage
+                                            </td>
+
+                                            <td>
+                                                @prescription.Frequency
+                                            </td>
+
+                                            <td>
+                                                @prescription.Duration
+                                            </td>
+
+                                            <td class="pe-4">
+                                                <span class="small">
+                                                    @prescription.PrescribedAtUtc
+                                                    .ToLocalTime()
+                                                    .ToString("dd MMM yyyy")
+                                                </span>
+
+                                                <div class="small text-muted">
+                                                    @prescription.PrescribedAtUtc
+                                                    .ToLocalTime()
+                                                    .ToString("HH:mm")
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+
                         </div>
-
-                        <div class="col-md-6">
-                            <label class="smart-label">Frequency</label>
-                            <input class="form-control smart-input"
-                                   placeholder="Twice Daily" />
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="smart-label">Duration</label>
-                            <input class="form-control smart-input"
-                                   placeholder="7 Days" />
-                        </div>
-
-                        <div class="col-12">
-                            <label class="smart-label">
-                                Additional Instructions
-                            </label>
-
-                            <textarea class="form-control smart-input"
-                                      rows="4">
-Take after meals.
-Complete full course.
-                            </textarea>
-                        </div>
-
-                    </div>
-
-                    <div class="mt-4 d-flex gap-3 flex-wrap">
-
-                        <button class="smart-btn-primary">
-                            <i class="bi bi-file-earmark-medical me-2"></i>
-                            Generate Prescription
-                        </button>
-
-                        <button class="smart-btn-accent">
-                            <i class="bi bi-save me-2"></i>
-                            Save Draft
-                        </button>
-
-                        <a asp-controller="Doctor"
-                               asp-action="Dashboard"
-                               class="btn btn-outline-secondary rounded-3">
-
-                            Back
-
-                        </a>
-
-                    </div>
+                    }
 
                 </div>
-
-            </div>
-
-            <!-- Right Side -->
-
-            <div class="col-lg-4">
-
-                <!-- Safety Check -->
-
-                <div class="smart-card mb-4">
-
-                    <div class="section-header">
-                        <h4>Medication Safety</h4>
-                    </div>
-
-                    <div class="summary-item">
-                        <span>Allergy Status</span>
-                        <strong>No Known Allergies</strong>
-                    </div>
-
-                    <div class="summary-item">
-                        <span>Interaction Check</span>
-                        <strong>No Conflicts</strong>
-                    </div>
-
-                    <div class="summary-item border-0">
-                        <span>Age Group</span>
-                        <strong>Adult</strong>
-                    </div>
-
-                </div>
-
-                <!-- Preview -->
-
-                <div class="smart-card">
-
-                    <div class="section-header">
-                        <h4>Prescription Preview</h4>
-                    </div>
-
-                    <p><strong>Prescription ID:</strong> RX-2026-001</p>
-
-                    <p><strong>Patient:</strong> Sarah Jacobs</p>
-
-                    <p><strong>Medication:</strong> Amoxicillin</p>
-
-                    <p><strong>Doctor:</strong> Dr Esmé Cilliers</p>
-
-                    <p class="mb-0">
-                        <strong>Date Issued:</strong> 12 May 2026
-                    </p>
-
-                </div>
-
             </div>
 
         </div>
 
     </div>
-</section>
+</div>
+
+@section Scripts {
+    <script>
+        (() => {
+            const patientSelect =
+                document.getElementById('patientId');
+
+            const consultationSelect =
+                document.getElementById('consultationId');
+
+            if (patientSelect && consultationSelect) {
+                const consultationOptions =
+                    Array.from(
+                        consultationSelect.options
+                    ).slice(1);
+
+                const filterConsultations = () => {
+                    const patientId =
+                        patientSelect.value;
+
+                    consultationOptions.forEach(option => {
+                        const matches =
+                            !patientId ||
+                            option.dataset.patientId === patientId;
+
+                        option.hidden = !matches;
+                    });
+
+                    const selected =
+                        consultationSelect.selectedOptions[0];
+
+                    if (selected?.hidden) {
+                        consultationSelect.value = '';
+                    }
+                };
+
+                patientSelect.addEventListener(
+                    'change',
+                    filterConsultations);
+
+                filterConsultations();
+            }
+
+            const instructions =
+                document.getElementById('instructions');
+
+            const counter =
+                document.getElementById('instructions-count');
+
+            if (instructions && counter) {
+                const updateCounter = () => {
+                    counter.textContent =
+                        instructions.value.length;
+                };
+
+                instructions.addEventListener(
+                    'input',
+                    updateCounter);
+
+                updateCounter();
+            }
+        })();
+    </script>
+}

@@ -1,365 +1,439 @@
-﻿@{
+﻿@using SmartClinicManagementSystem.DTOs
+
+@{
     ViewData["Title"] = "Doctor Dashboard";
+
+    var doctor = ViewBag.Doctor as DoctorDto;
+    var totalConsultations = ViewBag.TotalConsultations is int tc ? tc : 0;
+    var completedConsultations = ViewBag.CompletedConsultations is int cc ? cc : 0;
+    var pendingConsultations = ViewBag.PendingConsultations is int pc ? pc : 0;
 }
 
-<section class="page-section">
-    <div class="container">
+<div class="container-fluid py-4">
 
-        <div class="dashboard-header mb-4">
+    <!-- Header -->
+    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
 
-            <div>
-                <span class="smart-badge">
-                    Doctor Dashboard
+        <div>
+            <div class="d-flex align-items-center gap-2 mb-2">
+                <span class="badge rounded-pill text-bg-primary px-3 py-2">
+                    <i class="bi bi-heart-pulse-fill me-1"
+                       aria-hidden="true"></i>
+                    Clinical Workspace
                 </span>
-
-                <h1 class="dashboard-title mt-3">
-                    Welcome, Dr Esme Cilliers
-                </h1>
-
-                <p class="text-muted">
-                    Manage consultations, patient records, schedules, and prescriptions.
-                </p>
             </div>
+
+            <h1 class="h3 fw-bold mb-1">
+                Welcome back@(doctor is not null ? $", Dr. {doctor.FullName}" : "")
+            </h1>
+
+            <p class="text-muted mb-0">
+                Manage your consultations, appointments and clinical records.
+            </p>
+        </div>
+
+        <div class="d-flex flex-column flex-sm-row gap-2">
+            <a asp-controller="Doctor"
+                   asp-action="Schedule"
+                   class="btn btn-outline-primary">
+                <i class="bi bi-calendar3 me-2"
+                   aria-hidden="true"></i>
+                View Schedule
+            </a>
 
             <a asp-controller="Doctor"
                    asp-action="Consultation"
-                   class="smart-btn-primary text-decoration-none">
-
-                <i class="bi bi-clipboard2-pulse me-2"></i>
-                Start Consultation
-
+                   class="btn btn-primary">
+                <i class="bi bi-plus-circle me-2"
+                   aria-hidden="true"></i>
+                Record Consultation
             </a>
-
         </div>
 
+    </div>
 
-        <div class="row g-4 mb-4">
+    <!-- Doctor profile -->
+    @if (doctor is not null)
+    {
+        <div class="card border-0 shadow-sm rounded-4 mb-4">
+            <div class="card-body p-4">
 
-            <div class="col-md-3">
+                <div class="row align-items-center g-4">
 
-                <div class="smart-card stat-panel">
+                    <div class="col-auto">
+                        <div class="rounded-circle bg-primary-subtle text-primary d-flex align-items-center justify-content-center"
+                             style="width:72px;height:72px;">
+                            <i class="bi bi-person-badge fs-2"
+                               aria-hidden="true"></i>
+                        </div>
+                    </div>
 
-                    <i class="bi bi-calendar-check"></i>
+                    <div class="col">
+                        <h2 class="h5 fw-bold mb-1">
+                            Dr. @doctor.FullName
+                        </h2>
 
-                    <h3>
-                        8
-                    </h3>
+                        <div class="text-muted mb-2">
+                            @doctor.Specialisation
+                        </div>
 
-                    <p>
-                        Today’s Appointments
-                    </p>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="badge rounded-pill text-bg-light">
+                                <i class="bi bi-person-vcard me-1"
+                                   aria-hidden="true"></i>
+                                @doctor.EmployeeNumber
+                            </span>
 
-                </div>
+                            <span class="badge rounded-pill text-bg-success">
+                                <i class="bi bi-check-circle me-1"
+                                   aria-hidden="true"></i>
+                                Active
+                            </span>
+                        </div>
+                    </div>
 
-            </div>
+                    <div class="col-12 col-lg-auto">
+                        <div class="text-lg-end">
+                            <div class="small text-muted">
+                                Professional email
+                            </div>
 
-
-            <div class="col-md-3">
-
-                <div class="smart-card stat-panel">
-
-                    <i class="bi bi-people"></i>
-
-                    <h3>
-                        3
-                    </h3>
-
-                    <p>
-                        Patients Waiting
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="col-md-3">
-
-                <div class="smart-card stat-panel">
-
-                    <i class="bi bi-file-medical"></i>
-
-                    <h3>
-                        14
-                    </h3>
-
-                    <p>
-                        Records Updated
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="col-md-3">
-
-                <div class="smart-card stat-panel">
-
-                    <i class="bi bi-capsule"></i>
-
-                    <h3>
-                        5
-                    </h3>
-
-                    <p>
-                        Prescriptions Issued
-                    </p>
+                            <div class="fw-semibold">
+                                @doctor.Email
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
 
             </div>
+        </div>
+    }
 
+    <!-- Metrics -->
+    <div class="row g-4 mb-4">
+
+        <div class="col-12 col-sm-6 col-xl-4">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between align-items-start">
+
+                        <div>
+                            <div class="text-muted small fw-semibold">
+                                Total Consultations
+                            </div>
+
+                            <div class="display-5 fw-bold mt-2">
+                                @totalConsultations
+                            </div>
+
+                            <div class="small text-muted mt-2">
+                                Clinical consultations recorded
+                            </div>
+                        </div>
+
+                        <span class="rounded-circle bg-primary-subtle text-primary d-inline-flex align-items-center justify-content-center"
+                              style="width:56px;height:56px;">
+                            <i class="bi bi-clipboard2-pulse fs-4"
+                               aria-hidden="true"></i>
+                        </span>
+
+                    </div>
+
+                </div>
+            </div>
         </div>
 
+        <div class="col-12 col-sm-6 col-xl-4">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4">
 
-        <div class="row g-4">
-
-
-            <div class="col-lg-8">
-
-                <div class="smart-card">
-
-                    <div class="section-header">
-
-                        <h4>
-                            Today's Schedule
-                        </h4>
-
-                        <a asp-controller="Doctor"
-                               asp-action="Schedule">
-
-                            View Full Schedule
-
-                        </a>
-
-                    </div>
-
-
-                    <div class="table-responsive">
-
-                        <table class="table align-middle smart-table">
-
-                            <thead>
-
-                                <tr>
-                                    <th>Time</th>
-                                    <th>Patient</th>
-                                    <th>Service</th>
-                                    <th>Status</th>
-                                </tr>
-
-                            </thead>
-
-
-                            <tbody>
-
-                                <tr>
-                                    <td>09:00</td>
-                                    <td>Sarah Jacobs</td>
-                                    <td>General Consultation</td>
-                                    <td>
-                                        <span class="status-badge confirmed">
-                                            Checked In
-                                        </span>
-                                    </td>
-                                </tr>
-
-
-                                <tr>
-                                    <td>09:30</td>
-                                    <td>Michael Brown</td>
-                                    <td>Follow-Up</td>
-                                    <td>
-                                        <span class="status-badge pending">
-                                            Waiting
-                                        </span>
-                                    </td>
-                                </tr>
-
-
-                                <tr>
-                                    <td>10:00</td>
-                                    <td>Lisa Adams</td>
-                                    <td>Medical Review</td>
-                                    <td>
-                                        <span class="status-badge confirmed">
-                                            Confirmed
-                                        </span>
-                                    </td>
-                                </tr>
-
-                            </tbody>
-
-                        </table>
-
-                    </div>
-
-                </div>
-
-
-
-                <div class="smart-card mt-4">
-
-                    <div class="section-header">
-
-                        <h4>
-                            Recent Consultations
-                        </h4>
-
-                    </div>
-
-
-                    <div class="history-item">
+                    <div class="d-flex justify-content-between align-items-start">
 
                         <div>
+                            <div class="text-muted small fw-semibold">
+                                Completed
+                            </div>
 
-                            <strong>
-                                Sarah Jacobs
-                            </strong>
+                            <div class="display-5 fw-bold mt-2">
+                                @completedConsultations
+                            </div>
 
-                            <p>
-                                Flu diagnosis recorded with medication prescribed.
-                            </p>
-
+                            <div class="small text-muted mt-2">
+                                Consultations in clinical records
+                            </div>
                         </div>
 
-                        <span>
-                            08:45
-                        </span>
-
-                    </div>
-
-
-                    <div class="history-item">
-
-                        <div>
-
-                            <strong>
-                                James Wilson
-                            </strong>
-
-                            <p>
-                                Blood pressure review completed successfully.
-                            </p>
-
-                        </div>
-
-                        <span>
-                            Yesterday
+                        <span class="rounded-circle bg-success-subtle text-success d-inline-flex align-items-center justify-content-center"
+                              style="width:56px;height:56px;">
+                            <i class="bi bi-check2-circle fs-4"
+                               aria-hidden="true"></i>
                         </span>
 
                     </div>
 
                 </div>
-
             </div>
+        </div>
 
+        <div class="col-12 col-sm-6 col-xl-4">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4">
 
+                    <div class="d-flex justify-content-between align-items-start">
 
-            <div class="col-lg-4">
+                        <div>
+                            <div class="text-muted small fw-semibold">
+                                Pending Appointments
+                            </div>
 
+                            <div class="display-5 fw-bold mt-2">
+                                @pendingConsultations
+                            </div>
 
-                <div class="smart-card">
+                            <div class="small text-muted mt-2">
+                                Appointments requiring attention
+                            </div>
+                        </div>
 
-                    <h4 class="mb-4">
-                        Queue Status
-                    </h4>
-
-
-                    <div class="queue-item">
-
-                        <span>
-                            Q001
+                        <span class="rounded-circle bg-warning-subtle text-warning d-inline-flex align-items-center justify-content-center"
+                              style="width:56px;height:56px;">
+                            <i class="bi bi-hourglass-split fs-4"
+                               aria-hidden="true"></i>
                         </span>
-
-                        <strong>
-                            Sarah Jacobs
-                        </strong>
-
-                    </div>
-
-
-                    <div class="queue-item">
-
-                        <span>
-                            Q002
-                        </span>
-
-                        <strong>
-                            Michael Brown
-                        </strong>
-
-                    </div>
-
-
-                    <div class="queue-item">
-
-                        <span>
-                            Q003
-                        </span>
-
-                        <strong>
-                            Lisa Adams
-                        </strong>
 
                     </div>
 
                 </div>
+            </div>
+        </div>
 
+    </div>
 
-                <!-- Quick Actions -->
+    <!-- Workflow -->
+    <div class="row g-4">
 
-                <div class="smart-card mt-4 mb-4">
+        <div class="col-12 col-lg-8">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
 
-                    <div class="section-header">
-                        <h4>Quick Actions</h4>
-                    </div>
+                <div class="card-header bg-transparent border-0 pt-4 px-4">
+                    <h2 class="h5 fw-bold mb-1">
+                        Clinical Workflow
+                    </h2>
 
-                    <div class="row g-4">
+                    <p class="text-muted small mb-0">
+                        Quick access to the core doctor workflow.
+                    </p>
+                </div>
 
-                        <div class="col-md-4">
+                <div class="card-body p-4">
 
+                    <div class="row g-3">
+
+                        <div class="col-12 col-md-6">
+                            <a asp-controller="Doctor"
+                                   asp-action="Schedule"
+                                   class="text-decoration-none">
+
+                                <div class="border rounded-4 p-4 h-100 dashboard-action-card">
+
+                                    <div class="d-flex align-items-center gap-3 mb-3">
+                                        <span class="rounded-3 bg-primary-subtle text-primary d-inline-flex align-items-center justify-content-center"
+                                              style="width:48px;height:48px;">
+                                            <i class="bi bi-calendar3 fs-4"
+                                               aria-hidden="true"></i>
+                                        </span>
+
+                                        <h3 class="h6 fw-bold mb-0">
+                                            My Schedule
+                                        </h3>
+                                    </div>
+
+                                    <p class="text-muted small mb-0">
+                                        Review upcoming appointments and patient schedules.
+                                    </p>
+
+                                </div>
+
+                            </a>
+                        </div>
+
+                        <div class="col-12 col-md-6">
                             <a asp-controller="Doctor"
                                    asp-action="Consultation"
-                                   class="portal-card text-center">
+                                   class="text-decoration-none">
 
-                                <i class="bi bi-clipboard2-pulse"></i>
+                                <div class="border rounded-4 p-4 h-100 dashboard-action-card">
 
-                                <h5>Consultation</h5>
+                                    <div class="d-flex align-items-center gap-3 mb-3">
+                                        <span class="rounded-3 bg-success-subtle text-success d-inline-flex align-items-center justify-content-center"
+                                              style="width:48px;height:48px;">
+                                            <i class="bi bi-clipboard2-plus fs-4"
+                                               aria-hidden="true"></i>
+                                        </span>
+
+                                        <h3 class="h6 fw-bold mb-0">
+                                            Consultations
+                                        </h3>
+                                    </div>
+
+                                    <p class="text-muted small mb-0">
+                                        Record diagnoses, treatment plans and clinical notes.
+                                    </p>
+
+                                </div>
 
                             </a>
-
                         </div>
 
-                        <div class="col-md-4">
-
-                            <a asp-controller="Doctor"
-                                   asp-action="MedicalRecords"
-                                   class="portal-card text-center">
-
-                                <i class="bi bi-file-medical"></i>
-
-                                <h5>Patient Records</h5>
-
-                            </a>
-
-                        </div>
-
-                        <div class="col-md-4">
-
+                        <div class="col-12 col-md-6">
                             <a asp-controller="Doctor"
                                    asp-action="GeneratePrescription"
-                                   class="portal-card text-center">
+                                   class="text-decoration-none">
 
-                                <i class="bi bi-capsule-pill"></i>
+                                <div class="border rounded-4 p-4 h-100 dashboard-action-card">
 
-                                <h5>Generate Prescription</h5>
+                                    <div class="d-flex align-items-center gap-3 mb-3">
+                                        <span class="rounded-3 bg-info-subtle text-info d-inline-flex align-items-center justify-content-center"
+                                              style="width:48px;height:48px;">
+                                            <i class="bi bi-capsule-pill fs-4"
+                                               aria-hidden="true"></i>
+                                        </span>
+
+                                        <h3 class="h6 fw-bold mb-0">
+                                            Prescriptions
+                                        </h3>
+                                    </div>
+
+                                    <p class="text-muted small mb-0">
+                                        Generate and review medication prescriptions.
+                                    </p>
+
+                                </div>
 
                             </a>
+                        </div>
 
+                        <div class="col-12 col-md-6">
+                            <a asp-controller="Doctor"
+                                   asp-action="MedicalRecords"
+                                   class="text-decoration-none">
+
+                                <div class="border rounded-4 p-4 h-100 dashboard-action-card">
+
+                                    <div class="d-flex align-items-center gap-3 mb-3">
+                                        <span class="rounded-3 bg-warning-subtle text-warning d-inline-flex align-items-center justify-content-center"
+                                              style="width:48px;height:48px;">
+                                            <i class="bi bi-folder2-open fs-4"
+                                               aria-hidden="true"></i>
+                                        </span>
+
+                                        <h3 class="h6 fw-bold mb-0">
+                                            Medical Records
+                                        </h3>
+                                    </div>
+
+                                    <p class="text-muted small mb-0">
+                                        Review consultations and prescriptions in one place.
+                                    </p>
+
+                                </div>
+
+                            </a>
                         </div>
 
                     </div>
 
                 </div>
+            </div>
+        </div>
+
+        <!-- Security/status -->
+        <div class="col-12 col-lg-4">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                <div class="card-header bg-transparent border-0 pt-4 px-4">
+                    <h2 class="h5 fw-bold mb-1">
+                        Workspace Status
+                    </h2>
+
+                    <p class="text-muted small mb-0">
+                        Your current clinical workspace.
+                    </p>
+                </div>
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex align-items-center gap-3 mb-4">
+                        <span class="rounded-circle bg-success-subtle text-success d-inline-flex align-items-center justify-content-center"
+                              style="width:48px;height:48px;">
+                            <i class="bi bi-shield-check fs-4"
+                               aria-hidden="true"></i>
+                        </span>
+
+                        <div>
+                            <div class="fw-semibold">
+                                Secure Session
+                            </div>
+
+                            <small class="text-muted">
+                                Authenticated clinical access
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-3 mb-4">
+                        <span class="rounded-circle bg-primary-subtle text-primary d-inline-flex align-items-center justify-content-center"
+                              style="width:48px;height:48px;">
+                            <i class="bi bi-database-check fs-4"
+                               aria-hidden="true"></i>
+                        </span>
+
+                        <div>
+                            <div class="fw-semibold">
+                                Clinical Data
+                            </div>
+
+                            <small class="text-muted">
+                                Database-backed records
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-3">
+                        <span class="rounded-circle bg-info-subtle text-info d-inline-flex align-items-center justify-content-center"
+                              style="width:48px;height:48px;">
+                            <i class="bi bi-lock-fill fs-4"
+                               aria-hidden="true"></i>
+                        </span>
+
+                        <div>
+                            <div class="fw-semibold">
+                                Role Protected
+                            </div>
+
+                            <small class="text-muted">
+                                Doctor-only clinical workspace
+                            </small>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+    .dashboard-action-card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+        .dashboard-action-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08);
+        }
+</style>

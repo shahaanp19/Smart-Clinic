@@ -5,59 +5,73 @@
 <section class="page-section">
     <div class="container">
 
-        <div class="mb-5">
+        <div class="mb-4">
             <span class="smart-badge">Clinic Administrator</span>
 
             <h1 class="dashboard-title mt-3">
                 User Management
             </h1>
 
-            <p class="text-muted">
+            <p class="text-muted mb-0">
                 Manage patients, doctors and reception staff within the clinic system.
             </p>
         </div>
 
-        <div class="row g-4 mb-5">
+        <div class="row g-4 mb-4">
 
             <div class="col-md-4">
                 <div class="smart-card stat-panel">
                     <i class="bi bi-people"></i>
-                    <h3 id="patientCount">2,450</h3>
-                    <p>Registered Patients</p>
+                    <h3>—</h3>
+                    <p class="mb-0">Registered Patients</p>
+                    <small>No data available</small>
                 </div>
             </div>
 
             <div class="col-md-4">
                 <div class="smart-card stat-panel">
                     <i class="bi bi-heart-pulse"></i>
-                    <h3 id="doctorCount">5</h3>
-                    <p>Active Doctors</p>
+                    <h3>—</h3>
+                    <p class="mb-0">Active Doctors</p>
+                    <small>No data available</small>
                 </div>
             </div>
 
             <div class="col-md-4">
                 <div class="smart-card stat-panel">
                     <i class="bi bi-headset"></i>
-                    <h3 id="receptionCount">4</h3>
-                    <p>Reception Staff</p>
+                    <h3>—</h3>
+                    <p class="mb-0">Reception Staff</p>
+                    <small>No data available</small>
                 </div>
             </div>
 
         </div>
 
-        <div class="smart-card mb-4">
+        <div class="smart-card mb-4 user-filters-card">
+
+            <div class="section-header mb-3">
+                <div>
+                    <h4 class="mb-1">Find Users</h4>
+                    <p class="text-muted mb-0">
+                        Search and filter users once clinic records are available.
+                    </p>
+                </div>
+            </div>
 
             <div class="row g-3">
 
                 <div class="col-md-6">
+                    <label for="userSearch" class="form-label">Search</label>
                     <input id="userSearch"
                            type="text"
                            class="form-control smart-input"
-                           placeholder="Search users..."
+                           placeholder="Search by name or email..."
                            autocomplete="off" />
                 </div>
 
                 <div class="col-md-3">
+                    <label for="roleFilter" class="form-label">Role</label>
                     <select id="roleFilter" class="form-select smart-input">
                         <option value="">All Roles</option>
                         <option value="Patient">Patient</option>
@@ -66,7 +80,7 @@
                     </select>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-3 d-flex align-items-end">
                     <button type="button"
                             id="clearFilters"
                             class="btn btn-outline-secondary w-100">
@@ -82,8 +96,12 @@
         <div class="smart-card">
 
             <div class="section-header">
-
-                <h4>System Users</h4>
+                <div>
+                    <h4 class="mb-1">System Users</h4>
+                    <p class="text-muted mb-0">
+                        User records will appear here when available.
+                    </p>
+                </div>
 
                 <button type="button"
                         class="smart-btn-primary"
@@ -92,79 +110,27 @@
                     <i class="bi bi-person-plus me-2"></i>
                     Add User
                 </button>
-
             </div>
 
-            <div class="table-responsive">
-
-                <table class="table smart-table align-middle" id="usersTable">
-
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Role</th>
-                            <th>Email</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-
-                        <tr data-role="Patient">
-                            <td>Sarah Jacobs</td>
-                            <td>Patient</td>
-                            <td>sarah@email.com</td>
-                            <td>
-                                <span class="status-badge confirmed">Active</span>
-                            </td>
-                            <td>
-                                <button type="button"
-                                        class="btn btn-outline-primary btn-sm edit-user">
-                                    Edit
-                                </button>
-                            </td>
-                        </tr>
-
-                        <tr data-role="Doctor">
-                            <td>Dr Esmé Cilliers</td>
-                            <td>Doctor</td>
-                            <td>doctor@email.com</td>
-                            <td>
-                                <span class="status-badge confirmed">Active</span>
-                            </td>
-                            <td>
-                                <button type="button"
-                                        class="btn btn-outline-primary btn-sm edit-user">
-                                    Edit
-                                </button>
-                            </td>
-                        </tr>
-
-                        <tr data-role="Reception">
-                            <td>Lisa Adams</td>
-                            <td>Reception</td>
-                            <td>reception@email.com</td>
-                            <td>
-                                <span class="status-badge pending">Pending</span>
-                            </td>
-                            <td>
-                                <button type="button"
-                                        class="btn btn-outline-primary btn-sm edit-user">
-                                    Edit
-                                </button>
-                            </td>
-                        </tr>
-
-                    </tbody>
-
-                </table>
-
-                <div id="noUsersMessage"
-                     class="text-center text-muted py-4 d-none">
-                    No users match the selected criteria.
+            <div class="user-empty-state">
+                <div class="user-empty-icon">
+                    <i class="bi bi-people"></i>
                 </div>
 
+                <h5>No users available</h5>
+
+                <p>
+                    There are currently no user records to display.
+                    Add a user when you are ready to create a clinic account.
+                </p>
+
+                <button type="button"
+                        class="smart-btn-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#addUserModal">
+                    <i class="bi bi-person-plus me-2"></i>
+                    Add First User
+                </button>
             </div>
 
         </div>
@@ -172,15 +138,22 @@
     </div>
 </section>
 
-<div class="modal fade" id="addUserModal" tabindex="-1">
-    <div class="modal-dialog">
+<div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
 
             <div class="modal-header">
-                <h5 class="modal-title">Add User</h5>
+                <div>
+                    <h5 class="modal-title" id="addUserModalLabel">Add User</h5>
+                    <p class="text-muted small mb-0">
+                        Create a new clinic system user.
+                    </p>
+                </div>
+
                 <button type="button"
                         class="btn-close"
-                        data-bs-dismiss="modal"></button>
+                        data-bs-dismiss="modal"
+                        aria-label="Close"></button>
             </div>
 
             <form id="addUserForm">
@@ -188,23 +161,25 @@
                 <div class="modal-body">
 
                     <div class="mb-3">
-                        <label class="form-label">Full Name</label>
+                        <label for="newUserName" class="form-label">Full Name</label>
                         <input id="newUserName"
                                type="text"
                                class="form-control"
+                               autocomplete="name"
                                required />
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Email</label>
+                        <label for="newUserEmail" class="form-label">Email</label>
                         <input id="newUserEmail"
                                type="email"
                                class="form-control"
+                               autocomplete="email"
                                required />
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Role</label>
+                    <div>
+                        <label for="newUserRole" class="form-label">Role</label>
                         <select id="newUserRole"
                                 class="form-select"
                                 required>
@@ -215,17 +190,22 @@
                         </select>
                     </div>
 
+                    <div id="addUserMessage"
+                         class="alert alert-info mt-3 mb-0 d-none">
+                    </div>
+
                 </div>
 
                 <div class="modal-footer">
                     <button type="button"
-                            class="btn btn-secondary"
+                            class="btn btn-outline-secondary"
                             data-bs-dismiss="modal">
                         Cancel
                     </button>
 
                     <button type="submit"
                             class="smart-btn-primary">
+                        <i class="bi bi-person-plus me-2"></i>
                         Add User
                     </button>
                 </div>
@@ -236,96 +216,149 @@
     </div>
 </div>
 
-<script>
-    const searchInput = document.getElementById("userSearch");
-    const roleFilter = document.getElementById("roleFilter");
-    const clearFilters = document.getElementById("clearFilters");
-    const tableRows = document.querySelectorAll("#usersTable tbody tr");
-    const noUsersMessage = document.getElementById("noUsersMessage");
-
-    function filterUsers() {
-
-        const search = searchInput.value.toLowerCase().trim();
-        const role = roleFilter.value;
-
-        let visibleRows = 0;
-
-        tableRows.forEach(row => {
-
-            const text = row.innerText.toLowerCase();
-            const rowRole = row.dataset.role;
-
-            const matchesSearch = text.includes(search);
-            const matchesRole = !role || rowRole === role;
-
-            if (matchesSearch && matchesRole) {
-                row.style.display = "";
-                visibleRows++;
-            } else {
-                row.style.display = "none";
-            }
-        });
-
-        noUsersMessage.classList.toggle("d-none", visibleRows !== 0);
+<style>
+    .user-filters-card {
+        padding: 1.5rem;
     }
 
-    searchInput.addEventListener("input", filterUsers);
-    roleFilter.addEventListener("change", filterUsers);
+    .user-empty-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 2.5rem 1.5rem;
+        border: 1px dashed #d5dde5;
+        border-radius: 16px;
+        background: #fafcfd;
+    }
 
-    clearFilters.addEventListener("click", function () {
-        searchInput.value = "";
-        roleFilter.value = "";
-        filterUsers();
-    });
+    .user-empty-icon {
+        width: 64px;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 16px;
+        background: #e7f5f3;
+        color: #0f766e;
+        font-size: 1.7rem;
+        margin-bottom: 1rem;
+    }
 
-    document.querySelectorAll(".edit-user").forEach(button => {
+    .user-empty-state h5 {
+        margin-bottom: 0.5rem;
+        color: #243447;
+    }
 
-        button.addEventListener("click", function () {
+    .user-empty-state p {
+        max-width: 520px;
+        margin: 0 auto 1.25rem;
+        color: #6c757d;
+        line-height: 1.6;
+    }
 
-            const row = this.closest("tr");
-            const name = row.children[0].innerText;
+    .stat-panel {
+        height: auto;
+    }
 
-            alert("User management action selected for " + name + ".");
-        });
-    });
+        .stat-panel small {
+            display: block;
+            margin-top: 0.35rem;
+            color: #7a8793;
+            font-size: 0.82rem;
+        }
 
-    document.getElementById("addUserForm").addEventListener("submit", function (event) {
+    .modal-content {
+        border: 0;
+        border-radius: 18px;
+        box-shadow: 0 18px 50px rgba(15, 23, 42, 0.16);
+    }
 
-        event.preventDefault();
+    .modal-header,
+    .modal-footer {
+        border-color: #edf1f4;
+    }
 
-        const name = document.getElementById("newUserName").value;
-        const email = document.getElementById("newUserEmail").value;
-        const role = document.getElementById("newUserRole").value;
+    .modal-header {
+        padding: 1.25rem 1.5rem;
+    }
 
-        const row = document.createElement("tr");
+    .modal-body {
+        padding: 1.5rem;
+    }
 
-        row.dataset.role = role;
+    .modal-footer {
+        padding: 1rem 1.5rem;
+    }
 
-        row.innerHTML = `
-            <td>${name}</td>
-            <td>${role}</td>
-            <td>${email}</td>
-            <td>
-                <span class="status-badge confirmed">Active</span>
-            </td>
-            <td>
-                <button type="button"
-                        class="btn btn-outline-primary btn-sm edit-user">
-                    Edit
-                </button>
-            </td>
-        `;
+    @@media (max-width: 767.98px) {
+        .user-filters-card {
+            padding: 1.25rem;
+        }
 
-        document.querySelector("#usersTable tbody").appendChild(row);
+        .section-header {
+            gap: 1rem;
+            align-items: flex-start;
+        }
 
-        bootstrap.Modal.getInstance(
-            document.getElementById("addUserModal")
-        ).hide();
+            .section-header .smart-btn-primary {
+                width: 100%;
+            }
 
-        this.reset();
+        .user-empty-state {
+            padding: 2rem 1rem;
+        }
+    }
+</style>
 
-        location.reload();
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const searchInput = document.getElementById("userSearch");
+        const roleFilter = document.getElementById("roleFilter");
+        const clearFilters = document.getElementById("clearFilters");
+        const addUserForm = document.getElementById("addUserForm");
+        const addUserMessage = document.getElementById("addUserMessage");
+
+        if (searchInput && roleFilter) {
+            searchInput.addEventListener("input", function () {
+                // Filtering will be connected to persisted user records
+                // when the user-management backend is available.
+            });
+
+            roleFilter.addEventListener("change", function () {
+                // Filtering will be connected to persisted user records
+                // when the user-management backend is available.
+            });
+        }
+
+        if (clearFilters) {
+            clearFilters.addEventListener("click", function () {
+                if (searchInput) {
+                    searchInput.value = "";
+                }
+
+                if (roleFilter) {
+                    roleFilter.value = "";
+                }
+            });
+        }
+
+        if (addUserForm) {
+            addUserForm.addEventListener("submit", function (event) {
+                event.preventDefault();
+
+                if (!addUserForm.checkValidity()) {
+                    addUserForm.reportValidity();
+                    return;
+                }
+
+                if (addUserMessage) {
+                    addUserMessage.textContent =
+                        "The user form is ready to be connected to the user-management endpoint.";
+                    addUserMessage.classList.remove("d-none");
+                }
+            });
+        }
     });
 </script>
-
-

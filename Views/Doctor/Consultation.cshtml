@@ -1,220 +1,485 @@
-﻿@{
-    ViewData["Title"] = "Patient Consultation";
+﻿@using SmartClinicManagementSystem.DTOs
+@model object
+
+@{
+    ViewData["Title"] = "Consultations";
+
+    var patients =
+        ViewBag.Patients as List<PatientDto>
+        ?? new List<PatientDto>();
+
+    var appointments =
+        ViewBag.Appointments as List<AppointmentDto>
+        ?? new List<AppointmentDto>();
+
+    var consultations =
+        ViewBag.Consultations as List<ConsultationDto>
+        ?? new List<ConsultationDto>();
 }
 
-<section class="page-section">
+<div class="container-fluid px-0">
 
-    <div class="container">
+    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+        <div>
+            <div class="text-uppercase small fw-semibold text-primary mb-1">
+                Clinical Workspace
+            </div>
 
-        <!-- Page Header -->
+            <h1 class="h2 fw-bold mb-1">
+                Consultations
+            </h1>
 
-        <div class="smart-card mb-4">
+            <p class="text-muted mb-0">
+                Record and review patient consultations securely.
+            </p>
+        </div>
 
-            <div class="row align-items-center">
+        <span class="badge rounded-pill text-bg-primary px-3 py-2">
+            <i class="bi bi-shield-check me-1" aria-hidden="true"></i>
+            Clinical Record
+        </span>
+    </div>
 
-                <div class="col-md-8">
+    @if (TempData["SuccessMessage"] is string successMessage)
+    {
+        <div class="alert alert-success alert-dismissible fade show shadow-sm"
+             role="alert">
+            <i class="bi bi-check-circle-fill me-2" aria-hidden="true"></i>
+            @successMessage
 
-                    <span class="smart-badge">
-                        Doctor Dashboard
-                    </span>
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
+                    aria-label="Dismiss notification"></button>
+        </div>
+    }
 
-                    <h1 class="dashboard-title mt-3">
-                        Patient Consultation
-                    </h1>
+    @if (TempData["ErrorMessage"] is string errorMessage)
+    {
+        <div class="alert alert-danger alert-dismissible fade show shadow-sm"
+             role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"
+               aria-hidden="true"></i>
+            @errorMessage
 
-                    <p class="text-muted mb-0">
-                        Complete consultation notes and generate prescriptions.
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
+                    aria-label="Dismiss notification"></button>
+        </div>
+    }
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger shadow-sm"
+             role="alert">
+            <div class="d-flex gap-3">
+                <i class="bi bi-exclamation-circle-fill fs-5"
+                   aria-hidden="true"></i>
+
+                <div>
+                    <div class="fw-semibold mb-1">
+                        Please review the highlighted information.
+                    </div>
+
+                    <div asp-validation-summary="ModelOnly"></div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="row g-4">
+
+        <div class="col-12 col-xl-5">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-header bg-white border-0 p-4 pb-2">
+                    <h2 class="h5 fw-bold mb-1">
+                        Record Consultation
+                    </h2>
+
+                    <p class="text-muted small mb-0">
+                        Complete the clinical record for an attended appointment.
                     </p>
-
                 </div>
 
-                <div class="col-md-4 text-md-end">
+                <div class="card-body p-4">
 
-                    <span class="status-badge confirmed">
-                        Checked In
-                    </span>
+                    @if (appointments.Count == 0)
+                    {
+                        <div class="alert alert-info"
+                             role="status">
+                            <i class="bi bi-info-circle me-2"
+                               aria-hidden="true"></i>
+                            There are currently no eligible appointments available for consultation.
+                        </div>
+                    }
+                    else
+                    {
+                        <form asp-controller="Doctor"
+                              asp-action="Consultation"
+                              method="post"
+                              novalidate>
+
+                            @Html.AntiForgeryToken()
+
+                            <div class="mb-3">
+                                <label for="patientId"
+                                       class="form-label fw-semibold">
+                                    Patient
+                                </label>
+
+                                <select id="patientId"
+                                        name="patientId"
+                                        class="form-select"
+                                        required>
+                                    <option value="">
+                                        Select patient
+                                    </option>
+
+                                    @foreach (var patient in patients)
+                                    {
+                                        <option value="@patient.Id">
+                                            @patient.FullName — @patient.PatientNumber
+                                        </option>
+                                    }
+                                </select>
+
+                                <div class="form-text">
+                                    Select the patient associated with the appointment.
+                                </div>
+
+                                <span class="text-danger small"
+                                      data-valmsg-for="patientId"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="appointmentId"
+                                       class="form-label fw-semibold">
+                                    Appointment
+                                </label>
+
+                                <select id="appointmentId"
+                                        name="appointmentId"
+                                        class="form-select"
+                                        required>
+                                    <option value="">
+                                        Select appointment
+                                    </option>
+
+                                    @foreach (var appointment in appointments)
+                                    {
+                                        <option value="@appointment.Id"
+                                                data-patient-id="@appointment.PatientId">
+                                            @appointment.AppointmentDateTime.ToLocalTime().ToString("dd MMM yyyy, HH:mm")
+                                            — @(appointment.PatientName ?? $"Patient #{appointment.PatientId}")
+                                        </option>
+                                    }
+                                </select>
+
+                                <div class="form-text">
+                                    Only appointments assigned to your account are available.
+                                </div>
+
+                                <span class="text-danger small"
+                                      data-valmsg-for="appointmentId"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="symptoms"
+                                       class="form-label fw-semibold">
+                                    Symptoms
+                                </label>
+
+                                <textarea id="symptoms"
+                                          name="symptoms"
+                                          class="form-control"
+                                          rows="4"
+                                          maxlength="4000"
+                                          required
+                                          placeholder="Document the patient's reported symptoms..."></textarea>
+
+                                <div class="form-text text-end">
+                                    <span id="symptoms-count">0</span>/4000
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="diagnosis"
+                                       class="form-label fw-semibold">
+                                    Diagnosis
+                                </label>
+
+                                <textarea id="diagnosis"
+                                          name="diagnosis"
+                                          class="form-control"
+                                          rows="4"
+                                          maxlength="4000"
+                                          required
+                                          placeholder="Enter the clinical diagnosis..."></textarea>
+
+                                <div class="form-text text-end">
+                                    <span id="diagnosis-count">0</span>/4000
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="treatmentPlan"
+                                       class="form-label fw-semibold">
+                                    Treatment Plan
+                                </label>
+
+                                <textarea id="treatmentPlan"
+                                          name="treatmentPlan"
+                                          class="form-control"
+                                          rows="3"
+                                          maxlength="4000"
+                                          placeholder="Document the recommended treatment plan..."></textarea>
+
+                                <div class="form-text text-end">
+                                    <span id="treatment-count">0</span>/4000
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="clinicalNotes"
+                                       class="form-label fw-semibold">
+                                    Clinical Notes
+                                </label>
+
+                                <textarea id="clinicalNotes"
+                                          name="clinicalNotes"
+                                          class="form-control"
+                                          rows="4"
+                                          maxlength="6000"
+                                          placeholder="Add additional clinical observations or notes..."></textarea>
+
+                                <div class="form-text text-end">
+                                    <span id="notes-count">0</span>/6000
+                                </div>
+                            </div>
+
+                            <button type="submit"
+                                    class="btn btn-primary w-100"
+                                @(appointments.Count == 0 ? "disabled" : null)>
+                                <i class="bi bi-clipboard2-pulse me-2"
+                                   aria-hidden="true"></i>
+                                Record Consultation
+                            </button>
+
+                        </form>
+                    }
 
                 </div>
-
             </div>
 
         </div>
 
-        <div class="row g-4">
+        <div class="col-12 col-xl-7">
 
-            <!-- Patient Overview -->
+            <div class="card border-0 shadow-sm">
 
-            <div class="col-lg-4">
+                <div class="card-header bg-white border-0 p-4">
+                    <div class="d-flex justify-content-between align-items-center gap-3">
+                        <div>
+                            <h2 class="h5 fw-bold mb-1">
+                                Consultation History
+                            </h2>
 
-                <div class="smart-card">
-
-                    <h4 class="mb-4">
-                        Patient Overview
-                    </h4>
-
-                    <div class="mb-3">
-                        <small class="text-muted">Patient Name</small>
-                        <h5>Sarah Jacobs</h5>
-                    </div>
-
-                    <div class="mb-3">
-                        <small class="text-muted">Appointment Type</small>
-                        <h5>General Consultation</h5>
-                    </div>
-
-                    <div class="mb-3">
-                        <small class="text-muted">Consultation Time</small>
-                        <h5>09:00 AM</h5>
-                    </div>
-
-                    <hr />
-
-                    <div>
-                        <small class="text-muted">
-                            Medical Alert
-                        </small>
-
-                        <p class="mb-0 text-danger fw-semibold">
-                            Penicillin Allergy
-                        </p>
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- Consultation Form -->
-
-            <div class="col-lg-8">
-
-                <div class="smart-card">
-
-                    <h4 class="mb-4">
-                        Consultation Notes
-                    </h4>
-
-                    <div class="mb-3">
-
-                        <label class="smart-label">
-                            Symptoms
-                        </label>
-
-                        <textarea class="form-control smart-input"
-                                  rows="3"></textarea>
-
-                    </div>
-
-                    <div class="mb-3">
-
-                        <label class="smart-label">
-                            Diagnosis
-                        </label>
-
-                        <input class="form-control smart-input" />
-
-                    </div>
-
-                    <div class="mb-4">
-
-                        <label class="smart-label">
-                            Treatment Notes
-                        </label>
-
-                        <textarea class="form-control smart-input"
-                                  rows="4"></textarea>
-
-                    </div>
-
-                </div>
-
-                <!-- Prescription -->
-
-                <div class="smart-card mt-4">
-
-                    <h4 class="mb-4">
-                        Prescription
-                    </h4>
-
-                    <div class="row g-3">
-
-                        <div class="col-md-6">
-
-                            <label class="smart-label">
-                                Medication
-                            </label>
-
-                            <input class="form-control smart-input" />
-
+                            <p class="text-muted small mb-0">
+                                Your recorded clinical consultations.
+                            </p>
                         </div>
 
-                        <div class="col-md-6">
-
-                            <label class="smart-label">
-                                Dosage
-                            </label>
-
-                            <input class="form-control smart-input" />
-
-                        </div>
-
-                        <div class="col-md-6">
-
-                            <label class="smart-label">
-                                Duration
-                            </label>
-
-                            <input class="form-control smart-input" />
-
-                        </div>
-
-                        <div class="col-md-6">
-
-                            <label class="smart-label">
-                                Instructions
-                            </label>
-
-                            <input class="form-control smart-input" />
-
-                        </div>
-
+                        <span class="badge rounded-pill text-bg-light border">
+                            @consultations.Count record@(consultations.Count == 1 ? "" : "s")
+                        </span>
                     </div>
-
                 </div>
 
-                <!-- Actions -->
+                <div class="card-body p-0">
 
-                <div class="mt-4 d-flex gap-3 flex-wrap">
+                    @if (consultations.Count == 0)
+                    {
+                        <div class="text-center py-5 px-4">
+                            <div class="rounded-circle bg-primary-subtle text-primary d-inline-flex p-3 mb-3">
+                                <i class="bi bi-clipboard2-pulse fs-3"
+                                   aria-hidden="true"></i>
+                            </div>
 
-                    <button class="smart-btn-primary">
+                            <h3 class="h5 fw-bold">
+                                No consultations recorded
+                            </h3>
 
-                        <i class="bi bi-save me-2"></i>
+                            <p class="text-muted mb-0">
+                                Completed consultation records will appear here.
+                            </p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="list-group list-group-flush">
 
-                        Save Consultation
+                            @foreach (var consultation in consultations
+                                .OrderByDescending(c => c.ConsultationDateUtc))
+                            {
+                                <div class="list-group-item p-4">
 
-                    </button>
+                                    <div class="d-flex flex-column flex-md-row justify-content-between gap-3 mb-3">
+                                        <div>
+                                            <div class="fw-bold">
+                                                @(consultation.PatientName ?? $"Patient #{consultation.PatientId}")
+                                            </div>
 
-                    <button class="smart-btn-accent">
+                                            <div class="small text-muted">
+                                                Consultation
+                                                ·
+                                                @consultation.ConsultationDateUtc.ToLocalTime().ToString("dd MMM yyyy, HH:mm")
+                                            </div>
+                                        </div>
 
-                        <i class="bi bi-capsule me-2"></i>
+                                        <span class="badge rounded-pill text-bg-success align-self-start">
+                                            <i class="bi bi-check-circle me-1"
+                                               aria-hidden="true"></i>
+                                            Recorded
+                                        </span>
+                                    </div>
 
-                        Generate Prescription
+                                    <div class="row g-3">
 
-                    </button>
+                                        <div class="col-12">
+                                            <div class="small text-uppercase fw-semibold text-muted mb-1">
+                                                Symptoms
+                                            </div>
 
-                    <a asp-controller="Doctor"
-                           asp-action="Dashboard"
-                           class="btn btn-outline-secondary rounded-3">
+                                            <div class="bg-light rounded-3 p-3">
+                                                @consultation.Symptoms
+                                            </div>
+                                        </div>
 
-                        Back
+                                        <div class="col-12">
+                                            <div class="small text-uppercase fw-semibold text-muted mb-1">
+                                                Diagnosis
+                                            </div>
 
-                    </a>
+                                            <div class="bg-light rounded-3 p-3">
+                                                @consultation.Diagnosis
+                                            </div>
+                                        </div>
+
+                                        @if (!string.IsNullOrWhiteSpace(consultation.TreatmentPlan))
+                                        {
+                                            <div class="col-12">
+                                                <div class="small text-uppercase fw-semibold text-muted mb-1">
+                                                    Treatment Plan
+                                                </div>
+
+                                                <div class="bg-light rounded-3 p-3">
+                                                    @consultation.TreatmentPlan
+                                                </div>
+                                            </div>
+                                        }
+
+                                        @if (!string.IsNullOrWhiteSpace(consultation.ClinicalNotes))
+                                        {
+                                            <div class="col-12">
+                                                <div class="small text-uppercase fw-semibold text-muted mb-1">
+                                                    Clinical Notes
+                                                </div>
+
+                                                <div class="bg-light rounded-3 p-3">
+                                                    @consultation.ClinicalNotes
+                                                </div>
+                                            </div>
+                                        }
+
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                    }
 
                 </div>
-
             </div>
 
         </div>
 
     </div>
+</div>
 
-</section>
+@section Scripts {
+    <script>
+        (() => {
+            const patientSelect =
+                document.getElementById('patientId');
+
+            const appointmentSelect =
+                document.getElementById('appointmentId');
+
+            if (patientSelect && appointmentSelect) {
+                const appointmentOptions =
+                    Array.from(
+                        appointmentSelect.options
+                    ).slice(1);
+
+                const filterAppointments = () => {
+                    const patientId =
+                        patientSelect.value;
+
+                    appointmentOptions.forEach(option => {
+                        const matches =
+                            !patientId ||
+                            option.dataset.patientId === patientId;
+
+                        option.hidden = !matches;
+                    });
+
+                    const selected =
+                        appointmentSelect.selectedOptions[0];
+
+                    if (selected?.hidden) {
+                        appointmentSelect.value = '';
+                    }
+                };
+
+                patientSelect.addEventListener(
+                    'change',
+                    filterAppointments);
+
+                filterAppointments();
+            }
+
+            const counters = [
+                ['symptoms', 'symptoms-count'],
+                ['diagnosis', 'diagnosis-count'],
+                ['treatmentPlan', 'treatment-count'],
+                ['clinicalNotes', 'notes-count']
+            ];
+
+            counters.forEach(([inputId, counterId]) => {
+                const input =
+                    document.getElementById(inputId);
+
+                const counter =
+                    document.getElementById(counterId);
+
+                if (!input || !counter) {
+                    return;
+                }
+
+                const updateCounter = () => {
+                    counter.textContent =
+                        input.value.length;
+                };
+
+                input.addEventListener(
+                    'input',
+                    updateCounter);
+
+                updateCounter();
+            });
+        })();
+    </script>
+}

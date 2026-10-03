@@ -2,100 +2,156 @@
     ViewData["Title"] = "Book Appointment";
 }
 
-<section class="page-section">
+<section class="page-section patient-booking-page">
     <div class="container">
 
-        <div class="mb-4">
-            <span class="smart-badge">Patient Portal</span>
-            <h1 class="dashboard-title mt-3">Book Appointment</h1>
-            <p class="text-muted">
-                Select a doctor, service, date, and preferred consultation time.
-            </p>
+        <div class="booking-page-header">
+            <div>
+                <span class="smart-badge">Patient Portal</span>
+
+                <h1 class="dashboard-title mt-3">
+                    Book Appointment
+                </h1>
+
+                <p class="text-muted mb-0">
+                    Choose your preferred doctor, consultation type, date and available time.
+                </p>
+            </div>
+
+            <a asp-controller="Patient"
+                   asp-action="Dashboard"
+                   class="booking-back-link">
+                <i class="bi bi-arrow-left"></i>
+                Back to Dashboard
+            </a>
         </div>
 
-        <div class="row g-4">
+        <div class="booking-layout">
 
-            <div class="col-lg-8">
+            <main class="booking-main">
 
-                <div class="smart-card">
+                <div class="smart-card booking-card">
 
-                    <form>
+                    <div class="booking-card-header">
+                        <div>
+                            <span class="booking-section-label">
+                                APPOINTMENT DETAILS
+                            </span>
 
-                        <div class="row g-4">
+                            <h3>Schedule your visit</h3>
+                        </div>
 
-                            <div class="col-md-6">
+                        <div class="booking-step">
+                            <span>1</span>
+                            Details
+                        </div>
+                    </div>
+
+                    <form method="post"
+                          asp-controller="Patient"
+                          asp-action="BookAppointment">
+
+                        <div class="booking-form-grid">
+
+                            <div class="booking-field">
                                 <label class="form-label smart-label">
                                     Select Doctor
                                 </label>
 
-                                <select class="form-select smart-input">
-                                    <option>Dr Esme Cilliers</option>
-                                    <option>Dr Naidoo</option>
-                                    <option>Dr Petersen</option>
+                                <select name="DoctorId"
+                                        class="form-select smart-input"
+                                        required>
+                                    <option value="" selected disabled>
+                                        Select a doctor
+                                    </option>
                                 </select>
                             </div>
 
-
-                            <div class="col-md-6">
+                            <div class="booking-field">
                                 <label class="form-label smart-label">
                                     Consultation Type
                                 </label>
 
-                                <select class="form-select smart-input">
-                                    <option>General Consultation</option>
-                                    <option>Follow-up Consultation</option>
-                                    <option>Medical Examination</option>
+                                <select name="ConsultationType"
+                                        class="form-select smart-input"
+                                        required>
+                                    <option value="" selected disabled>
+                                        Select consultation type
+                                    </option>
+
+                                    <option value="General Consultation">
+                                        General Consultation
+                                    </option>
+
+                                    <option value="Follow-up Consultation">
+                                        Follow-up Consultation
+                                    </option>
+
+                                    <option value="Medical Examination">
+                                        Medical Examination
+                                    </option>
                                 </select>
                             </div>
 
-
-                            <div class="col-md-6">
+                            <div class="booking-field">
                                 <label class="form-label smart-label">
                                     Appointment Date
                                 </label>
 
-                                <input type="date" class="form-control smart-input" />
+                                <input type="date"
+                                       name="AppointmentDate"
+                                       class="form-control smart-input"
+                                       min="@DateTime.Today.ToString("yyyy-MM-dd")"
+                                       required />
                             </div>
 
-
-                            <div class="col-md-6">
+                            <div class="booking-field">
                                 <label class="form-label smart-label">
                                     Appointment Time
                                 </label>
 
-                                <select class="form-select smart-input">
-                                    <option>09:00</option>
-                                    <option>09:30</option>
-                                    <option>10:00</option>
-                                    <option>10:30</option>
-                                    <option>11:00</option>
+                                <select name="AppointmentTime"
+                                        class="form-select smart-input"
+                                        required>
+                                    <option value="" selected disabled>
+                                        Select an available time
+                                    </option>
                                 </select>
                             </div>
 
-
-                            <div class="col-12">
+                            <div class="booking-field booking-field-full">
                                 <label class="form-label smart-label">
-                                    Reason For Visit
+                                    Reason for Visit
                                 </label>
 
-                                <textarea rows="4" class="form-control smart-input">
-Routine consultation and follow-up assessment
-                                </textarea>
+                                <textarea name="ReasonForVisit"
+                                          rows="4"
+                                          class="form-control smart-input"
+                                          placeholder="Briefly describe the reason for your visit..."
+                                          maxlength="1000"></textarea>
+
+                                <div class="booking-field-note">
+                                    <i class="bi bi-info-circle"></i>
+
+                                    <span>
+                                        Please provide any relevant information that may help the medical team.
+                                    </span>
+                                </div>
                             </div>
 
                         </div>
 
+                        <div class="booking-form-footer">
 
-                        <div class="mt-4 d-flex gap-3 flex-wrap">
-
-                            <button type="button" class="smart-btn-primary">
+                            <button type="submit"
+                                    class="smart-btn-primary">
                                 <i class="bi bi-calendar-check me-2"></i>
                                 Confirm Booking
                             </button>
 
                             <a asp-controller="Patient"
                                    asp-action="Dashboard"
-                                   class="btn btn-outline-secondary rounded-3 px-4">
+                                   class="booking-cancel-button">
                                 Cancel
                             </a>
 
@@ -105,118 +161,547 @@ Routine consultation and follow-up assessment
 
                 </div>
 
+                <div class="smart-card booking-card availability-card">
 
-                <div class="smart-card mt-4">
+                    <div class="booking-card-header">
+                        <div>
+                            <span class="booking-section-label">
+                                AVAILABILITY
+                            </span>
 
-                    <h4 class="mb-4">
-                        Available Time Slots
-                    </h4>
+                            <h3>Available time slots</h3>
+                        </div>
+                    </div>
 
-                    <div class="slot-grid">
+                    <div class="booking-empty-slots">
 
-                        <button class="slot-button selected">
-                            09:00
-                        </button>
+                        <div class="booking-empty-icon">
+                            <i class="bi bi-calendar2-week"></i>
+                        </div>
 
-                        <button class="slot-button">
-                            09:30
-                        </button>
+                        <div>
+                            <h4>Select a doctor and date</h4>
 
-                        <button class="slot-button">
-                            10:00
-                        </button>
-
-                        <button class="slot-button">
-                            10:30
-                        </button>
-
-                        <button class="slot-button">
-                            11:00
-                        </button>
-
-                        <button class="slot-button">
-                            11:30
-                        </button>
-
-                        <button class="slot-button">
-                            14:00
-                        </button>
-
-                        <button class="slot-button">
-                            14:30
-                        </button>
+                            <p>
+                                Available appointment times will appear here
+                                once you select your preferred doctor and date.
+                            </p>
+                        </div>
 
                     </div>
 
                 </div>
 
-            </div>
+            </main>
 
+            <aside class="booking-sidebar">
 
-            <div class="col-lg-4">
+                <div class="smart-card booking-summary-card">
 
-                <div class="smart-card">
+                    <div class="booking-card-header">
+                        <div>
+                            <span class="booking-section-label">
+                                REVIEW
+                            </span>
 
-                    <h4 class="mb-4">
-                        Appointment Summary
-                    </h4>
-
-                    <div class="summary-item">
-                        <span>Doctor</span>
-                        <strong>Dr Esme Cilliers</strong>
+                            <h3>Appointment summary</h3>
+                        </div>
                     </div>
 
-                    <div class="summary-item">
-                        <span>Service</span>
-                        <strong>General Consultation</strong>
-                    </div>
+                    <div class="booking-summary-empty">
 
-                    <div class="summary-item">
-                        <span>Date</span>
-                        <strong>12 May 2026</strong>
-                    </div>
+                        <div class="booking-summary-icon">
+                            <i class="bi bi-calendar-check"></i>
+                        </div>
 
-                    <div class="summary-item">
-                        <span>Time</span>
-                        <strong>09:00</strong>
-                    </div>
+                        <h4>No appointment selected</h4>
 
-                    <div class="summary-item">
-                        <span>Duration</span>
-                        <strong>30 Minutes</strong>
-                    </div>
+                        <p>
+                            Your selected doctor, date, time and consultation
+                            details will appear here.
+                        </p>
 
-                    <div class="summary-item border-0">
-                        <span>Consultation Fee</span>
-                        <strong>R450.00</strong>
                     </div>
 
                 </div>
 
+                <div class="smart-card booking-info-card">
 
-                <div class="smart-card mt-4">
+                    <div class="booking-info-title">
 
-                    <h4 class="mb-3">
-                        Important Information
-                    </h4>
+                        <div class="booking-info-icon">
+                            <i class="bi bi-info-lg"></i>
+                        </div>
 
-                    <p class="text-muted small">
-                        Please arrive 15 minutes before your appointment.
-                    </p>
+                        <h4>Before your visit</h4>
 
-                    <p class="text-muted small">
-                        Bring your identification document and medical aid details.
-                    </p>
+                    </div>
 
-                    <p class="text-muted small mb-0">
-                        Appointment reminders will be sent automatically.
-                    </p>
+                    <div class="booking-info-item">
+                        <i class="bi bi-clock"></i>
+
+                        <p>
+                            Please arrive a few minutes before your scheduled appointment.
+                        </p>
+                    </div>
+
+                    <div class="booking-info-item">
+                        <i class="bi bi-person-vcard"></i>
+
+                        <p>
+                            Bring your identification and relevant medical information.
+                        </p>
+                    </div>
+
+                    <div class="booking-info-item">
+                        <i class="bi bi-bell"></i>
+
+                        <p>
+                            Appointment reminders will appear in your patient portal.
+                        </p>
+                    </div>
 
                 </div>
 
-            </div>
+            </aside>
 
         </div>
 
     </div>
+
+    <style>
+
+            .patient-booking-page {
+                padding-top: 10px;
+                padding-bottom: 48px;
+            }
+
+            .booking-page-header {
+                display: flex;
+                align-items: flex-end;
+                justify-content: space-between;
+                gap: 24px;
+                margin-bottom: 32px;
+            }
+
+            .booking-back-link {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                flex-shrink: 0;
+                padding: 10px 15px;
+                border: 1px solid #e5e7eb;
+                border-radius: 10px;
+                background: #ffffff;
+                color: #475569;
+                font-size: 13px;
+                font-weight: 700;
+                text-decoration: none;
+                transition: all 0.2s ease;
+            }
+
+                .booking-back-link:hover {
+                    color: var(--primary);
+                    border-color: rgba(15, 118, 110, 0.25);
+                    background: #f0fdfa;
+                }
+
+            .booking-layout {
+                display: grid;
+                grid-template-columns: minmax(0, 1.7fr) minmax(280px, 0.8fr);
+                gap: 24px;
+                align-items: start;
+            }
+
+            .booking-main,
+            .booking-sidebar {
+                min-width: 0;
+            }
+
+            .booking-main {
+                display: flex;
+                flex-direction: column;
+                gap: 24px;
+            }
+
+            .booking-sidebar {
+                display: flex;
+                flex-direction: column;
+                gap: 24px;
+            }
+
+            .booking-card,
+            .booking-summary-card,
+            .booking-info-card {
+                padding: 26px;
+                border-radius: 18px;
+            }
+
+            .booking-card-header {
+                display: flex;
+                align-items: flex-start;
+                justify-content: space-between;
+                gap: 16px;
+                margin-bottom: 24px;
+                padding-bottom: 18px;
+                border-bottom: 1px solid #eef2f7;
+            }
+
+            .booking-section-label {
+                display: block;
+                margin-bottom: 5px;
+                color: var(--primary);
+                font-size: 10px;
+                font-weight: 800;
+                letter-spacing: 0.14em;
+            }
+
+            .booking-card-header h3 {
+                margin: 0;
+                color: #111827;
+                font-size: 20px;
+                font-weight: 700;
+                letter-spacing: -0.02em;
+            }
+
+            .booking-step {
+                display: inline-flex;
+                align-items: center;
+                gap: 7px;
+                flex-shrink: 0;
+                padding: 6px 10px;
+                border-radius: 20px;
+                background: #f0fdfa;
+                color: var(--primary);
+                font-size: 12px;
+                font-weight: 700;
+            }
+
+                .booking-step span {
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 21px;
+                    height: 21px;
+                    border-radius: 50%;
+                    background: var(--primary);
+                    color: #ffffff;
+                    font-size: 10px;
+                }
+
+            .booking-form-grid {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 20px;
+            }
+
+            .booking-field {
+                min-width: 0;
+            }
+
+            .booking-field-full {
+                grid-column: 1 / -1;
+            }
+
+            .smart-label {
+                margin-bottom: 7px;
+                color: #334155;
+                font-size: 13px;
+                font-weight: 700;
+            }
+
+            .smart-input {
+                min-height: 46px;
+                border-color: #dfe5eb;
+                border-radius: 10px;
+                color: #1f2937;
+                font-size: 14px;
+                box-shadow: none;
+                transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            }
+
+            textarea.smart-input {
+                min-height: 110px;
+                resize: vertical;
+            }
+
+            .smart-input:focus {
+                border-color: var(--primary);
+                box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.09);
+            }
+
+            .smart-input::placeholder {
+                color: #94a3b8;
+            }
+
+            .booking-field-note {
+                display: flex;
+                align-items: flex-start;
+                gap: 7px;
+                margin-top: 7px;
+                color: #94a3b8;
+                font-size: 12px;
+                line-height: 1.5;
+            }
+
+                .booking-field-note i {
+                    margin-top: 2px;
+                    flex-shrink: 0;
+                    color: var(--primary);
+                }
+
+            .booking-form-footer {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                margin-top: 24px;
+                padding-top: 20px;
+                border-top: 1px solid #eef2f7;
+            }
+
+            .booking-cancel-button {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 44px;
+                padding: 0 18px;
+                border: 1px solid #dfe5eb;
+                border-radius: 10px;
+                background: #ffffff;
+                color: #64748b;
+                font-size: 14px;
+                font-weight: 700;
+                text-decoration: none;
+                transition: all 0.2s ease;
+            }
+
+                .booking-cancel-button:hover {
+                    border-color: #cbd5e1;
+                    background: #f8fafc;
+                    color: #334155;
+                }
+
+            .booking-empty-slots {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 16px;
+                padding: 26px;
+                border: 1px dashed #dbe4ea;
+                border-radius: 14px;
+                background: #fafcfd;
+            }
+
+            .booking-empty-icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex: 0 0 auto;
+                width: 46px;
+                height: 46px;
+                border-radius: 12px;
+                background: #f0fdfa;
+                color: var(--primary);
+                font-size: 19px;
+            }
+
+            .booking-empty-slots h4 {
+                margin: 0 0 4px;
+                color: #334155;
+                font-size: 15px;
+                font-weight: 700;
+            }
+
+            .booking-empty-slots p {
+                max-width: 520px;
+                margin: 0;
+                color: #94a3b8;
+                font-size: 13px;
+                line-height: 1.55;
+            }
+
+            .booking-summary-card {
+                padding: 26px;
+            }
+
+            .booking-summary-empty {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 26px 12px 20px;
+                text-align: center;
+            }
+
+            .booking-summary-icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 52px;
+                height: 52px;
+                margin-bottom: 14px;
+                border-radius: 14px;
+                background: #f0fdfa;
+                color: var(--primary);
+                font-size: 21px;
+            }
+
+            .booking-summary-empty h4 {
+                margin: 0 0 6px;
+                color: #334155;
+                font-size: 15px;
+                font-weight: 700;
+            }
+
+            .booking-summary-empty p {
+                max-width: 260px;
+                margin: 0;
+                color: #94a3b8;
+                font-size: 13px;
+                line-height: 1.55;
+            }
+
+            .booking-info-card {
+                padding: 24px 26px;
+            }
+
+            .booking-info-title {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 20px;
+            }
+
+                .booking-info-title h4 {
+                    margin: 0;
+                    color: #1f2937;
+                    font-size: 16px;
+                    font-weight: 700;
+                }
+
+            .booking-info-icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 34px;
+                height: 34px;
+                border-radius: 10px;
+                background: #f0fdfa;
+                color: var(--primary);
+            }
+
+            .booking-info-item {
+                display: flex;
+                align-items: flex-start;
+                gap: 11px;
+                margin-bottom: 16px;
+            }
+
+                .booking-info-item:last-child {
+                    margin-bottom: 0;
+                }
+
+                .booking-info-item > i {
+                    flex: 0 0 auto;
+                    margin-top: 2px;
+                    color: var(--primary);
+                    font-size: 14px;
+                }
+
+                .booking-info-item p {
+                    margin: 0;
+                    color: #64748b;
+                    font-size: 13px;
+                    line-height: 1.55;
+                }
+
+            @@media (max-width: 991.98px) {
+
+                .booking-layout {
+                    grid-template-columns: 1fr;
+                }
+
+                .booking-sidebar {
+                    display: grid;
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                    align-items: start;
+                }
+            }
+
+            @@media (max-width: 767.98px) {
+
+                .patient-booking-page {
+                    padding-bottom: 32px;
+                }
+
+                .booking-page-header {
+                    display: block;
+                    margin-bottom: 24px;
+                }
+
+                .booking-back-link {
+                    margin-top: 16px;
+                }
+
+                .booking-form-grid {
+                    grid-template-columns: 1fr;
+                    gap: 18px;
+                }
+
+                .booking-field-full {
+                    grid-column: auto;
+                }
+
+                .booking-sidebar {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .booking-card,
+                .booking-summary-card,
+                .booking-info-card {
+                    padding: 20px;
+                }
+
+                .booking-card-header {
+                    margin-bottom: 20px;
+                }
+
+                .booking-empty-slots {
+                    align-items: flex-start;
+                }
+            }
+
+            @@media (max-width: 575.98px) {
+
+                .booking-page-header .dashboard-title {
+                    font-size: 28px;
+                }
+
+                .booking-card-header {
+                    display: block;
+                }
+
+                .booking-step {
+                    margin-top: 12px;
+                }
+
+                .booking-form-footer {
+                    align-items: stretch;
+                    flex-direction: column;
+                }
+
+                    .booking-form-footer .smart-btn-primary,
+                    .booking-cancel-button {
+                        width: 100%;
+                    }
+
+                .booking-empty-slots {
+                    flex-direction: column;
+                    text-align: center;
+                    align-items: center;
+                }
+            }
+
+    </style>
 </section>

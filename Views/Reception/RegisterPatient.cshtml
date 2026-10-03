@@ -1,0 +1,301 @@
+﻿@using SmartClinicManagementSystem.DTOs
+
+@model PatientDto
+
+@{
+    ViewData["Title"] = "Register Patient";
+}
+
+<div class="container-fluid py-4">
+
+    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+        <div>
+            <span class="badge rounded-pill text-bg-primary px-3 py-2 mb-2">
+                <i class="bi bi-person-plus-fill me-1" aria-hidden="true"></i>
+                Patient Registration
+            </span>
+
+            <h1 class="h3 fw-bold mb-1">Register Patient</h1>
+
+            <p class="text-muted mb-0">
+                Create a secure patient record for Smart Clinic.
+            </p>
+        </div>
+
+        <a asp-controller="Reception"
+               asp-action="Patients"
+               class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-2" aria-hidden="true"></i>
+            Back to Patients
+        </a>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-12 col-xl-10">
+
+            <form asp-controller="Reception"
+                  asp-action="RegisterPatient"
+                  method="post"
+                  novalidate>
+
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="ModelOnly"
+                     class="alert alert-danger"
+                     role="alert"
+                     aria-live="assertive"></div>
+
+                <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                    <div class="card-header bg-transparent border-0 px-4 pt-4">
+                        <div class="d-flex align-items-center gap-3">
+                            <span class="rounded-circle bg-primary-subtle text-primary d-inline-flex align-items-center justify-content-center"
+                                  style="width:46px;height:46px;">
+                                <i class="bi bi-person-vcard fs-5"
+                                   aria-hidden="true"></i>
+                            </span>
+
+                            <div>
+                                <h2 class="h5 fw-bold mb-1">
+                                    Personal Information
+                                </h2>
+
+                                <p class="text-muted small mb-0">
+                                    Enter the patient's identifying information.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body p-4">
+
+                        <div class="row g-4">
+
+                            <div class="col-12 col-md-6">
+                                <label asp-for="FullName"
+                                       class="form-label fw-semibold">
+                                    Full Name
+                                    <span class="text-danger" aria-hidden="true">*</span>
+                                </label>
+
+                                <input asp-for="FullName"
+                                       class="form-control"
+                                       autocomplete="name"
+                                       placeholder="Enter patient's full name"
+                                       required />
+
+                                <span asp-validation-for="FullName"
+                                      class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <label asp-for="PatientNumber"
+                                       class="form-label fw-semibold">
+                                    Patient Number
+                                    <span class="text-danger" aria-hidden="true">*</span>
+                                </label>
+
+                                <input asp-for="PatientNumber"
+                                       class="form-control"
+                                       placeholder="e.g. PAT-0001"
+                                       autocomplete="off"
+                                       required />
+
+                                <div class="form-text">
+                                    Use a unique clinic patient number.
+                                </div>
+
+                                <span asp-validation-for="PatientNumber"
+                                      class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <label asp-for="IdNumber"
+                                       class="form-label fw-semibold">
+                                    ID Number
+                                    <span class="text-danger" aria-hidden="true">*</span>
+                                </label>
+
+                                <input asp-for="IdNumber"
+                                       class="form-control"
+                                       autocomplete="off"
+                                       inputmode="numeric"
+                                       placeholder="Enter identification number"
+                                       required />
+
+                                <span asp-validation-for="IdNumber"
+                                      class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <label asp-for="DateOfBirth"
+                                       class="form-label fw-semibold">
+                                    Date of Birth
+                                    <span class="text-danger" aria-hidden="true">*</span>
+                                </label>
+
+                                <input asp-for="DateOfBirth"
+                                       type="date"
+                                       class="form-control"
+                                       autocomplete="bday"
+                                       required />
+
+                                <span asp-validation-for="DateOfBirth"
+                                      class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <label asp-for="Gender"
+                                       class="form-label fw-semibold">
+                                    Gender
+                                </label>
+
+                                <select asp-for="Gender"
+                                        class="form-select">
+                                    <option value="">Prefer not to say</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Other">Other</option>
+                                </select>
+
+                                <span asp-validation-for="Gender"
+                                      class="text-danger small"></span>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                    <div class="card-header bg-transparent border-0 px-4 pt-4">
+                        <div class="d-flex align-items-center gap-3">
+                            <span class="rounded-circle bg-info-subtle text-info d-inline-flex align-items-center justify-content-center"
+                                  style="width:46px;height:46px;">
+                                <i class="bi bi-telephone fs-5"
+                                   aria-hidden="true"></i>
+                            </span>
+
+                            <div>
+                                <h2 class="h5 fw-bold mb-1">
+                                    Contact Information
+                                </h2>
+
+                                <p class="text-muted small mb-0">
+                                    Provide the patient's preferred contact details.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body p-4">
+
+                        <div class="row g-4">
+
+                            <div class="col-12 col-md-6">
+                                <label asp-for="PhoneNumber"
+                                       class="form-label fw-semibold">
+                                    Phone Number
+                                    <span class="text-danger" aria-hidden="true">*</span>
+                                </label>
+
+                                <input asp-for="PhoneNumber"
+                                       class="form-control"
+                                       type="tel"
+                                       autocomplete="tel"
+                                       placeholder="+27 00 000 0000"
+                                       required />
+
+                                <span asp-validation-for="PhoneNumber"
+                                      class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <label asp-for="Email"
+                                       class="form-label fw-semibold">
+                                    Email Address
+                                </label>
+
+                                <input asp-for="Email"
+                                       class="form-control"
+                                       type="email"
+                                       autocomplete="email"
+                                       placeholder="patient@example.com" />
+
+                                <span asp-validation-for="Email"
+                                      class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-12">
+                                <label asp-for="Address"
+                                       class="form-label fw-semibold">
+                                    Residential Address
+                                </label>
+
+                                <textarea asp-for="Address"
+                                          class="form-control"
+                                          rows="3"
+                                          autocomplete="street-address"
+                                          placeholder="Enter residential address"></textarea>
+
+                                <span asp-validation-for="Address"
+                                      class="text-danger small"></span>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                    <div class="card-body p-4">
+
+                        <div class="d-flex align-items-start gap-3">
+                            <i class="bi bi-shield-check text-success fs-4"
+                               aria-hidden="true"></i>
+
+                            <div>
+                                <h2 class="h6 fw-bold mb-1">
+                                    Registration Security
+                                </h2>
+
+                                <p class="text-muted small mb-0">
+                                    Patient information is stored within the Smart Clinic
+                                    clinical management system and is protected by
+                                    authenticated staff access controls.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="d-flex flex-column flex-sm-row justify-content-end gap-2">
+
+                    <a asp-controller="Reception"
+                           asp-action="Patients"
+                           class="btn btn-outline-secondary px-4">
+                        Cancel
+                    </a>
+
+                    <button type="submit"
+                            class="btn btn-primary px-4">
+                        <i class="bi bi-person-check-fill me-2"
+                           aria-hidden="true"></i>
+                        Register Patient
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

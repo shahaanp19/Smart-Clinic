@@ -1,105 +1,466 @@
 ﻿@{
     ViewData["Title"] = "My Profile";
+
+    var patientName = User?.Identity?.IsAuthenticated == true
+        ? User.Identity.Name
+        : "Patient";
 }
 
-<section class="page-section">
+<section class="page-section patient-profile-page">
     <div class="container">
 
-        <div class="mb-4">
-            <span class="smart-badge">Patient Portal</span>
+        <div class="page-header patient-profile-header">
+            <div>
+                <span class="smart-badge">
+                    <i class="bi bi-person me-1"></i>
+                    Patient Portal
+                </span>
 
-            <h1 class="dashboard-title mt-3">
-                My Profile
-            </h1>
+                <h1 class="dashboard-title mt-3">
+                    My Profile
+                </h1>
 
-            <p class="text-muted">
-                View and manage your personal information.
-            </p>
+                <p class="text-muted mb-0">
+                    View and manage your personal information.
+                </p>
+            </div>
+
+            <a asp-controller="Patient"
+                   asp-action="Dashboard"
+                   class="smart-btn-secondary">
+                <i class="bi bi-arrow-left me-2"></i>
+                Back to Dashboard
+            </a>
         </div>
 
         <div class="row g-4">
 
             <div class="col-lg-4">
+                <div class="smart-card profile-summary-card">
 
-                <div class="smart-card text-center">
+                    <div class="profile-avatar">
+                        <i class="bi bi-person"></i>
+                    </div>
 
-                    <i class="bi bi-person-circle"
-                       style="font-size:120px;color:var(--primary);"></i>
+                    <h3 class="profile-name">
+                        @patientName
+                    </h3>
 
-                    <h4 class="mt-3">
-                        Sarah Jacobs
-                    </h4>
-
-                    <p class="text-muted">
+                    <span class="profile-status">
+                        <span class="profile-status-dot"></span>
                         Active Patient
-                    </p>
+                    </span>
+
+                    <div class="profile-divider"></div>
+
+                    <div class="profile-summary-item">
+                        <i class="bi bi-shield-check"></i>
+
+                        <div>
+                            <span>Account Status</span>
+                            <strong>Active</strong>
+                        </div>
+                    </div>
+
+                    <div class="profile-summary-item">
+                        <i class="bi bi-lock"></i>
+
+                        <div>
+                            <span>Profile Security</span>
+                            <strong>Protected</strong>
+                        </div>
+                    </div>
 
                 </div>
-
             </div>
 
             <div class="col-lg-8">
+                <div class="smart-card profile-form-card">
 
-                <div class="smart-card">
+                    <div class="profile-section-heading">
 
-                    <h4 class="mb-4">
-                        Personal Information
-                    </h4>
-
-                    <div class="row g-3">
-
-                        <div class="col-md-6">
-                            <label class="smart-label">First Name</label>
-                            <input class="form-control smart-input"
-                                   value="Sarah" />
+                        <div class="profile-section-icon">
+                            <i class="bi bi-person-vcard"></i>
                         </div>
 
-                        <div class="col-md-6">
-                            <label class="smart-label">Surname</label>
-                            <input class="form-control smart-input"
-                                   value="Jacobs" />
-                        </div>
+                        <div>
+                            <h4>Personal Information</h4>
 
-                        <div class="col-md-6">
-                            <label class="smart-label">Email</label>
-                            <input class="form-control smart-input"
-                                   value="sarah.jacobs@email.com" />
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="smart-label">Phone Number</label>
-                            <input class="form-control smart-input"
-                                   value="082 555 0147" />
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="smart-label">Date of Birth</label>
-                            <input class="form-control smart-input"
-                                   value="12 March 1992" />
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="smart-label">Gender</label>
-                            <input class="form-control smart-input"
-                                   value="Female" />
+                            <p>
+                                Keep your contact and personal details up to date.
+                            </p>
                         </div>
 
                     </div>
 
-                    <div class="mt-4">
+                    <form method="post"
+                          asp-controller="Patient"
+                          asp-action="MyProfile">
 
-                        <button class="smart-btn-primary">
-                            <i class="bi bi-save me-2"></i>
-                            Save Changes
-                        </button>
+                        <div class="row g-4">
 
-                    </div>
+                            <div class="col-md-6">
+
+                                <label class="smart-label" for="FirstName">
+                                    First Name
+                                </label>
+
+                                <div class="profile-input-wrapper">
+                                    <i class="bi bi-person"></i>
+
+                                    <input id="FirstName"
+                                           name="FirstName"
+                                           class="form-control smart-input"
+                                           type="text"
+                                           autocomplete="given-name" />
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <label class="smart-label" for="Surname">
+                                    Surname
+                                </label>
+
+                                <div class="profile-input-wrapper">
+                                    <i class="bi bi-person"></i>
+
+                                    <input id="Surname"
+                                           name="Surname"
+                                           class="form-control smart-input"
+                                           type="text"
+                                           autocomplete="family-name" />
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <label class="smart-label" for="Email">
+                                    Email Address
+                                </label>
+
+                                <div class="profile-input-wrapper">
+                                    <i class="bi bi-envelope"></i>
+
+                                    <input id="Email"
+                                           name="Email"
+                                           class="form-control smart-input"
+                                           type="email"
+                                           autocomplete="email" />
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <label class="smart-label" for="PhoneNumber">
+                                    Phone Number
+                                </label>
+
+                                <div class="profile-input-wrapper">
+                                    <i class="bi bi-telephone"></i>
+
+                                    <input id="PhoneNumber"
+                                           name="PhoneNumber"
+                                           class="form-control smart-input"
+                                           type="tel"
+                                           autocomplete="tel" />
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <label class="smart-label" for="DateOfBirth">
+                                    Date of Birth
+                                </label>
+
+                                <div class="profile-input-wrapper">
+                                    <i class="bi bi-calendar3"></i>
+
+                                    <input id="DateOfBirth"
+                                           name="DateOfBirth"
+                                           class="form-control smart-input"
+                                           type="date"
+                                           autocomplete="bday" />
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <label class="smart-label" for="Gender">
+                                    Gender
+                                </label>
+
+                                <div class="profile-input-wrapper">
+                                    <i class="bi bi-gender-ambiguous"></i>
+
+                                    <select id="Gender"
+                                            name="Gender"
+                                            class="form-select smart-input">
+
+                                        <option value="">
+                                            Select gender
+                                        </option>
+
+                                        <option value="Male">
+                                            Male
+                                        </option>
+
+                                        <option value="Female">
+                                            Female
+                                        </option>
+
+                                        <option value="Other">
+                                            Other
+                                        </option>
+
+                                        <option value="PreferNotToSay">
+                                            Prefer not to say
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="profile-form-footer">
+
+                            <div class="profile-security-note">
+                                <i class="bi bi-shield-lock"></i>
+
+                                <span>
+                                    Your information is kept secure.
+                                </span>
+                            </div>
+
+                            <button type="submit"
+                                    class="smart-btn-primary">
+
+                                <i class="bi bi-check2-circle me-2"></i>
+
+                                Save Changes
+
+                            </button>
+
+                        </div>
+
+                    </form>
 
                 </div>
-
             </div>
 
         </div>
 
     </div>
 </section>
+
+<style>
+
+    .patient-profile-page {
+        padding-top: 2rem;
+        padding-bottom: 4rem;
+    }
+
+    .patient-profile-header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .profile-summary-card {
+        height: 100%;
+        min-height: 440px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 2.5rem 2rem;
+        text-align: center;
+    }
+
+    .profile-avatar {
+        width: 92px;
+        height: 92px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: rgba(15, 118, 110, 0.1);
+        color: var(--primary);
+        font-size: 2.8rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .profile-name {
+        margin: 0;
+        color: var(--text-dark);
+        font-weight: 700;
+        font-size: 1.45rem;
+    }
+
+    .profile-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        margin-top: 0.65rem;
+        padding: 0.4rem 0.8rem;
+        border-radius: 999px;
+        background: rgba(22, 163, 74, 0.1);
+        color: #15803d;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
+    .profile-status-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #16a34a;
+    }
+
+    .profile-divider {
+        width: 100%;
+        height: 1px;
+        background: #e5e7eb;
+        margin: 2rem 0 1.5rem;
+    }
+
+    .profile-summary-item {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 0.9rem;
+        padding: 0.85rem 0;
+        text-align: left;
+    }
+
+        .profile-summary-item > i {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: #f0fdfa;
+            color: var(--primary);
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .profile-summary-item span {
+            display: block;
+            color: #6b7280;
+            font-size: 0.78rem;
+            margin-bottom: 0.15rem;
+        }
+
+        .profile-summary-item strong {
+            display: block;
+            color: var(--text-dark);
+            font-size: 0.9rem;
+        }
+
+    .profile-form-card {
+        height: 100%;
+        padding: 2.25rem;
+    }
+
+    .profile-section-heading {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .profile-section-icon {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border-radius: 12px;
+        background: rgba(15, 118, 110, 0.1);
+        color: var(--primary);
+        font-size: 1.3rem;
+    }
+
+    .profile-section-heading h4 {
+        margin: 0 0 0.25rem;
+        color: var(--text-dark);
+        font-weight: 700;
+    }
+
+    .profile-section-heading p {
+        margin: 0;
+        color: #6b7280;
+        font-size: 0.9rem;
+    }
+
+    .smart-label {
+        display: block;
+        margin-bottom: 0.55rem;
+        color: var(--text-dark);
+        font-size: 0.88rem;
+        font-weight: 600;
+    }
+
+    .profile-input-wrapper {
+        position: relative;
+    }
+
+        .profile-input-wrapper > i {
+            position: absolute;
+            top: 50%;
+            left: 1rem;
+            z-index: 2;
+            transform: translateY(-50%);
+            color: #6b7280;
+            pointer-events: none;
+        }
+
+        .profile-input-wrapper .smart-input {
+            min-height: 48px;
+            padding-left: 2.75rem;
+        }
+
+            .profile-input-wrapper .smart-input:focus {
+                border-color: var(--primary);
+                box-shadow: 0 0 0 0.2rem rgba(15, 118, 110, 0.1);
+            }
+
+    .profile-form-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #e5e7eb;
+    }
+
+    .profile-security-note {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #6b7280;
+        font-size: 0.82rem;
+    }
+
+        .profile-security-note i {
+            color: var(--primary);
+            font-size: 1rem;
+        }
+
+</style>

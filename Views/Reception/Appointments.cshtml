@@ -1,0 +1,384 @@
+﻿@using SmartClinicManagementSystem.DTOs
+
+@model AppointmentDto
+
+@{
+    ViewData["Title"] = "Book Appointment";
+
+    var patients = ViewBag.Patients as List<PatientDto>
+                   ?? new List<PatientDto>();
+
+    var doctors = ViewBag.Doctors as List<DoctorDto>
+                  ?? new List<DoctorDto>();
+}
+
+<div class="container-fluid py-4">
+
+    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+        <div>
+            <span class="badge rounded-pill text-bg-primary px-3 py-2 mb-2">
+                <i class="bi bi-calendar-plus me-1" aria-hidden="true"></i>
+                Appointment Management
+            </span>
+
+            <h1 class="h3 fw-bold mb-1">Book Appointment</h1>
+
+            <p class="text-muted mb-0">
+                Schedule an appointment between an active patient and doctor.
+            </p>
+        </div>
+
+        <a asp-controller="Reception"
+               asp-action="Appointments"
+               class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-2" aria-hidden="true"></i>
+            Back to Appointments
+        </a>
+    </div>
+
+    @if (TempData["SuccessMessage"] is string successMessage)
+    {
+        <div class="alert alert-success alert-dismissible fade show"
+             role="alert"
+             aria-live="polite">
+            <i class="bi bi-check-circle-fill me-2" aria-hidden="true"></i>
+            @successMessage
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
+                    aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="row g-4">
+
+        <div class="col-12 col-xl-8">
+
+            <form asp-controller="Reception"
+                  asp-action="BookAppointment"
+                  method="post"
+                  novalidate>
+
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="ModelOnly"
+                     class="alert alert-danger"
+                     role="alert"
+                     aria-live="assertive"></div>
+
+                <div class="card border-0 shadow-sm rounded-4">
+
+                    <div class="card-header bg-transparent border-0 px-4 pt-4">
+                        <div class="d-flex align-items-center gap-3">
+                            <span class="rounded-circle bg-primary-subtle text-primary d-inline-flex align-items-center justify-content-center"
+                                  style="width:46px;height:46px;">
+                                <i class="bi bi-calendar2-plus fs-5"
+                                   aria-hidden="true"></i>
+                            </span>
+
+                            <div>
+                                <h2 class="h5 fw-bold mb-1">
+                                    Appointment Details
+                                </h2>
+
+                                <p class="text-muted small mb-0">
+                                    Complete all required appointment information.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body p-4">
+
+                        <div class="row g-4">
+
+                            <div class="col-12">
+                                <label asp-for="PatientId"
+                                       class="form-label fw-semibold">
+                                    Patient
+                                    <span class="text-danger" aria-hidden="true">*</span>
+                                </label>
+
+                                <select asp-for="PatientId"
+                                        class="form-select"
+                                        required>
+                                    <option value="">Select a patient</option>
+
+                                    @foreach (var patient in patients)
+                                    {
+                                        <option value="@patient.Id">
+                                            @patient.FullName — @patient.PatientNumber
+                                        </option>
+                                    }
+                                </select>
+
+                                <div class="form-text">
+                                    Only active registered patients are available.
+                                </div>
+
+                                <span asp-validation-for="PatientId"
+                                      class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-12">
+                                <label asp-for="DoctorId"
+                                       class="form-label fw-semibold">
+                                    Doctor
+                                    <span class="text-danger" aria-hidden="true">*</span>
+                                </label>
+
+                                <select asp-for="DoctorId"
+                                        class="form-select"
+                                        required>
+                                    <option value="">Select a doctor</option>
+
+                                    @foreach (var doctor in doctors)
+                                    {
+                                        <option value="@doctor.Id">
+                                            @doctor.FullName — @doctor.Specialisation
+                                        </option>
+                                    }
+                                </select>
+
+                                <div class="form-text">
+                                    Only active doctors are available for booking.
+                                </div>
+
+                                <span asp-validation-for="DoctorId"
+                                      class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <label asp-for="AppointmentDateTime"
+                                       class="form-label fw-semibold">
+                                    Appointment Date &amp; Time
+                                    <span class="text-danger" aria-hidden="true">*</span>
+                                </label>
+
+                                <input asp-for="AppointmentDateTime"
+                                       type="datetime-local"
+                                       class="form-control"
+                                       required />
+
+                                <span asp-validation-for="AppointmentDateTime"
+                                      class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <label asp-for="Status"
+                                       class="form-label fw-semibold">
+                                    Status
+                                </label>
+
+                                <input asp-for="Status"
+                                       class="form-control"
+                                       value="Scheduled"
+                                       readonly />
+
+                                <span asp-validation-for="Status"
+                                      class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-12">
+                                <label asp-for="Reason"
+                                       class="form-label fw-semibold">
+                                    Reason for Visit
+                                    <span class="text-danger" aria-hidden="true">*</span>
+                                </label>
+
+                                <textarea asp-for="Reason"
+                                          class="form-control"
+                                          rows="3"
+                                          placeholder="Briefly describe the reason for the appointment..."
+                                          required></textarea>
+
+                                <span asp-validation-for="Reason"
+                                      class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-12">
+                                <label asp-for="Notes"
+                                       class="form-label fw-semibold">
+                                    Additional Notes
+                                </label>
+
+                                <textarea asp-for="Notes"
+                                          class="form-control"
+                                          rows="3"
+                                          placeholder="Optional appointment notes..."></textarea>
+
+                                <span asp-validation-for="Notes"
+                                      class="text-danger small"></span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="card-footer bg-transparent border-0 px-4 pb-4">
+
+                        <div class="d-flex flex-column flex-sm-row justify-content-end gap-2">
+
+                            <a asp-controller="Reception"
+                                   asp-action="Appointments"
+                                   class="btn btn-outline-secondary px-4">
+                                Cancel
+                            </a>
+
+                            <button type="submit"
+                                    class="btn btn-primary px-4">
+                                <i class="bi bi-calendar-check me-2"
+                                   aria-hidden="true"></i>
+                                Book Appointment
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+        <div class="col-12 col-xl-4">
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+                <div class="card-body p-4">
+
+                    <div class="d-flex align-items-start gap-3">
+
+                        <span class="rounded-circle bg-success-subtle text-success d-inline-flex align-items-center justify-content-center flex-shrink-0"
+                              style="width:46px;height:46px;">
+                            <i class="bi bi-shield-check fs-5"
+                               aria-hidden="true"></i>
+                        </span>
+
+                        <div>
+                            <h2 class="h6 fw-bold mb-2">
+                                Booking Controls
+                            </h2>
+
+                            <ul class="list-unstyled small text-muted mb-0">
+
+                                <li class="d-flex gap-2 mb-2">
+                                    <i class="bi bi-check-circle-fill text-success mt-1"
+                                       aria-hidden="true"></i>
+                                    <span>
+                                        Patient and doctor records are validated.
+                                    </span>
+                                </li>
+
+                                <li class="d-flex gap-2 mb-2">
+                                    <i class="bi bi-check-circle-fill text-success mt-1"
+                                       aria-hidden="true"></i>
+                                    <span>
+                                        Appointment times must be in the future.
+                                    </span>
+                                </li>
+
+                                <li class="d-flex gap-2">
+                                    <i class="bi bi-check-circle-fill text-success mt-1"
+                                       aria-hidden="true"></i>
+                                    <span>
+                                        Doctor availability is checked before booking.
+                                    </span>
+                                </li>
+
+                            </ul>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-body p-4">
+
+                    <h2 class="h6 fw-bold mb-3">
+                        Booking Workflow
+                    </h2>
+
+                    <div class="d-flex gap-3 mb-3">
+                        <span class="badge rounded-circle text-bg-primary d-flex align-items-center justify-content-center flex-shrink-0"
+                              style="width:30px;height:30px;">
+                            1
+                        </span>
+
+                        <div>
+                            <div class="fw-semibold small">
+                                Select Patient
+                            </div>
+                            <div class="text-muted small">
+                                Choose an active registered patient.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-3 mb-3">
+                        <span class="badge rounded-circle text-bg-primary d-flex align-items-center justify-content-center flex-shrink-0"
+                              style="width:30px;height:30px;">
+                            2
+                        </span>
+
+                        <div>
+                            <div class="fw-semibold small">
+                                Select Doctor
+                            </div>
+                            <div class="text-muted small">
+                                Select the appropriate clinical provider.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-3">
+                        <span class="badge rounded-circle text-bg-primary d-flex align-items-center justify-content-center flex-shrink-0"
+                              style="width:30px;height:30px;">
+                            3
+                        </span>
+
+                        <div>
+                            <div class="fw-semibold small">
+                                Confirm Booking
+                            </div>
+                            <div class="text-muted small">
+                                Submit the appointment for scheduling.
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        (() => {
+            const appointmentInput =
+                document.getElementById("AppointmentDateTime");
+
+            if (!appointmentInput) {
+                return;
+            }
+
+            const now = new Date();
+
+            now.setMinutes(
+                now.getMinutes() - now.getTimezoneOffset()
+            );
+
+            appointmentInput.min =
+                now.toISOString().slice(0, 16);
+        })();
+    </script>
+}
