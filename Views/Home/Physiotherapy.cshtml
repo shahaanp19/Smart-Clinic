@@ -1,0 +1,141 @@
+﻿@{
+    ViewData["Title"] = "Physiotherapy";
+}
+
+<div class="public-page">
+
+    
+    <section class="service-detail-hero"
+             aria-labelledby="physiotherapyHeading">
+
+        <div class="container">
+
+            <div class="service-detail-hero-content">
+
+                <a asp-controller="Home"
+                       asp-action="MedicalDivisions"
+                       class="service-back-link">
+
+                    <i class="bi bi-arrow-left" aria-hidden="true"></i>
+                    All Medical Divisions
+
+                </a>
+
+                <span class="smart-badge mt-4">
+                    Physical Care
+                </span>
+
+                <h1 id="physiotherapyHeading">
+                    Physiotherapy
+                </h1>
+
+                <p>
+                    Movement-focused healthcare supporting recovery,
+                    rehabilitation, mobility and physical wellbeing.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="page-section"
+             aria-labelledby="physioCareHeading">
+
+        <div class="container">
+
+            <div class="row align-items-center g-5">
+
+                <div class="col-lg-6">
+
+                    <div class="public-image-frame">
+
+                        <img src="~/Images/Physio.jpg"
+                             alt="Healthcare professional providing rehabilitation support"
+                             class="img-fluid" />
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-6">
+
+                    <span class="smart-badge">
+                        Movement &amp; Recovery
+                    </span>
+
+                    <h2 id="physioCareHeading"
+                        class="section-title mt-3 mb-4">
+
+                        Helping you move with confidence
+
+                    </h2>
+
+                    <p class="public-lead">
+                        Physiotherapy focuses on movement, physical
+                        function and rehabilitation.
+                    </p>
+
+                    <p>
+                        Professional physiotherapy support can help
+                        patients work towards improved mobility and
+                        physical function following injury, illness
+                        or other physical challenges.
+                    </p>
+
+                    <p class="mb-0">
+                        Treatment and rehabilitation approaches are
+                        adapted to individual circumstances and goals.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="page-section">
+
+        <div class="container">
+
+            <div class="public-cta">
+
+                <div>
+
+                    <span class="smart-badge">
+                        Physical Care
+                    </span>
+
+                    <h2 class="mt-3 mb-3">
+                        Have a question about physiotherapy?
+                    </h2>
+
+                    <p class="mb-0">
+                        Contact the practice for more information.
+                    </p>
+
+                </div>
+
+                <a asp-controller="Home"
+                       asp-action="Contact"
+                       class="smart-btn-primary">
+
+                    Contact Us
+                    <i class="bi bi-arrow-right"
+                       aria-hidden="true"></i>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+    
+
+</div>

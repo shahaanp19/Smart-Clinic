@@ -2,78 +2,86 @@
     ViewData["Title"] = "Medical Divisions";
 }
 
-<!-- PAGE HERO -->
+<div class="public-page">
 
-<section class="hero-about py-5">
-    <div class="container py-lg-5">
+    <!-- HERO -->
+    <section class="service-directory-hero"
+             aria-labelledby="medicalDivisionsHeading">
 
-        ```
-        <div class="row justify-content-center text-center">
-            <div class="col-lg-8">
+        <div class="container">
+
+            <div class="service-directory-hero-content">
 
                 <span class="smart-badge">
                     Healthcare Services
                 </span>
 
-                <h1 class="hero-title mt-4 mb-4">
+                <h1 id="medicalDivisionsHeading">
                     Our Medical Divisions
                 </h1>
 
-                <p class="hero-text mx-auto">
-                    Access a range of healthcare services from
-                    professionals working together to support
-                    the health and wellbeing of individuals and families.
+                <p>
+                    Explore the healthcare services available at
+                    Doringkloof Medical Centre and find the right
+                    support for your individual healthcare needs.
                 </p>
 
             </div>
+
         </div>
 
-    </div>
-    ```
+    </section>
 
-</section>
 
-<!-- INTRODUCTION -->
+    <!-- INTRODUCTION -->
+    <section class="page-section"
+             aria-labelledby="careApproachHeading">
 
-<section class="page-section">
-    <div class="container">
+        <div class="container">
 
-        ```
-        <div class="row align-items-center g-5">
+            <div class="row align-items-center g-5">
 
-            <!-- IMAGE -->
-            <div class="col-lg-6">
-                <div class="division-image-wrapper">
+                <div class="col-lg-6">
 
-                    <img src="~/images/Consult 2.jpg"
-                         alt="Medical consultation"
-                         class="img-fluid division-image" />
+                    <div class="public-image-frame">
+
+                        <img src="~/images/Consult 2.jpg"
+                             alt="Doctor consulting with a patient at Doringkloof Medical Centre"
+                             class="img-fluid" />
+
+                    </div>
 
                 </div>
-            </div>
 
-            <!-- CONTENT -->
-            <div class="col-lg-6">
-
-                <div class="division-intro">
+                <div class="col-lg-6">
 
                     <span class="smart-badge">
                         Comprehensive Care
                     </span>
 
-                    <h2 class="section-title mt-3 mb-4">
+                    <h2 id="careApproachHeading"
+                        class="section-title mt-3 mb-4">
+
                         Healthcare in one convenient location
+
                     </h2>
 
-                    <p class="mb-4">
-                        Doringkloof Medical Centre provides access to
-                        different areas of healthcare within one
+                    <p class="public-lead">
+                        Doringkloof Medical Centre brings together
+                        different healthcare disciplines within one
                         convenient environment.
                     </p>
 
+                    <p>
+                        Our multidisciplinary approach allows patients
+                        and families to explore a range of medical,
+                        rehabilitation and wellness services according
+                        to their individual needs.
+                    </p>
+
                     <p class="mb-0">
-                        Explore the services available through our
-                        multidisciplinary healthcare practice.
+                        Select a service below to learn more about the
+                        care it provides.
                     </p>
 
                 </div>
@@ -82,254 +90,290 @@
 
         </div>
 
-    </div>
-    ```
+    </section>
 
-</section>
 
-<!-- DIVISIONS -->
+    <!-- SERVICES -->
+    <section class="page-section public-services-section"
+             aria-labelledby="servicesHeading">
 
-<section class="page-section bg-white">
-    <div class="container">
+        <div class="container">
 
-        ```
-        <div class="row justify-content-center text-center mb-5">
-            <div class="col-lg-8">
+            <div class="public-section-heading text-center">
 
                 <span class="smart-badge">
                     Our Services
                 </span>
 
-                <h2 class="section-title mt-3 mb-3">
+                <h2 id="servicesHeading"
+                    class="section-title mt-3 mb-3">
+
                     Areas of Healthcare
+
                 </h2>
 
-                <p class="section-subtitle">
-                    Our healthcare professionals provide services
-                    across a range of medical and wellness disciplines.
+                <p class="section-subtitle mx-auto">
+                    Explore our healthcare disciplines and discover
+                    the services available to support your health
+                    and wellbeing.
                 </p>
 
             </div>
+
+
+            <div class="row g-4">
+
+                <!-- DOCTORS -->
+                <div class="col-md-6 col-lg-4">
+
+                    <a asp-controller="Home"
+                           asp-action="Doctors"
+                           class="public-service-card">
+
+                        <div class="public-service-icon"
+                             aria-hidden="true">
+
+                            <i class="bi bi-heart-pulse"></i>
+
+                        </div>
+
+                        <div class="public-service-content">
+
+                            <h3>Doctors</h3>
+
+                            <p>
+                                General and family healthcare for
+                                everyday medical needs, assessment
+                                and ongoing care.
+                            </p>
+
+                        </div>
+
+                        <div class="public-service-footer">
+
+                            <span>Explore Medical Care</span>
+
+                            <i class="bi bi-arrow-up-right"
+                               aria-hidden="true"></i>
+
+                        </div>
+
+                    </a>
+
+                </div>
+
+
+                <!-- DENTISTRY -->
+                <div class="col-md-6 col-lg-4">
+
+                    <a asp-controller="Home"
+                           asp-action="Dentistry"
+                           class="public-service-card">
+
+                        <div class="public-service-icon"
+                             aria-hidden="true">
+
+                            <i class="bi bi-emoji-smile"></i>
+
+                        </div>
+
+                        <div class="public-service-content">
+
+                            <h3>Dentistry</h3>
+
+                            <p>
+                                Preventive, restorative, cosmetic
+                                and paediatric dental care.
+                            </p>
+
+                        </div>
+
+                        <div class="public-service-footer">
+
+                            <span>Explore Dental Care</span>
+
+                            <i class="bi bi-arrow-up-right"
+                               aria-hidden="true"></i>
+
+                        </div>
+
+                    </a>
+
+                </div>
+
+
+                <!-- DIETETICS -->
+                <div class="col-md-6 col-lg-4">
+
+                    <a asp-controller="Home"
+                           asp-action="Dietetics"
+                           class="public-service-card">
+
+                        <div class="public-service-icon"
+                             aria-hidden="true">
+
+                            <i class="bi bi-apple"></i>
+
+                        </div>
+
+                        <div class="public-service-content">
+
+                            <h3>Dietetics</h3>
+
+                            <p>
+                                Nutrition planning and personalised
+                                dietary guidance supporting healthier
+                                lifestyles.
+                            </p>
+
+                        </div>
+
+                        <div class="public-service-footer">
+
+                            <span>Explore Nutrition Care</span>
+
+                            <i class="bi bi-arrow-up-right"
+                               aria-hidden="true"></i>
+
+                        </div>
+
+                    </a>
+
+                </div>
+
+
+                <!-- ORTHOTICS -->
+                <div class="col-md-6 col-lg-4">
+
+                    <a asp-controller="Home"
+                           asp-action="Orthotics"
+                           class="public-service-card">
+
+                        <div class="public-service-icon"
+                             aria-hidden="true">
+
+                            <i class="bi bi-person-standing"></i>
+
+                        </div>
+
+                        <div class="public-service-content">
+
+                            <h3>Orthotics &amp; Prosthetics</h3>
+
+                            <p>
+                                Specialist support for mobility,
+                                rehabilitation and physical function.
+                            </p>
+
+                        </div>
+
+                        <div class="public-service-footer">
+
+                            <span>Explore Rehabilitation</span>
+
+                            <i class="bi bi-arrow-up-right"
+                               aria-hidden="true"></i>
+
+                        </div>
+
+                    </a>
+
+                </div>
+
+
+                <!-- PHYSIOTHERAPY -->
+                <div class="col-md-6 col-lg-4">
+
+                    <a asp-controller="Home"
+                           asp-action="Physiotherapy"
+                           class="public-service-card">
+
+                        <div class="public-service-icon"
+                             aria-hidden="true">
+
+                            <i class="bi bi-activity"></i>
+
+                        </div>
+
+                        <div class="public-service-content">
+
+                            <h3>Physiotherapy</h3>
+
+                            <p>
+                                Movement-focused care supporting
+                                recovery, rehabilitation and
+                                physical wellbeing.
+                            </p>
+
+                        </div>
+
+                        <div class="public-service-footer">
+
+                            <span>Explore Physical Care</span>
+
+                            <i class="bi bi-arrow-up-right"
+                               aria-hidden="true"></i>
+
+                        </div>
+
+                    </a>
+
+                </div>
+
+
+                <!-- PODIATRY -->
+                <div class="col-md-6 col-lg-4">
+
+                    <a asp-controller="Home"
+                           asp-action="Podiatry"
+                           class="public-service-card">
+
+                        <div class="public-service-icon"
+                             aria-hidden="true">
+
+                            <i class="bi bi-person-walking"></i>
+
+                        </div>
+
+                        <div class="public-service-content">
+
+                            <h3>Podiatry</h3>
+
+                            <p>
+                                Professional care focused on foot,
+                                ankle and lower-limb health.
+                            </p>
+
+                        </div>
+
+                        <div class="public-service-footer">
+
+                            <span>Explore Lower-Limb Care</span>
+
+                            <i class="bi bi-arrow-up-right"
+                               aria-hidden="true"></i>
+
+                        </div>
+
+                    </a>
+
+                </div>
+
+            </div>
+
         </div>
 
+    </section>
 
-        <div class="row g-4">
 
-            <!-- DOCTORS -->
-            <div class="col-md-6 col-lg-4">
-                <div class="smart-card division-card h-100">
+    <!-- CTA -->
+    <section class="page-section">
 
-                    <div class="division-card-icon">
-                        <i class="bi bi-heart-pulse"></i>
-                    </div>
+        <div class="container">
 
-                    <div class="division-card-content">
+            <div class="public-cta">
 
-                        <h3>
-                            Doctors
-                        </h3>
-
-                        <p>
-                            Family healthcare and general medical
-                            services for patients and families.
-                        </p>
-
-                    </div>
-
-                    <div class="division-card-footer">
-                        <span>
-                            Medical Care
-                        </span>
-
-                        <i class="bi bi-arrow-right"></i>
-                    </div>
-
-                </div>
-            </div>
-
-
-            <!-- DENTISTRY -->
-            <div class="col-md-6 col-lg-4">
-                <div class="smart-card division-card h-100">
-
-                    <div class="division-card-icon">
-                        <i class="bi bi-emoji-smile"></i>
-                    </div>
-
-                    <div class="division-card-content">
-
-                        <h3>
-                            Dentistry
-                        </h3>
-
-                        <p>
-                            Preventive, cosmetic and paediatric
-                            dental services.
-                        </p>
-
-                    </div>
-
-                    <div class="division-card-footer">
-                        <span>
-                            Dental Care
-                        </span>
-
-                        <i class="bi bi-arrow-right"></i>
-                    </div>
-
-                </div>
-            </div>
-
-
-            <!-- DIETETICS -->
-            <div class="col-md-6 col-lg-4">
-                <div class="smart-card division-card h-100">
-
-                    <div class="division-card-icon">
-                        <i class="bi bi-apple"></i>
-                    </div>
-
-                    <div class="division-card-content">
-
-                        <h3>
-                            Dietetics
-                        </h3>
-
-                        <p>
-                            Nutrition planning and lifestyle support
-                            tailored to individual needs.
-                        </p>
-
-                    </div>
-
-                    <div class="division-card-footer">
-                        <span>
-                            Nutrition
-                        </span>
-
-                        <i class="bi bi-arrow-right"></i>
-                    </div>
-
-                </div>
-            </div>
-
-
-            <!-- ORTHOTICS -->
-            <div class="col-md-6 col-lg-4">
-                <div class="smart-card division-card h-100">
-
-                    <div class="division-card-icon">
-                        <i class="bi bi-person-standing"></i>
-                    </div>
-
-                    <div class="division-card-content">
-
-                        <h3>
-                            Orthotics & Prosthetics
-                        </h3>
-
-                        <p>
-                            Specialist support for mobility,
-                            rehabilitation and physical function.
-                        </p>
-
-                    </div>
-
-                    <div class="division-card-footer">
-                        <span>
-                            Rehabilitation
-                        </span>
-
-                        <i class="bi bi-arrow-right"></i>
-                    </div>
-
-                </div>
-            </div>
-
-
-            <!-- PHYSIOTHERAPY -->
-            <div class="col-md-6 col-lg-4">
-                <div class="smart-card division-card h-100">
-
-                    <div class="division-card-icon">
-                        <i class="bi bi-activity"></i>
-                    </div>
-
-                    <div class="division-card-content">
-
-                        <h3>
-                            Physiotherapy
-                        </h3>
-
-                        <p>
-                            Movement-focused care supporting recovery,
-                            rehabilitation and physical wellbeing.
-                        </p>
-
-                    </div>
-
-                    <div class="division-card-footer">
-                        <span>
-                            Physical Care
-                        </span>
-
-                        <i class="bi bi-arrow-right"></i>
-                    </div>
-
-                </div>
-            </div>
-
-
-            <!-- PODIATRY -->
-            <div class="col-md-6 col-lg-4">
-                <div class="smart-card division-card h-100">
-
-                    <div class="division-card-icon">
-                        <i class="bi bi-person-walking"></i>
-                    </div>
-
-                    <div class="division-card-content">
-
-                        <h3>
-                            Podiatry
-                        </h3>
-
-                        <p>
-                            Professional care focused on foot,
-                            ankle and lower-limb health.
-                        </p>
-
-                    </div>
-
-                    <div class="division-card-footer">
-                        <span>
-                            Lower-Limb Care
-                        </span>
-
-                        <i class="bi bi-arrow-right"></i>
-                    </div>
-
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-    ```
-
-</section>
-
-<!-- CTA -->
-
-<section class="page-section">
-    <div class="container">
-
-        ```
-        <div class="location-banner">
-
-            <div class="row align-items-center g-4">
-
-                <div class="col-lg-8">
+                <div>
 
                     <span class="smart-badge">
                         Need Assistance?
@@ -346,13 +390,17 @@
 
                 </div>
 
-                <div class="col-lg-4 text-lg-end">
+                <div>
 
                     <a asp-controller="Home"
                            asp-action="Contact"
-                           class="smart-btn-primary text-decoration-none">
+                           class="smart-btn-primary">
+
                         Contact Us
-                        <i class="bi bi-arrow-right ms-2"></i>
+
+                        <i class="bi bi-arrow-right"
+                           aria-hidden="true"></i>
+
                     </a>
 
                 </div>
@@ -361,7 +409,6 @@
 
         </div>
 
-    </div>
-    ```
+    </section>
 
-</section>
+</div>

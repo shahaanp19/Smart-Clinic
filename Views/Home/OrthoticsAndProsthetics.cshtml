@@ -1,0 +1,138 @@
+﻿@{
+    ViewData["Title"] = "Orthotics & Prosthetics";
+}
+
+<div class="public-page">
+
+    <section class="service-detail-hero"
+             aria-labelledby="orthoticsHeading">
+
+        <div class="container">
+
+            <div class="service-detail-hero-content">
+
+                <a asp-controller="Home"
+                       asp-action="MedicalDivisions"
+                       class="service-back-link">
+
+                    <i class="bi bi-arrow-left" aria-hidden="true"></i>
+                    All Medical Divisions
+
+                </a>
+
+                <span class="smart-badge mt-4">
+                    Rehabilitation
+                </span>
+
+                <h1 id="orthoticsHeading">
+                    Orthotics &amp; Prosthetics
+                </h1>
+
+                <p>
+                    Specialist support focused on mobility,
+                    physical function and rehabilitation.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="page-section"
+             aria-labelledby="orthoticsCareHeading">
+
+        <div class="container">
+
+            <div class="row align-items-center g-5">
+
+                <div class="col-lg-6">
+
+                    <div class="public-image-frame">
+
+                        <img src="~/Images/Orthotics.jpg"
+                             alt="Orthotics and prosthetics healthcare support"
+                             class="img-fluid" />
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-6">
+
+                    <span class="smart-badge">
+                        Mobility &amp; Function
+                    </span>
+
+                    <h2 id="orthoticsCareHeading"
+                        class="section-title mt-3 mb-4">
+
+                        Supporting movement and independence
+
+                    </h2>
+
+                    <p class="public-lead">
+                        Orthotic and prosthetic services can play an
+                        important role in supporting mobility and
+                        physical function.
+                    </p>
+
+                    <p>
+                        Individual needs can vary considerably, which
+                        makes appropriate assessment and professional
+                        guidance an important part of the rehabilitation
+                        process.
+                    </p>
+
+                    <p class="mb-0">
+                        Care is focused on supporting practical
+                        movement, function and quality of life.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="page-section">
+
+        <div class="container">
+
+            <div class="public-cta">
+
+                <div>
+
+                    <span class="smart-badge">
+                        Mobility Support
+                    </span>
+
+                    <h2 class="mt-3 mb-3">
+                        Want to learn more?
+                    </h2>
+
+                    <p class="mb-0">
+                        Contact the practice for more information.
+                    </p>
+
+                </div>
+
+                <a asp-controller="Home"
+                       asp-action="Contact"
+                       class="smart-btn-primary">
+
+                    Contact Us
+                    <i class="bi bi-arrow-right"
+                       aria-hidden="true"></i>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>

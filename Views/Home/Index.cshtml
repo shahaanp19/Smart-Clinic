@@ -12,7 +12,7 @@
                 <div class="home-hero-content">
 
                     <div class="home-eyebrow">
-                        <i class="bi bi-heart-pulse-fill"></i>
+                        <i class="bi bi-heart-pulse-fill" aria-hidden="true"></i>
                         Smart Healthcare
                     </div>
 
@@ -24,7 +24,7 @@
                     <p class="home-hero-text">
                         A simple digital experience for accessing healthcare
                         services, managing appointments and staying connected
-                        with your clinic.
+                        with Doringkloof Medical Centre.
                     </p>
 
                     <div class="home-hero-actions">
@@ -32,16 +32,16 @@
                         <a asp-controller="Patient"
                                asp-action="Dashboard"
                                class="home-primary-button">
-                            <i class="bi bi-person-circle"></i>
-                            Patient Portal
-                            <i class="bi bi-arrow-right"></i>
+                            <i class="bi bi-person-circle" aria-hidden="true"></i>
+                            <span>Patient Portal</span>
+                            <i class="bi bi-arrow-right" aria-hidden="true"></i>
                         </a>
 
                         <a asp-controller="Home"
-                               asp-action="Divisions"
+                               asp-action="MedicalDivisions"
                                class="home-secondary-button">
-                            Explore Services
-                            <i class="bi bi-arrow-up-right"></i>
+                            <span>Explore Services</span>
+                            <i class="bi bi-arrow-up-right" aria-hidden="true"></i>
                         </a>
 
                     </div>
@@ -50,7 +50,8 @@
 
                 <div class="home-hero-image">
                     <img src="~/images/Consult 3.jpg"
-                         alt="Doctor consulting with a patient" />
+                         alt="Doctor consulting with a patient at Doringkloof Medical Centre"
+                         loading="eager" />
                 </div>
 
             </div>
@@ -59,7 +60,7 @@
 
 
     <!-- QUICK ACCESS -->
-    <section class="home-section">
+    <section class="home-section" aria-labelledby="quickAccessHeading">
 
         <div class="container">
 
@@ -70,7 +71,7 @@
                         Quick Access
                     </span>
 
-                    <h2>
+                    <h2 id="quickAccessHeading">
                         Your healthcare at a glance.
                     </h2>
                 </div>
@@ -108,7 +109,8 @@
                                 Patient Portal
                             </span>
 
-                            <i class="bi bi-arrow-up-right"></i>
+                            <i class="bi bi-arrow-up-right"
+                               aria-hidden="true"></i>
 
                         </div>
 
@@ -142,7 +144,8 @@
                                 Patient Portal
                             </span>
 
-                            <i class="bi bi-arrow-up-right"></i>
+                            <i class="bi bi-arrow-up-right"
+                               aria-hidden="true"></i>
 
                         </div>
 
@@ -155,7 +158,7 @@
                 <div class="col-md-6 col-xl-3">
 
                     <a asp-controller="Home"
-                           asp-action="Divisions"
+                           asp-action="MedicalDivisions"
                            class="home-smart-card">
 
                         <div class="home-card-body">
@@ -176,7 +179,8 @@
                                 Explore Services
                             </span>
 
-                            <i class="bi bi-arrow-up-right"></i>
+                            <i class="bi bi-arrow-up-right"
+                               aria-hidden="true"></i>
 
                         </div>
 
@@ -210,7 +214,8 @@
                                 Contact Practice
                             </span>
 
-                            <i class="bi bi-arrow-up-right"></i>
+                            <i class="bi bi-arrow-up-right"
+                               aria-hidden="true"></i>
 
                         </div>
 
@@ -226,7 +231,8 @@
 
 
     <!-- SERVICES -->
-    <section class="home-section home-services">
+    <section class="home-section home-services"
+             aria-labelledby="servicesHeading">
 
         <div class="container">
 
@@ -238,23 +244,25 @@
                         Healthcare Services
                     </span>
 
-                    <h2>
+                    <h2 id="servicesHeading">
                         Comprehensive care.
                     </h2>
 
                 </div>
 
                 <a asp-controller="Home"
-                       asp-action="Divisions"
+                       asp-action="MedicalDivisions"
                        class="home-section-link">
 
                     View all services
 
-                    <i class="bi bi-arrow-right"></i>
+                    <i class="bi bi-arrow-right"
+                       aria-hidden="true"></i>
 
                 </a>
 
             </div>
+
 
             <div class="row g-4">
 
@@ -262,9 +270,6 @@
                 <div class="col-md-6 col-lg-4">
 
                     <div class="home-service-card">
-
-                        <div class="home-service-header">
-                        </div>
 
                         <h3>
                             Doctors
@@ -276,12 +281,13 @@
                         </p>
 
                         <a asp-controller="Home"
-                               asp-action="Divisions"
+                               asp-action="Doctors"
                                class="home-service-link">
 
                             Learn more
 
-                            <i class="bi bi-arrow-right"></i>
+                            <i class="bi bi-arrow-right"
+                               aria-hidden="true"></i>
 
                         </a>
 
@@ -295,9 +301,6 @@
 
                     <div class="home-service-card">
 
-                        <div class="home-service-header">
-                        </div>
-
                         <h3>
                             Dentistry
                         </h3>
@@ -308,12 +311,13 @@
                         </p>
 
                         <a asp-controller="Home"
-                               asp-action="Divisions"
+                               asp-action="Dentistry"
                                class="home-service-link">
 
                             Learn more
 
-                            <i class="bi bi-arrow-right"></i>
+                            <i class="bi bi-arrow-right"
+                               aria-hidden="true"></i>
 
                         </a>
 
@@ -327,9 +331,6 @@
 
                     <div class="home-service-card">
 
-                        <div class="home-service-header">
-                        </div>
-
                         <h3>
                             Dietetics
                         </h3>
@@ -340,12 +341,13 @@
                         </p>
 
                         <a asp-controller="Home"
-                               asp-action="Divisions"
+                               asp-action="Dietetics"
                                class="home-service-link">
 
                             Learn more
 
-                            <i class="bi bi-arrow-right"></i>
+                            <i class="bi bi-arrow-right"
+                               aria-hidden="true"></i>
 
                         </a>
 
@@ -354,16 +356,13 @@
                 </div>
 
 
-                <!-- ORTHOTICS -->
+                <!-- ORTHOTICS & PROSTHETICS -->
                 <div class="col-md-6 col-lg-4">
 
                     <div class="home-service-card">
 
-                        <div class="home-service-header">
-                        </div>
-
                         <h3>
-                            Orthotics & Prosthetics
+                            Orthotics &amp; Prosthetics
                         </h3>
 
                         <p>
@@ -372,12 +371,13 @@
                         </p>
 
                         <a asp-controller="Home"
-                               asp-action="Divisions"
+                               asp-action="OrthoticsAndProsthetics"
                                class="home-service-link">
 
                             Learn more
 
-                            <i class="bi bi-arrow-right"></i>
+                            <i class="bi bi-arrow-right"
+                               aria-hidden="true"></i>
 
                         </a>
 
@@ -391,9 +391,6 @@
 
                     <div class="home-service-card">
 
-                        <div class="home-service-header">
-                        </div>
-
                         <h3>
                             Physiotherapy
                         </h3>
@@ -404,12 +401,13 @@
                         </p>
 
                         <a asp-controller="Home"
-                               asp-action="Divisions"
+                               asp-action="Physiotherapy"
                                class="home-service-link">
 
                             Learn more
 
-                            <i class="bi bi-arrow-right"></i>
+                            <i class="bi bi-arrow-right"
+                               aria-hidden="true"></i>
 
                         </a>
 
@@ -423,9 +421,6 @@
 
                     <div class="home-service-card">
 
-                        <div class="home-service-header">
-                        </div>
-
                         <h3>
                             Podiatry
                         </h3>
@@ -436,12 +431,13 @@
                         </p>
 
                         <a asp-controller="Home"
-                               asp-action="Divisions"
+                               asp-action="Podiatry"
                                class="home-service-link">
 
                             Learn more
 
-                            <i class="bi bi-arrow-right"></i>
+                            <i class="bi bi-arrow-right"
+                               aria-hidden="true"></i>
 
                         </a>
 
@@ -457,7 +453,8 @@
 
 
     <!-- PATIENT PORTAL -->
-    <section class="home-section">
+    <section class="home-section"
+             aria-labelledby="patientPortalHeading">
 
         <div class="container">
 
@@ -469,7 +466,7 @@
                         Patient Portal
                     </span>
 
-                    <h2>
+                    <h2 id="patientPortalHeading">
                         Your healthcare,
                         <span>in one place.</span>
                     </h2>
@@ -484,20 +481,26 @@
                            asp-action="Dashboard"
                            class="home-primary-button">
 
-                        Open Patient Portal
+                        <span>
+                            Open Patient Portal
+                        </span>
 
-                        <i class="bi bi-arrow-right"></i>
+                        <i class="bi bi-arrow-right"
+                           aria-hidden="true"></i>
 
                     </a>
 
                 </div>
 
-                <div class="home-patient-features">
+
+                <div class="home-patient-features"
+                     aria-label="Patient portal features">
 
                     <div class="home-patient-feature">
 
                         <div class="home-mini-icon">
-                            <i class="bi bi-calendar-check"></i>
+                            <i class="bi bi-calendar-check"
+                               aria-hidden="true"></i>
                         </div>
 
                         <div>
@@ -507,10 +510,12 @@
 
                     </div>
 
+
                     <div class="home-patient-feature">
 
                         <div class="home-mini-icon">
-                            <i class="bi bi-file-medical"></i>
+                            <i class="bi bi-file-medical"
+                               aria-hidden="true"></i>
                         </div>
 
                         <div>
@@ -520,10 +525,12 @@
 
                     </div>
 
+
                     <div class="home-patient-feature">
 
                         <div class="home-mini-icon">
-                            <i class="bi bi-person-check"></i>
+                            <i class="bi bi-person-check"
+                               aria-hidden="true"></i>
                         </div>
 
                         <div>
@@ -547,12 +554,17 @@
 
         <a asp-controller="Home"
                asp-action="Chatbot"
+               class="home-chatbot-button"
                aria-label="Open healthcare assistant">
 
-            <i class="bi bi-chat-dots-fill"></i>
+            <i class="bi bi-chat-dots-fill"
+               aria-hidden="true"></i>
+
+            <span>...</span>
 
         </a>
 
+    
     </div>
 
 </div>

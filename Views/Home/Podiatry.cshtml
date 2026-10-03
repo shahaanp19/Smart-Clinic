@@ -1,0 +1,137 @@
+﻿@{
+    ViewData["Title"] = "Podiatry";
+}
+
+<div class="public-page">
+
+    <section class="service-detail-hero"
+             aria-labelledby="podiatryHeading">
+
+        <div class="container">
+
+            <div class="service-detail-hero-content">
+
+                <a asp-controller="Home"
+                       asp-action="MedicalDivisions"
+                       class="service-back-link">
+
+                    <i class="bi bi-arrow-left" aria-hidden="true"></i>
+                    All Medical Divisions
+
+                </a>
+
+                <span class="smart-badge mt-4">
+                    Lower-Limb Care
+                </span>
+
+                <h1 id="podiatryHeading">
+                    Podiatry
+                </h1>
+
+                <p>
+                    Professional healthcare focused on the health
+                    and function of the feet, ankles and lower limbs.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="page-section"
+             aria-labelledby="podiatryCareHeading">
+
+        <div class="container">
+
+            <div class="row align-items-center g-5">
+
+                <div class="col-lg-6">
+
+                    <div class="public-image-frame">
+
+                        <img src="~/images/Podiatry.jpg"
+                             alt="Healthcare professional providing podiatry care"
+                             class="img-fluid" />
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-6">
+
+                    <span class="smart-badge">
+                        Foot &amp; Lower-Limb Health
+                    </span>
+
+                    <h2 id="podiatryCareHeading"
+                        class="section-title mt-3 mb-4">
+
+                        Supporting healthy movement from the ground up
+
+                    </h2>
+
+                    <p class="public-lead">
+                        Healthy feet and lower limbs play an important
+                        role in everyday movement and mobility.
+                    </p>
+
+                    <p>
+                        Podiatric care focuses on identifying and
+                        addressing concerns affecting the feet,
+                        ankles and lower limbs.
+                    </p>
+
+                    <p class="mb-0">
+                        Professional assessment and appropriate
+                        management can support comfort, mobility
+                        and physical wellbeing.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="page-section">
+
+        <div class="container">
+
+            <div class="public-cta">
+
+                <div>
+
+                    <span class="smart-badge">
+                        Lower-Limb Care
+                    </span>
+
+                    <h2 class="mt-3 mb-3">
+                        Have a question about podiatry?
+                    </h2>
+
+                    <p class="mb-0">
+                        Contact the practice for more information.
+                    </p>
+
+                </div>
+
+                <a asp-controller="Home"
+                       asp-action="Contact"
+                       class="smart-btn-primary">
+
+                    Contact Us
+                    <i class="bi bi-arrow-right"
+                       aria-hidden="true"></i>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>

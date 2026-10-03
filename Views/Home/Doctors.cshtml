@@ -1,0 +1,230 @@
+﻿@{
+    ViewData["Title"] = "Doctors";
+}
+
+<div class="public-page">
+
+    <section class="service-detail-hero"
+             aria-labelledby="doctorsHeading">
+
+        <div class="container">
+
+            <div class="service-detail-hero-content">
+
+                <a asp-controller="Home"
+                       asp-action="MedicalDivisions"
+                       class="service-back-link">
+
+                    <i class="bi bi-arrow-left" aria-hidden="true"></i>
+                    All Medical Divisions
+
+                </a>
+
+                <span class="smart-badge mt-4">
+                    Medical Care
+                </span>
+
+                <h1 id="doctorsHeading">
+                    Doctors
+                </h1>
+
+                <p>
+                    General and family healthcare focused on
+                    assessment, treatment and ongoing support
+                    for patients and families.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="page-section"
+             aria-labelledby="doctorsCareHeading">
+
+        <div class="container">
+
+            <div class="row align-items-center g-5">
+
+                <div class="col-lg-6">
+
+                    <div class="public-image-frame">
+
+                        <img src="~/images/Consult 3.jpg"
+                             alt="Doctor providing a medical consultation"
+                             class="img-fluid" />
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-6">
+
+                    <span class="smart-badge">
+                        General Healthcare
+                    </span>
+
+                    <h2 id="doctorsCareHeading"
+                        class="section-title mt-3 mb-4">
+
+                        Medical care centred around you
+
+                    </h2>
+
+                    <p class="public-lead">
+                        Our doctors provide general medical care
+                        designed to support patients through their
+                        everyday healthcare needs.
+                    </p>
+
+                    <p>
+                        Consultations provide an opportunity to
+                        discuss symptoms, health concerns and
+                        treatment options with a qualified medical
+                        professional.
+                    </p>
+
+                    <p class="mb-0">
+                        Ongoing care can also support the monitoring
+                        and management of individual healthcare needs.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="page-section public-services-section"
+             aria-labelledby="doctorServicesHeading">
+
+        <div class="container">
+
+            <div class="public-section-heading">
+
+                <span class="smart-badge">
+                    What We Provide
+                </span>
+
+                <h2 id="doctorServicesHeading"
+                    class="section-title mt-3 mb-3">
+
+                    General medical support
+
+                </h2>
+
+                <p class="section-subtitle">
+                    Our medical consultations can support a broad
+                    range of everyday healthcare requirements.
+                </p>
+
+            </div>
+
+            <div class="row g-4">
+
+                <div class="col-md-6 col-lg-4">
+
+                    <div class="public-info-card">
+
+                        <i class="bi bi-clipboard2-pulse"
+                           aria-hidden="true"></i>
+
+                        <h3>Health Assessments</h3>
+
+                        <p>
+                            Professional assessment of symptoms,
+                            concerns and general health needs.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+
+                    <div class="public-info-card">
+
+                        <i class="bi bi-prescription2"
+                           aria-hidden="true"></i>
+
+                        <h3>Treatment Planning</h3>
+
+                        <p>
+                            Clinical guidance and treatment planning
+                            based on individual healthcare needs.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+
+                    <div class="public-info-card">
+
+                        <i class="bi bi-arrow-repeat"
+                           aria-hidden="true"></i>
+
+                        <h3>Ongoing Care</h3>
+
+                        <p>
+                            Continued medical support where follow-up
+                            and monitoring are appropriate.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="page-section">
+
+        <div class="container">
+
+            <div class="public-cta">
+
+                <div>
+
+                    <span class="smart-badge">
+                        Ready to Get Started?
+                    </span>
+
+                    <h2 class="mt-3 mb-3">
+                        Need medical assistance?
+                    </h2>
+
+                    <p class="mb-0">
+                        Contact the practice to learn more about
+                        available healthcare services.
+                    </p>
+
+                </div>
+
+                <a asp-controller="Home"
+                       asp-action="Contact"
+                       class="smart-btn-primary">
+
+                    Contact Us
+                    <i class="bi bi-arrow-right"
+                       aria-hidden="true"></i>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>

@@ -1,0 +1,141 @@
+﻿@{
+    ViewData["Title"] = "Dietetics";
+}
+
+<div class="public-page">
+
+    
+    <section class="service-detail-hero"
+             aria-labelledby="dieteticsHeading">
+
+        <div class="container">
+
+            <div class="service-detail-hero-content">
+
+                <a asp-controller="Home"
+                       asp-action="MedicalDivisions"
+                       class="service-back-link">
+
+                    <i class="bi bi-arrow-left" aria-hidden="true"></i>
+                    All Medical Divisions
+
+                </a>
+
+                <span class="smart-badge mt-4">
+                    Nutrition
+                </span>
+
+                <h1 id="dieteticsHeading">
+                    Dietetics
+                </h1>
+
+                <p>
+                    Personalised nutrition guidance supporting healthier
+                    eating habits, lifestyle choices and individual
+                    healthcare goals.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="page-section"
+             aria-labelledby="dieteticsCareHeading">
+
+        <div class="container">
+
+            <div class="row align-items-center g-5">
+
+                <div class="col-lg-6">
+
+                    <div class="public-image-frame">
+
+                        <img src="~/Images/Dietetics.jpg"
+                             alt="Healthcare professional consulting with a patient about nutrition"
+                             class="img-fluid" />
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-6">
+
+                    <span class="smart-badge">
+                        Nutrition Support
+                    </span>
+
+                    <h2 id="dieteticsCareHeading"
+                        class="section-title mt-3 mb-4">
+
+                        Making nutrition part of better healthcare
+
+                    </h2>
+
+                    <p class="public-lead">
+                        Nutrition is an important part of maintaining
+                        health and supporting overall wellbeing.
+                    </p>
+
+                    <p>
+                        Dietetic support can help patients understand
+                        their nutritional needs and develop practical
+                        approaches to healthier eating.
+                    </p>
+
+                    <p class="mb-0">
+                        Guidance can be tailored to individual
+                        circumstances, lifestyle and healthcare goals.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="page-section">
+
+        <div class="container">
+
+            <div class="public-cta">
+
+                <div>
+
+                    <span class="smart-badge">
+                        Nutrition Support
+                    </span>
+
+                    <h2 class="mt-3 mb-3">
+                        Have a question about dietetics?
+                    </h2>
+
+                    <p class="mb-0">
+                        Contact the practice for more information.
+                    </p>
+
+                </div>
+
+                <a asp-controller="Home"
+                       asp-action="Contact"
+                       class="smart-btn-primary">
+
+                    Contact Us
+                    <i class="bi bi-arrow-right"
+                       aria-hidden="true"></i>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+    
+
+</div>

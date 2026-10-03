@@ -1,0 +1,141 @@
+﻿@{
+    ViewData["Title"] = "Dentistry";
+}
+
+<div class="public-page">
+
+    
+    <section class="service-detail-hero"
+             aria-labelledby="dentistryHeading">
+
+        <div class="container">
+
+            <div class="service-detail-hero-content">
+
+                <a asp-controller="Home"
+                       asp-action="MedicalDivisions"
+                       class="service-back-link">
+
+                    <i class="bi bi-arrow-left" aria-hidden="true"></i>
+                    All Medical Divisions
+
+                </a>
+
+                <span class="smart-badge mt-4">
+                    Dental Care
+                </span>
+
+                <h1 id="dentistryHeading">
+                    Dentistry
+                </h1>
+
+                <p>
+                    Professional dental care supporting preventive,
+                    restorative, cosmetic and paediatric oral health.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="page-section"
+             aria-labelledby="dentistryCareHeading">
+
+        <div class="container">
+
+            <div class="row align-items-center g-5">
+
+                <div class="col-lg-6">
+
+                    <div class="public-image-frame">
+
+                        <img src="~/Images/Dentistry.jpg"
+                             alt="Dental professional providing patient care"
+                             class="img-fluid" />
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-6">
+
+                    <span class="smart-badge">
+                        Oral Health
+                    </span>
+
+                    <h2 id="dentistryCareHeading"
+                        class="section-title mt-3 mb-4">
+
+                        Supporting healthy smiles
+
+                    </h2>
+
+                    <p class="public-lead">
+                        Good oral health plays an important role in
+                        overall wellbeing.
+                    </p>
+
+                    <p>
+                        Our dental services focus on maintaining oral
+                        health, identifying concerns and supporting
+                        patients with appropriate dental care.
+                    </p>
+
+                    <p class="mb-0">
+                        Preventive care and regular professional
+                        attention can help patients maintain healthier
+                        teeth and gums.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="page-section">
+
+        <div class="container">
+
+            <div class="public-cta">
+
+                <div>
+
+                    <span class="smart-badge">
+                        Need Dental Care?
+                    </span>
+
+                    <h2 class="mt-3 mb-3">
+                        Have a question about dentistry?
+                    </h2>
+
+                    <p class="mb-0">
+                        Contact the practice for more information.
+                    </p>
+
+                </div>
+
+                <a asp-controller="Home"
+                       asp-action="Contact"
+                       class="smart-btn-primary">
+
+                    Contact Us
+                    <i class="bi bi-arrow-right"
+                       aria-hidden="true"></i>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+    
+
+</div>

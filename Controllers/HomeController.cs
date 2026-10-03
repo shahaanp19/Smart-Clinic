@@ -31,6 +31,42 @@ public class HomeController : Controller
     }
 
     [HttpGet]
+    public IActionResult Doctors()
+    {
+        return View();
+    }
+
+    [HttpGet]
+    public IActionResult Dentistry()
+    {
+        return View();
+    }
+
+    [HttpGet]
+    public IActionResult Dietetics()
+    {
+        return View();
+    }
+
+    [HttpGet]
+    public IActionResult OrthoticsAndProsthetics()
+    {
+        return View();
+    }
+
+    [HttpGet]
+    public IActionResult Physiotherapy()
+    {
+        return View();
+    }
+
+    [HttpGet]
+    public IActionResult Podiatry()
+    {
+        return View();
+    }
+
+    [HttpGet]
     public IActionResult Privacy()
     {
         return View();
