@@ -141,9 +141,6 @@ public class AccountController : Controller
         await HttpContext.SignOutAsync(
             CookieAuthenticationDefaults.AuthenticationScheme);
 
-        TempData["SuccessMessage"] =
-            "You have been signed out successfully.";
-
         return RedirectToAction(nameof(Login));
     }
 

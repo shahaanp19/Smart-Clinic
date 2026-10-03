@@ -52,7 +52,10 @@ builder.Services
     {
         options.Cookie.Name = "SmartClinic.Auth";
         options.Cookie.HttpOnly = true;
-        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+
+        // Works for both local HTTP/HTTPS development and HTTPS deployment.
+        options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+
         options.Cookie.SameSite = SameSiteMode.Lax;
 
         options.ExpireTimeSpan = TimeSpan.FromHours(8);
@@ -225,9 +228,10 @@ static async Task InitializeDatabaseAsync(WebApplication app)
         logger.LogInformation(
             "SmartClinic database migration and seeding completed successfully.");
     }
-    catch (Exception)
+    catch (Exception ex)
     {
         logger.LogCritical(
+            ex,
             "SmartClinic database initialization failed.");
 
         throw;

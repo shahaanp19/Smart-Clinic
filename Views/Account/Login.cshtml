@@ -4,151 +4,745 @@
     var returnUrl = ViewBag.ReturnUrl as string;
 }
 
-<div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center py-5">
-    <div class="row w-100 justify-content-center">
-        <div class="col-12 col-sm-10 col-md-7 col-lg-5 col-xl-4">
-            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
-                <div class="card-body p-4 p-md-5">
+<div class="login-page">
+    <div class="login-shell">
 
-                    <div class="text-center mb-4">
-                        <div class="mb-3">
-                            <span class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary text-white"
-                                  style="width:64px;height:64px;">
-                                <i class="bi bi-heart-pulse-fill fs-3" aria-hidden="true"></i>
-                            </span>
-                        </div>
+        <!-- Left branding panel -->
+        <section class="login-intro">
 
-                        <h1 class="h3 fw-bold mb-2">Smart Clinic</h1>
+            <div class="login-brand">
 
-                        <p class="text-muted mb-0">
-                            Secure clinical management portal
-                        </p>
+                <img src="~/Images/Logo.png"
+                     alt="Doringkloof Medical Centre"
+                     class="login-logo" />
+
+                <div>
+                    <div class="login-brand-name">
+                        Doringkloof Medical Centre
                     </div>
 
-                    <form asp-controller="Account"
-                          asp-action="Login"
-                          method="post"
-                          novalidate>
+                    <div class="login-brand-system">
+                        Smart Clinic Management System
+                    </div>
+                </div>
 
-                        @Html.AntiForgeryToken()
+            </div>
 
-                        <input type="hidden"
-                               name="returnUrl"
-                               value="@returnUrl" />
+            <div class="login-intro-content">
 
-                        <div asp-validation-summary="ModelOnly"
-                             class="alert alert-danger"
-                             role="alert"
-                             aria-live="polite">
+                <span class="login-eyebrow">
+                    <i class="bi bi-shield-check me-2" aria-hidden="true"></i>
+                    Secure healthcare access
+                </span>
+
+                <h1>
+                    Welcome to<br />
+                    <span>Smart Clinic.</span>
+                </h1>
+
+                <p>
+                    Access your healthcare portal securely and manage
+                    appointments, clinical information and patient care
+                    from one place.
+                </p>
+
+            </div>
+
+            <div class="login-intro-footer">
+                <span>
+                    <i class="bi bi-geo-alt me-1" aria-hidden="true"></i>
+                    Doringkloof Medical Centre
+                </span>
+
+                <span class="login-footer-divider" aria-hidden="true">•</span>
+
+                <span>Smart healthcare management</span>
+            </div>
+
+        </section>
+
+        <!-- Login panel -->
+        <section class="login-form-panel">
+
+            <div class="login-form-container">
+
+                <div class="login-mobile-brand">
+
+                    <img src="~/Images/Logo.png"
+                         alt="Doringkloof Medical Centre"
+                         class="login-logo" />
+
+                    <div>
+                        <div class="login-brand-name">
+                            Doringkloof Medical Centre
                         </div>
 
-                        <div class="mb-3">
-                            <label for="email" class="form-label fw-semibold">
-                                Email address
-                            </label>
-
-                            <div class="input-group">
-                                <span class="input-group-text" aria-hidden="true">
-                                    <i class="bi bi-envelope"></i>
-                                </span>
-
-                                <input type="email"
-                                       id="email"
-                                       name="email"
-                                       class="form-control"
-                                       placeholder="you@example.com"
-                                       autocomplete="username"
-                                       required
-                                       autofocus />
-
-                            </div>
-
-                            <span class="text-danger field-validation-valid"
-                                  data-valmsg-for="email"
-                                  data-valmsg-replace="true"></span>
+                        <div class="login-brand-system">
+                            Smart Clinic Management System
                         </div>
-
-                        <div class="mb-4">
-                            <label for="password" class="form-label fw-semibold">
-                                Password
-                            </label>
-
-                            <div class="input-group">
-                                <span class="input-group-text" aria-hidden="true">
-                                    <i class="bi bi-lock"></i>
-                                </span>
-
-                                <input type="password"
-                                       id="password"
-                                       name="password"
-                                       class="form-control"
-                                       placeholder="Enter your password"
-                                       autocomplete="current-password"
-                                       required />
-
-                                <button type="button"
-                                        class="btn btn-outline-secondary"
-                                        id="togglePassword"
-                                        aria-label="Show password"
-                                        aria-controls="password">
-                                    <i class="bi bi-eye" aria-hidden="true"></i>
-                                </button>
-                            </div>
-
-                            <span class="text-danger field-validation-valid"
-                                  data-valmsg-for="password"
-                                  data-valmsg-replace="true"></span>
-                        </div>
-
-                        <button type="submit"
-                                class="btn btn-primary w-100 py-2 fw-semibold">
-                            <i class="bi bi-box-arrow-in-right me-2"
-                               aria-hidden="true"></i>
-                            Sign In
-                        </button>
-                    </form>
-
-                    <div class="text-center mt-4">
-                        <small class="text-muted">
-                            Protected by Smart Clinic security controls
-                        </small>
                     </div>
 
                 </div>
+
+                <div class="login-form-header">
+
+                    <span class="login-form-icon">
+                        <i class="bi bi-person-lock" aria-hidden="true"></i>
+                    </span>
+
+                    <div>
+                        <p class="login-form-kicker">
+                            PORTAL ACCESS
+                        </p>
+
+                        <h2>Sign in to your portal</h2>
+
+                        <p>
+                            Enter your credentials to continue.
+                        </p>
+                    </div>
+
+                </div>
+
+                <form asp-controller="Account"
+                      asp-action="Login"
+                      method="post"
+                      novalidate>
+
+                    @Html.AntiForgeryToken()
+
+                    <input type="hidden"
+                           name="returnUrl"
+                           value="@returnUrl" />
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="alert alert-danger login-validation-summary"
+                         role="alert"
+                         aria-live="assertive">
+                    </div>
+
+                    <div class="login-field">
+
+                        <label for="email">
+                            Email address
+                        </label>
+
+                        <div class="login-input-wrapper">
+
+                            <i class="bi bi-envelope"
+                               aria-hidden="true"></i>
+
+                            <input type="email"
+                                   id="email"
+                                   name="email"
+                                   placeholder="Enter your email address"
+                                   autocomplete="username"
+                                   required
+                                   autofocus />
+
+                        </div>
+
+                        <span class="text-danger small"
+                              data-valmsg-for="email"
+                              data-valmsg-replace="true"></span>
+
+                    </div>
+
+                    <div class="login-field">
+
+                        <div class="login-label-row">
+                            <label for="password">
+                                Password
+                            </label>
+                        </div>
+
+                        <div class="login-input-wrapper">
+
+                            <i class="bi bi-lock"
+                               aria-hidden="true"></i>
+
+                            <input type="password"
+                                   id="password"
+                                   name="password"
+                                   placeholder="Enter your password"
+                                   autocomplete="current-password"
+                                   required />
+
+                            <button type="button"
+                                    class="login-password-toggle"
+                                    id="togglePassword"
+                                    aria-label="Show password"
+                                    aria-controls="password">
+
+                                <i class="bi bi-eye"
+                                   aria-hidden="true"></i>
+
+                            </button>
+
+                        </div>
+
+                        <span class="text-danger small"
+                              data-valmsg-for="password"
+                              data-valmsg-replace="true"></span>
+
+                    </div>
+
+                    <button type="submit"
+                            class="login-submit">
+
+                        <span>Sign In</span>
+
+                        <i class="bi bi-arrow-right"
+                           aria-hidden="true"></i>
+
+                    </button>
+
+                </form>
+
+                <div class="login-security">
+
+                    <i class="bi bi-shield-lock"
+                       aria-hidden="true"></i>
+
+                    <span>
+                        Your account is protected by secure authentication.
+                    </span>
+
+                </div>
+
+                <div class="login-form-footer">
+                    <span>
+                        © @DateTime.Now.Year Doringkloof Medical Centre
+                    </span>
+                </div>
+
             </div>
-        </div>
+
+        </section>
+
     </div>
 </div>
 
+<style>
+
+    .login-page {
+        min-height: calc(100vh - 80px);
+        padding: 2.5rem 1.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: radial-gradient( circle at 15% 20%, rgba(15, 76, 129, 0.08), transparent 32% ), radial-gradient( circle at 85% 80%, rgba(20, 145, 140, 0.07), transparent 30% ), #f4f7fa;
+    }
+
+    .login-shell {
+        width: 100%;
+        max-width: 1120px;
+        min-height: 650px;
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+        overflow: hidden;
+        background: #ffffff;
+        border-radius: 28px;
+        box-shadow: 0 24px 70px rgba(15, 39, 64, 0.14);
+    }
+
+    /* =========================================
+           BRANDING PANEL
+           ========================================= */
+
+    .login-intro {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 3rem;
+        color: #ffffff;
+        overflow: hidden;
+        background: linear-gradient( 145deg, #0f4c81 0%, #123f68 55%, #0d354f 100% );
+    }
+
+        .login-intro::before {
+            content: "";
+            position: absolute;
+            width: 420px;
+            height: 420px;
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            border-radius: 50%;
+            right: -190px;
+            top: -150px;
+        }
+
+        .login-intro::after {
+            content: "";
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            left: -170px;
+            bottom: -150px;
+        }
+
+    .login-brand,
+    .login-intro-content,
+    .login-intro-footer {
+        position: relative;
+        z-index: 1;
+    }
+
+    .login-brand {
+        display: flex;
+        align-items: center;
+        gap: 0.9rem;
+    }
+
+    .login-logo {
+        width: 70px;
+        height: 70px;
+        flex: 0 0 70px;
+        object-fit: contain;
+        border-radius: 12px;
+        background: #ffffff;
+        padding: 5px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    }
+
+    .login-brand-name {
+        font-size: 1rem;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+    }
+
+    .login-brand-system {
+        margin-top: 0.15rem;
+        font-size: 0.72rem;
+        opacity: 0.72;
+        letter-spacing: 0.04em;
+    }
+
+    .login-intro-content {
+        max-width: 510px;
+        margin: auto 0;
+        padding: 4rem 0;
+    }
+
+    .login-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        margin-bottom: 1.25rem;
+        padding: 0.45rem 0.8rem;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+
+    .login-intro h1 {
+        margin: 0;
+        font-size: clamp(2.7rem, 4vw, 4.3rem);
+        line-height: 1.02;
+        font-weight: 800;
+        letter-spacing: -0.045em;
+    }
+
+        .login-intro h1 span {
+            opacity: 0.78;
+        }
+
+    .login-intro-content > p {
+        max-width: 460px;
+        margin: 1.5rem 0 0;
+        color: rgba(255, 255, 255, 0.76);
+        font-size: 1rem;
+        line-height: 1.75;
+    }
+
+    .login-intro-footer {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        color: rgba(255, 255, 255, 0.48);
+        font-size: 0.7rem;
+    }
+
+    .login-footer-divider {
+        opacity: 0.5;
+    }
+
+    /* =========================================
+           FORM PANEL
+           ========================================= */
+
+    .login-form-panel {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 3rem;
+        background: #ffffff;
+    }
+
+    .login-form-container {
+        width: 100%;
+        max-width: 410px;
+    }
+
+    .login-mobile-brand {
+        display: none;
+    }
+
+    .login-form-header {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .login-form-icon {
+        width: 48px;
+        height: 48px;
+        flex: 0 0 48px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 14px;
+        color: #0f4c81;
+        background: #edf5fb;
+    }
+
+        .login-form-icon i {
+            font-size: 1.3rem;
+        }
+
+    .login-form-kicker {
+        margin: 0 0 0.3rem;
+        color: #0f4c81;
+        font-size: 0.67rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+    }
+
+    .login-form-header h2 {
+        margin: 0;
+        color: #172b3d;
+        font-size: 1.65rem;
+        font-weight: 750;
+        letter-spacing: -0.025em;
+    }
+
+    .login-form-header p:last-child {
+        margin: 0.35rem 0 0;
+        color: #7b8996;
+        font-size: 0.82rem;
+    }
+
+    .login-validation-summary:empty {
+        display: none;
+    }
+
+    .login-validation-summary {
+        margin-bottom: 1.25rem;
+        border: 0;
+        border-radius: 12px;
+        font-size: 0.82rem;
+    }
+
+    .login-field {
+        margin-bottom: 1.35rem;
+    }
+
+        .login-field label {
+            display: block;
+            margin-bottom: 0.55rem;
+            color: #33495c;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+    .login-input-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+        .login-input-wrapper > i {
+            position: absolute;
+            left: 1rem;
+            z-index: 2;
+            color: #8b9aa8;
+            font-size: 0.95rem;
+            pointer-events: none;
+        }
+
+        .login-input-wrapper input {
+            width: 100%;
+            height: 54px;
+            padding: 0 1rem 0 2.8rem;
+            border: 1px solid #dce4eb;
+            border-radius: 13px;
+            outline: none;
+            color: #24384a;
+            background: #f9fbfc;
+            font-size: 0.88rem;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+
+            .login-input-wrapper input::placeholder {
+                color: #a6b1ba;
+            }
+
+            .login-input-wrapper input:hover {
+                border-color: #c9d5df;
+            }
+
+            .login-input-wrapper input:focus {
+                border-color: #0f4c81;
+                background: #ffffff;
+                box-shadow: 0 0 0 4px rgba(15, 76, 129, 0.09);
+            }
+
+    .login-password-toggle {
+        position: absolute;
+        right: 0.7rem;
+        width: 38px;
+        height: 38px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 0;
+        border-radius: 9px;
+        color: #788997;
+        background: transparent;
+        cursor: pointer;
+    }
+
+        .login-password-toggle:hover {
+            color: #0f4c81;
+            background: #edf5fb;
+        }
+
+    .login-label-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .login-submit {
+        width: 100%;
+        height: 54px;
+        margin-top: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.7rem;
+        border: 0;
+        border-radius: 13px;
+        color: #ffffff;
+        background: #0f4c81;
+        font-size: 0.88rem;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 10px 24px rgba(15, 76, 129, 0.20);
+        transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+        .login-submit:hover {
+            background: #0c416f;
+            transform: translateY(-1px);
+            box-shadow: 0 14px 28px rgba(15, 76, 129, 0.25);
+        }
+
+        .login-submit:active {
+            transform: translateY(0);
+        }
+
+        .login-submit i {
+            transition: transform 0.2s ease;
+        }
+
+        .login-submit:hover i {
+            transform: translateX(3px);
+        }
+
+    .login-security {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.45rem;
+        margin-top: 1.5rem;
+        color: #8795a1;
+        font-size: 0.7rem;
+        text-align: center;
+    }
+
+        .login-security i {
+            color: #198754;
+        }
+
+    .login-form-footer {
+        margin-top: 2.5rem;
+        padding-top: 1.25rem;
+        border-top: 1px solid #edf0f3;
+        color: #a1adb7;
+        font-size: 0.68rem;
+        text-align: center;
+    }
+
+    /* =========================================
+           RESPONSIVE
+           ========================================= */
+
+    @@media (max-width: 991.98px) {
+
+        .login-page {
+            min-height: calc(100vh - 70px);
+            padding: 1.5rem;
+        }
+
+        .login-shell {
+            max-width: 700px;
+            min-height: auto;
+            grid-template-columns: 1fr;
+        }
+
+        .login-intro {
+            display: none;
+        }
+
+        .login-form-panel {
+            padding: 3rem 2.5rem;
+        }
+
+        .login-mobile-brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-bottom: 2.5rem;
+        }
+
+            .login-mobile-brand .login-logo {
+                width: 60px;
+                height: 60px;
+                flex-basis: 60px;
+            }
+
+            .login-mobile-brand .login-brand-name {
+                color: #172b3d;
+            }
+
+            .login-mobile-brand .login-brand-system {
+                color: #7b8996;
+                opacity: 1;
+            }
+    }
+
+    @@media (max-width: 575.98px) {
+
+        .login-page {
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        .login-shell {
+            border-radius: 20px;
+        }
+
+        .login-form-panel {
+            padding: 2rem 1.35rem;
+        }
+
+        .login-mobile-brand {
+            justify-content: flex-start;
+            margin-bottom: 2rem;
+        }
+
+            .login-mobile-brand .login-logo {
+                width: 52px;
+                height: 52px;
+                flex-basis: 52px;
+            }
+
+            .login-mobile-brand .login-brand-name {
+                font-size: 0.88rem;
+            }
+
+            .login-mobile-brand .login-brand-system {
+                font-size: 0.65rem;
+            }
+
+        .login-form-header {
+            margin-bottom: 2rem;
+        }
+
+            .login-form-header h2 {
+                font-size: 1.45rem;
+            }
+
+        .login-form-icon {
+            width: 44px;
+            height: 44px;
+            flex-basis: 44px;
+        }
+
+        .login-security {
+            line-height: 1.5;
+        }
+    }
+
+</style>
+
 @section Scripts {
+
     <partial name="_ValidationScriptsPartial" />
 
     <script>
         (() => {
-            const passwordInput = document.getElementById("password");
-            const toggleButton = document.getElementById("togglePassword");
+
+            const passwordInput =
+                document.getElementById("password");
+
+            const toggleButton =
+                document.getElementById("togglePassword");
 
             if (!passwordInput || !toggleButton) {
                 return;
             }
 
             toggleButton.addEventListener("click", () => {
-                const isPassword = passwordInput.type === "password";
 
-                passwordInput.type = isPassword ? "text" : "password";
+                const isPassword =
+                    passwordInput.type === "password";
+
+                passwordInput.type =
+                    isPassword ? "text" : "password";
 
                 toggleButton.setAttribute(
                     "aria-label",
-                    isPassword ? "Hide password" : "Show password"
+                    isPassword
+                        ? "Hide password"
+                        : "Show password"
                 );
 
-                const icon = toggleButton.querySelector("i");
+                const icon =
+                    toggleButton.querySelector("i");
 
                 if (icon) {
-                    icon.classList.toggle("bi-eye", !isPassword);
-                    icon.classList.toggle("bi-eye-slash", isPassword);
+
+                    icon.classList.toggle(
+                        "bi-eye",
+                        !isPassword
+                    );
+
+                    icon.classList.toggle(
+                        "bi-eye-slash",
+                        isPassword
+                    );
                 }
             });
+
         })();
     </script>
 }
