@@ -2,27 +2,30 @@
     var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
     var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
 
-bool IsActive(string controller, string? action = null)
+    bool IsActive(string controller, string? action = null)
     {
-        if (!string.Equals(currentController, controller, StringComparison.OrdinalIgnoreCase))
+        if (!string.Equals(
+                currentController,
+                controller,
+                StringComparison.OrdinalIgnoreCase))
         {
             return false;
         }
 
         return action == null ||
-               string.Equals(currentAction, action, StringComparison.OrdinalIgnoreCase);
+               string.Equals(
+                   currentAction,
+                   action,
+                   StringComparison.OrdinalIgnoreCase);
     }
-
 }
 
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    ```
     <meta name="description"
           content="Doringkloof Medical Centre Smart Clinic Management System" />
 
@@ -49,13 +52,10 @@ bool IsActive(string controller, string? action = null)
           asp-append-version="true" />
 
     @await RenderSectionAsync("Styles", required: false)
-    ```
-
 </head>
 
 <body>
 
-    ```
     <a class="skip-link"
            href="#main-content">
         Skip to main content
@@ -99,6 +99,7 @@ bool IsActive(string controller, string? action = null)
                         aria-label="Toggle navigation">
 
                     <span class="navbar-toggler-icon"></span>
+
                 </button>
 
                 <div class="collapse navbar-collapse"
@@ -111,8 +112,10 @@ bool IsActive(string controller, string? action = null)
                                    asp-controller="Home"
                                    asp-action="Index"
                                    aria-current="@(IsActive("Home", "Index") ? "page" : null)">
+
                                 <i class="bi bi-house-door me-1"
                                    aria-hidden="true"></i>
+
                                 Home
                             </a>
                         </li>
@@ -122,6 +125,7 @@ bool IsActive(string controller, string? action = null)
                                    asp-controller="Home"
                                    asp-action="About"
                                    aria-current="@(IsActive("Home", "About") ? "page" : null)">
+
                                 About Us
                             </a>
                         </li>
@@ -131,6 +135,7 @@ bool IsActive(string controller, string? action = null)
                                    asp-controller="Home"
                                    asp-action="MedicalDivisions"
                                    aria-current="@(IsActive("Home", "MedicalDivisions") ? "page" : null)">
+
                                 Medical Divisions
                             </a>
                         </li>
@@ -140,97 +145,187 @@ bool IsActive(string controller, string? action = null)
                                    asp-controller="Home"
                                    asp-action="Contact"
                                    aria-current="@(IsActive("Home", "Contact") ? "page" : null)">
+
                                 Contact Us
                             </a>
                         </li>
 
-                        <li class="nav-item dropdown ms-lg-3 mt-3 mt-lg-0">
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <li class="nav-item ms-lg-3 mt-3 mt-lg-0">
 
-                            <button class="btn smart-login-btn dropdown-toggle"
-                                    type="button"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-
-                                <i class="bi bi-person-circle me-1"
-                                   aria-hidden="true"></i>
-
-                                Portal Login
-                            </button>
-
-                            <ul class="dropdown-menu dropdown-menu-end portal-dropdown">
-
-                                <li>
-                                    <h6 class="dropdown-header">
-                                        Select your portal
-                                    </h6>
-                                </li>
-
-                                <li>
-                                    <a class="dropdown-item"
-                                           asp-controller="Patient"
-                                           asp-action="Login">
-
-                                        <i class="bi bi-person-heart"
-                                           aria-hidden="true"></i>
-
-                                        <span>
-                                            <strong>Patient Portal</strong>
-                                            <small>Appointments &amp; medical information</small>
-                                        </span>
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a class="dropdown-item"
-                                           asp-controller="Doctor"
-                                           asp-action="Login">
-
-                                        <i class="bi bi-person-badge"
-                                           aria-hidden="true"></i>
-
-                                        <span>
-                                            <strong>Doctor Login</strong>
-                                            <small>Clinical management</small>
-                                        </span>
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a class="dropdown-item"
-                                           asp-controller="Reception"
-                                           asp-action="Login">
-
-                                        <i class="bi bi-headset"
-                                           aria-hidden="true"></i>
-
-                                        <span>
-                                            <strong>Reception</strong>
-                                            <small>Front-desk management</small>
-                                        </span>
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a class="dropdown-item"
+                                @if (User.IsInRole("Administrator"))
+                                {
+                                    <a class="btn smart-login-btn"
                                            asp-controller="Admin"
-                                           asp-action="Login">
+                                           asp-action="Dashboard">
 
-                                        <i class="bi bi-shield-lock"
+                                        <i class="bi bi-speedometer2 me-1"
                                            aria-hidden="true"></i>
 
-                                        <span>
-                                            <strong>Administrator</strong>
-                                            <small>System administration</small>
-                                        </span>
+                                        Dashboard
                                     </a>
-                                </li>
+                                }
+                                else if (User.IsInRole("Doctor"))
+                                {
+                                    <a class="btn smart-login-btn"
+                                           asp-controller="Doctor"
+                                           asp-action="Dashboard">
 
-                            </ul>
-                        </li>
+                                        <i class="bi bi-speedometer2 me-1"
+                                           aria-hidden="true"></i>
+
+                                        Dashboard
+                                    </a>
+                                }
+                                else if (User.IsInRole("Receptionist"))
+                                {
+                                    <a class="btn smart-login-btn"
+                                           asp-controller="Reception"
+                                           asp-action="Dashboard">
+
+                                        <i class="bi bi-speedometer2 me-1"
+                                           aria-hidden="true"></i>
+
+                                        Dashboard
+                                    </a>
+                                }
+                                else if (User.IsInRole("Patient"))
+                                {
+                                    <a class="btn smart-login-btn"
+                                           asp-controller="Patient"
+                                           asp-action="Dashboard">
+
+                                        <i class="bi bi-speedometer2 me-1"
+                                           aria-hidden="true"></i>
+
+                                        Dashboard
+                                    </a>
+                                }
+
+                            </li>
+
+                            <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+
+                                <form asp-controller="Account"
+                                      asp-action="Logout"
+                                      method="post"
+                                      class="logout-form">
+
+                                    @Html.AntiForgeryToken()
+
+                                    <button type="submit"
+                                            class="smart-logout-btn">
+
+                                        <i class="bi bi-box-arrow-right"
+                                           aria-hidden="true"></i>
+
+                                        <span>Logout</span>
+
+                                    </button>
+
+                                </form>
+
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item dropdown ms-lg-3 mt-3 mt-lg-0">
+
+                                <button class="btn smart-login-btn dropdown-toggle"
+                                        type="button"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+
+                                    <i class="bi bi-person-circle me-1"
+                                       aria-hidden="true"></i>
+
+                                    Portal Login
+                                </button>
+
+                                <ul class="dropdown-menu dropdown-menu-end portal-dropdown">
+
+                                    <li>
+                                        <h6 class="dropdown-header">
+                                            Select your portal
+                                        </h6>
+                                    </li>
+
+                                    <li>
+                                        <a class="dropdown-item"
+                                               asp-controller="Patient"
+                                               asp-action="Login">
+
+                                            <i class="bi bi-person-heart"
+                                               aria-hidden="true"></i>
+
+                                            <span>
+                                                <strong>Patient Portal</strong>
+                                                <small>Appointments &amp; medical information</small>
+                                            </span>
+
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a class="dropdown-item"
+                                               asp-controller="Doctor"
+                                               asp-action="Login">
+
+                                            <i class="bi bi-person-badge"
+                                               aria-hidden="true"></i>
+
+                                            <span>
+                                                <strong>Doctor Login</strong>
+                                                <small>Clinical management</small>
+                                            </span>
+
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a class="dropdown-item"
+                                               asp-controller="Reception"
+                                               asp-action="Login">
+
+                                            <i class="bi bi-headset"
+                                               aria-hidden="true"></i>
+
+                                            <span>
+                                                <strong>Reception</strong>
+                                                <small>Front-desk management</small>
+                                            </span>
+
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a class="dropdown-item"
+                                               asp-controller="Admin"
+                                               asp-action="Login">
+
+                                            <i class="bi bi-shield-lock"
+                                               aria-hidden="true"></i>
+
+                                            <span>
+                                                <strong>Administrator</strong>
+                                                <small>System administration</small>
+                                            </span>
+
+                                        </a>
+                                    </li>
+
+                                </ul>
+
+                            </li>
+                        }
 
                     </ul>
+
                 </div>
+
             </div>
+
         </nav>
     </header>
 
@@ -302,7 +397,6 @@ bool IsActive(string controller, string? action = null)
             asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
-    ```
 
 </body>
 </html>
