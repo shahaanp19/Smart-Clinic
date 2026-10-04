@@ -369,29 +369,33 @@ public class ReceptionController : Controller
             .ToList();
     }
 
-    private static void ValidatePatient(PatientDto dto)
+    private void ValidatePatient(PatientDto dto)
     {
         if (string.IsNullOrWhiteSpace(dto.FullName))
         {
-            throw new ArgumentException(
+            ModelState.AddModelError(
+                nameof(dto.FullName),
                 "Patient full name is required.");
         }
 
         if (string.IsNullOrWhiteSpace(dto.PatientNumber))
         {
-            throw new ArgumentException(
+            ModelState.AddModelError(
+                nameof(dto.PatientNumber),
                 "Patient number is required.");
         }
 
         if (string.IsNullOrWhiteSpace(dto.IdNumber))
         {
-            throw new ArgumentException(
+            ModelState.AddModelError(
+                nameof(dto.IdNumber),
                 "ID number is required.");
         }
 
         if (dto.DateOfBirth > DateTime.UtcNow.Date)
         {
-            throw new ArgumentException(
+            ModelState.AddModelError(
+                nameof(dto.DateOfBirth),
                 "Date of birth cannot be in the future.");
         }
     }

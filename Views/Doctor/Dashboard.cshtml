@@ -9,431 +9,721 @@
     var pendingConsultations = ViewBag.PendingConsultations is int pc ? pc : 0;
 }
 
-<div class="container-fluid py-4">
+<div class="doctor-dashboard">
 
-    <!-- Header -->
-    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+    <div class="container-fluid py-4 py-lg-5">
 
-        <div>
-            <div class="d-flex align-items-center gap-2 mb-2">
-                <span class="badge rounded-pill text-bg-primary px-3 py-2">
-                    <i class="bi bi-heart-pulse-fill me-1"
-                       aria-hidden="true"></i>
+        <!-- Header -->
+        <div class="dashboard-header mb-4 mb-lg-5">
+
+            <div>
+                <div class="dashboard-eyebrow mb-2">
+                    <i class="bi bi-heart-pulse-fill me-2" aria-hidden="true"></i>
                     Clinical Workspace
-                </span>
+                </div>
+
+                <h1 class="display-6 fw-bold mb-2">
+                    Welcome back@(doctor is not null ? $", Dr. {doctor.FullName}" : "")
+                </h1>
+
+                <p class="text-muted mb-0">
+                    Manage consultations, appointments and clinical records
+                    from one secure workspace.
+                </p>
             </div>
 
-            <h1 class="h3 fw-bold mb-1">
-                Welcome back@(doctor is not null ? $", Dr. {doctor.FullName}" : "")
-            </h1>
+            <div class="dashboard-header-actions d-flex flex-column flex-sm-row gap-2">
 
-            <p class="text-muted mb-0">
-                Manage your consultations, appointments and clinical records.
-            </p>
+                <a asp-controller="Doctor"
+                       asp-action="Schedule"
+                       class="btn btn-outline-primary btn-lg">
+                    <i class="bi bi-calendar3 me-2" aria-hidden="true"></i>
+                    View Schedule
+                </a>
+
+                <a asp-controller="Doctor"
+                       asp-action="Consultation"
+                       class="btn btn-primary btn-lg">
+                    <i class="bi bi-plus-circle me-2" aria-hidden="true"></i>
+                    Record Consultation
+                </a>
+
+            </div>
+
         </div>
 
-        <div class="d-flex flex-column flex-sm-row gap-2">
-            <a asp-controller="Doctor"
-                   asp-action="Schedule"
-                   class="btn btn-outline-primary">
-                <i class="bi bi-calendar3 me-2"
-                   aria-hidden="true"></i>
-                View Schedule
-            </a>
 
-            <a asp-controller="Doctor"
-                   asp-action="Consultation"
-                   class="btn btn-primary">
-                <i class="bi bi-plus-circle me-2"
-                   aria-hidden="true"></i>
-                Record Consultation
-            </a>
-        </div>
+        <!-- Doctor Profile -->
+        @if (doctor is not null)
+        {
+            <section class="profile-panel mb-4 mb-lg-5"
+                     aria-labelledby="doctor-profile-heading">
 
-    </div>
+                <div class="profile-icon">
+                    <i class="bi bi-person-badge" aria-hidden="true"></i>
+                </div>
 
-    <!-- Doctor profile -->
-    @if (doctor is not null)
-    {
-        <div class="card border-0 shadow-sm rounded-4 mb-4">
-            <div class="card-body p-4">
+                <div class="profile-content">
 
-                <div class="row align-items-center g-4">
+                    <span class="profile-label">
+                        CLINICAL PROFILE
+                    </span>
 
-                    <div class="col-auto">
-                        <div class="rounded-circle bg-primary-subtle text-primary d-flex align-items-center justify-content-center"
-                             style="width:72px;height:72px;">
-                            <i class="bi bi-person-badge fs-2"
-                               aria-hidden="true"></i>
-                        </div>
+                    <h2 id="doctor-profile-heading" class="h4 fw-bold mb-1">
+                        Dr. @doctor.FullName
+                    </h2>
+
+                    <p class="text-muted mb-3">
+                        @doctor.Specialisation
+                    </p>
+
+                    <div class="d-flex flex-wrap gap-2">
+
+                        <span class="profile-tag">
+                            <i class="bi bi-person-vcard me-1" aria-hidden="true"></i>
+                            @doctor.EmployeeNumber
+                        </span>
+
+                        <span class="profile-tag profile-tag-success">
+                            <i class="bi bi-check-circle me-1" aria-hidden="true"></i>
+                            Active
+                        </span>
+
                     </div>
 
-                    <div class="col">
-                        <h2 class="h5 fw-bold mb-1">
-                            Dr. @doctor.FullName
+                </div>
+
+                <div class="profile-email">
+
+                    <span>
+                        Professional Email
+                    </span>
+
+                    <strong>
+                        @doctor.Email
+                    </strong>
+
+                </div>
+
+            </section>
+        }
+
+
+        <!-- Overview -->
+        <section class="mb-4 mb-lg-5"
+                 aria-labelledby="clinical-overview-heading">
+
+            <div class="mb-3">
+                <h2 id="clinical-overview-heading" class="h5 fw-bold mb-1">
+                    Clinical Overview
+                </h2>
+
+                <p class="text-muted small mb-0">
+                    Current consultation and appointment activity.
+                </p>
+            </div>
+
+            <div class="row g-3 g-lg-4">
+
+                <div class="col-12 col-sm-6 col-xl-4">
+                    <div class="overview-card h-100">
+
+                        <div class="overview-content">
+                            <span class="overview-label">
+                                Total Consultations
+                            </span>
+
+                            <strong class="overview-value">
+                                @totalConsultations
+                            </strong>
+
+                            <span class="overview-description">
+                                Clinical consultations recorded
+                            </span>
+                        </div>
+
+                        <div class="overview-icon">
+                            <i class="bi bi-clipboard2-pulse" aria-hidden="true"></i>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="col-12 col-sm-6 col-xl-4">
+                    <div class="overview-card h-100">
+
+                        <div class="overview-content">
+                            <span class="overview-label">
+                                Completed
+                            </span>
+
+                            <strong class="overview-value">
+                                @completedConsultations
+                            </strong>
+
+                            <span class="overview-description">
+                                Completed clinical consultations
+                            </span>
+                        </div>
+
+                        <div class="overview-icon">
+                            <i class="bi bi-check2-circle" aria-hidden="true"></i>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="col-12 col-sm-6 col-xl-4">
+                    <div class="overview-card h-100">
+
+                        <div class="overview-content">
+                            <span class="overview-label">
+                                Pending Appointments
+                            </span>
+
+                            <strong class="overview-value">
+                                @pendingConsultations
+                            </strong>
+
+                            <span class="overview-description">
+                                Appointments requiring attention
+                            </span>
+                        </div>
+
+                        <div class="overview-icon">
+                            <i class="bi bi-hourglass-split" aria-hidden="true"></i>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Main Workspace -->
+        <div class="row g-4">
+
+            <!-- Clinical Workflow -->
+            <div class="col-12 col-xl-8">
+
+                <section class="workspace-panel h-100"
+                         aria-labelledby="clinical-workflow-heading">
+
+                    <div class="workspace-panel-header">
+
+                        <h2 id="clinical-workflow-heading" class="h5 fw-bold mb-1">
+                            Clinical Workflow
                         </h2>
 
-                        <div class="text-muted mb-2">
-                            @doctor.Specialisation
-                        </div>
+                        <p class="text-muted small mb-0">
+                            Access the core clinical functions for patient care.
+                        </p>
 
-                        <div class="d-flex flex-wrap gap-2">
-                            <span class="badge rounded-pill text-bg-light">
-                                <i class="bi bi-person-vcard me-1"
-                                   aria-hidden="true"></i>
-                                @doctor.EmployeeNumber
-                            </span>
-
-                            <span class="badge rounded-pill text-bg-success">
-                                <i class="bi bi-check-circle me-1"
-                                   aria-hidden="true"></i>
-                                Active
-                            </span>
-                        </div>
                     </div>
 
-                    <div class="col-12 col-lg-auto">
-                        <div class="text-lg-end">
-                            <div class="small text-muted">
-                                Professional email
+
+                    <div class="workflow-list">
+
+                        <a asp-controller="Doctor"
+                               asp-action="Schedule"
+                               class="workflow-item">
+
+                            <div class="workflow-icon">
+                                <i class="bi bi-calendar3" aria-hidden="true"></i>
                             </div>
 
-                            <div class="fw-semibold">
-                                @doctor.Email
+                            <div class="workflow-content">
+
+                                <h3 class="h6 fw-bold mb-1">
+                                    My Schedule
+                                </h3>
+
+                                <p class="text-muted small mb-0">
+                                    Review upcoming appointments and patient schedules.
+                                </p>
+
                             </div>
-                        </div>
+
+                            <i class="bi bi-arrow-right workflow-arrow"
+                               aria-hidden="true"></i>
+
+                        </a>
+
+
+                        <a asp-controller="Doctor"
+                               asp-action="Consultation"
+                               class="workflow-item">
+
+                            <div class="workflow-icon">
+                                <i class="bi bi-clipboard2-plus" aria-hidden="true"></i>
+                            </div>
+
+                            <div class="workflow-content">
+
+                                <h3 class="h6 fw-bold mb-1">
+                                    Consultations
+                                </h3>
+
+                                <p class="text-muted small mb-0">
+                                    Record diagnoses, treatment plans and clinical notes.
+                                </p>
+
+                            </div>
+
+                            <i class="bi bi-arrow-right workflow-arrow"
+                               aria-hidden="true"></i>
+
+                        </a>
+
+
+                        <a asp-controller="Doctor"
+                               asp-action="GeneratePrescription"
+                               class="workflow-item">
+
+                            <div class="workflow-icon">
+                                <i class="bi bi-capsule-pill" aria-hidden="true"></i>
+                            </div>
+
+                            <div class="workflow-content">
+
+                                <h3 class="h6 fw-bold mb-1">
+                                    Prescriptions
+                                </h3>
+
+                                <p class="text-muted small mb-0">
+                                    Generate and review patient medication prescriptions.
+                                </p>
+
+                            </div>
+
+                            <i class="bi bi-arrow-right workflow-arrow"
+                               aria-hidden="true"></i>
+
+                        </a>
+
+
+                        <a asp-controller="Doctor"
+                               asp-action="MedicalRecords"
+                               class="workflow-item">
+
+                            <div class="workflow-icon">
+                                <i class="bi bi-folder2-open" aria-hidden="true"></i>
+                            </div>
+
+                            <div class="workflow-content">
+
+                                <h3 class="h6 fw-bold mb-1">
+                                    Medical Records
+                                </h3>
+
+                                <p class="text-muted small mb-0">
+                                    Review consultations and clinical records in one place.
+                                </p>
+
+                            </div>
+
+                            <i class="bi bi-arrow-right workflow-arrow"
+                               aria-hidden="true"></i>
+
+                        </a>
+
                     </div>
+
+                </section>
+
+            </div>
+
+
+            <!-- Workspace Status -->
+            <div class="col-12 col-xl-4">
+
+                <div class="d-flex flex-column gap-4">
+
+                    <section class="status-card"
+                             aria-labelledby="doctor-security-heading">
+
+                        <div class="status-card-header">
+
+                            <div class="status-icon">
+                                <i class="bi bi-shield-check" aria-hidden="true"></i>
+                            </div>
+
+                            <div>
+                                <h2 id="doctor-security-heading"
+                                    class="h6 fw-bold mb-1">
+                                    Secure Clinical Workspace
+                                </h2>
+
+                                <p class="text-muted small mb-0">
+                                    Doctor-only access protects clinical functionality
+                                    and patient information.
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <div class="security-note">
+                            <i class="bi bi-check-circle-fill me-2"
+                               aria-hidden="true"></i>
+                            Secure clinical access enabled
+                        </div>
+
+                    </section>
+
+
+                    <section class="status-card"
+                             aria-labelledby="doctor-status-heading">
+
+                        <div class="mb-3">
+
+                            <h2 id="doctor-status-heading"
+                                class="h6 fw-bold mb-1">
+                                Workspace Status
+                            </h2>
+
+                            <p class="text-muted small mb-0">
+                                Current clinical activity.
+                            </p>
+
+                        </div>
+
+                        <div class="status-list">
+
+                            <div class="status-row">
+                                <span>
+                                    Total consultations
+                                </span>
+
+                                <strong>
+                                    @totalConsultations
+                                </strong>
+                            </div>
+
+                            <div class="status-row">
+                                <span>
+                                    Completed
+                                </span>
+
+                                <strong>
+                                    @completedConsultations
+                                </strong>
+                            </div>
+
+                            <div class="status-row status-row-last">
+                                <span>
+                                    Pending
+                                </span>
+
+                                <strong class="status-pending">
+                                    @pendingConsultations
+                                </strong>
+                            </div>
+
+                        </div>
+
+                    </section>
 
                 </div>
 
             </div>
-        </div>
-    }
 
-    <!-- Metrics -->
-    <div class="row g-4 mb-4">
-
-        <div class="col-12 col-sm-6 col-xl-4">
-            <div class="card border-0 shadow-sm rounded-4 h-100">
-                <div class="card-body p-4">
-
-                    <div class="d-flex justify-content-between align-items-start">
-
-                        <div>
-                            <div class="text-muted small fw-semibold">
-                                Total Consultations
-                            </div>
-
-                            <div class="display-5 fw-bold mt-2">
-                                @totalConsultations
-                            </div>
-
-                            <div class="small text-muted mt-2">
-                                Clinical consultations recorded
-                            </div>
-                        </div>
-
-                        <span class="rounded-circle bg-primary-subtle text-primary d-inline-flex align-items-center justify-content-center"
-                              style="width:56px;height:56px;">
-                            <i class="bi bi-clipboard2-pulse fs-4"
-                               aria-hidden="true"></i>
-                        </span>
-
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12 col-sm-6 col-xl-4">
-            <div class="card border-0 shadow-sm rounded-4 h-100">
-                <div class="card-body p-4">
-
-                    <div class="d-flex justify-content-between align-items-start">
-
-                        <div>
-                            <div class="text-muted small fw-semibold">
-                                Completed
-                            </div>
-
-                            <div class="display-5 fw-bold mt-2">
-                                @completedConsultations
-                            </div>
-
-                            <div class="small text-muted mt-2">
-                                Consultations in clinical records
-                            </div>
-                        </div>
-
-                        <span class="rounded-circle bg-success-subtle text-success d-inline-flex align-items-center justify-content-center"
-                              style="width:56px;height:56px;">
-                            <i class="bi bi-check2-circle fs-4"
-                               aria-hidden="true"></i>
-                        </span>
-
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12 col-sm-6 col-xl-4">
-            <div class="card border-0 shadow-sm rounded-4 h-100">
-                <div class="card-body p-4">
-
-                    <div class="d-flex justify-content-between align-items-start">
-
-                        <div>
-                            <div class="text-muted small fw-semibold">
-                                Pending Appointments
-                            </div>
-
-                            <div class="display-5 fw-bold mt-2">
-                                @pendingConsultations
-                            </div>
-
-                            <div class="small text-muted mt-2">
-                                Appointments requiring attention
-                            </div>
-                        </div>
-
-                        <span class="rounded-circle bg-warning-subtle text-warning d-inline-flex align-items-center justify-content-center"
-                              style="width:56px;height:56px;">
-                            <i class="bi bi-hourglass-split fs-4"
-                               aria-hidden="true"></i>
-                        </span>
-
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- Workflow -->
-    <div class="row g-4">
-
-        <div class="col-12 col-lg-8">
-            <div class="card border-0 shadow-sm rounded-4 h-100">
-
-                <div class="card-header bg-transparent border-0 pt-4 px-4">
-                    <h2 class="h5 fw-bold mb-1">
-                        Clinical Workflow
-                    </h2>
-
-                    <p class="text-muted small mb-0">
-                        Quick access to the core doctor workflow.
-                    </p>
-                </div>
-
-                <div class="card-body p-4">
-
-                    <div class="row g-3">
-
-                        <div class="col-12 col-md-6">
-                            <a asp-controller="Doctor"
-                                   asp-action="Schedule"
-                                   class="text-decoration-none">
-
-                                <div class="border rounded-4 p-4 h-100 dashboard-action-card">
-
-                                    <div class="d-flex align-items-center gap-3 mb-3">
-                                        <span class="rounded-3 bg-primary-subtle text-primary d-inline-flex align-items-center justify-content-center"
-                                              style="width:48px;height:48px;">
-                                            <i class="bi bi-calendar3 fs-4"
-                                               aria-hidden="true"></i>
-                                        </span>
-
-                                        <h3 class="h6 fw-bold mb-0">
-                                            My Schedule
-                                        </h3>
-                                    </div>
-
-                                    <p class="text-muted small mb-0">
-                                        Review upcoming appointments and patient schedules.
-                                    </p>
-
-                                </div>
-
-                            </a>
-                        </div>
-
-                        <div class="col-12 col-md-6">
-                            <a asp-controller="Doctor"
-                                   asp-action="Consultation"
-                                   class="text-decoration-none">
-
-                                <div class="border rounded-4 p-4 h-100 dashboard-action-card">
-
-                                    <div class="d-flex align-items-center gap-3 mb-3">
-                                        <span class="rounded-3 bg-success-subtle text-success d-inline-flex align-items-center justify-content-center"
-                                              style="width:48px;height:48px;">
-                                            <i class="bi bi-clipboard2-plus fs-4"
-                                               aria-hidden="true"></i>
-                                        </span>
-
-                                        <h3 class="h6 fw-bold mb-0">
-                                            Consultations
-                                        </h3>
-                                    </div>
-
-                                    <p class="text-muted small mb-0">
-                                        Record diagnoses, treatment plans and clinical notes.
-                                    </p>
-
-                                </div>
-
-                            </a>
-                        </div>
-
-                        <div class="col-12 col-md-6">
-                            <a asp-controller="Doctor"
-                                   asp-action="GeneratePrescription"
-                                   class="text-decoration-none">
-
-                                <div class="border rounded-4 p-4 h-100 dashboard-action-card">
-
-                                    <div class="d-flex align-items-center gap-3 mb-3">
-                                        <span class="rounded-3 bg-info-subtle text-info d-inline-flex align-items-center justify-content-center"
-                                              style="width:48px;height:48px;">
-                                            <i class="bi bi-capsule-pill fs-4"
-                                               aria-hidden="true"></i>
-                                        </span>
-
-                                        <h3 class="h6 fw-bold mb-0">
-                                            Prescriptions
-                                        </h3>
-                                    </div>
-
-                                    <p class="text-muted small mb-0">
-                                        Generate and review medication prescriptions.
-                                    </p>
-
-                                </div>
-
-                            </a>
-                        </div>
-
-                        <div class="col-12 col-md-6">
-                            <a asp-controller="Doctor"
-                                   asp-action="MedicalRecords"
-                                   class="text-decoration-none">
-
-                                <div class="border rounded-4 p-4 h-100 dashboard-action-card">
-
-                                    <div class="d-flex align-items-center gap-3 mb-3">
-                                        <span class="rounded-3 bg-warning-subtle text-warning d-inline-flex align-items-center justify-content-center"
-                                              style="width:48px;height:48px;">
-                                            <i class="bi bi-folder2-open fs-4"
-                                               aria-hidden="true"></i>
-                                        </span>
-
-                                        <h3 class="h6 fw-bold mb-0">
-                                            Medical Records
-                                        </h3>
-                                    </div>
-
-                                    <p class="text-muted small mb-0">
-                                        Review consultations and prescriptions in one place.
-                                    </p>
-
-                                </div>
-
-                            </a>
-                        </div>
-
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-        <!-- Security/status -->
-        <div class="col-12 col-lg-4">
-            <div class="card border-0 shadow-sm rounded-4 h-100">
-
-                <div class="card-header bg-transparent border-0 pt-4 px-4">
-                    <h2 class="h5 fw-bold mb-1">
-                        Workspace Status
-                    </h2>
-
-                    <p class="text-muted small mb-0">
-                        Your current clinical workspace.
-                    </p>
-                </div>
-
-                <div class="card-body p-4">
-
-                    <div class="d-flex align-items-center gap-3 mb-4">
-                        <span class="rounded-circle bg-success-subtle text-success d-inline-flex align-items-center justify-content-center"
-                              style="width:48px;height:48px;">
-                            <i class="bi bi-shield-check fs-4"
-                               aria-hidden="true"></i>
-                        </span>
-
-                        <div>
-                            <div class="fw-semibold">
-                                Secure Session
-                            </div>
-
-                            <small class="text-muted">
-                                Authenticated clinical access
-                            </small>
-                        </div>
-                    </div>
-
-                    <div class="d-flex align-items-center gap-3 mb-4">
-                        <span class="rounded-circle bg-primary-subtle text-primary d-inline-flex align-items-center justify-content-center"
-                              style="width:48px;height:48px;">
-                            <i class="bi bi-database-check fs-4"
-                               aria-hidden="true"></i>
-                        </span>
-
-                        <div>
-                            <div class="fw-semibold">
-                                Clinical Data
-                            </div>
-
-                            <small class="text-muted">
-                                Database-backed records
-                            </small>
-                        </div>
-                    </div>
-
-                    <div class="d-flex align-items-center gap-3">
-                        <span class="rounded-circle bg-info-subtle text-info d-inline-flex align-items-center justify-content-center"
-                              style="width:48px;height:48px;">
-                            <i class="bi bi-lock-fill fs-4"
-                               aria-hidden="true"></i>
-                        </span>
-
-                        <div>
-                            <div class="fw-semibold">
-                                Role Protected
-                            </div>
-
-                            <small class="text-muted">
-                                Doctor-only clinical workspace
-                            </small>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
         </div>
 
     </div>
 
 </div>
 
+
 <style>
-    .dashboard-action-card {
-        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    .doctor-dashboard {
+        min-height: calc(100vh - 70px);
+        background: #f7fbff;
     }
 
-        .dashboard-action-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08);
+    .dashboard-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 2rem;
+        padding: 1.75rem 2rem;
+        background: linear-gradient(135deg, #e7f5ff 0%, #f5fbff 100%);
+        border: 1px solid #d5ebf9;
+        border-radius: 1.25rem;
+        box-shadow: 0 0.35rem 1.25rem rgba(31, 91, 122, 0.06);
+    }
+
+    .dashboard-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        color: #0b6fa4;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+    }
+
+    .profile-panel {
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+        padding: 1.5rem 1.75rem;
+        background: #ffffff;
+        border: 1px solid #dfedf5;
+        border-radius: 1.15rem;
+        box-shadow: 0 0.35rem 1.25rem rgba(31, 91, 122, 0.06);
+    }
+
+    .profile-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 64px;
+        height: 64px;
+        flex: 0 0 64px;
+        color: #1479ad;
+        background: #e7f5ff;
+        border: 1px solid #d2ebf9;
+        border-radius: 50%;
+        font-size: 1.5rem;
+    }
+
+    .profile-content {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .profile-label {
+        display: block;
+        margin-bottom: 4px;
+        color: #0b6fa4;
+        font-size: 0.68rem;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+    }
+
+    .profile-tag {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.4rem 0.7rem;
+        color: #4d6675;
+        background: #f4f9fc;
+        border: 1px solid #dfedf5;
+        border-radius: 999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    .profile-tag-success {
+        color: #176b4d;
+        background: #edf9f4;
+        border-color: #d4eee2;
+    }
+
+    .profile-email {
+        padding-left: 1.5rem;
+        border-left: 1px solid #e5eef3;
+        text-align: right;
+    }
+
+        .profile-email span {
+            display: block;
+            margin-bottom: 4px;
+            color: #7b909c;
+            font-size: 0.72rem;
         }
+
+        .profile-email strong {
+            color: #173d51;
+            font-size: 0.85rem;
+        }
+
+    .overview-card {
+        position: relative;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        min-height: 165px;
+        padding: 1.5rem;
+        overflow: hidden;
+        background: linear-gradient(135deg, #e4f4ff 0%, #f4faff 100%);
+        border: 1px solid #cfe7f6;
+        border-radius: 1.15rem;
+        box-shadow: 0 0.35rem 1.25rem rgba(31, 91, 122, 0.07);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .overview-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0.7rem 1.5rem rgba(31, 91, 122, 0.11);
+        }
+
+    .overview-content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .overview-label {
+        color: #526b7a;
+        font-size: 0.85rem;
+        font-weight: 700;
+    }
+
+    .overview-value {
+        margin-top: 0.4rem;
+        color: #123b53;
+        font-size: 2.4rem;
+        line-height: 1.1;
+        font-weight: 800;
+    }
+
+    .overview-description {
+        margin-top: 0.55rem;
+        color: #66808f;
+        font-size: 0.78rem;
+    }
+
+    .overview-icon,
+    .workflow-icon,
+    .status-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 auto;
+        color: #1479ad;
+        background: #e7f5ff;
+        border: 1px solid #d2ebf9;
+    }
+
+    .overview-icon {
+        width: 58px;
+        height: 58px;
+        border-radius: 50%;
+        font-size: 1.4rem;
+    }
+
+    .workspace-panel,
+    .status-card {
+        background: #ffffff;
+        border: 1px solid #dfedf5;
+        border-radius: 1.15rem;
+        box-shadow: 0 0.35rem 1.25rem rgba(31, 91, 122, 0.06);
+    }
+
+    .workspace-panel-header {
+        padding: 1.5rem 1.5rem 1.15rem;
+        border-bottom: 1px solid #eaf2f6;
+    }
+
+    .workflow-list {
+        padding: 0.5rem 1rem 1rem;
+    }
+
+    .workflow-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1.15rem 0.75rem;
+        color: inherit;
+        text-decoration: none;
+        border-bottom: 1px solid #eaf2f6;
+        border-radius: 0.75rem;
+        transition: background-color 0.2s ease, padding-left 0.2s ease;
+    }
+
+        .workflow-item:last-child {
+            border-bottom: 0;
+        }
+
+        .workflow-item:hover {
+            padding-left: 1rem;
+            background: #eef8ff;
+        }
+
+        .workflow-item:focus-visible {
+            outline: 3px solid rgba(13, 110, 253, 0.2);
+            outline-offset: 2px;
+        }
+
+    .workflow-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 0.8rem;
+        font-size: 1.2rem;
+    }
+
+    .workflow-content {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .workflow-arrow {
+        color: #7d9aaa;
+        font-size: 1rem;
+        transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+    .workflow-item:hover .workflow-arrow {
+        color: #0d6efd;
+        transform: translateX(3px);
+    }
+
+    .status-card {
+        padding: 1.5rem;
+    }
+
+    .status-card-header {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .status-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        font-size: 1.15rem;
+    }
+
+    .security-note {
+        margin-top: 1.25rem;
+        padding: 0.8rem 1rem;
+        color: #176b4d;
+        background: #edf9f4;
+        border: 1px solid #d4eee2;
+        border-radius: 0.7rem;
+        font-size: 0.82rem;
+        font-weight: 600;
+    }
+
+    .status-list {
+        border-top: 1px solid #edf3f7;
+    }
+
+    .status-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.9rem 0;
+        color: #627985;
+        font-size: 0.85rem;
+        border-bottom: 1px solid #edf3f7;
+    }
+
+        .status-row strong {
+            color: #173d51;
+            font-size: 0.95rem;
+        }
+
+    .status-row-last {
+        border-bottom: 0;
+    }
+
+    .status-pending {
+        color: #9a6900 !important;
+    }
 </style>

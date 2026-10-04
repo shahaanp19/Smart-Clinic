@@ -6,334 +6,419 @@
         : "Patient";
 }
 
-<section class="page-section patient-dashboard-page">
+<section class="patient-dashboard-page">
 
-    <div class="container">
+    <div class="container-fluid py-4 py-lg-5">
 
-        <!-- WELCOME -->
-        <div class="patient-welcome-card mb-5">
+        <!-- Header -->
+        <div class="dashboard-header mb-4 mb-lg-5">
 
-            <div class="patient-welcome-content">
-
-                <div class="patient-welcome-label">
-                    <span></span>
+            <div>
+                <div class="dashboard-eyebrow mb-2">
+                    <i class="bi bi-person-heart me-2" aria-hidden="true"></i>
                     Patient Portal
                 </div>
 
-                <h1>
-                    Welcome back,
-                    <strong>@patientName</strong>
+                <h1 class="display-6 fw-bold mb-2">
+                    Welcome back, <span class="dashboard-name">@patientName</span>
                 </h1>
 
-                <p>
-                    Manage your appointments, medical information and
-                    healthcare services from one secure place.
+                <p class="text-muted mb-0">
+                    Manage your appointments, medical information and healthcare services
+                    from one secure workspace.
                 </p>
+            </div>
+
+            <div class="dashboard-header-actions d-flex flex-column flex-sm-row gap-2">
+
+                <a asp-controller="Patient"
+                       asp-action="MedicalHistory"
+                       class="btn btn-outline-primary btn-lg">
+                    <i class="bi bi-folder2-open me-2" aria-hidden="true"></i>
+                    Medical History
+                </a>
 
                 <a asp-controller="Patient"
                        asp-action="BookAppointment"
-                       class="smart-btn-primary text-decoration-none">
-
-                    <i class="bi bi-calendar-plus"></i>
+                       class="btn btn-primary btn-lg">
+                    <i class="bi bi-calendar-plus me-2" aria-hidden="true"></i>
                     Book Appointment
-                    <i class="bi bi-arrow-right"></i>
-
                 </a>
 
             </div>
 
-            <div class="patient-welcome-pattern">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-
         </div>
 
 
-        <!-- QUICK ACCESS -->
-        <div class="patient-dashboard-section mb-5">
+        <!-- Patient Overview -->
+        <section class="mb-4 mb-lg-5"
+                 aria-labelledby="patient-overview-heading">
 
-            <div class="patient-section-heading">
+            <div class="mb-3">
+                <h2 id="patient-overview-heading" class="h5 fw-bold mb-1">
+                    Your Healthcare Overview
+                </h2>
 
-                <div>
-                    <span>QUICK ACCESS</span>
-                    <h2>Manage your care</h2>
-                </div>
-
-                <p>
-                    Everything you need, right at your fingertips.
+                <p class="text-muted small mb-0">
+                    Access your most important patient services.
                 </p>
-
             </div>
 
+            <div class="row g-3 g-lg-4">
 
-            <div class="row g-3">
+                <div class="col-12 col-sm-6 col-xl-3">
+                    <div class="overview-card h-100">
 
-                <div class="col-6 col-md-4 col-lg-2">
-
-                    <a asp-controller="Patient"
-                           asp-action="BookAppointment"
-                           class="patient-action-card text-decoration-none">
-
-                        <strong>
-                            Book Appointment
-                        </strong>
-
-                        <i class="bi bi-arrow-up-right patient-action-arrow"></i>
-
-                    </a>
-
-                </div>
-
-
-                <div class="col-6 col-md-4 col-lg-2">
-
-                    <a asp-controller="Patient"
-                           asp-action="MedicalHistory"
-                           class="patient-action-card text-decoration-none">
-
-                        <strong>
-                            Medical History
-                        </strong>
-
-                        <i class="bi bi-arrow-up-right patient-action-arrow"></i>
-
-                    </a>
-
-                </div>
-
-
-                <div class="col-6 col-md-4 col-lg-2">
-
-                    <a asp-controller="Patient"
-                           asp-action="Notifications"
-                           class="patient-action-card text-decoration-none">
-
-                        <strong>
-                            Notifications
-                        </strong>
-
-                        <i class="bi bi-arrow-up-right patient-action-arrow"></i>
-
-                    </a>
-
-                </div>
-
-
-                <div class="col-6 col-md-4 col-lg-2">
-
-                    <a asp-controller="Patient"
-                           asp-action="PatientIntakeForm"
-                           class="patient-action-card text-decoration-none">
-
-                        <strong>
-                            My Profile
-                        </strong>
-
-                        <i class="bi bi-arrow-up-right patient-action-arrow"></i>
-
-                    </a>
-
-                </div>
-
-
-                <div class="col-6 col-md-4 col-lg-2">
-
-                    <a asp-controller="Patient"
-                           asp-action="Settings"
-                           class="patient-action-card text-decoration-none">
-
-                        <strong>
-                            Settings
-                        </strong>
-
-                        <i class="bi bi-arrow-up-right patient-action-arrow"></i>
-
-                    </a>
-
-                </div>
-
-
-                <div class="col-6 col-md-4 col-lg-2">
-
-                    <a asp-controller="Patient"
-                           asp-action="MedicalHistory"
-                           class="patient-action-card text-decoration-none">
-
-                        <strong>
-                            Records
-                        </strong>
-
-                        <i class="bi bi-arrow-up-right patient-action-arrow"></i>
-
-                    </a>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- APPOINTMENTS + RECORDS -->
-        <div class="row g-4 mb-5">
-
-            <!-- APPOINTMENTS -->
-            <div class="col-lg-7">
-
-                <div class="patient-content-card h-100">
-
-                    <div class="patient-card-heading">
-
-                        <div>
-                            <span class="patient-card-label">
-                                YOUR CARE
+                        <div class="overview-content">
+                            <span class="overview-label">
+                                Appointments
                             </span>
 
-                            <h3>
-                                Upcoming appointments
-                            </h3>
+                            <strong class="overview-value">
+                                View
+                            </strong>
+
+                            <span class="overview-description">
+                                Manage your upcoming visits
+                            </span>
                         </div>
+
+                        <div class="overview-icon">
+                            <i class="bi bi-calendar2-week" aria-hidden="true"></i>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="col-12 col-sm-6 col-xl-3">
+                    <div class="overview-card h-100">
+
+                        <div class="overview-content">
+                            <span class="overview-label">
+                                Medical History
+                            </span>
+
+                            <strong class="overview-value">
+                                View
+                            </strong>
+
+                            <span class="overview-description">
+                                Access your clinical records
+                            </span>
+                        </div>
+
+                        <div class="overview-icon">
+                            <i class="bi bi-file-medical" aria-hidden="true"></i>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="col-12 col-sm-6 col-xl-3">
+                    <div class="overview-card h-100">
+
+                        <div class="overview-content">
+                            <span class="overview-label">
+                                Notifications
+                            </span>
+
+                            <strong class="overview-value">
+                                View
+                            </strong>
+
+                            <span class="overview-description">
+                                Check healthcare updates
+                            </span>
+                        </div>
+
+                        <div class="overview-icon">
+                            <i class="bi bi-bell" aria-hidden="true"></i>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="col-12 col-sm-6 col-xl-3">
+                    <div class="overview-card h-100">
+
+                        <div class="overview-content">
+                            <span class="overview-label">
+                                Profile
+                            </span>
+
+                            <strong class="overview-value">
+                                Manage
+                            </strong>
+
+                            <span class="overview-description">
+                                Keep your information updated
+                            </span>
+                        </div>
+
+                        <div class="overview-icon">
+                            <i class="bi bi-person-vcard" aria-hidden="true"></i>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Main Workspace -->
+        <div class="row g-4">
+
+            <!-- Patient Workflows -->
+            <div class="col-12 col-xl-8">
+
+                <section class="workspace-panel h-100"
+                         aria-labelledby="patient-workflow-heading">
+
+                    <div class="workspace-panel-header">
+
+                        <h2 id="patient-workflow-heading" class="h5 fw-bold mb-1">
+                            Manage Your Care
+                        </h2>
+
+                        <p class="text-muted small mb-0">
+                            Access the services and information available through your patient portal.
+                        </p>
+
+                    </div>
+
+
+                    <div class="workflow-list">
 
                         <a asp-controller="Patient"
                                asp-action="BookAppointment"
-                               class="patient-text-link">
+                               class="workflow-item">
 
-                            Book
-                            <i class="bi bi-arrow-up-right"></i>
+                            <div class="workflow-icon">
+                                <i class="bi bi-calendar-plus" aria-hidden="true"></i>
+                            </div>
+
+                            <div class="workflow-content">
+
+                                <h3 class="h6 fw-bold mb-1">
+                                    Book Appointment
+                                </h3>
+
+                                <p class="text-muted small mb-0">
+                                    Schedule an appointment with an available doctor.
+                                </p>
+
+                            </div>
+
+                            <i class="bi bi-arrow-right workflow-arrow"
+                               aria-hidden="true"></i>
+
+                        </a>
+
+
+                        <a asp-controller="Patient"
+                               asp-action="MedicalHistory"
+                               class="workflow-item">
+
+                            <div class="workflow-icon">
+                                <i class="bi bi-file-medical" aria-hidden="true"></i>
+                            </div>
+
+                            <div class="workflow-content">
+
+                                <h3 class="h6 fw-bold mb-1">
+                                    Medical History
+                                </h3>
+
+                                <p class="text-muted small mb-0">
+                                    Review your medical records and healthcare history.
+                                </p>
+
+                            </div>
+
+                            <i class="bi bi-arrow-right workflow-arrow"
+                               aria-hidden="true"></i>
+
+                        </a>
+
+
+                        <a asp-controller="Patient"
+                               asp-action="Notifications"
+                               class="workflow-item">
+
+                            <div class="workflow-icon">
+                                <i class="bi bi-bell" aria-hidden="true"></i>
+                            </div>
+
+                            <div class="workflow-content">
+
+                                <h3 class="h6 fw-bold mb-1">
+                                    Notifications
+                                </h3>
+
+                                <p class="text-muted small mb-0">
+                                    View appointment reminders and healthcare updates.
+                                </p>
+
+                            </div>
+
+                            <i class="bi bi-arrow-right workflow-arrow"
+                               aria-hidden="true"></i>
+
+                        </a>
+
+
+                        <a asp-controller="Patient"
+                               asp-action="PatientIntakeForm"
+                               class="workflow-item">
+
+                            <div class="workflow-icon">
+                                <i class="bi bi-person-vcard" aria-hidden="true"></i>
+                            </div>
+
+                            <div class="workflow-content">
+
+                                <h3 class="h6 fw-bold mb-1">
+                                    My Profile
+                                </h3>
+
+                                <p class="text-muted small mb-0">
+                                    Review and maintain your patient information.
+                                </p>
+
+                            </div>
+
+                            <i class="bi bi-arrow-right workflow-arrow"
+                               aria-hidden="true"></i>
+
+                        </a>
+
+
+                        <a asp-controller="Patient"
+                               asp-action="Settings"
+                               class="workflow-item">
+
+                            <div class="workflow-icon">
+                                <i class="bi bi-gear" aria-hidden="true"></i>
+                            </div>
+
+                            <div class="workflow-content">
+
+                                <h3 class="h6 fw-bold mb-1">
+                                    Account Settings
+                                </h3>
+
+                                <p class="text-muted small mb-0">
+                                    Manage your account and security preferences.
+                                </p>
+
+                            </div>
+
+                            <i class="bi bi-arrow-right workflow-arrow"
+                               aria-hidden="true"></i>
 
                         </a>
 
                     </div>
 
+                </section>
 
-                    <div class="patient-empty-state">
+            </div>
 
-                        <div>
 
-                            <h4>
-                                No upcoming appointments
-                            </h4>
+            <!-- Patient Status -->
+            <div class="col-12 col-xl-4">
 
-                            <p>
-                                When you have an upcoming appointment,
-                                the details will appear here.
+                <div class="d-flex flex-column gap-4">
+
+                    <section class="status-card"
+                             aria-labelledby="patient-security-heading">
+
+                        <div class="status-card-header">
+
+                            <div class="status-icon">
+                                <i class="bi bi-shield-check" aria-hidden="true"></i>
+                            </div>
+
+                            <div>
+                                <h2 id="patient-security-heading"
+                                    class="h6 fw-bold mb-1">
+                                    Secure Patient Workspace
+                                </h2>
+
+                                <p class="text-muted small mb-0">
+                                    Your healthcare information is accessed through
+                                    your authenticated patient account.
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <div class="security-note">
+                            <i class="bi bi-check-circle-fill me-2"
+                               aria-hidden="true"></i>
+                            Secure patient access enabled
+                        </div>
+
+                    </section>
+
+
+                    <section class="status-card"
+                             aria-labelledby="patient-record-heading">
+
+                        <div class="mb-3">
+
+                            <h2 id="patient-record-heading"
+                                class="h6 fw-bold mb-1">
+                                Healthcare Information
+                            </h2>
+
+                            <p class="text-muted small mb-0">
+                                Your available patient services.
                             </p>
 
-                            <a asp-controller="Patient"
-                                   asp-action="BookAppointment"
-                                   class="patient-outline-button text-decoration-none">
+                        </div>
 
-                                <i class="bi bi-calendar-plus"></i>
-                                Book an appointment
+                        <div class="status-list">
 
-                            </a>
+                            <div class="status-row">
+                                <span>
+                                    Appointments
+                                </span>
+
+                                <strong>
+                                    Available
+                                </strong>
+                            </div>
+
+                            <div class="status-row">
+                                <span>
+                                    Medical records
+                                </span>
+
+                                <strong>
+                                    Available
+                                </strong>
+                            </div>
+
+                            <div class="status-row status-row-last">
+                                <span>
+                                    Notifications
+                                </span>
+
+                                <strong>
+                                    Available
+                                </strong>
+                            </div>
 
                         </div>
 
-                    </div>
+                    </section>
 
-                </div>
-
-            </div>
-
-
-            <!-- RECORDS -->
-            <div class="col-lg-5">
-
-                <div class="patient-content-card h-100">
-
-                    <div class="patient-card-heading">
-
-                        <div>
-                            <span class="patient-card-label">
-                                HEALTHCARE
-                            </span>
-
-                            <h3>
-                                Medical records
-                            </h3>
-                        </div>
-
-                        <a asp-controller="Patient"
-                               asp-action="MedicalHistory"
-                               class="patient-text-link">
-
-                            View
-                            <i class="bi bi-arrow-up-right"></i>
-
-                        </a>
-
-                    </div>
-
-
-                    <div class="patient-simple-empty-state">
-
-                        <h4>
-                            No records available
-                        </h4>
-
-                        <p>
-                            Your medical records will appear here once
-                            they have been added to your profile.
-                        </p>
-
-                        <a asp-controller="Patient"
-                               asp-action="MedicalHistory"
-                               class="patient-outline-button text-decoration-none">
-
-                            View Medical History
-
-                        </a>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- NOTIFICATIONS -->
-        <div class="patient-content-card mb-5">
-
-            <div class="patient-card-heading">
-
-                <div>
-                    <span class="patient-card-label">
-                        UPDATES
-                    </span>
-
-                    <h3>
-                        Notifications
-                    </h3>
-                </div>
-
-                <a asp-controller="Patient"
-                       asp-action="Notifications"
-                       class="patient-text-link">
-
-                    View all
-                    <i class="bi bi-arrow-up-right"></i>
-
-                </a>
-
-            </div>
-
-
-            <div class="patient-notification-empty">
-
-                <div>
-                    <strong>
-                        You're all caught up
-                    </strong>
-
-                    <p>
-                        New appointment reminders and healthcare updates
-                        will appear here.
-                    </p>
                 </div>
 
             </div>
@@ -344,6 +429,7 @@
 
 
     <!-- HEALTH ASSISTANT -->
+
     <div id="doctorBot">
 
         <div class="speech-bubble">
@@ -358,6 +444,7 @@
 
 
     <!-- CHAT WINDOW -->
+
     <div id="chatWindow">
 
         <div class="chat-header">
@@ -369,9 +456,7 @@
             <button id="closeChat"
                     type="button"
                     aria-label="Close health assistant">
-
                 ×
-
             </button>
 
         </div>
@@ -403,9 +488,7 @@
 
             <button type="button"
                     onclick="sendMessage()">
-
                 Send
-
             </button>
 
         </div>
@@ -414,481 +497,375 @@
 
 
     <style>
-
             .patient-dashboard-page {
-                padding-bottom: 80px;
+                min-height: calc(100vh - 70px);
+                background: #f7fbff;
             }
 
-
-            /* WELCOME */
-
-            .patient-welcome-card {
-                position: relative;
-                overflow: hidden;
-                min-height: 300px;
+            .dashboard-header {
                 display: flex;
                 align-items: center;
-                padding: 52px 58px;
-                border-radius: 24px;
-                background: linear-gradient( 135deg, #f0fdfa 0%, #ffffff 58%, #f8fafc 100% );
-                border: 1px solid rgba(15, 118, 110, 0.10);
-                box-shadow: 0 18px 45px rgba(15, 23, 42, 0.07);
+                justify-content: space-between;
+                gap: 2rem;
+                padding: 1.75rem 2rem;
+                background: linear-gradient(135deg, #e7f5ff 0%, #f5fbff 100%);
+                border: 1px solid #d5ebf9;
+                border-radius: 1.25rem;
+                box-shadow: 0 0.35rem 1.25rem rgba(31, 91, 122, 0.06);
             }
 
-
-            .patient-welcome-content {
-                position: relative;
-                z-index: 2;
-                max-width: 720px;
-            }
-
-
-            .patient-welcome-label {
+            .dashboard-eyebrow {
                 display: inline-flex;
                 align-items: center;
-                gap: 9px;
-                font-size: 12px;
+                color: #0b6fa4;
+                font-size: 0.8rem;
                 font-weight: 700;
-                letter-spacing: 0.14em;
+                letter-spacing: 0.04em;
                 text-transform: uppercase;
-                color: var(--primary);
             }
 
-
-                .patient-welcome-label span {
-                    width: 8px;
-                    height: 8px;
-                    border-radius: 50%;
-                    background: var(--primary);
-                }
-
-
-            .patient-welcome-card h1 {
-                margin: 16px 0 12px;
-                font-size: clamp(32px, 4vw, 48px);
-                line-height: 1.1;
-                letter-spacing: -0.04em;
-                color: #111827;
+            .dashboard-name {
+                color: #1479ad;
             }
 
-
-                .patient-welcome-card h1 strong {
-                    color: var(--primary);
-                    font-weight: 700;
-                }
-
-
-            .patient-welcome-card p {
-                max-width: 650px;
-                margin-bottom: 28px;
-                font-size: 16px;
-                line-height: 1.7;
-                color: #64748b;
-            }
-
-
-            .patient-welcome-pattern {
-                position: absolute;
-                right: -80px;
-                top: -90px;
-                width: 360px;
-                height: 360px;
-                border-radius: 50%;
-                border: 70px solid rgba(15, 118, 110, 0.05);
-            }
-
-
-                .patient-welcome-pattern span {
-                    position: absolute;
-                    display: block;
-                    border-radius: 50%;
-                    border: 1px solid rgba(15, 118, 110, 0.08);
-                }
-
-
-                    .patient-welcome-pattern span:nth-child(1) {
-                        width: 180px;
-                        height: 180px;
-                        top: 20px;
-                        left: 20px;
-                    }
-
-
-                    .patient-welcome-pattern span:nth-child(2) {
-                        width: 110px;
-                        height: 110px;
-                        top: 55px;
-                        left: 55px;
-                    }
-
-
-                    .patient-welcome-pattern span:nth-child(3) {
-                        width: 40px;
-                        height: 40px;
-                        top: 90px;
-                        left: 90px;
-                        background: rgba(15, 118, 110, 0.08);
-                        border: none;
-                    }
-
-
-            /* QUICK ACCESS */
-
-            .patient-section-heading {
-                display: flex;
-                align-items: end;
-                justify-content: space-between;
-                gap: 30px;
-                margin-bottom: 22px;
-            }
-
-
-                .patient-section-heading span {
-                    display: block;
-                    margin-bottom: 6px;
-                    font-size: 11px;
-                    font-weight: 800;
-                    letter-spacing: 0.15em;
-                    color: var(--primary);
-                }
-
-
-                .patient-section-heading h2 {
-                    margin: 0;
-                    font-size: 28px;
-                    letter-spacing: -0.025em;
-                    color: #111827;
-                }
-
-
-                .patient-section-heading p {
-                    margin: 0;
-                    color: #64748b;
-                    font-size: 14px;
-                }
-
-
-            .patient-action-card {
+            .overview-card {
                 position: relative;
-                min-height: 115px;
-                display: flex;
-                align-items: flex-end;
-                padding: 20px;
-                border-radius: 16px;
-                background: #ffffff;
-                border: 1px solid #e5e7eb;
-                box-shadow: 0 7px 24px rgba(15, 23, 42, 0.04);
-                transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
-            }
-
-
-                .patient-action-card:hover {
-                    transform: translateY(-5px);
-                    border-color: rgba(15, 118, 110, 0.25);
-                    box-shadow: 0 16px 32px rgba(15, 23, 42, 0.09);
-                }
-
-
-                .patient-action-card strong {
-                    display: block;
-                    max-width: 125px;
-                    font-size: 14px;
-                    line-height: 1.35;
-                    color: #1f2937;
-                }
-
-
-                .patient-action-card:hover strong {
-                    color: #1f2937;
-                }
-
-
-            .patient-action-arrow {
-                position: absolute;
-                right: 18px;
-                top: 20px;
-                font-size: 14px;
-                color: #94a3b8;
-                transition: color 0.2s ease, transform 0.2s ease;
-            }
-
-
-            .patient-action-card:hover .patient-action-arrow {
-                color: var(--primary);
-                transform: translate(2px, -2px);
-            }
-
-
-            /* CONTENT CARDS */
-
-            .patient-content-card {
-                padding: 30px;
-                border-radius: 20px;
-                background: #ffffff;
-                border: 1px solid #e5e7eb;
-                box-shadow: 0 9px 30px rgba(15, 23, 42, 0.05);
-            }
-
-
-            .patient-card-heading {
                 display: flex;
                 align-items: flex-start;
                 justify-content: space-between;
-                gap: 20px;
-                padding-bottom: 22px;
-                border-bottom: 1px solid #eef2f7;
+                min-height: 165px;
+                padding: 1.5rem;
+                overflow: hidden;
+                background: linear-gradient(135deg, #e4f4ff 0%, #f4faff 100%);
+                border: 1px solid #cfe7f6;
+                border-radius: 1.15rem;
+                box-shadow: 0 0.35rem 1.25rem rgba(31, 91, 122, 0.07);
+                transition: transform 0.2s ease, box-shadow 0.2s ease;
             }
 
+                .overview-card:hover {
+                    transform: translateY(-3px);
+                    box-shadow: 0 0.7rem 1.5rem rgba(31, 91, 122, 0.11);
+                }
 
-            .patient-card-label {
-                display: block;
-                margin-bottom: 6px;
-                font-size: 10px;
-                font-weight: 800;
-                letter-spacing: 0.14em;
-                color: var(--primary);
+            .overview-content {
+                display: flex;
+                flex-direction: column;
             }
 
-
-            .patient-card-heading h3 {
-                margin: 0;
-                font-size: 21px;
-                letter-spacing: -0.02em;
-                color: #111827;
-            }
-
-
-            .patient-text-link {
-                display: inline-flex;
-                align-items: center;
-                gap: 7px;
-                padding-top: 3px;
-                color: var(--primary);
-                font-size: 13px;
+            .overview-label {
+                color: #526b7a;
+                font-size: 0.85rem;
                 font-weight: 700;
+            }
+
+            .overview-value {
+                margin-top: 0.4rem;
+                color: #123b53;
+                font-size: 1.8rem;
+                line-height: 1.1;
+                font-weight: 800;
+            }
+
+            .overview-description {
+                margin-top: 0.55rem;
+                color: #66808f;
+                font-size: 0.78rem;
+            }
+
+            .overview-icon,
+            .workflow-icon,
+            .status-icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex: 0 0 auto;
+                color: #1479ad;
+                background: #e7f5ff;
+                border: 1px solid #d2ebf9;
+            }
+
+            .overview-icon {
+                width: 58px;
+                height: 58px;
+                border-radius: 50%;
+                font-size: 1.4rem;
+            }
+
+            .workspace-panel,
+            .status-card {
+                background: #ffffff;
+                border: 1px solid #dfedf5;
+                border-radius: 1.15rem;
+                box-shadow: 0 0.35rem 1.25rem rgba(31, 91, 122, 0.06);
+            }
+
+            .workspace-panel-header {
+                padding: 1.5rem 1.5rem 1.15rem;
+                border-bottom: 1px solid #eaf2f6;
+            }
+
+            .workflow-list {
+                padding: 0.5rem 1rem 1rem;
+            }
+
+            .workflow-item {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                padding: 1.15rem 0.75rem;
+                color: inherit;
                 text-decoration: none;
+                border-bottom: 1px solid #eaf2f6;
+                border-radius: 0.75rem;
+                transition: background-color 0.2s ease, padding-left 0.2s ease;
+            }
+
+                .workflow-item:last-child {
+                    border-bottom: 0;
+                }
+
+                .workflow-item:hover {
+                    padding-left: 1rem;
+                    background: #eef8ff;
+                }
+
+                .workflow-item:focus-visible {
+                    outline: 3px solid rgba(13, 110, 253, 0.2);
+                    outline-offset: 2px;
+                }
+
+            .workflow-icon {
+                width: 48px;
+                height: 48px;
+                border-radius: 0.8rem;
+                font-size: 1.2rem;
+            }
+
+            .workflow-content {
+                flex: 1;
+                min-width: 0;
+            }
+
+            .workflow-arrow {
+                color: #7d9aaa;
+                font-size: 1rem;
+                transition: transform 0.2s ease, color 0.2s ease;
+            }
+
+            .workflow-item:hover .workflow-arrow {
+                color: #0d6efd;
+                transform: translateX(3px);
+            }
+
+            .status-card {
+                padding: 1.5rem;
+            }
+
+            .status-card-header {
+                display: flex;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .status-icon {
+                width: 48px;
+                height: 48px;
+                border-radius: 50%;
+                font-size: 1.15rem;
+            }
+
+            .security-note {
+                margin-top: 1.25rem;
+                padding: 0.8rem 1rem;
+                color: #176b4d;
+                background: #edf9f4;
+                border: 1px solid #d4eee2;
+                border-radius: 0.7rem;
+                font-size: 0.82rem;
+                font-weight: 600;
+            }
+
+            .status-list {
+                border-top: 1px solid #edf3f7;
+            }
+
+            .status-row {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 1rem;
+                padding: 0.9rem 0;
+                color: #627985;
+                font-size: 0.85rem;
+                border-bottom: 1px solid #edf3f7;
+            }
+
+                .status-row strong {
+                    color: #173d51;
+                    font-size: 0.85rem;
+                }
+
+            .status-row-last {
+                border-bottom: 0;
+            }
+
+            #doctorBot {
+                position: fixed;
+                right: 24px;
+                bottom: 24px;
+                z-index: 1000;
+                cursor: pointer;
+            }
+
+            .doctor-avatar {
+                width: 64px;
+                height: 64px;
+                object-fit: contain;
+                filter: drop-shadow(0 6px 14px rgba(15, 23, 42, 0.18));
+            }
+
+            .speech-bubble {
+                position: absolute;
+                right: 0;
+                bottom: 72px;
+                padding: 8px 12px;
+                color: #123b53;
+                background: #ffffff;
+                border: 1px solid #d9eaf4;
+                border-radius: 10px;
+                box-shadow: 0 5px 18px rgba(15, 23, 42, 0.1);
+                font-size: 12px;
+                font-weight: 700;
                 white-space: nowrap;
             }
 
-
-                .patient-text-link:hover {
-                    color: var(--primary);
-                }
-
-
-            /* EMPTY STATES */
-
-            .patient-empty-state {
-                min-height: 245px;
-                display: flex;
-                align-items: center;
-                padding: 25px 5px 5px;
-            }
-
-
-                .patient-empty-state h4,
-                .patient-simple-empty-state h4 {
-                    margin-bottom: 8px;
-                    font-size: 17px;
-                    color: #1f2937;
-                }
-
-
-                .patient-empty-state p,
-                .patient-simple-empty-state p {
-                    max-width: 500px;
-                    margin-bottom: 18px;
-                    font-size: 14px;
-                    line-height: 1.6;
-                    color: #64748b;
-                }
-
-
-            .patient-simple-empty-state {
-                min-height: 245px;
-                display: flex;
+            #chatWindow {
+                position: fixed;
+                right: 24px;
+                bottom: 100px;
+                z-index: 1001;
+                display: none;
                 flex-direction: column;
-                align-items: flex-start;
-                justify-content: center;
-                padding-top: 15px;
-            }
-
-
-            .patient-outline-button {
-                display: inline-flex;
-                align-items: center;
-                gap: 8px;
-                padding: 9px 14px;
-                border: 1px solid rgba(15, 118, 110, 0.2);
-                border-radius: 9px;
+                width: min(360px, calc(100vw - 32px));
+                max-height: 520px;
+                overflow: hidden;
                 background: #ffffff;
-                color: var(--primary);
+                border: 1px solid #d9eaf4;
+                border-radius: 16px;
+                box-shadow: 0 18px 45px rgba(15, 23, 42, 0.18);
+            }
+
+            .chat-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 14px 16px;
+                color: #ffffff;
+                background: #1479ad;
+            }
+
+            #closeChat {
+                border: 0;
+                background: transparent;
+                color: #ffffff;
+                font-size: 24px;
+                line-height: 1;
+            }
+
+            #chatMessages {
+                padding: 14px;
+                overflow-y: auto;
+            }
+
+            .chat-message {
+                margin-bottom: 10px;
+                padding: 10px 12px;
+                border-radius: 10px;
                 font-size: 13px;
-                font-weight: 700;
-                transition: all 0.2s ease;
             }
 
-
-                .patient-outline-button:hover {
-                    background: #f0fdfa;
-                    color: var(--primary);
-                    border-color: rgba(15, 118, 110, 0.35);
-                }
-
-
-            /* NOTIFICATIONS */
-
-            .patient-notification-empty {
-                margin-top: 22px;
-                padding: 20px;
-                border-radius: 14px;
-                background: #f8fafc;
-                border: 1px solid #eef2f7;
+            .bot-message {
+                background: #eef8ff;
+                color: #28495b;
             }
 
-
-                .patient-notification-empty strong {
-                    display: block;
-                    margin-bottom: 4px;
-                    color: #1f2937;
-                    font-size: 14px;
-                }
-
-
-                .patient-notification-empty p {
-                    margin: 0;
-                    color: #64748b;
-                    font-size: 13px;
-                }
-
-
-            /* MOBILE */
-
-            @@media (max-width: 767.98px) {
-
-                .patient-welcome-card {
-                    min-height: auto;
-                    padding: 34px 26px;
-                }
-
-                .patient-welcome-pattern {
-                    right: -170px;
-                    opacity: 0.6;
-                }
-
-                .patient-section-heading {
-                    display: block;
-                }
-
-                    .patient-section-heading p {
-                        margin-top: 8px;
-                    }
-
-                .patient-content-card {
-                    padding: 22px;
-                }
-
-                .patient-empty-state {
-                    min-height: auto;
-                    padding-top: 25px;
-                }
-
-                .patient-simple-empty-state {
-                    min-height: auto;
-                    padding-top: 25px;
-                }
+            .user-message {
+                background: #f1f5f9;
+                color: #334155;
             }
 
+            .chat-input-area {
+                display: flex;
+                gap: 8px;
+                padding: 12px;
+                border-top: 1px solid #e5edf2;
+            }
+
+                .chat-input-area input {
+                    min-width: 0;
+                    flex: 1;
+                    padding: 9px 11px;
+                    border: 1px solid #d7e3ea;
+                    border-radius: 8px;
+                }
+
+                .chat-input-area button {
+                    padding: 9px 14px;
+                    border: 0;
+                    border-radius: 8px;
+                    background: #1479ad;
+                    color: #ffffff;
+                    font-weight: 600;
+                }
     </style>
 
 
     <script>
-
-            const doctorBot =
-                document.getElementById("doctorBot");
-
-            const chatWindow =
-                document.getElementById("chatWindow");
-
-            const closeChat =
-                document.getElementById("closeChat");
-
+            const doctorBot = document.getElementById("doctorBot");
+            const chatWindow = document.getElementById("chatWindow");
+            const closeChat = document.getElementById("closeChat");
 
             if (doctorBot && chatWindow) {
-
                 doctorBot.addEventListener("click", function () {
-
                     chatWindow.style.display = "flex";
-
                 });
-
             }
-
 
             if (closeChat && chatWindow) {
-
                 closeChat.addEventListener("click", function () {
-
                     chatWindow.style.display = "none";
-
                 });
-
             }
 
-
             function sendMessage() {
+                const input = document.getElementById("userQuestion");
+                const question = input.value.trim();
 
-                const input =
-                    document.getElementById("userQuestion");
-
-                const question =
-                    input.value.trim();
-
-                if (question === "")
+                if (question === "") {
                     return;
+                }
 
+                const chatMessages = document.getElementById("chatMessages");
 
-                const chatMessages =
-                    document.getElementById("chatMessages");
+                const userMessage = document.createElement("div");
+                userMessage.className = "chat-message user-message";
 
+                const userTitle = document.createElement("strong");
+                userTitle.textContent = "You";
 
-                const userMessage =
-                    document.createElement("div");
-
-                userMessage.className =
-                    "chat-message user-message";
-
-
-                const userTitle =
-                    document.createElement("strong");
-
-                userTitle.textContent =
-                    "You";
-
-
-                const userText =
-                    document.createElement("p");
-
-                userText.className =
-                    "mb-0 mt-2";
-
-                userText.textContent =
-                    question;
-
+                const userText = document.createElement("p");
+                userText.className = "mb-0 mt-2";
+                userText.textContent = question;
 
                 userMessage.appendChild(userTitle);
                 userMessage.appendChild(userText);
-
                 chatMessages.appendChild(userMessage);
 
-
-                const q =
-                    question.toLowerCase();
-
+                const q = question.toLowerCase();
 
                 let response =
                     "I am unable to answer that question at the moment. Please contact the medical centre for further assistance.";
-
 
                 if (
                     q.includes("chest pain") ||
@@ -897,113 +874,65 @@
                     q.includes("stroke") ||
                     q.includes("bleeding heavily")
                 ) {
-
                     response =
                         "This may require urgent medical attention. Please seek emergency medical care immediately.";
-
                 }
-
                 else if (
                     q.includes("book appointment") ||
                     q.includes("book an appointment")
                 ) {
-
                     response =
                         "You can book an appointment using the Book Appointment option on your patient dashboard.";
-
                 }
-
                 else if (
                     q.includes("medical history") ||
                     q.includes("medical records")
                 ) {
-
                     response =
                         "Your medical information can be accessed from the Medical History section of your patient portal.";
-
                 }
-
                 else if (q.includes("notifications")) {
-
                     response =
                         "You can view your notifications from the Notifications section of your patient portal.";
-
                 }
-
                 else if (
                     q.includes("change password") ||
                     q.includes("password")
                 ) {
-
                     response =
                         "You can manage your account settings from the Settings section of your patient portal.";
-
                 }
 
-
                 setTimeout(function () {
+                    const botMessage = document.createElement("div");
+                    botMessage.className = "chat-message bot-message";
 
-                    const botMessage =
-                        document.createElement("div");
+                    const botTitle = document.createElement("strong");
+                    botTitle.textContent = "Health Assistant";
 
-                    botMessage.className =
-                        "chat-message bot-message";
-
-
-                    const botTitle =
-                        document.createElement("strong");
-
-                    botTitle.textContent =
-                        "Health Assistant";
-
-
-                    const botText =
-                        document.createElement("p");
-
-                    botText.className =
-                        "mb-0 mt-2";
-
-                    botText.textContent =
-                        response;
-
+                    const botText = document.createElement("p");
+                    botText.className = "mb-0 mt-2";
+                    botText.textContent = response;
 
                     botMessage.appendChild(botTitle);
                     botMessage.appendChild(botText);
-
                     chatMessages.appendChild(botMessage);
 
-                    chatMessages.scrollTop =
-                        chatMessages.scrollHeight;
-
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
                 }, 400);
 
-
                 input.value = "";
-
             }
 
-
-            const questionInput =
-                document.getElementById("userQuestion");
-
+            const questionInput = document.getElementById("userQuestion");
 
             if (questionInput) {
-
-                questionInput.addEventListener(
-                    "keypress",
-                    function (event) {
-
-                        if (event.key === "Enter") {
-
-                            sendMessage();
-
-                        }
-
+                questionInput.addEventListener("keypress", function (event) {
+                    if (event.key === "Enter") {
+                        sendMessage();
                     }
-                );
-
+                });
             }
-
     </script>
 
 </section>
