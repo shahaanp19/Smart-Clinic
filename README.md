@@ -389,7 +389,44 @@ The Smart Clinic Management System provides the core functionality required for 
 | Resource | Link |
 |---|---|
 | GitHub Web App | https://github.com/shahaanp19/Smart-Clinic.git  |
+| GitHub Mobile App | https://github.com/Raghav-10458336/INSY7315-POE-Part-2-SmartClinic-Mobile |
 | YouTube | [YouTube](PASTE_YOUTUBE_LINK_HERE) |
 | Live Web App | https://smartclinicmanagementsystem-apd0d2gqb6ftakbv.southafricanorth-01.azurewebsites.net/ |
 | Live Mobile App | [Live Mobile App](PASTE_LIVE_MOBILE_APP_LINK_HERE) |
-| GitHub Mobile App | [GitHub Mobile App](PASTE_GITHUB_MOBILE_APP_LINK_HERE) |
+
+
+---
+
+## References
+
+draw.io (2025). *Flowchart Maker & Online Diagram Software*. [online] app.diagrams.net. Available at: https://app.diagrams.net/ [Accessed 4 Oct. 2026].
+
+zainaboyedeji (2025). *A Beginner’s Guide to Frontend Development*. [online] DEV Community. Available at: https://dev.to/zainaboyedeji/a-beginners-guide-to-frontend-development-22bf [Accessed 4 Oct. 2026].
+
+GeeksforGeeks (2023). *Frontend Development*. [online] GeeksforGeeks. Available at: https://www.geeksforgeeks.org/blogs/front-end-development/ [Accessed 4 Oct. 2026].
+
+GeeksforGeeks (2023). *Backend Development*. [online] GeeksforGeeks. Available at: https://www.geeksforgeeks.org/blogs/backend-development/ [Accessed 4 Oct. 2026].
+
+Teks Academy (2023). *Back-end development: A guide for beginners to become experts*. [online] Medium. Available at: https://medium.com/@teksacademy/back-end-development-a-guide-for-beginners-to-become-experts-893b89d3f10b [Accessed 4 Oct. 2026].
+
+Microsoft (2024). *Learn back-end web development with ASP.NET Core | .NET*. [online] Available at: https://dotnet.microsoft.com/en-us/learn/back-end-web-dev [Accessed 4 Oct. 2026].
+
+Microsoft (2024). *ASP.NET | Open-source web framework for .NET*. [online] Microsoft. Available at: https://dotnet.microsoft.com/en-us/apps/aspnet [Accessed 4 Oct. 2026].
+
+GitHub Docs (2025). *Workflows - GitHub Docs*. [online] Available at: https://docs.github.com/en/actions/concepts/workflows-and-actions/workflows [Accessed 4 Oct. 2026].
+
+GitHub (2025). *Features • GitHub Actions*. [online] GitHub. Available at: https://github.com/features/actions [Accessed 4 Oct. 2026].
+
+GeeksforGeeks (2024). *GitHub Workflows*. [online] GeeksforGeeks. Available at: https://www.geeksforgeeks.org/git/github-workflows/ [Accessed 4 Oct. 2026].
+
+Azure (n.d.). *Azure Dedicated Host - Private Cloud | Microsoft Azure*. [online] Available at: https://azure.microsoft.com/en-us/products/virtual-machines/dedicated-host [Accessed 4 Oct. 2026].
+
+mcleanbyron (n.d.). *Hosting applications on Azure*. [online] Microsoft Learn. Available at: https://learn.microsoft.com/en-us/azure/developer/intro/hosting-apps-on-azure [Accessed 4 Oct. 2026].
+
+---
+
+## Author
+
+Shahaan Pillay - ST10438099
+POE Task 2
+INSY 7315
