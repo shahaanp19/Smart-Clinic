@@ -1,14 +1,26 @@
 # Smart Clinic Management System
+---
 
-## 1. Project Overview
+# Group members
+
+- Raghav Mahraj
+- Shahaan Pillay
+- Migyle Rajkoomar
+- Rish
+
+---  
+
+## Project Overview
 
 The **Smart Clinic Management System** is a web-based healthcare management solution developed for **Doringkloof Medical Centre**. The system provides a centralised platform for managing patients, doctors, reception operations, appointments, consultations, medical information, and administrative functions.
 
 The application is developed using **ASP.NET Core MVC** and follows a layered architecture to provide a secure, maintainable, and scalable solution. It supports multiple user roles, role-based access control, database-driven operations, automated testing, CI/CD, and cloud deployment through Microsoft Azure.
 
-## 2. Project Objectives
+---
 
-The primary objectives of the Smart Clinic Management System are to:
+## Project Objectives
+
+The primary objectives of the Smart Clinic Management System is to:
 
 - Digitise and streamline clinic management processes.
 - Provide secure access to healthcare information based on user roles.
@@ -23,7 +35,9 @@ The primary objectives of the Smart Clinic Management System are to:
 - Support continuous integration and continuous deployment through GitHub Actions.
 - Deploy the application to Microsoft Azure for live access.
 
-## 3. Key Features
+  ---
+
+## Key Features
 
 ### Authentication and Security
 
@@ -101,7 +115,9 @@ The primary objectives of the Smart Clinic Management System are to:
 - Live cloud-hosted application.
 - Cloud database connectivity.
 
-## 4. User Roles and Permissions
+---
+
+## User Roles and Permissions
 
 | Role | Main Responsibilities |
 |---|---|
@@ -112,49 +128,10 @@ The primary objectives of the Smart Clinic Management System are to:
 
 Access to protected functionality is controlled using **ASP.NET Core authentication and role-based authorization policies**. Users are redirected to the appropriate role-specific dashboard after successful authentication.
 
-## 5. System Architecture
+---
 
-The Smart Clinic Management System follows a **layered ASP.NET Core MVC architecture** that separates presentation, application logic, and data access responsibilities.
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                        USER INTERFACE                        │
-│                                                              │
-│  Razor Views │ Bootstrap │ HTML │ CSS │ JavaScript            │
-└──────────────────────────────┬───────────────────────────────┘
-                               │
-                               ▼
-┌──────────────────────────────────────────────────────────────┐
-│                         MVC CONTROLLERS                       │
-│                                                              │
-│ Account │ Admin │ Doctor │ Reception │ Patient               │
-└──────────────────────────────┬───────────────────────────────┘
-                               │
-                               ▼
-┌──────────────────────────────────────────────────────────────┐
-│                         SERVICE LAYER                         │
-│                                                              │
-│ AuthService │ UserService │ AppointmentService               │
-│ DoctorService │ PatientService │ Other Services               │
-└──────────────────────────────┬───────────────────────────────┘
-                               │
-                               ▼
-┌──────────────────────────────────────────────────────────────┐
-│                    ENTITY FRAMEWORK CORE                      │
-│                                                              │
-│ ApplicationDbContext │ LINQ │ Migrations │ Relationships      │
-│ Constraints │ Indexes │ Entity Configuration                  │
-└──────────────────────────────┬───────────────────────────────┘
-                               │
-                               ▼
-┌──────────────────────────────────────────────────────────────┐
-│                         SQL SERVER                            │
-│                                                              │
-│ Users │ Patients │ Doctors │ Appointments │ Consultations    │
-│ Medical Records │ Other Application Data                     │
-└──────────────────────────────────────────────────────────────┘
- ```
-## 6. Technical Implementation
+## Technical Implementation
 
 ### 1. Technology Stack
 
@@ -321,7 +298,9 @@ The Azure deployment provides:
 
 The production application is designed to provide a stable and repeatable deployment process, with automated build, testing, and deployment stages reducing the dependency on manual deployment procedures.
 
-## 7. System Requirements
+---
+
+## System Requirements
 
 The Smart Clinic Management System requires the following environment for local development and execution:
 
@@ -333,7 +312,9 @@ The Smart Clinic Management System requires the following environment for local 
 - **Web Browser:** A modern browser such as Microsoft Edge, Google Chrome, or Mozilla Firefox.
 - **Internet Connection:** Required for retrieving project dependencies and accessing the deployed Azure application.
 
-## 8. Installation & Local Setup
+---
+
+## Local Setup
 
 Follow these steps to run the application locally:
 
@@ -350,7 +331,9 @@ Follow these steps to run the application locally:
 
 Entity Framework Core migrations are used to create and update the database schema when the application starts in a relational database environment.
 
-## 9. Demo Accounts
+---
+
+## Demo Accounts
 
 The application includes seeded demonstration accounts for the main system roles.
 
@@ -363,7 +346,9 @@ The application includes seeded demonstration accounts for the main system roles
 
 These accounts are intended for demonstration and testing of the role-specific functionality provided by the system.
 
-## 10. Live Application
+---
+
+## Live Application
 
 The Smart Clinic Management System is deployed to Microsoft Azure and can be accessed through the live production environment.
 
@@ -380,7 +365,9 @@ The deployed application provides access to the same core functionality availabl
 
 The production environment is deployed through the project's CI/CD pipeline, allowing validated application changes to be built, tested, and deployed to Azure.
 
-## 11. Future Enhancements
+---
+
+## Future Enhancements
 
 The Smart Clinic Management System provides the core functionality required for managing clinic operations. Potential future enhancements include:
 
@@ -395,12 +382,14 @@ The Smart Clinic Management System provides the core functionality required for 
 - Mobile application support for patients and healthcare staff.
 - Further automation of administrative and clinical workflows..
 
+---
+
   ## Project Links
 
 | Resource | Link |
 |---|---|
-| GitHub Web App | [GitHub Web App](PASTE_GITHUB_WEB_APP_LINK_HERE) |
+| GitHub Web App | https://github.com/shahaanp19/Smart-Clinic.git  |
 | YouTube | [YouTube](PASTE_YOUTUBE_LINK_HERE) |
-| Live Web App | [Live Web App](PASTE_LIVE_WEB_APP_LINK_HERE) |
+| Live Web App | https://smartclinicmanagementsystem-apd0d2gqb6ftakbv.southafricanorth-01.azurewebsites.net/ |
 | Live Mobile App | [Live Mobile App](PASTE_LIVE_MOBILE_APP_LINK_HERE) |
 | GitHub Mobile App | [GitHub Mobile App](PASTE_GITHUB_MOBILE_APP_LINK_HERE) |
