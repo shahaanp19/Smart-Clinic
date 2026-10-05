@@ -391,7 +391,7 @@ The Smart Clinic Management System provides the core functionality required for 
 |---|---|
 | **GitHub (Web App)** | https://github.com/shahaanp19/Smart-Clinic.git |
 | **GitHub (Mobile App)** | https://github.com/Raghav-10458336/INSY7315-POE-Part-2-SmartClinic-Mobile |
-| **Demo Link (Web App)** | Blank |
+| **Demo Link (Web App)** | https://youtu.be/gdB0o8uHFA0?si=mTg5zJKxtoXUiRRI |
 | **Demo Link (Mobile App)** | https://youtu.be/K_AnSycwy0M |
 | **Live Web App Link** | https://smartclinicmanagementsystem-apd0d2gqb6ftakbv.southafricanorth-01.azurewebsites.net/ |
 
